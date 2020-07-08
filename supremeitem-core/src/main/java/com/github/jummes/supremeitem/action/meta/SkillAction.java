@@ -41,7 +41,7 @@ public class SkillAction extends MetaAction {
 
     public static List<Object> getSkills(ModelPath path) {
         return SupremeItem.getInstance().getSavedSkillManager().getSkills().stream().
-                map(skill -> skill.getName()).collect(Collectors.toList());
+                map(SavedSkill::getName).collect(Collectors.toList());
     }
 
     public static Function<Object, ItemStack> skillsMapper() {

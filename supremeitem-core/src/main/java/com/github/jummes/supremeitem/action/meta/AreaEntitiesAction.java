@@ -26,7 +26,7 @@ public class AreaEntitiesAction extends MetaAction {
     private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdkYzNlMjlhMDkyM2U1MmVjZWU2YjRjOWQ1MzNhNzllNzRiYjZiZWQ1NDFiNDk1YTEzYWJkMzU5NjI3NjUzIn19fQ==";
 
     @Serializable(headTexture = HEAD)
-    private Action action;
+    private List<Action> actions;
     @Serializable(headTexture = HEAD)
     private double maxDistance;
     @Serializable(headTexture = HEAD)
@@ -35,15 +35,15 @@ public class AreaEntitiesAction extends MetaAction {
     private boolean castFromLocation;
 
     public AreaEntitiesAction() {
-        this(new DamageAction(), 3.0, Lists.newArrayList(), true);
+        this(Lists.newArrayList(), 3.0, Lists.newArrayList(), true);
     }
 
     public static AreaEntitiesAction deserialize(Map<String, Object> map) {
-        Action action = (Action) map.getOrDefault("action", new DamageAction());
+        List<Action> actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
         double maxDistance = (double) map.getOrDefault("maxDistance", 3.0);
         List<EntitySelector> selectors = (List<EntitySelector>) map.getOrDefault("selectors", Lists.newArrayList());
         boolean castFromLocation = (boolean) map.getOrDefault("castFromLocation", true);
-        return new AreaEntitiesAction(action, maxDistance, selectors, castFromLocation);
+        return new AreaEntitiesAction(actions, maxDistance, selectors, castFromLocation);
     }
 
     @Override
@@ -60,8 +60,9 @@ public class AreaEntitiesAction extends MetaAction {
             Location finalL = l;
             l.getWorld().getNearbyEntities(l, maxDistance, maxDistance, maxDistance).stream().
                     filter(entity -> entity instanceof LivingEntity && select.test((LivingEntity) entity)).
-                    forEach(entity -> action.executeAction(new EntityTarget((LivingEntity) entity), castFromLocation ?
-                            new LocationSource(finalL) : source));
+                    forEach(entity -> actions.forEach(action -> action.executeAction(
+                            new EntityTarget((LivingEntity) entity),
+                            castFromLocation ? new LocationSource(finalL) : source)));
         }
     }
 

@@ -41,23 +41,23 @@ public class DelayedAction extends Action {
     private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdkYzNlMjlhMDkyM2U1MmVjZWU2YjRjOWQ1MzNhNzllNzRiYjZiZWQ1NDFiNDk1YTEzYWJkMzU5NjI3NjUzIn19fQ==";
 
     @Serializable(headTexture = HEAD)
-    private Action action;
+    private List<Action> actions;
     @Serializable(headTexture = HEAD)
     private int delay;
 
     public DelayedAction() {
-        this(new DamageAction(), 10);
+        this(Lists.newArrayList(), 10);
     }
 
     public static DelayedAction deserialize(Map<String, Object> map) {
-        Action action = (Action) map.getOrDefault("action", new DamageAction());
+        List<Action> actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
         int delay = (int) map.getOrDefault("delay", 10);
-        return new DelayedAction(action, delay);
+        return new DelayedAction(actions, delay);
     }
 
     @Override
     protected void execute(Target target, Source source) {
-        Bukkit.getScheduler().runTaskLater(SupremeItem.getInstance(), () -> action.executeAction(target, source), delay);
+        Bukkit.getScheduler().runTaskLater(SupremeItem.getInstance(), () -> actions.forEach(action -> action.executeAction(target, source)), delay);
     }
 
     @Override
@@ -85,7 +85,7 @@ public class DelayedAction extends Action {
             path.popModel();
             onRemoval();
             if (e.getHotbarButton() == 0) {
-                actions.add(action);
+                actions.addAll(this.actions);
                 path.saveModel();
             }
             e.getWhoClicked().openInventory(parent.getInventory());

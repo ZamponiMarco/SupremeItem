@@ -14,6 +14,7 @@ import com.github.jummes.supremeitem.action.meta.MetaAction;
 import com.github.jummes.supremeitem.action.meta.TimerAction;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang.ClassUtils;
 import org.apache.commons.lang.reflect.FieldUtils;
 import org.bukkit.Material;
@@ -62,17 +63,14 @@ public abstract class Action implements Model {
             path.popModel();
             onRemoval();
             if (e.getHotbarButton() == 0) {
-                wrapAction(path, actions, new DelayedAction(this, 10));
+                actions.add(new DelayedAction(Lists.newArrayList(this), 10));
+                path.saveModel();
             } else if (e.getHotbarButton() == 1) {
-                wrapAction(path, actions, new TimerAction(5, 10, this));
+                actions.add(new TimerAction(5, 10, Lists.newArrayList(this)));
+                path.saveModel();
             }
             e.getWhoClicked().openInventory(parent.getInventory());
         }
-    }
-
-    private void wrapAction(ModelPath<?> path, Collection<Action> actions, Action action) {
-        actions.add(action);
-        path.saveModel();
     }
 
     @Override

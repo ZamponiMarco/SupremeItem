@@ -6,6 +6,7 @@ import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.item.Item;
 import com.github.jummes.supremeitem.item.skill.TimerSkill;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -27,9 +28,8 @@ public class TimerManager {
         timers = new HashMap<>();
         Bukkit.getScheduler().runTaskTimer(SupremeItem.getInstance(), () -> {
             Bukkit.getOnlinePlayers().forEach(player -> {
-                Arrays.stream(player.getInventory().getArmorContents()).forEach(armor -> {
-                    addNewTimers(player, armor);
-                });
+                getPlayerItems(player).stream().filter(armor -> !Libs.getWrapper().getTagItem(armor, "supreme-item").
+                        equals("")).forEach(armor -> addNewTimers(player, armor));
                 removeTimers(player);
             });
         }, 0, 5);
@@ -40,9 +40,11 @@ public class TimerManager {
             Iterator<TimerInfo> i = timers.get(player).iterator();
             while (i.hasNext()) {
                 TimerInfo current = i.next();
-                if (Arrays.stream(player.getEquipment().getArmorContents()).noneMatch(armor ->
-                        armor != null && current.getItemId().equals(UUID.fromString(Libs.getWrapper().
-                                getTagItem(armor, "supreme-item"))))) {
+                if (getPlayerItems(player).stream().noneMatch(armor ->
+                        armor != null && !Libs.getWrapper().
+                                getTagItem(armor, "supreme-item").equals("") &&
+                                current.getItemId().equals(UUID.fromString(Libs.getWrapper().
+                                        getTagItem(armor, "supreme-item"))))) {
                     Bukkit.getScheduler().cancelTask(current.task);
                     i.remove();
                 }
@@ -78,6 +80,14 @@ public class TimerManager {
                                 new EntitySource(player)));
                     }, 0, timerSkill.getTimer()).getTaskId()));
         }
+    }
+
+    private List<ItemStack> getPlayerItems(Player p) {
+        List<ItemStack> list = Lists.newArrayList(p.getEquipment().getArmorContents());
+        list.add(p.getInventory().getItemInMainHand());
+        list.add(p.getInventory().getItemInOffHand());
+        list.removeIf(Objects::isNull);
+        return list;
     }
 
     @AllArgsConstructor

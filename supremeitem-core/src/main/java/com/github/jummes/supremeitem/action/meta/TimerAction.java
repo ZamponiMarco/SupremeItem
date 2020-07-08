@@ -5,6 +5,7 @@ import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.gui.PluginInventoryHolder;
 import com.github.jummes.libs.gui.model.ModelObjectInventoryHolder;
 import com.github.jummes.libs.model.ModelPath;
+import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.entity.DamageAction;
@@ -17,8 +18,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang.reflect.FieldUtils;
+import org.bukkit.Material;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -40,17 +43,17 @@ public class TimerAction extends MetaAction {
     @Serializable(headTexture = HEAD)
     private int repetitions;
     @Serializable(headTexture = HEAD)
-    private Action action;
+    private List<Action> actions;
 
     public TimerAction() {
-        this(5, 10, new DamageAction());
+        this(5, 10, Lists.newArrayList());
     }
 
     public static TimerAction deserialize(Map<String, Object> map) {
         int timer = (int) map.getOrDefault("timer", 5);
         int repetitions = (int) map.getOrDefault("repetitions", 10);
-        Action action = (Action) map.getOrDefault("action", new DamageAction());
-        return new TimerAction(timer, repetitions, action);
+        List<Action> actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
+        return new TimerAction(timer, repetitions, actions);
     }
 
     @Override
@@ -63,7 +66,7 @@ public class TimerAction extends MetaAction {
                 if (counter >= repetitions) {
                     this.cancel();
                 }
-                action.executeAction(target, source);
+                actions.forEach(action -> action.executeAction(target, source));
                 counter++;
             }
         };
@@ -84,8 +87,8 @@ public class TimerAction extends MetaAction {
             path.deleteModel();
             path.popModel();
             onRemoval();
-            if (e.getHotbarButton() == 1) {
-                actions.add(action);
+            if (e.getHotbarButton() == 0) {
+                actions.addAll(this.actions);
                 path.saveModel();
             }
             e.getWhoClicked().openInventory(parent.getInventory());
@@ -95,5 +98,10 @@ public class TimerAction extends MetaAction {
     @Override
     public List<Class<? extends Target>> getPossibleTargets() {
         return Lists.newArrayList(LocationTarget.class, EntityTarget.class);
+    }
+
+    @Override
+    public ItemStack getGUIItem() {
+        return ItemUtils.getNamedItem(new ItemStack(Material.CLOCK), "&cTimer", Lists.newArrayList());
     }
 }
