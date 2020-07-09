@@ -21,15 +21,16 @@ import java.util.UUID;
 @Getter
 @AllArgsConstructor
 @Enumerable.Child
+@Enumerable.Displayable(name = "&c&lOn entity hit", description = "gui.skill.hit-entity.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTBkZmM4YTM1NjNiZjk5NmY1YzFiNzRiMGIwMTViMmNjZWIyZDA0Zjk0YmJjZGFmYjIyOTlkOGE1OTc5ZmFjMSJ9fX0=")
 public class HitEntitySkill extends Skill {
 
     private static final String CUSTOM_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzFkY2Y4NWRlYTg0NDFmN2FmMjg3ZmU3ZTAyMTFjNzRmYzY5YzI5MjNlZDQ5YTE2ZjZkZDFiOWU4MWEyNDlkMyJ9fX0=";
 
-    @Serializable(headTexture = CUSTOM_HEAD)
+    @Serializable(headTexture = CUSTOM_HEAD, description = "gui.skill.hit-entity.damager-actions")
     protected List<Action> onDamagerActions;
-    @Serializable(headTexture = CUSTOM_HEAD)
+    @Serializable(headTexture = CUSTOM_HEAD, description = "gui.skill.hit-entity.damaged-actions")
     protected List<Action> onDamagedActions;
-    @Serializable(headTexture = CUSTOM_HEAD)
+    @Serializable(headTexture = CUSTOM_HEAD, description = "gui.skill.hit-entity.cooldown")
     protected int cooldown;
 
     public HitEntitySkill() {

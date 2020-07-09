@@ -28,17 +28,18 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @Enumerable.Child
+@Enumerable.Displayable(name = "&c&lLeft click skill", description = "gui.skill.left-click.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWYxMzNlOTE5MTlkYjBhY2VmZGMyNzJkNjdmZDg3YjRiZTg4ZGM0NGE5NTg5NTg4MjQ0NzRlMjFlMDZkNTNlNiJ9fX0=")
 public class LeftClickSkill extends Skill {
 
     private static final String CUSTOM_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzFkY2Y4NWRlYTg0NDFmN2FmMjg3ZmU3ZTAyMTFjNzRmYzY5YzI5MjNlZDQ5YTE2ZjZkZDFiOWU4MWEyNDlkMyJ9fX0=";
 
-    @Serializable(headTexture = CUSTOM_HEAD)
+    @Serializable(headTexture = CUSTOM_HEAD, description = "gui.skill.left-click.caster-actions")
     protected List<Action> onCasterActions;
-    @Serializable(headTexture = CUSTOM_HEAD)
+    @Serializable(headTexture = CUSTOM_HEAD, description = "gui.skill.left-click.cooldown")
     protected int cooldown;
-    @Serializable(headTexture = CUSTOM_HEAD)
+    @Serializable(headTexture = CUSTOM_HEAD, description = "gui.skill.left-click.ray-cast-actions")
     protected List<Action> onRayCastPointActions;
-    @Serializable(headTexture = CUSTOM_HEAD)
+    @Serializable(headTexture = CUSTOM_HEAD, description = "gui.skill.left-click.ray-cast-distance")
     protected int onRayCastMaxDistance;
 
     public LeftClickSkill() {

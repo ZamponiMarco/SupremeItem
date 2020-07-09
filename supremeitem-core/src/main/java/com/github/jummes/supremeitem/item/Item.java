@@ -35,11 +35,11 @@ public class Item implements Model {
 
     @Serializable(stringValue = true)
     private UUID id;
-    @Serializable(headTexture = CUSTOM_HEAD)
+    @Serializable(headTexture = CUSTOM_HEAD, description = "gui.item.item")
     private ItemStackWrapper item;
-    @Serializable(headTexture = CUSTOM_HEAD)
+    @Serializable(headTexture = CUSTOM_HEAD, description = "gui.item.skill-set")
     private Set<Skill> skillSet;
-    @Serializable(headTexture = CUSTOM_HEAD)
+    @Serializable(headTexture = CUSTOM_HEAD, description = "gui.item.consumable")
     private boolean consumable;
 
     public Item() {

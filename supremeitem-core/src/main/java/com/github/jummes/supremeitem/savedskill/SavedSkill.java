@@ -22,9 +22,9 @@ public class SavedSkill implements Model {
 
     private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdkYzNlMjlhMDkyM2U1MmVjZWU2YjRjOWQ1MzNhNzllNzRiYjZiZWQ1NDFiNDk1YTEzYWJkMzU5NjI3NjUzIn19fQ==";
 
-    @Serializable(headTexture = HEAD)
+    @Serializable(headTexture = HEAD, description = "gui.saved-skill.name")
     private String name;
-    @Serializable(headTexture = HEAD)
+    @Serializable(headTexture = HEAD, description = "gui.saved-skill.actions")
     private List<Action> actions;
 
     public SavedSkill() {

@@ -49,7 +49,7 @@ public class ParticleAction extends Action {
     private double speed;
     @Serializable(headTexture = FORCE_HEAD, description = "gui.action.particle.force")
     private boolean force;
-    @Serializable(displayItem = "getDataObject")
+    @Serializable(displayItem = "getDataObject", description = "gui.action.particle.data")
     private ParticleOptions data;
 
     public ParticleAction() {
