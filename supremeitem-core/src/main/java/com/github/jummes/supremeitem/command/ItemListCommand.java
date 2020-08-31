@@ -30,6 +30,6 @@ public class ItemListCommand extends AbstractCommand {
 
     @Override
     protected Permission getPermission() {
-        return new Permission("aaa");
+        return new Permission("supremeitem.item.list");
     }
 }

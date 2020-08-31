@@ -20,7 +20,7 @@ import com.github.jummes.supremeitem.entity.NoEntity;
 import com.github.jummes.supremeitem.entity.selector.EntitySelector;
 import com.github.jummes.supremeitem.entity.selector.SourceSelector;
 import com.github.jummes.supremeitem.item.Item;
-import com.github.jummes.supremeitem.item.skill.*;
+import com.github.jummes.supremeitem.skill.*;
 import com.github.jummes.supremeitem.listener.PlayerItemListener;
 import com.github.jummes.supremeitem.manager.CooldownManager;
 import com.github.jummes.supremeitem.manager.ItemManager;

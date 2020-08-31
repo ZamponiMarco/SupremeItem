@@ -48,7 +48,7 @@ public class ProjectileAction extends Action {
     private List<Action> onBlockHitActions;
     @Serializable(headTexture = TICK_HEAD, description = "gui.action.projectile.projectile-tick-actions")
     private List<Action> onProjectileTickActions;
-    @Serializable(headTexture = ENTITY_HEAD, description = "gui.action.projectile.entity")
+    @Serializable(headTexture = ENTITY_HEAD, description = "gui.action.projectile.entity", recreateTooltip = true)
     private Entity entity;
 
     public ProjectileAction() {

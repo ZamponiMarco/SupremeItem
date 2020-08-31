@@ -28,6 +28,6 @@ public class SkillsListCommand extends AbstractCommand {
 
     @Override
     protected Permission getPermission() {
-        return null;
+        return new Permission("supremeitem.skill.list");
     }
 }

@@ -5,7 +5,7 @@ import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.item.Item;
-import com.github.jummes.supremeitem.item.skill.TimerSkill;
+import com.github.jummes.supremeitem.skill.TimerSkill;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.AllArgsConstructor;

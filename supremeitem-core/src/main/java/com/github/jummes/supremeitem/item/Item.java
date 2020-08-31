@@ -10,8 +10,7 @@ import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.libs.model.wrapper.ItemStackWrapper;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.libs.util.MessageUtils;
-import com.github.jummes.supremeitem.action.Action;
-import com.github.jummes.supremeitem.item.skill.Skill;
+import com.github.jummes.supremeitem.skill.Skill;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.AllArgsConstructor;
@@ -19,7 +18,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.reflect.FieldUtils;
-import org.bukkit.Material;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -72,6 +70,11 @@ public class Item implements Model {
         return map;
     }
 
+    public ItemStack getUsableItem() {
+        ItemStack item = this.item.getWrapped().clone();
+        return Libs.getWrapper().addTagToItem(item, "supreme-item", getId().toString());
+    }
+
     @Override
     public ItemStack getGUIItem() {
         List<String> lore = item.getWrapped().getItemMeta() == null ? null : item.getWrapped().getItemMeta().getLore();
@@ -95,9 +98,7 @@ public class Item implements Model {
             onRemoval();
             e.getWhoClicked().openInventory(parent.getInventory());
         } else if (e.getClick().equals(ClickType.MIDDLE)) {
-            ItemStack item = this.item.getWrapped().clone();
-            item = Libs.getWrapper().addTagToItem(item, "supreme-item", getId().toString());
-            e.getWhoClicked().getInventory().addItem(item);
+            e.getWhoClicked().getInventory().addItem(getUsableItem());
         }
     }
 }

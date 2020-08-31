@@ -3,13 +3,13 @@ package com.github.jummes.supremeitem.action.meta;
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.supremeitem.action.Action;
-import com.github.jummes.supremeitem.action.entity.DamageAction;
 import com.github.jummes.supremeitem.action.source.LocationSource;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.entity.selector.EntitySelector;
+import com.github.jummes.supremeitem.entity.selector.SourceSelector;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import org.bukkit.Location;
@@ -39,7 +39,7 @@ public class AreaEntitiesAction extends MetaAction {
     private boolean castFromLocation;
 
     public AreaEntitiesAction() {
-        this(Lists.newArrayList(), 3.0, Lists.newArrayList(), true);
+        this(Lists.newArrayList(), 3.0, Lists.newArrayList(new SourceSelector()), true);
     }
 
     public static AreaEntitiesAction deserialize(Map<String, Object> map) {
