@@ -60,11 +60,15 @@ public class PlayerItemListener implements Listener {
             LivingEntity damager = (LivingEntity) e.getDamager();
             LivingEntity damaged = (LivingEntity) e.getEntity();
             ItemStack item = damager.getEquipment().getItemInMainHand();
-            UUID id = UUID.fromString(Libs.getWrapper().getTagItem(item, "supreme-item"));
-            Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);
-            if (supremeItem != null) {
-                supremeItem.getSkillSet().stream().filter(skill -> skill instanceof HitEntitySkill).findFirst().
-                        ifPresent(skill -> ((HitEntitySkill) skill).executeSkill(damager, damaged, id, item));
+            try {
+                UUID id = UUID.fromString(Libs.getWrapper().getTagItem(item, "supreme-item"));
+                Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);
+                if (supremeItem != null) {
+                    supremeItem.getSkillSet().stream().filter(skill -> skill instanceof HitEntitySkill).findFirst().
+                            ifPresent(skill -> ((HitEntitySkill) skill).executeSkill(damager, damaged, id, item));
+                }
+            } catch (IllegalArgumentException ex) {
+
             }
         }
     }

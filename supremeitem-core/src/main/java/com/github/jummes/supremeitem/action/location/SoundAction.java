@@ -84,7 +84,7 @@ public class SoundAction extends Action {
             ((LocationTarget) target).getTarget().getWorld().playSound(((LocationTarget) target).getTarget(), type,
                     category, (float) volume, (float) pitch);
         } else if (target instanceof EntityTarget) {
-            ((EntityTarget) target).getTarget().getWorld().playSound(((EntityTarget) target).getTarget().getLocation(),
+            ((EntityTarget) target).getTarget().getWorld().playSound(((EntityTarget) target).getTarget().getEyeLocation(),
                     type, category, (float) volume, (float) pitch);
         }
     }

@@ -8,6 +8,8 @@ import com.github.jummes.libs.gui.model.ModelObjectInventoryHolder;
 import com.github.jummes.libs.model.Model;
 import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.libs.model.wrapper.ItemStackWrapper;
+import com.github.jummes.libs.util.ItemUtils;
+import com.github.jummes.libs.util.MessageUtils;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.item.skill.Skill;
 import com.google.common.collect.Lists;
@@ -15,6 +17,7 @@ import com.google.common.collect.Sets;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.reflect.FieldUtils;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.ClickType;
@@ -35,6 +38,8 @@ public class Item implements Model {
 
     @Serializable(stringValue = true)
     private UUID id;
+    @Serializable(headTexture = CUSTOM_HEAD, description = "gui.item.name")
+    private String name;
     @Serializable(headTexture = CUSTOM_HEAD, description = "gui.item.item")
     private ItemStackWrapper item;
     @Serializable(headTexture = CUSTOM_HEAD, description = "gui.item.skill-set")
@@ -43,15 +48,16 @@ public class Item implements Model {
     private boolean consumable;
 
     public Item() {
-        this(UUID.randomUUID(), new ItemStackWrapper(), Sets.newHashSet(), false);
+        this(UUID.randomUUID(), RandomStringUtils.randomAlphabetic(6), new ItemStackWrapper(), Sets.newHashSet(), false);
     }
 
     public static Item deserialize(Map<String, Object> map) {
         UUID id = UUID.fromString((String) map.get("id"));
+        String name = (String) map.get("name");
         ItemStackWrapper item = (ItemStackWrapper) map.get("item");
         Set<Skill> skillSet = new HashSet<Skill>((List<Skill>) map.get("skillSet"));
         boolean consumable = (boolean) map.getOrDefault("consumable", false);
-        return new Item(id, item, skillSet, consumable);
+        return new Item(id, name, item, skillSet, consumable);
     }
 
     @Override
@@ -59,6 +65,7 @@ public class Item implements Model {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("==", getClass().getName());
         map.put("id", id.toString());
+        map.put("name", name);
         map.put("item", item);
         map.put("skillSet", new ArrayList<>(skillSet));
         map.put("consumable", consumable);
@@ -67,7 +74,11 @@ public class Item implements Model {
 
     @Override
     public ItemStack getGUIItem() {
-        return item.getWrapped();
+        List<String> lore = item.getWrapped().getItemMeta() == null ? null : item.getWrapped().getItemMeta().getLore();
+        lore = lore == null ? Lists.newArrayList() : lore;
+        lore.add(MessageUtils.color("&6&lName: &c" + name));
+        lore.addAll(Libs.getLocale().getList("gui.item.description"));
+        return ItemUtils.getNamedItem(item.getWrapped().clone(), item.getWrapped().getItemMeta().getDisplayName(), lore);
     }
 
     public void defaultClickConsumer(JavaPlugin plugin, PluginInventoryHolder parent, ModelPath<?> path, Field field,

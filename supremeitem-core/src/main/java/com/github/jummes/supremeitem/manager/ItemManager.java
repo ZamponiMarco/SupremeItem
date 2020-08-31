@@ -19,4 +19,8 @@ public class ItemManager extends ModelManager<Item> {
     public Item getById(UUID id) {
         return items.stream().filter(item -> item.getId().equals(id)).findFirst().orElse(null);
     }
+
+    public Item getByName(String name) {
+        return items.stream().filter(item -> item.getName().equals(name)).findFirst().orElse(null);
+    }
 }

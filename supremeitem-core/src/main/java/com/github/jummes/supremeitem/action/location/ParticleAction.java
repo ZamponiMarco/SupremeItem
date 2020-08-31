@@ -86,7 +86,7 @@ public class ParticleAction extends Action {
                     count, offset, offset, offset, speed, data == null ? null : data.buildData(), force);
         } else if (target instanceof EntityTarget) {
             ((EntityTarget) target).getTarget().getWorld().spawnParticle(type, ((EntityTarget) target).getTarget().
-                    getLocation(), count, offset, offset, offset, speed, data == null ? null : data.buildData(), force);
+                    getEyeLocation(), count, offset, offset, offset, speed, data == null ? null : data.buildData(), force);
         }
     }
 
