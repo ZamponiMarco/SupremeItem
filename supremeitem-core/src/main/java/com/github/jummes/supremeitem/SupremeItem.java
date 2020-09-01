@@ -11,6 +11,8 @@ import com.github.jummes.supremeitem.action.meta.AreaEntitiesAction;
 import com.github.jummes.supremeitem.action.meta.DelayedAction;
 import com.github.jummes.supremeitem.action.meta.ProjectileAction;
 import com.github.jummes.supremeitem.action.meta.TimerAction;
+import com.github.jummes.supremeitem.command.HelpCommand;
+import com.github.jummes.supremeitem.command.ItemGetCommand;
 import com.github.jummes.supremeitem.command.ItemListCommand;
 import com.github.jummes.supremeitem.command.SkillsListCommand;
 import com.github.jummes.supremeitem.entity.Entity;
@@ -92,8 +94,10 @@ public class SupremeItem extends JavaPlugin {
         cooldownManager = new CooldownManager();
         savedSkillManager = new SavedSkillManager(SavedSkill.class, "yaml", this);
         new TimerManager();
-        PluginCommandExecutor ex = new PluginCommandExecutor(ItemListCommand.class, "list");
+        PluginCommandExecutor ex = new PluginCommandExecutor(HelpCommand.class, "help");
         ex.registerCommand("skill", SkillsListCommand.class);
+        ex.registerCommand("list", ItemListCommand.class);
+        ex.registerCommand("get", ItemGetCommand.class);
         getCommand("si").setExecutor(ex);
         getServer().getPluginManager().registerEvents(new PlayerItemListener(), this);
     }

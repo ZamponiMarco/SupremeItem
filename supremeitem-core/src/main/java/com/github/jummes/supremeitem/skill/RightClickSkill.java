@@ -2,6 +2,7 @@ package com.github.jummes.supremeitem.skill;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
+import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
@@ -72,7 +73,7 @@ public class RightClickSkill extends Skill {
             }
             cooldown(e, id);
         } else {
-            e.sendMessage("Cooldown: " + Math.ceil(cooldown / 20.0));
+            e.sendMessage(Libs.getLocale().get("messages.cooldown").replace("$cooldown", String.valueOf(cooldown / 20.0)));
         }
     }
 

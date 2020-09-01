@@ -1,6 +1,7 @@
 package com.github.jummes.supremeitem.command;
 
 import com.github.jummes.libs.command.AbstractCommand;
+import com.github.jummes.libs.core.Libs;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.item.Item;
 import org.bukkit.command.CommandSender;
@@ -21,11 +22,11 @@ public class ItemGetCommand extends AbstractCommand {
 
         Item item = SupremeItem.getInstance().getItemManager().getByName(arguments[0]);
         if (item == null) {
-            sender.sendMessage("no item");
+            sender.sendMessage(Libs.getLocale().get("messages.command.item-not-found"));
             return;
         }
         ((Player) sender).getInventory().addItem(item.getUsableItem());
-        sender.sendMessage("got");
+        sender.sendMessage(Libs.getLocale().get("messages.command.item-received"));
     }
 
     @Override

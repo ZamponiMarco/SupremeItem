@@ -1,3 +1,8 @@
+messages:
+  cooldown: "&6&lCooldown: &c$cooldowns"
+  command:
+    item-not-found: "&cItem not found"
+    item-received: "&aYou received the item"
 gui:
   item:
     description:

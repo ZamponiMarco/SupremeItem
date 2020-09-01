@@ -2,6 +2,7 @@ package com.github.jummes.supremeitem.skill;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
+import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
@@ -59,7 +60,7 @@ public class HitEntitySkill extends Skill {
             onDamagedActions.forEach(Action -> Action.executeAction(new EntityTarget(damaged), new EntitySource(damager)));
             cooldown(damager, id);
         } else {
-            damager.sendMessage("Cooldown: " + Math.ceil(cooldown / 20.0));
+            damager.sendMessage(Libs.getLocale().get("messages.cooldown").replace("$cooldown", String.valueOf(cooldown / 20.0)));
         }
     }
 
