@@ -2,6 +2,8 @@ package com.github.jummes.supremeitem.action.meta;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
+import com.github.jummes.libs.core.Libs;
+import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.source.LocationSource;
@@ -16,7 +18,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MainHand;
 import org.bukkit.util.Vector;
@@ -37,6 +38,7 @@ public class ProjectileAction extends Action {
     private static final String ENTITY_HIT_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWVlMTE4ZWRkYWVlMGRmYjJjYmMyYzNkNTljMTNhNDFhN2Q2OGNjZTk0NWU0MjE2N2FhMWRjYjhkMDY3MDUxNyJ9fX0=";
     private static final String BLOCK_HIT_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODhiNzY3YzhhMWVhOGU0MDRiM2NjYTg1MzQ5ZjY1M2I1N2IwYzNmNDY0MjdmYmVjZWFjY2YzNjAyYmMyOWUifX19";
     private static final String TICK_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2FhMjVhZTFiOGU2ZTgxY2FkMTU3NTdjMzk3YmYwYzk5M2E1ZDg3NmQ5N2NiZWFlNGEyMGYyNDMzYzMyM2EifX19";
+    private static final String HIT_BOX_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjMzYzBiYjM3ZWJlMTE5M2VlNDYxODEwMzQ2MGE3ZjEyOTI3N2E4YzdmZDA4MWI2YWVkYjM0YTkyYmQ1In19fQ==";
 
     @Serializable(headTexture = INITIAL_HEAD, description = "gui.action.projectile.initial-speed")
     private double initialSpeed;
@@ -50,9 +52,11 @@ public class ProjectileAction extends Action {
     private List<Action> onProjectileTickActions;
     @Serializable(headTexture = ENTITY_HEAD, description = "gui.action.projectile.entity", recreateTooltip = true)
     private Entity entity;
+    @Serializable(headTexture = HIT_BOX_HEAD, description = "gui.action.projectile.hit-box")
+    private double hitBoxSize;
 
     public ProjectileAction() {
-        this(10.0, 0.1, Lists.newArrayList(), Lists.newArrayList(), Lists.newArrayList(), new NoEntity());
+        this(10.0, 0.1, Lists.newArrayList(), Lists.newArrayList(), Lists.newArrayList(), new NoEntity(), 0.5);
     }
 
     public static ProjectileAction deserialize(Map<String, Object> map) {
@@ -62,7 +66,9 @@ public class ProjectileAction extends Action {
         List<Action> onBlockHitActions = (List<Action>) map.getOrDefault("onBlockHitActions", Lists.newArrayList());
         List<Action> onProjectileTickActions = (List<Action>) map.getOrDefault("onProjectileTickActions", Lists.newArrayList());
         Entity entity = (Entity) map.getOrDefault("entity", new NoEntity());
-        return new ProjectileAction(initialSpeed, gravity, onEntityHitActions, onBlockHitActions, onProjectileTickActions, entity);
+        double hitBoxSize = (double) map.getOrDefault("hitBoxSize", 0.5);
+        return new ProjectileAction(initialSpeed, gravity, onEntityHitActions, onBlockHitActions,
+                onProjectileTickActions, entity, hitBoxSize);
     }
 
     @Override
@@ -81,7 +87,7 @@ public class ProjectileAction extends Action {
         }
         if (l != null) {
             new Projectile(source, l, gravity, initialSpeed, onEntityHitActions, onBlockHitActions, onProjectileTickActions,
-                    this.entity);
+                    this.entity, this.hitBoxSize);
         }
     }
 
@@ -92,7 +98,8 @@ public class ProjectileAction extends Action {
 
     @Override
     public ItemStack getGUIItem() {
-        return new ItemStack(Material.ARROW);
+        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjE1ZmVjNjUxOGE0MWYxNjYxMzFlNjViMTBmNDZmYjg3ZTk3YzQ5MmI0NmRiYzI1ZGUyNjM3NjcyMWZhNjRlMCJ9fX0="),
+                "&6&lProjectile", Libs.getLocale().getList("gui.action.description"));
     }
 
 

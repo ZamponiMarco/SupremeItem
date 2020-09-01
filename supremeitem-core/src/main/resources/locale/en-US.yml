@@ -146,6 +146,8 @@ gui:
       entity:
         - "&7&oThe entity that will represent the projectile."
         - "&7&oCan be null."
+      hit-box:
+        - "&7&oThe size of the hitbox of the projectile."
     skill:
       description:
         - "&7&oSet the use of a previously saved skill."

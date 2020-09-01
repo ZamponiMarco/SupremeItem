@@ -2,6 +2,8 @@ package com.github.jummes.supremeitem.action.meta;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
+import com.github.jummes.libs.core.Libs;
+import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.LocationSource;
 import com.github.jummes.supremeitem.action.source.Source;
@@ -14,6 +16,7 @@ import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Map;
@@ -73,5 +76,11 @@ public class AreaEntitiesAction extends MetaAction {
     @Override
     public List<Class<? extends Target>> getPossibleTargets() {
         return Lists.newArrayList(LocationTarget.class, EntityTarget.class);
+    }
+
+    @Override
+    public ItemStack getGUIItem() {
+        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWZjZDQxNGIwNWE1MzJjNjA5YzJhYTQ4ZDZjMDYyYzI5MmQ1MzNkZmFmNGQ3MzJhYmU5YWY1NzQxNTg5ZSJ9fX0="),
+                "&6&lMax radius: &c" + maxDistance, Libs.getLocale().getList("gui.action.description"));
     }
 }

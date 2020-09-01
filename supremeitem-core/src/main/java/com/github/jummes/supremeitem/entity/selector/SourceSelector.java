@@ -2,10 +2,13 @@ package com.github.jummes.supremeitem.entity.selector;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
+import com.github.jummes.libs.core.Libs;
+import com.github.jummes.libs.util.ItemUtils;
+import com.github.jummes.libs.util.MessageUtils;
 import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.source.Source;
+import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
-import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
@@ -43,6 +46,7 @@ public class SourceSelector extends EntitySelector {
 
     @Override
     public ItemStack getGUIItem() {
-        return new ItemStack(Material.CARROT);
+        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjM2Mzc5NjFmODQ1MWE1M2I2N2QyNTMxMmQzNTBjNjIwZjMyYjVmNjA4YmQ2YWRlMDY2MzdiZTE3MTJmMzY0ZSJ9fX0"),
+                "&cSource &6&lselector", Lists.newArrayList(MessageUtils.color(deny ? "&c&lDeny" : "&a&lAllow")));
     }
 }

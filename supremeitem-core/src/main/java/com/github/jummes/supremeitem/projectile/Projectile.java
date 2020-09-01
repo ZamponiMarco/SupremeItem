@@ -20,7 +20,8 @@ import java.util.stream.Collectors;
 public class Projectile {
 
     public Projectile(Source source, Location l, double gravity, double initialSpeed, List<Action> onEntityHitActions,
-                      List<Action> onBlockHitActions, List<Action> onProjectileTickActions, com.github.jummes.supremeitem.entity.Entity entity) {
+                      List<Action> onBlockHitActions, List<Action> onProjectileTickActions,
+                      com.github.jummes.supremeitem.entity.Entity entity, double hitBoxSize) {
         Vector initialDirection = l.getDirection().multiply(initialSpeed).multiply(.05);
         BukkitRunnable runnable = new BukkitRunnable() {
 
@@ -38,7 +39,7 @@ public class Projectile {
                     onBlockHitActions.forEach(Action -> Action.executeAction(new LocationTarget(l), source));
                     remove();
                 }
-                List<LivingEntity> entities = l.getWorld().getNearbyEntities(l, 1, 1, 1).stream().
+                List<LivingEntity> entities = l.getWorld().getNearbyEntities(l, hitBoxSize, hitBoxSize, hitBoxSize).stream().
                         filter(entity -> entity instanceof LivingEntity
                                 && (!projectilePresent || !entity.equals(projectile))
                                 && (source instanceof EntitySource && !entity.equals(((EntitySource) source).getSource()))).
