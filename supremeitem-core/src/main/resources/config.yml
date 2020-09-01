@@ -1,0 +1,7 @@
+# If you want custom locales just create a new .yml file (like example.yml)
+# in the locale folder paste in it all the contents from en-US.yml end translate
+# after that write in this parameter the name of the file without the leading .yml
+locale: en-US
+
+#DO NOT MODIFY
+version: 0.1

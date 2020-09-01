@@ -5,3 +5,24 @@ main: com.github.jummes.supremeitem.SupremeItem
 api-version: 1.13
 commands:
   si:
+permissions:
+  supremeitem.admin.help:
+    description: Help command permission
+    default: op
+  supremeitem.item.get:
+    description: Item get command permission
+    default: op
+  supremeitem.item.list:
+    description: Item list command permission
+    default: op
+  supremeitem.skill.list:
+    description: Skill list command permission
+    default: op
+  supremeitem.*:
+    description: SupremeItem wildcard permission
+    default: op
+    children:
+      supremeitem.admin.help: true
+      supremeitem.item.get: true
+      supremeitem.item.list: true
+      supremeitem.skill.list: true

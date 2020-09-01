@@ -22,20 +22,26 @@ import com.github.jummes.supremeitem.entity.NoEntity;
 import com.github.jummes.supremeitem.entity.selector.EntitySelector;
 import com.github.jummes.supremeitem.entity.selector.SourceSelector;
 import com.github.jummes.supremeitem.item.Item;
-import com.github.jummes.supremeitem.skill.*;
 import com.github.jummes.supremeitem.listener.PlayerItemListener;
 import com.github.jummes.supremeitem.manager.CooldownManager;
 import com.github.jummes.supremeitem.manager.ItemManager;
 import com.github.jummes.supremeitem.manager.SavedSkillManager;
 import com.github.jummes.supremeitem.manager.TimerManager;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
+import com.github.jummes.supremeitem.skill.*;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.util.FileUtil;
+
+import java.io.File;
+import java.util.Objects;
 
 @Getter
 public class SupremeItem extends JavaPlugin {
+
+    private static final String CONFIG_VERSION = "0.1";
 
     static {
         Libs.registerSerializables();
@@ -88,17 +94,51 @@ public class SupremeItem extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        setUpFolder();
+        setUpData();
+        setUpCommands();
+        setUpListeners();
+    }
+
+    private void setUpFolder() {
+        if (!getDataFolder().exists()) {
+            getDataFolder().mkdir();
+        }
+
+        File configFile = new File(getDataFolder(), "config.yml");
+
+        if (!configFile.exists()) {
+            saveDefaultConfig();
+        }
+
+        if (!Objects.equals(getConfig().getString("version"), CONFIG_VERSION)) {
+            getLogger().info("config.yml has changed. Old config is stored inside config-"
+                    + getConfig().getString("version") + ".yml");
+            File outputFile = new File(getDataFolder(), "config-" + getConfig().getString("version") + ".yml");
+            FileUtil.copy(configFile, outputFile);
+            configFile.delete();
+            saveDefaultConfig();
+        }
+    }
+
+    private void setUpData() {
         PluginLocale locale = new PluginLocale(this, Lists.newArrayList("en-US"), "en-US");
         Libs.initializeLibrary(this, locale);
         itemManager = new ItemManager(Item.class, "yaml", this);
         cooldownManager = new CooldownManager();
         savedSkillManager = new SavedSkillManager(SavedSkill.class, "yaml", this);
         new TimerManager();
+    }
+
+    private void setUpCommands() {
         PluginCommandExecutor ex = new PluginCommandExecutor(HelpCommand.class, "help");
         ex.registerCommand("skill", SkillsListCommand.class);
         ex.registerCommand("list", ItemListCommand.class);
         ex.registerCommand("get", ItemGetCommand.class);
         getCommand("si").setExecutor(ex);
+    }
+
+    private void setUpListeners() {
         getServer().getPluginManager().registerEvents(new PlayerItemListener(), this);
     }
 }
