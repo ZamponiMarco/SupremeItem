@@ -32,17 +32,19 @@ import java.util.*;
 @CustomClickable(customCollectionClickConsumer = "defaultClickConsumer")
 public class Item implements Model {
 
-    private static final String CUSTOM_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzFkY2Y4NWRlYTg0NDFmN2FmMjg3ZmU3ZTAyMTFjNzRmYzY5YzI5MjNlZDQ5YTE2ZjZkZDFiOWU4MWEyNDlkMyJ9fX0=";
+    private static final String NAME_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTdlZDY2ZjVhNzAyMDlkODIxMTY3ZDE1NmZkYmMwY2EzYmYxMWFkNTRlZDVkODZlNzVjMjY1ZjdlNTAyOWVjMSJ9fX0=";
+    private static final String SKILL_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmJiMTI1NmViOWY2NjdjMDVmYjIxZTAyN2FhMWQ1MzU1OGJkYTc0ZTI0MGU0ZmE5ZTEzN2Q4NTFjNDE2ZmU5OCJ9fX0=";
+    private static final String CONSUMABLE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTg0YTY4ZmQ3YjYyOGQzMDk2NjdkYjdhNTU4NTViNTRhYmMyM2YzNTk1YmJlNDMyMTYyMTFiZTVmZTU3MDE0In19fQ==";
 
     @Serializable(stringValue = true)
     private UUID id;
-    @Serializable(headTexture = CUSTOM_HEAD, description = "gui.item.name")
+    @Serializable(headTexture = NAME_HEAD, description = "gui.item.name")
     private String name;
-    @Serializable(headTexture = CUSTOM_HEAD, description = "gui.item.item")
+    @Serializable(description = "gui.item.item", displayItem = "getUsableItem")
     private ItemStackWrapper item;
-    @Serializable(headTexture = CUSTOM_HEAD, description = "gui.item.skill-set")
+    @Serializable(headTexture = SKILL_HEAD, description = "gui.item.skill-set")
     private Set<Skill> skillSet;
-    @Serializable(headTexture = CUSTOM_HEAD, description = "gui.item.consumable")
+    @Serializable(headTexture = CONSUMABLE_HEAD, description = "gui.item.consumable")
     private boolean consumable;
 
     public Item() {
@@ -58,6 +60,11 @@ public class Item implements Model {
         return new Item(id, name, item, skillSet, consumable);
     }
 
+    public ItemStack getUsableItem() {
+        ItemStack item = this.item.getWrapped().clone();
+        return Libs.getWrapper().addTagToItem(item, "supreme-item", getId().toString());
+    }
+
     @Override
     public Map<String, Object> serialize() {
         Map<String, Object> map = new LinkedHashMap<>();
@@ -68,11 +75,6 @@ public class Item implements Model {
         map.put("skillSet", new ArrayList<>(skillSet));
         map.put("consumable", consumable);
         return map;
-    }
-
-    public ItemStack getUsableItem() {
-        ItemStack item = this.item.getWrapped().clone();
-        return Libs.getWrapper().addTagToItem(item, "supreme-item", getId().toString());
     }
 
     @Override

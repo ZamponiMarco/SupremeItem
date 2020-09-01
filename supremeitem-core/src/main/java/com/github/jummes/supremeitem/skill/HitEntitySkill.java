@@ -2,6 +2,7 @@ package com.github.jummes.supremeitem.skill;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
+import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.EntitySource;
@@ -24,13 +25,15 @@ import java.util.UUID;
 @Enumerable.Displayable(name = "&c&lOn entity hit", description = "gui.skill.hit-entity.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTBkZmM4YTM1NjNiZjk5NmY1YzFiNzRiMGIwMTViMmNjZWIyZDA0Zjk0YmJjZGFmYjIyOTlkOGE1OTc5ZmFjMSJ9fX0=")
 public class HitEntitySkill extends Skill {
 
-    private static final String CUSTOM_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzFkY2Y4NWRlYTg0NDFmN2FmMjg3ZmU3ZTAyMTFjNzRmYzY5YzI5MjNlZDQ5YTE2ZjZkZDFiOWU4MWEyNDlkMyJ9fX0=";
+    private static final String DAMAGER_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTBkZmM4YTM1NjNiZjk5NmY1YzFiNzRiMGIwMTViMmNjZWIyZDA0Zjk0YmJjZGFmYjIyOTlkOGE1OTc5ZmFjMSJ9fX0=";
+    private static final String DAMAGED_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWJlMmRkNTM3Y2I3NDM0YzM5MGQwNDgyZmE0NzI0N2NhM2ViNTZmMTlhOTNjMDRjNmM4NTgxMzUyYjhkOTUzOCJ9fX0=";
+    private static final String COOLDOWN_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZlOGNmZjc1ZjdkNDMzMjYwYWYxZWNiMmY3NzNiNGJjMzgxZDk1MWRlNGUyZWI2NjE0MjM3NzlhNTkwZTcyYiJ9fX0=";
 
-    @Serializable(headTexture = CUSTOM_HEAD, description = "gui.skill.hit-entity.damager-actions")
+    @Serializable(headTexture = DAMAGER_HEAD, description = "gui.skill.hit-entity.damager-actions")
     protected List<Action> onDamagerActions;
-    @Serializable(headTexture = CUSTOM_HEAD, description = "gui.skill.hit-entity.damaged-actions")
+    @Serializable(headTexture = DAMAGED_HEAD, description = "gui.skill.hit-entity.damaged-actions")
     protected List<Action> onDamagedActions;
-    @Serializable(headTexture = CUSTOM_HEAD, description = "gui.skill.hit-entity.cooldown")
+    @Serializable(headTexture = COOLDOWN_HEAD, description = "gui.skill.hit-entity.cooldown")
     protected int cooldown;
 
     public HitEntitySkill() {
@@ -69,6 +72,7 @@ public class HitEntitySkill extends Skill {
 
     @Override
     public ItemStack getGUIItem() {
-        return new ItemStack(Material.DIAMOND_SWORD);
+        return ItemUtils.getNamedItem(new ItemStack(Material.DIAMOND_SWORD),
+                "&cHit entity &6&lskill", Lists.newArrayList());
     }
 }
