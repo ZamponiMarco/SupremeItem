@@ -181,6 +181,16 @@ gui:
         - "&7&oThe actions to execute on the damaged entity."
       cooldown:
         - "&7&oThe cooldown between skill executions."
+    damage-entity:
+      description:
+        - "&7&oSet a skill to be triggered when an entity is"
+        - "&7&odamaged by another one."
+      damager-actions:
+        - "&7&oThe actions to execute on the damager."
+      damaged-actions:
+        - "&7&oThe actions to execute on the damaged entity."
+      cooldown:
+        - "&7&oThe cooldown between skill executions."
     left-click:
       description:
         - "&7&oSet a skill to be triggered when an entity right"

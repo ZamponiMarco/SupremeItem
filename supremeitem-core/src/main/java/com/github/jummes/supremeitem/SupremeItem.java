@@ -49,6 +49,7 @@ public class SupremeItem extends JavaPlugin {
         ConfigurationSerialization.registerClass(RightClickSkill.class);
         ConfigurationSerialization.registerClass(LeftClickSkill.class);
         ConfigurationSerialization.registerClass(HitEntitySkill.class);
+        ConfigurationSerialization.registerClass(DamageEntitySkill.class);
         ConfigurationSerialization.registerClass(TimerSkill.class);
 
         ConfigurationSerialization.registerClass(Action.class);

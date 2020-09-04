@@ -6,7 +6,7 @@ import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.item.Item;
 import com.github.jummes.supremeitem.skill.TimerSkill;
-import com.google.common.collect.Lists;
+import com.github.jummes.supremeitem.util.Utils;
 import com.google.common.collect.Sets;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -28,7 +28,7 @@ public class TimerManager {
         timers = new HashMap<>();
         Bukkit.getScheduler().runTaskTimer(SupremeItem.getInstance(), () -> {
             Bukkit.getOnlinePlayers().forEach(player -> {
-                getPlayerItems(player).stream().filter(armor -> !Libs.getWrapper().getTagItem(armor, "supreme-item").
+                Utils.getEntityItems(player).stream().filter(armor -> !Libs.getWrapper().getTagItem(armor, "supreme-item").
                         equals("")).forEach(armor -> addNewTimers(player, armor));
                 removeTimers(player);
             });
@@ -40,7 +40,7 @@ public class TimerManager {
             Iterator<TimerInfo> i = timers.get(player).iterator();
             while (i.hasNext()) {
                 TimerInfo current = i.next();
-                if (getPlayerItems(player).stream().noneMatch(armor ->
+                if (Utils.getEntityItems(player).stream().noneMatch(armor ->
                         armor != null && !Libs.getWrapper().
                                 getTagItem(armor, "supreme-item").equals("") &&
                                 current.getItemId().equals(UUID.fromString(Libs.getWrapper().
@@ -82,19 +82,11 @@ public class TimerManager {
         }
     }
 
-    private List<ItemStack> getPlayerItems(Player p) {
-        List<ItemStack> list = Lists.newArrayList(p.getEquipment().getArmorContents());
-        list.add(p.getInventory().getItemInMainHand());
-        list.add(p.getInventory().getItemInOffHand());
-        list.removeIf(Objects::isNull);
-        return list;
-    }
-
     @AllArgsConstructor
     @Getter
     @Setter
     @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-    public class TimerInfo {
+    public static class TimerInfo {
         @EqualsAndHashCode.Include
         private UUID itemId;
         private int task;
