@@ -89,7 +89,7 @@ public class LeftClickSkill extends Skill {
 
     @Override
     public ItemStack getGUIItem() {
-        return ItemUtils.getNamedItem(new ItemStack(Material.STICK),
+        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWYxMzNlOTE5MTlkYjBhY2VmZGMyNzJkNjdmZDg3YjRiZTg4ZGM0NGE5NTg5NTg4MjQ0NzRlMjFlMDZkNTNlNiJ9fX0"),
                 "&cLeft click &6&lskill", Lists.newArrayList());
     }
 }
