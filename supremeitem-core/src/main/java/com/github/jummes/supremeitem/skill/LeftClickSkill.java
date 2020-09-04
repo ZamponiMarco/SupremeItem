@@ -39,10 +39,12 @@ public class LeftClickSkill extends Skill {
     @Serializable(headTexture = CASTER_HEAD, description = "gui.skill.left-click.caster-actions")
     protected List<Action> onCasterActions;
     @Serializable(headTexture = COOLDOWN_HEAD, description = "gui.skill.left-click.cooldown")
+    @Serializable.Number(minValue = 0)
     protected int cooldown;
     @Serializable(headTexture = RAY_CAST_HEAD, description = "gui.skill.left-click.ray-cast-actions")
     protected List<Action> onRayCastPointActions;
     @Serializable(headTexture = DISTANCE_HEAD, description = "gui.skill.left-click.ray-cast-distance")
+    @Serializable.Number(minValue = 0)
     protected int onRayCastMaxDistance;
 
     public LeftClickSkill() {

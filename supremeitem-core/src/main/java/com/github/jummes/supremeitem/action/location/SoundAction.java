@@ -38,8 +38,10 @@ public class SoundAction extends Action {
     @Serializable(headTexture = CATEGORY_HEAD, stringValue = true, description = "gui.action.sound.category", fromList = "getSoundCategories", fromListMapper = "soundCategoriesMapper")
     private SoundCategory category;
     @Serializable(headTexture = PITCH_HEAD, description = "gui.action.sound.pitch")
+    @Serializable.Number(minValue = 0, maxValue = 2)
     private double pitch;
     @Serializable(headTexture = VOLUME_HEAD, description = "gui.action.sound.volume")
+    @Serializable.Number(minValue = 0)
     private double volume;
 
     public SoundAction() {

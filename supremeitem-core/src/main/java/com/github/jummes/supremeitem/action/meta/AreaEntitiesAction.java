@@ -35,6 +35,7 @@ public class AreaEntitiesAction extends MetaAction {
     @Serializable(headTexture = ACTIONS_HEAD, description = "gui.action.area-entities.actions")
     private List<Action> actions;
     @Serializable(headTexture = MAX_DISTANCE_HEAD, description = "gui.action.area-entities.max-distance")
+    @Serializable.Number(minValue = 0)
     private double maxDistance;
     @Serializable(headTexture = SELECTOR_HEAD, description = "gui.action.area-entities.selectors")
     private List<EntitySelector> selectors;

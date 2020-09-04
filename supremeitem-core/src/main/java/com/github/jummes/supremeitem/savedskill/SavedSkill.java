@@ -1,6 +1,7 @@
 package com.github.jummes.supremeitem.savedskill;
 
 import com.github.jummes.libs.annotation.Serializable;
+import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.model.Model;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.Action;
@@ -39,6 +40,7 @@ public class SavedSkill implements Model {
 
     @Override
     public ItemStack getGUIItem() {
-        return ItemUtils.getNamedItem(new ItemStack(Material.STONE), name, Lists.newArrayList());
+        return ItemUtils.getNamedItem(new ItemStack(Material.STONE), "&6&lName: &c" + name,
+                Libs.getLocale().getList("gui.saved-skill.description"));
     }
 }

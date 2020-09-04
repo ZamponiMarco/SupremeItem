@@ -41,8 +41,10 @@ public class ProjectileAction extends Action {
     private static final String HIT_BOX_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjMzYzBiYjM3ZWJlMTE5M2VlNDYxODEwMzQ2MGE3ZjEyOTI3N2E4YzdmZDA4MWI2YWVkYjM0YTkyYmQ1In19fQ==";
 
     @Serializable(headTexture = INITIAL_HEAD, description = "gui.action.projectile.initial-speed")
+    @Serializable.Number(minValue = 0)
     private double initialSpeed;
     @Serializable(headTexture = GRAVITY_HEAD, description = "gui.action.projectile.gravity")
+    @Serializable.Number(minValue = 0)
     private double gravity;
     @Serializable(headTexture = ENTITY_HIT_HEAD, description = "gui.action.projectile.entity-hit-actions")
     private List<Action> onEntityHitActions;
@@ -53,6 +55,7 @@ public class ProjectileAction extends Action {
     @Serializable(headTexture = ENTITY_HEAD, description = "gui.action.projectile.entity", recreateTooltip = true)
     private Entity entity;
     @Serializable(headTexture = HIT_BOX_HEAD, description = "gui.action.projectile.hit-box")
+    @Serializable.Number(minValue = 0)
     private double hitBoxSize;
 
     public ProjectileAction() {

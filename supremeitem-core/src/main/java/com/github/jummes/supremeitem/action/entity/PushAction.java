@@ -26,8 +26,10 @@ public class PushAction extends EntityAction {
     private static final String VERTICAL_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTk5YWFmMjQ1NmE2MTIyZGU4ZjZiNjI2ODNmMmJjMmVlZDlhYmI4MWZkNWJlYTFiNGMyM2E1ODE1NmI2NjkifX19";
 
     @Serializable(headTexture = HORIZONTAL_HEAD, description = "gui.action.push.horizontal")
+    @Serializable.Number(minValue = 0)
     private double horizontalVelocity;
     @Serializable(headTexture = VERTICAL_HEAD, description = "gui.action.push.vertical")
+    @Serializable.Number(minValue = 0)
     private double verticalVelocity;
 
     public PushAction() {

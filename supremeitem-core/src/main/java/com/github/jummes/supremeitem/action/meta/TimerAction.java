@@ -41,8 +41,10 @@ public class TimerAction extends MetaAction {
     private static final String REPETITIONS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmM4ZGVmNjdhMTI2MjJlYWQxZGVjZDNkODkzNjQyNTdiNTMxODk2ZDg3ZTQ2OTgxMzEzMWNhMjM1YjVjNyJ9fX0=";
 
     @Serializable(headTexture = TIMER_HEAD, description = "gui.action.timer.timer")
+    @Serializable.Number(minValue = 0)
     private int timer;
     @Serializable(headTexture = REPETITIONS_HEAD, description = "gui.action.timer.repetitions")
+    @Serializable.Number(minValue = 0)
     private int repetitions;
     @Serializable(headTexture = ACTIONS_HEAD, description = "gui.action.timer.actions")
     private List<Action> actions;

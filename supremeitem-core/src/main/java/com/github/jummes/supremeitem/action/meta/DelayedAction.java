@@ -46,6 +46,7 @@ public class DelayedAction extends Action {
     @Serializable(headTexture = ACTIONS_HEAD, description = "gui.action.delayed.actions")
     private List<Action> actions;
     @Serializable(headTexture = DELAY_HEAD, description = "gui.action.delayed.delay")
+    @Serializable.Number(minValue = 0)
     private int delay;
 
     public DelayedAction() {

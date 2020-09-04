@@ -235,6 +235,9 @@ gui:
           - "&7&oWhether entities selected by this selector should"
           - "&7&obe avoided or not."
   saved-skill:
+    description:
+      - "&6&lLeft click &eto modify."
+      - "&6&lRight click &eto delete."
     name:
       - "&7&oThe name of the skill."
     actions:

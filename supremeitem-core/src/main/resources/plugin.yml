@@ -26,3 +26,4 @@ permissions:
       supremeitem.item.get: true
       supremeitem.item.list: true
       supremeitem.skill.list: true
+  
