@@ -11,10 +11,7 @@ import com.github.jummes.supremeitem.action.meta.AreaEntitiesAction;
 import com.github.jummes.supremeitem.action.meta.DelayedAction;
 import com.github.jummes.supremeitem.action.meta.ProjectileAction;
 import com.github.jummes.supremeitem.action.meta.TimerAction;
-import com.github.jummes.supremeitem.command.HelpCommand;
-import com.github.jummes.supremeitem.command.ItemGetCommand;
-import com.github.jummes.supremeitem.command.ItemListCommand;
-import com.github.jummes.supremeitem.command.SkillsListCommand;
+import com.github.jummes.supremeitem.command.*;
 import com.github.jummes.supremeitem.entity.Entity;
 import com.github.jummes.supremeitem.entity.GenericEntity;
 import com.github.jummes.supremeitem.entity.ItemEntity;
@@ -135,6 +132,7 @@ public class SupremeItem extends JavaPlugin {
         ex.registerCommand("skill", SkillsListCommand.class);
         ex.registerCommand("list", ItemListCommand.class);
         ex.registerCommand("get", ItemGetCommand.class);
+        ex.registerCommand("give", ItemGiveCommand.class);
         getCommand("si").setExecutor(ex);
     }
 

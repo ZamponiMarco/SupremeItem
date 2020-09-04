@@ -17,7 +17,8 @@ public class HelpCommand extends AbstractCommand {
                 "&2/si help &7Show help message.\n" +
                 "&2/si list &7Show the items GUI.\n" +
                 "&2/si get [name] &7Get the item with the given name.\n" +
-                "&2/si skill &7Open the skills GUI."));
+                "&2/si skill &7Open the skills GUI.\n" +
+                "&2/si give [player] [name] &7Give the item with the given name to the player"));
     }
 
     @Override
