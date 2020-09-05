@@ -10,7 +10,10 @@ import java.util.Objects;
 
 public class Utils {
     public static List<ItemStack> getEntityItems(LivingEntity e) {
+        return getEntityItems(e, true);
+    }
 
+    public static List<ItemStack> getEntityItems(LivingEntity e, boolean offHandIncluded) {
         EntityEquipment equipment = e.getEquipment();
         if (equipment == null) {
             return Lists.newArrayList();
@@ -18,7 +21,9 @@ public class Utils {
 
         List<ItemStack> list = Lists.newArrayList(equipment.getArmorContents());
         list.add(e.getEquipment().getItemInMainHand());
-        list.add(e.getEquipment().getItemInOffHand());
+        if (offHandIncluded) {
+            list.add(e.getEquipment().getItemInOffHand());
+        }
         list.removeIf(Objects::isNull);
         return list;
     }

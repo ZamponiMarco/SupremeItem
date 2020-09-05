@@ -10,6 +10,7 @@ import com.github.jummes.supremeitem.skill.RightClickSkill;
 import com.github.jummes.supremeitem.util.Utils;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -61,6 +62,12 @@ public class PlayerItemListener implements Listener {
             LivingEntity damaged = (LivingEntity) e.getEntity();
             executeHitEntitySkill(damager, damaged);
             executeDamageEntitySkill(damager, damaged);
+        } else if (e.getDamager() instanceof Projectile) {
+            Projectile projectile = (Projectile) e.getDamager();
+            LivingEntity damager = (LivingEntity) projectile.getShooter();
+            LivingEntity damaged = (LivingEntity) e.getEntity();
+            executeHitEntitySkill(damager, damaged);
+            executeDamageEntitySkill(damager, damaged);
         }
     }
 
@@ -80,7 +87,7 @@ public class PlayerItemListener implements Listener {
     }
 
     private void executeHitEntitySkill(LivingEntity damager, LivingEntity damaged) {
-        Utils.getEntityItems(damager).forEach(item -> {
+        Utils.getEntityItems(damager, false).forEach(item -> {
             try {
                 UUID id = UUID.fromString(Libs.getWrapper().getTagItem(item, "supreme-item"));
                 Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);

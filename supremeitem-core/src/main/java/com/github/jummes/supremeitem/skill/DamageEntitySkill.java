@@ -72,7 +72,7 @@ public class DamageEntitySkill extends Skill {
     @Override
     public ItemStack getGUIItem() {
         return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjUyNTU5ZjJiY2VhZDk4M2Y0YjY1NjFjMmI1ZjJiNTg4ZjBkNjExNmQ0NDY2NmNlZmYxMjAyMDc5ZDI3Y2E3NCJ9fX0="),
-                "&cDamage Entity &6&lskill", Lists.newArrayList());
+                "&cDamage Entity &6&lskill", Libs.getLocale().getList("gui.skill.description"));
     }
 
 }

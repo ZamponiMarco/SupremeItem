@@ -171,6 +171,9 @@ gui:
       actions:
         - "&7&oThe group of actions to execute."
   skill:
+    description:
+      - "&6&lLeft click &eto modify."
+      - "&6&lRight click &eto delete."
     hit-entity:
       description:
         - "&7&oSet a skill to be triggered when an entity hits"

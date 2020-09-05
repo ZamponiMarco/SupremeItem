@@ -90,6 +90,6 @@ public class RightClickSkill extends Skill {
     @Override
     public ItemStack getGUIItem() {
         return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTNmYzUyMjY0ZDhhZDllNjU0ZjQxNWJlZjAxYTIzOTQ3ZWRiY2NjY2Y2NDkzNzMyODliZWE0ZDE0OTU0MWY3MCJ9fX0"),
-                "&cRight click &6&lskill", Lists.newArrayList());
+                "&cRight click &6&lskill", Libs.getLocale().getList("gui.skill.description"));
     }
 }

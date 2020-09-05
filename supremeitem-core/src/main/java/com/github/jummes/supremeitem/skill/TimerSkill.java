@@ -42,7 +42,7 @@ public class TimerSkill extends Skill {
     @Override
     public ItemStack getGUIItem() {
         return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZlOGNmZjc1ZjdkNDMzMjYwYWYxZWNiMmY3NzNiNGJjMzgxZDk1MWRlNGUyZWI2NjE0MjM3NzlhNTkwZTcyYiJ9fX0"),
-                "&cTimer &6&lskill", Lists.newArrayList());
+                "&cTimer &6&lskill", Libs.getLocale().getList("gui.skill.description"));
     }
 
 }
