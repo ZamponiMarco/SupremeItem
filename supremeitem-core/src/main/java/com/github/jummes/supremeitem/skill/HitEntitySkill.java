@@ -12,7 +12,6 @@ import com.github.jummes.supremeitem.manager.CooldownManager;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
@@ -49,7 +48,8 @@ public class HitEntitySkill extends Skill {
         return new HitEntitySkill(onDamagerActions, onDamagedActions, cooldown);
     }
 
-    public void executeSkill(LivingEntity damager, LivingEntity damaged, UUID id, ItemStack item) {
+    public DamageEntitySkill.SkillResult executeSkill(LivingEntity damager, LivingEntity damaged, UUID id, ItemStack item) {
+        boolean cancelled = false;
         int cooldown = SupremeItem.getInstance().getCooldownManager().getCooldown(damager, id);
         if (cooldown == 0) {
             boolean consumable = SupremeItem.getInstance().getItemManager().getById(id).isConsumable();
@@ -57,12 +57,17 @@ public class HitEntitySkill extends Skill {
                 int amount = item.getAmount();
                 item.setAmount(--amount);
             }
-            onDamagerActions.forEach(Action -> Action.executeAction(new EntityTarget(damager), new EntitySource(damager)));
-            onDamagedActions.forEach(Action -> Action.executeAction(new EntityTarget(damaged), new EntitySource(damager)));
+            cancelled = onDamagedActions.stream().anyMatch(action ->
+                    action.executeAction(new EntityTarget(damaged), new EntitySource(damaged)).
+                            equals(Action.ActionResult.CANCELLED)) ||
+                    onDamagerActions.stream().anyMatch(action ->
+                            action.executeAction(new EntityTarget(damager), new EntitySource(damaged)).
+                                    equals(Action.ActionResult.CANCELLED));
             cooldown(damager, id);
         } else {
             damager.sendMessage(Libs.getLocale().get("messages.cooldown").replace("$cooldown", String.valueOf(cooldown / 20.0)));
         }
+        return cancelled ? DamageEntitySkill.SkillResult.CANCELLED : DamageEntitySkill.SkillResult.SUCCESS;
     }
 
     private void cooldown(LivingEntity e, UUID id) {

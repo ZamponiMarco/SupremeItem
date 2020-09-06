@@ -15,7 +15,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.RayTraceResult;
@@ -59,7 +58,8 @@ public class LeftClickSkill extends Skill {
         return new LeftClickSkill(onCasterActions, cooldown, onRayCastPointActions, onRayCastMaxDistance);
     }
 
-    public void executeSkill(LivingEntity e, UUID id, ItemStack item) {
+    public SkillResult executeSkill(LivingEntity e, UUID id, ItemStack item) {
+        boolean cancelled = false;
         int cooldown = SupremeItem.getInstance().getCooldownManager().getCooldown(e, id);
         if (cooldown == 0) {
             boolean consumable = SupremeItem.getInstance().getItemManager().getById(id).isConsumable();
@@ -67,16 +67,20 @@ public class LeftClickSkill extends Skill {
                 int amount = item.getAmount();
                 item.setAmount(--amount);
             }
-            onCasterActions.forEach(Action -> Action.executeAction(new EntityTarget(e), new EntitySource(e)));
+            cancelled = onCasterActions.stream().anyMatch(action -> action.executeAction(new EntityTarget(e),
+                    new EntitySource(e)).equals(Action.ActionResult.CANCELLED));
             RayTraceResult result = e.rayTraceBlocks(onRayCastMaxDistance);
             if (result != null) {
                 Location l = result.getHitPosition().toLocation(e.getWorld());
-                onRayCastPointActions.forEach(Action -> Action.executeAction(new LocationTarget(l), new EntitySource(e)));
+                cancelled = onRayCastPointActions.stream().anyMatch(action ->
+                        action.executeAction(new LocationTarget(l),
+                                new EntitySource(e)).equals(Action.ActionResult.CANCELLED)) || cancelled;
             }
             cooldown(e, id);
         } else {
             e.sendMessage(Libs.getLocale().get("messages.cooldown").replace("$cooldown", String.valueOf(cooldown / 20.0)));
         }
+        return cancelled ? SkillResult.CANCELLED : SkillResult.SUCCESS;
     }
 
 

@@ -38,8 +38,9 @@ public class MessageAction extends Action {
     }
 
     @Override
-    public void execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source) {
         ((EntityTarget) target).getTarget().sendMessage(MessageUtils.color(message));
+        return ActionResult.SUCCESS;
     }
 
     @Override

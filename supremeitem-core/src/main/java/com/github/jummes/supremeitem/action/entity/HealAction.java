@@ -38,8 +38,9 @@ public class HealAction extends Action {
     }
 
     @Override
-    public void execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source) {
         healEntity(((EntityTarget) target).getTarget());
+        return ActionResult.SUCCESS;
     }
 
     @Override

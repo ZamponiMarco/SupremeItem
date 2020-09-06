@@ -38,13 +38,21 @@ public abstract class Action implements Model {
         this.plugin = SupremeItem.getInstance();
     }
 
-    public void executeAction(Target target, Source source) {
+    /**
+     * Executes the action.
+     *
+     * @param target The target of the action.
+     * @param source The source of the action.
+     * @return The ActionResult that describes how the action went.
+     */
+    public ActionResult executeAction(Target target, Source source) {
         if (getPossibleTargets().stream().anyMatch(clazz -> ClassUtils.isAssignable(target.getClass(), clazz))) {
-            execute(target, source);
+            return execute(target, source);
         }
+        return ActionResult.FAILURE;
     }
 
-    protected abstract void execute(Target target, Source source);
+    protected abstract ActionResult execute(Target target, Source source);
 
     public abstract List<Class<? extends Target>> getPossibleTargets();
 
@@ -76,5 +84,17 @@ public abstract class Action implements Model {
     @Override
     public ItemStack getGUIItem() {
         return new ItemStack(Material.PAPER);
+    }
+
+    public enum ActionResult {
+        /**
+         * An action concluded with success.
+         */
+        SUCCESS,
+        /**
+         * An action that has been cancelled.
+         */
+        CANCELLED,
+        FAILURE
     }
 }

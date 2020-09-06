@@ -41,7 +41,7 @@ public class DamageAction extends Action {
     }
 
     @Override
-    public void execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source) {
         EntityTarget e = ((EntityTarget) target);
         LivingEntity sourceEntity = null;
 
@@ -50,6 +50,7 @@ public class DamageAction extends Action {
         }
 
         e.getTarget().damage(amount, sourceEntity);
+        return ActionResult.SUCCESS;
     }
 
     @Override

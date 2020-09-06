@@ -43,7 +43,7 @@ public class PushAction extends EntityAction {
     }
 
     @Override
-    protected void execute(Target target, Source source) {
+    protected ActionResult execute(Target target, Source source) {
         Vector difference = null;
         EntityTarget entity = (EntityTarget) target;
         if (source instanceof EntitySource) {
@@ -64,6 +64,7 @@ public class PushAction extends EntityAction {
                         .add(new Vector(0, verticalVelocity, 0)));
             }
         }
+        return ActionResult.SUCCESS;
     }
 
     @Override

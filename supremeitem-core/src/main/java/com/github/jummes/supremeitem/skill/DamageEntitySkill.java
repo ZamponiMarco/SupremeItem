@@ -46,7 +46,17 @@ public class DamageEntitySkill extends Skill {
         return new DamageEntitySkill(onDamagedActions, onDamagerActions, cooldown);
     }
 
-    public void executeSkill(LivingEntity damaged, LivingEntity damager, UUID id, ItemStack item) {
+    /**
+     * Executes the selected DamageEntitySkill.
+     *
+     * @param damaged The damaged entity.
+     * @param damager The entity that damaged.
+     * @param id      The id of the used item.
+     * @param item    The item that the skill is bound to.
+     * @return true if the skill wasn't cancelled, false otherwise.
+     */
+    public SkillResult executeSkill(LivingEntity damaged, LivingEntity damager, UUID id, ItemStack item) {
+        boolean cancelled = false;
         int cooldown = SupremeItem.getInstance().getCooldownManager().getCooldown(damaged, id);
         if (cooldown == 0) {
             boolean consumable = SupremeItem.getInstance().getItemManager().getById(id).isConsumable();
@@ -54,12 +64,17 @@ public class DamageEntitySkill extends Skill {
                 int amount = item.getAmount();
                 item.setAmount(--amount);
             }
-            onDamagedActions.forEach(Action -> Action.executeAction(new EntityTarget(damaged), new EntitySource(damaged)));
-            onDamagerActions.forEach(Action -> Action.executeAction(new EntityTarget(damager), new EntitySource(damaged)));
+            cancelled = onDamagedActions.stream().anyMatch(action ->
+                    action.executeAction(new EntityTarget(damaged), new EntitySource(damaged)).
+                            equals(Action.ActionResult.CANCELLED)) ||
+                    onDamagerActions.stream().anyMatch(action ->
+                            action.executeAction(new EntityTarget(damager), new EntitySource(damaged)).
+                                    equals(Action.ActionResult.CANCELLED));
             cooldown(damager, id);
         } else {
             damaged.sendMessage(Libs.getLocale().get("messages.cooldown").replace("$cooldown", String.valueOf(cooldown / 20.0)));
         }
+        return cancelled ? SkillResult.CANCELLED : SkillResult.SUCCESS;
     }
 
     private void cooldown(LivingEntity e, UUID id) {

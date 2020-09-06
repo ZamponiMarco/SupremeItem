@@ -75,7 +75,7 @@ public class ProjectileAction extends Action {
     }
 
     @Override
-    protected void execute(Target target, Source source) {
+    protected ActionResult execute(Target target, Source source) {
         Location l = null;
         if (source instanceof EntitySource) {
             EntitySource entitySource = (EntitySource) source;
@@ -92,6 +92,7 @@ public class ProjectileAction extends Action {
             new Projectile(source, l, gravity, initialSpeed, onEntityHitActions, onBlockHitActions, onProjectileTickActions,
                     this.entity, this.hitBoxSize);
         }
+        return ActionResult.SUCCESS;
     }
 
     @Override

@@ -7,10 +7,7 @@ import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.entity.*;
 import com.github.jummes.supremeitem.action.location.ParticleAction;
 import com.github.jummes.supremeitem.action.location.SoundAction;
-import com.github.jummes.supremeitem.action.meta.AreaEntitiesAction;
-import com.github.jummes.supremeitem.action.meta.DelayedAction;
-import com.github.jummes.supremeitem.action.meta.ProjectileAction;
-import com.github.jummes.supremeitem.action.meta.TimerAction;
+import com.github.jummes.supremeitem.action.meta.*;
 import com.github.jummes.supremeitem.command.*;
 import com.github.jummes.supremeitem.entity.Entity;
 import com.github.jummes.supremeitem.entity.GenericEntity;
@@ -69,6 +66,7 @@ public class SupremeItem extends JavaPlugin {
         ConfigurationSerialization.registerClass(ProjectileAction.class);
         ConfigurationSerialization.registerClass(AreaEntitiesAction.class);
         ConfigurationSerialization.registerClass(TimerAction.class);
+        ConfigurationSerialization.registerClass(CancelEventAction.class);
 
         ConfigurationSerialization.registerClass(Entity.class);
         ConfigurationSerialization.registerClass(GenericEntity.class);

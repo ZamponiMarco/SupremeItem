@@ -83,7 +83,7 @@ public class ParticleAction extends Action {
     }
 
     @Override
-    public void execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source) {
         if (target instanceof LocationTarget) {
             ((LocationTarget) target).getTarget().getWorld().spawnParticle(type, ((LocationTarget) target).getTarget(),
                     count, offset, offset, offset, speed, data == null ? null : data.buildData(), force);
@@ -91,6 +91,7 @@ public class ParticleAction extends Action {
             ((EntityTarget) target).getTarget().getWorld().spawnParticle(type, ((EntityTarget) target).getTarget().
                     getEyeLocation(), count, offset, offset, offset, speed, data == null ? null : data.buildData(), force);
         }
+        return ActionResult.SUCCESS;
     }
 
     @Override
@@ -211,6 +212,11 @@ public class ParticleAction extends Action {
 
         public BlockDataData() {
             this(Material.STONE);
+        }
+
+        public static BlockDataData deserialize(Map<String, Object> map) {
+            Material material = Material.valueOf((String) map.get("material"));
+            return new BlockDataData(material);
         }
 
         public static List<Object> materialList(ModelPath<?> path) {

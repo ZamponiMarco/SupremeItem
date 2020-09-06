@@ -60,8 +60,9 @@ public class DelayedAction extends Action {
     }
 
     @Override
-    protected void execute(Target target, Source source) {
+    protected ActionResult execute(Target target, Source source) {
         Bukkit.getScheduler().runTaskLater(SupremeItem.getInstance(), () -> actions.forEach(action -> action.executeAction(target, source)), delay);
+        return ActionResult.SUCCESS;
     }
 
     @Override

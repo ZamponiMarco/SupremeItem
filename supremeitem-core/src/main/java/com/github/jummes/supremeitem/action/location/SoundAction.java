@@ -81,7 +81,7 @@ public class SoundAction extends Action {
     }
 
     @Override
-    public void execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source) {
         if (target instanceof LocationTarget) {
             ((LocationTarget) target).getTarget().getWorld().playSound(((LocationTarget) target).getTarget(), type,
                     category, (float) volume, (float) pitch);
@@ -89,6 +89,7 @@ public class SoundAction extends Action {
             ((EntityTarget) target).getTarget().getWorld().playSound(((EntityTarget) target).getTarget().getEyeLocation(),
                     type, category, (float) volume, (float) pitch);
         }
+        return ActionResult.SUCCESS;
     }
 
     @Override

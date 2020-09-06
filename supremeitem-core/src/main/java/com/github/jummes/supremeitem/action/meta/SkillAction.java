@@ -54,11 +54,12 @@ public class SkillAction extends MetaAction {
     }
 
     @Override
-    protected void execute(Target target, Source source) {
+    protected ActionResult execute(Target target, Source source) {
         SavedSkill skill = SupremeItem.getInstance().getSavedSkillManager().getByName(skillName);
         if (skill != null) {
             skill.getActions().forEach(action -> action.executeAction(target, source));
         }
+        return ActionResult.SUCCESS;
     }
 
     @Override

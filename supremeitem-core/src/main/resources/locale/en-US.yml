@@ -30,6 +30,8 @@ gui:
     description:
       - "&6&lLeft click &eto modify."
       - "&6&lRight click &eto delete."
+      - "&6&lPress 1 &eto delay the action."
+      - "&6&lPress 2 &eto repeat the action."
     damage:
       description:
         - "&7&oSet the damage to deal to the"

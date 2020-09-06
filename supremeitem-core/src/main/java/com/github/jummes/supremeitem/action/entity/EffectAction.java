@@ -76,8 +76,9 @@ public class EffectAction extends Action {
     }
 
     @Override
-    public void execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source) {
         ((EntityTarget) target).getTarget().addPotionEffect(new PotionEffect(type, duration, level, ambient, particles, icon));
+        return ActionResult.SUCCESS;
     }
 
     @Override

@@ -38,7 +38,7 @@ public class PullAction extends EntityAction {
     }
 
     @Override
-    protected void execute(Target target, Source source) {
+    protected ActionResult execute(Target target, Source source) {
         Vector difference = null;
         EntityTarget entity = (EntityTarget) target;
         if (source instanceof EntitySource) {
@@ -56,6 +56,7 @@ public class PullAction extends EntityAction {
                 entity.getTarget().setVelocity(difference);
             }
         }
+        return ActionResult.SUCCESS;
     }
 
     @Override

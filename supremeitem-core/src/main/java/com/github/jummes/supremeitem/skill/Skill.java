@@ -14,4 +14,10 @@ public abstract class Skill implements Model {
     public int hashCode() {
         return getClass().hashCode();
     }
+
+    public enum SkillResult {
+        SUCCESS,
+        CANCELLED,
+        FAILURE
+    }
 }

@@ -55,7 +55,7 @@ public class AreaEntitiesAction extends MetaAction {
     }
 
     @Override
-    protected void execute(Target target, Source source) {
+    protected ActionResult execute(Target target, Source source) {
         Location l = null;
         if (target instanceof LocationTarget) {
             l = ((LocationTarget) target).getTarget();
@@ -72,6 +72,7 @@ public class AreaEntitiesAction extends MetaAction {
                             new EntityTarget((LivingEntity) entity),
                             castFromLocation ? new LocationSource(finalL) : source)));
         }
+        return ActionResult.SUCCESS;
     }
 
     @Override

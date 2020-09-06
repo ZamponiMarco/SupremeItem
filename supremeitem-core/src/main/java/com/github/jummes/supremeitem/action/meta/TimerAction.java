@@ -61,7 +61,7 @@ public class TimerAction extends MetaAction {
     }
 
     @Override
-    protected void execute(Target target, Source source) {
+    protected ActionResult execute(Target target, Source source) {
         BukkitRunnable runnable = new BukkitRunnable() {
             private int counter = 0;
 
@@ -75,6 +75,7 @@ public class TimerAction extends MetaAction {
             }
         };
         runnable.runTaskTimer(SupremeItem.getInstance(), 0, timer);
+        return ActionResult.SUCCESS;
     }
 
     public void getCustomConsumer(JavaPlugin plugin, PluginInventoryHolder parent, ModelPath<?> path, Field field,
