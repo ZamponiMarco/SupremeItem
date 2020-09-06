@@ -141,7 +141,7 @@ gui:
     projectile:
       description:
         - "&7&oSet a projectile action that executes actions"
-        - "&7&owhen it its an entity or the ground."
+        - "&7&owhen it hits an entity or the ground."
       initial-speed:
         - "&7&oThe initial speed of projectile."
       gravity:
