@@ -10,7 +10,6 @@ import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
-import com.github.jummes.supremeitem.action.entity.DamageAction;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.LocationTarget;
@@ -21,7 +20,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang.reflect.FieldUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -73,7 +71,7 @@ public class DelayedAction extends Action {
     @Override
     public ItemStack getGUIItem() {
         return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZlOGNmZjc1ZjdkNDMzMjYwYWYxZWNiMmY3NzNiNGJjMzgxZDk1MWRlNGUyZWI2NjE0MjM3NzlhNTkwZTcyYiJ9fX0="),
-                "&6&lDelay: &c" + delay, Libs.getLocale().getList("gui.action.description"));
+                "&6&lDelay: &c" + delay, Libs.getLocale().getList("gui.action.delayed.item-description"));
     }
 
     public void getCustomConsumer(JavaPlugin plugin, PluginInventoryHolder parent, ModelPath<?> path, Field field,
@@ -84,7 +82,7 @@ public class DelayedAction extends Action {
             path.addModel(this);
             e.getWhoClicked().openInventory(new ModelObjectInventoryHolder(plugin, parent, path).getInventory());
         } else if (e.getClick().equals(ClickType.RIGHT)
-                || (e.getClick().equals(ClickType.NUMBER_KEY) && (e.getHotbarButton() == 0 || e.getHotbarButton() == 1))) {
+                || (e.getClick().equals(ClickType.NUMBER_KEY) && (e.getHotbarButton() == 0))) {
             actions.remove(this);
             path.addModel(this);
             path.deleteModel();

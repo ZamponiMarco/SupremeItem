@@ -64,7 +64,7 @@ public abstract class Action implements Model {
             path.addModel(this);
             e.getWhoClicked().openInventory(new ModelObjectInventoryHolder(plugin, parent, path).getInventory());
         } else if (e.getClick().equals(ClickType.RIGHT)
-                || (e.getClick().equals(ClickType.NUMBER_KEY) && (e.getHotbarButton() == 0))) {
+                || (e.getClick().equals(ClickType.NUMBER_KEY) && (e.getHotbarButton() == 0 || e.getHotbarButton() == 1))) {
             actions.remove(this);
             path.addModel(this);
             path.deleteModel();

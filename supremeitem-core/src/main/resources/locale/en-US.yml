@@ -128,6 +128,9 @@ gui:
         - "&7&oChanges the dynamics of some skills (like pull/push)."
     delayed:
       item-description:
+        - "&6&lLeft click &eto modify."
+        - "&6&lRight click &eto delete."
+        - "&6&lPress 1 &eto unwrap actions."
       description:
         - "&7&oSet a group of actions that will be executed"
         - "&7&oafter a set delay of time."
@@ -164,6 +167,9 @@ gui:
         - "&7&oThe name of the skill to use."
     timer:
       item-description:
+        - "&6&lLeft click &eto modify."
+        - "&6&lRight click &eto delete."
+        - "&6&lPress 1 &eto unwrap actions."
       description:
         - "&7&oSet the repetition of a group of actions."
       timer:
@@ -172,6 +178,9 @@ gui:
         - "&7&oThe number of times the actions will be executed."
       actions:
         - "&7&oThe group of actions to execute."
+    cancel-event:
+      description:
+        - "&7&oSet the cancellation of the event"
   skill:
     description:
       - "&6&lLeft click &eto modify."

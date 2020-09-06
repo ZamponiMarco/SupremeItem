@@ -86,7 +86,7 @@ public class TimerAction extends MetaAction {
             path.addModel(this);
             e.getWhoClicked().openInventory(new ModelObjectInventoryHolder(plugin, parent, path).getInventory());
         } else if (e.getClick().equals(ClickType.RIGHT)
-                || (e.getClick().equals(ClickType.NUMBER_KEY) && (e.getHotbarButton() == 1))) {
+                || (e.getClick().equals(ClickType.NUMBER_KEY) && (e.getHotbarButton() == 0))) {
             actions.remove(this);
             path.addModel(this);
             path.deleteModel();
@@ -108,6 +108,6 @@ public class TimerAction extends MetaAction {
     @Override
     public ItemStack getGUIItem() {
         return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGJjYjIzMGE0MTBlOTNiN2Q0YjVjMjg5NjMxZDYxNGI5MDQ1Mzg0M2Q2ZWQwM2RhZjVlNDAxNWEyZmUxZjU2YiJ9fX0="),
-                "&6&lInterval: &c" + timer + " &6&lRepetitions: &c" + repetitions, Libs.getLocale().getList("gui.action.description"));
+                "&6&lInterval: &c" + timer + " &6&lRepetitions: &c" + repetitions, Libs.getLocale().getList("gui.action.timer.item-description"));
     }
 }
