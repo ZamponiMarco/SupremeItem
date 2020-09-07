@@ -9,6 +9,8 @@ import com.github.jummes.supremeitem.action.location.ParticleAction;
 import com.github.jummes.supremeitem.action.location.SoundAction;
 import com.github.jummes.supremeitem.action.meta.*;
 import com.github.jummes.supremeitem.command.*;
+import com.github.jummes.supremeitem.condition.Condition;
+import com.github.jummes.supremeitem.condition.LessThanCondition;
 import com.github.jummes.supremeitem.entity.Entity;
 import com.github.jummes.supremeitem.entity.GenericEntity;
 import com.github.jummes.supremeitem.entity.ItemEntity;
@@ -21,6 +23,10 @@ import com.github.jummes.supremeitem.manager.CooldownManager;
 import com.github.jummes.supremeitem.manager.ItemManager;
 import com.github.jummes.supremeitem.manager.SavedSkillManager;
 import com.github.jummes.supremeitem.manager.TimerManager;
+import com.github.jummes.supremeitem.placeholder.ConstantNumberPlaceholder;
+import com.github.jummes.supremeitem.placeholder.NumericPlaceholder;
+import com.github.jummes.supremeitem.placeholder.Placeholder;
+import com.github.jummes.supremeitem.placeholder.TargetHealthPlaceholder;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.github.jummes.supremeitem.skill.*;
 import com.google.common.collect.Lists;
@@ -78,6 +84,14 @@ public class SupremeItem extends JavaPlugin {
         ConfigurationSerialization.registerClass(SourceSelector.class);
 
         ConfigurationSerialization.registerClass(SavedSkill.class);
+
+        ConfigurationSerialization.registerClass(Condition.class);
+        ConfigurationSerialization.registerClass(LessThanCondition.class);
+
+        ConfigurationSerialization.registerClass(Placeholder.class);
+        ConfigurationSerialization.registerClass(NumericPlaceholder.class);
+        ConfigurationSerialization.registerClass(ConstantNumberPlaceholder.class);
+        ConfigurationSerialization.registerClass(TargetHealthPlaceholder.class);
     }
 
     private ItemManager itemManager;
