@@ -26,7 +26,7 @@ import com.github.jummes.supremeitem.manager.TimerManager;
 import com.github.jummes.supremeitem.placeholder.ConstantNumberPlaceholder;
 import com.github.jummes.supremeitem.placeholder.NumericPlaceholder;
 import com.github.jummes.supremeitem.placeholder.Placeholder;
-import com.github.jummes.supremeitem.placeholder.TargetHealthPlaceholder;
+import com.github.jummes.supremeitem.placeholder.HealthPlaceholder;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.github.jummes.supremeitem.skill.*;
 import com.google.common.collect.Lists;
@@ -91,7 +91,7 @@ public class SupremeItem extends JavaPlugin {
         ConfigurationSerialization.registerClass(Placeholder.class);
         ConfigurationSerialization.registerClass(NumericPlaceholder.class);
         ConfigurationSerialization.registerClass(ConstantNumberPlaceholder.class);
-        ConfigurationSerialization.registerClass(TargetHealthPlaceholder.class);
+        ConfigurationSerialization.registerClass(HealthPlaceholder.class);
     }
 
     private ItemManager itemManager;

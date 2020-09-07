@@ -191,8 +191,12 @@ gui:
         - "&7&oanother one."
       damager-actions:
         - "&7&oThe actions to execute on the damager."
+        - "&6&oSource: &edamaged entity."
+        - "&6&oTarget: &edamager entity."
       damaged-actions:
         - "&7&oThe actions to execute on the damaged entity."
+        - "&6&oSource: &edamager entity."
+        - "&6&oTarget: &edamaged entity."
       cooldown:
         - "&7&oThe cooldown between skill executions."
     damage-entity:
@@ -201,8 +205,12 @@ gui:
         - "&7&odamaged by another one."
       damager-actions:
         - "&7&oThe actions to execute on the damager."
+        - "&6&oSource: &edamaged entity."
+        - "&6&oTarget: &edamager entity."
       damaged-actions:
         - "&7&oThe actions to execute on the damaged entity."
+        - "&6&oSource: &edamager entity."
+        - "&6&oTarget: &edamaged entity."
       cooldown:
         - "&7&oThe cooldown between skill executions."
     left-click:
@@ -211,6 +219,8 @@ gui:
         - "&7&oclicks air with a supreme item in hand."
       caster-actions:
         - "&7&oThe actions to execute on the caster."
+        - "&6&oSource: &ecaster entity."
+        - "&6&oTarget: &ecaster entity."
       cooldown:
         - "&7&oThe cooldown between skill executions."
       ray-cast-actions:
@@ -218,17 +228,23 @@ gui:
         - "&7&ocast from the caster."
       ray-cast-distance:
         - "&7&oThe maximum distance of the ray cast."
+        - "&6&oSource: &ecaster entity."
+        - "&6&oTarget: &eraycast result location."
     right-click:
       description:
         - "&7&oSet a skill to be triggered when an entity left"
         - "&7&oclicks air with a supreme item in hand."
       caster-actions:
         - "&7&oThe actions to execute on the caster."
+        - "&6&oSource: &ecaster entity."
+        - "&6&oTarget: &ecaster entity."
       cooldown:
         - "&7&oThe cooldown between skill executions."
       ray-cast-actions:
         - "&7&oThe actions to execute in the location hit by a ray"
         - "&7&ocast from the caster."
+        - "&6&oSource: &ecaster entity."
+        - "&6&oTarget: &eraycast result location."
       ray-cast-distance:
         - "&7&oThe maximum distance of the ray cast."
     timer:
@@ -237,6 +253,8 @@ gui:
         - "&7&oentity wears a supreme item."
       wearer-actions:
         - "&7&oThe actions to execute on the entity that wears the item."
+        - "&6&oSource: &ewearer entity."
+        - "&6&oTarget: &ewearer entity."
       timer:
         - "&7&oThe interval of time between skill executions."
   entity:
@@ -268,3 +286,17 @@ gui:
       - "&7&oThe name of the skill."
     actions:
       - "&7&oThe group of actions to execute."
+  placeholder:
+    description:
+    constant-number:
+      description:
+      value:
+    health:
+      description:
+      target:
+  condition:
+    description:
+    less-than:
+      description:
+      operand-one:
+      operand-two:

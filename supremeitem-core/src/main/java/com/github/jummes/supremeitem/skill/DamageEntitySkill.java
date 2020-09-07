@@ -65,7 +65,7 @@ public class DamageEntitySkill extends Skill {
                 item.setAmount(--amount);
             }
             cancelled = onDamagedActions.stream().anyMatch(action ->
-                    action.executeAction(new EntityTarget(damaged), new EntitySource(damaged)).
+                    action.executeAction(new EntityTarget(damaged), new EntitySource(damager)).
                             equals(Action.ActionResult.CANCELLED)) ||
                     onDamagerActions.stream().anyMatch(action ->
                             action.executeAction(new EntityTarget(damager), new EntitySource(damaged)).

@@ -48,7 +48,7 @@ public class HitEntitySkill extends Skill {
         return new HitEntitySkill(onDamagerActions, onDamagedActions, cooldown);
     }
 
-    public DamageEntitySkill.SkillResult executeSkill(LivingEntity damager, LivingEntity damaged, UUID id, ItemStack item) {
+    public SkillResult executeSkill(LivingEntity damager, LivingEntity damaged, UUID id, ItemStack item) {
         boolean cancelled = false;
         int cooldown = SupremeItem.getInstance().getCooldownManager().getCooldown(damager, id);
         if (cooldown == 0) {
@@ -58,7 +58,7 @@ public class HitEntitySkill extends Skill {
                 item.setAmount(--amount);
             }
             cancelled = onDamagedActions.stream().anyMatch(action ->
-                    action.executeAction(new EntityTarget(damaged), new EntitySource(damaged)).
+                    action.executeAction(new EntityTarget(damaged), new EntitySource(damager)).
                             equals(Action.ActionResult.CANCELLED)) ||
                     onDamagerActions.stream().anyMatch(action ->
                             action.executeAction(new EntityTarget(damager), new EntitySource(damaged)).
