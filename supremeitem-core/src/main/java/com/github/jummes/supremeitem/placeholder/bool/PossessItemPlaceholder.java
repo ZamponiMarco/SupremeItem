@@ -13,7 +13,7 @@ import org.bukkit.inventory.InventoryHolder;
 import java.util.Map;
 
 @AllArgsConstructor
-public class ItemPlaceholder extends BooleanPlaceholder {
+public class PossessItemPlaceholder extends BooleanPlaceholder {
 
     private static final String ACTIONS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODIxNmVlNDA1OTNjMDk4MWVkMjhmNWJkNjc0ODc5NzgxYzQyNWNlMDg0MWI2ODc0ODFjNGY3MTE4YmI1YzNiMSJ9fX0=";
 
@@ -22,14 +22,14 @@ public class ItemPlaceholder extends BooleanPlaceholder {
     @Serializable(headTexture = ACTIONS_HEAD, description = "gui.placeholder.target")
     private ItemStackWrapper item;
 
-    public ItemPlaceholder() {
+    public PossessItemPlaceholder() {
         this(false, new ItemStackWrapper());
     }
 
-    public static ItemPlaceholder deserialize(Map<String, Object> map) {
+    public static PossessItemPlaceholder deserialize(Map<String, Object> map) {
         boolean target = (boolean) map.get("target");
         ItemStackWrapper item = (ItemStackWrapper) map.get("item");
-        return new ItemPlaceholder(target, item);
+        return new PossessItemPlaceholder(target, item);
     }
 
     @Override
