@@ -1,4 +1,4 @@
-package com.github.jummes.supremeitem.placeholder;
+package com.github.jummes.supremeitem.placeholder.numeric;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;

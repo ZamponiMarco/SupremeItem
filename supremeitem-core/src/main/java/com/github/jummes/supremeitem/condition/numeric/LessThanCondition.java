@@ -1,11 +1,12 @@
-package com.github.jummes.supremeitem.condition;
+package com.github.jummes.supremeitem.condition.numeric;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
-import com.github.jummes.supremeitem.placeholder.ConstantNumberPlaceholder;
-import com.github.jummes.supremeitem.placeholder.NumericPlaceholder;
+import com.github.jummes.supremeitem.condition.Condition;
+import com.github.jummes.supremeitem.placeholder.numeric.ConstantNumberPlaceholder;
+import com.github.jummes.supremeitem.placeholder.numeric.NumericPlaceholder;
 import lombok.AllArgsConstructor;
 
 import java.util.Map;
