@@ -5,4 +5,7 @@ import com.github.jummes.supremeitem.condition.Condition;
 
 @Enumerable.Parent(classArray = {LessThanCondition.class, MoreThanCondition.class, EqualsCondition.class})
 public abstract class NumericCondition extends Condition {
+    public NumericCondition(boolean negate) {
+        super(negate);
+    }
 }

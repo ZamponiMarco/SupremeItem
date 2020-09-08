@@ -11,7 +11,6 @@ import lombok.AllArgsConstructor;
 
 import java.util.Map;
 
-@AllArgsConstructor
 @Enumerable.Child
 @Enumerable.Displayable(name = "&6&lLess Than Condition", description = "gui.condition.less-than.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzg2NzExOTgzODJkZTkzZTFkM2M3ODM0ZGU4NjcwNGE2ZWNjNzkxNDE5ZjBkZGI0OWE0MWE5NjA4YWQ0NzIifX19")
 public class LessThanCondition extends Condition {
@@ -24,13 +23,20 @@ public class LessThanCondition extends Condition {
     private NumericPlaceholder operandTwo;
 
     public LessThanCondition() {
-        this(new ConstantNumberPlaceholder(), new ConstantNumberPlaceholder());
+        this(false, new ConstantNumberPlaceholder(), new ConstantNumberPlaceholder());
+    }
+
+    public LessThanCondition(boolean negate, NumericPlaceholder operandOne, NumericPlaceholder operandTwo) {
+        super(negate);
+        this.operandOne = operandOne;
+        this.operandTwo = operandTwo;
     }
 
     public static LessThanCondition deserialize(Map<String, Object> map) {
+        boolean negate = (boolean) map.get("negate");
         NumericPlaceholder operandOne = (NumericPlaceholder) map.get("operandOne");
         NumericPlaceholder operandTwo = (NumericPlaceholder) map.get("operandTwo");
-        return new LessThanCondition(operandOne, operandTwo);
+        return new LessThanCondition(negate, operandOne, operandTwo);
     }
 
     @Override

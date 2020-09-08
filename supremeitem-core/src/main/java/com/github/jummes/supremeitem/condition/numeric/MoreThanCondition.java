@@ -10,7 +10,6 @@ import lombok.AllArgsConstructor;
 
 import java.util.Map;
 
-@AllArgsConstructor
 @Enumerable.Child
 public class MoreThanCondition extends NumericCondition {
 
@@ -22,13 +21,20 @@ public class MoreThanCondition extends NumericCondition {
     private NumericPlaceholder operandTwo;
 
     public MoreThanCondition() {
-        this(new ConstantNumberPlaceholder(), new ConstantNumberPlaceholder());
+        this(false, new ConstantNumberPlaceholder(), new ConstantNumberPlaceholder());
+    }
+
+    public MoreThanCondition(boolean negate, NumericPlaceholder operandOne, NumericPlaceholder operandTwo) {
+        super(negate);
+        this.operandOne = operandOne;
+        this.operandTwo = operandTwo;
     }
 
     public static MoreThanCondition deserialize(Map<String, Object> map) {
+        boolean negate = (boolean) map.get("negate");
         NumericPlaceholder operandOne = (NumericPlaceholder) map.get("operandOne");
         NumericPlaceholder operandTwo = (NumericPlaceholder) map.get("operandTwo");
-        return new MoreThanCondition(operandOne, operandTwo);
+        return new MoreThanCondition(negate, operandOne, operandTwo);
     }
 
     @Override

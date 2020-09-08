@@ -6,11 +6,9 @@ import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.placeholder.numeric.ConstantNumberPlaceholder;
 import com.github.jummes.supremeitem.placeholder.numeric.NumericPlaceholder;
-import lombok.AllArgsConstructor;
 
 import java.util.Map;
 
-@AllArgsConstructor
 @Enumerable.Child
 public class EqualsCondition extends NumericCondition {
 
@@ -22,13 +20,20 @@ public class EqualsCondition extends NumericCondition {
     private NumericPlaceholder operandTwo;
 
     public EqualsCondition() {
-        this(new ConstantNumberPlaceholder(), new ConstantNumberPlaceholder());
+        this(false, new ConstantNumberPlaceholder(), new ConstantNumberPlaceholder());
+    }
+
+    public EqualsCondition(boolean negate, NumericPlaceholder operandOne, NumericPlaceholder operandTwo) {
+        super(negate);
+        this.operandOne = operandOne;
+        this.operandTwo = operandTwo;
     }
 
     public static EqualsCondition deserialize(Map<String, Object> map) {
+        boolean negate = (boolean) map.get("negate");
         NumericPlaceholder operandOne = (NumericPlaceholder) map.get("operandOne");
         NumericPlaceholder operandTwo = (NumericPlaceholder) map.get("operandTwo");
-        return new EqualsCondition(operandOne, operandTwo);
+        return new EqualsCondition(negate, operandOne, operandTwo);
     }
 
     @Override
