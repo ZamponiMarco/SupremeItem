@@ -180,7 +180,12 @@ gui:
         - "&7&oThe group of actions to execute."
     cancel-event:
       description:
-        - "&7&oSet the cancellation of the event"
+        - "&7&oSet the cancellation of the event."
+    consume-item:
+      description:
+        - "&7&oSet the consumation of an item."
+      item:
+        - "&7&oThe item to consume."
   skill:
     description:
       - "&6&lLeft click &eto modify."
@@ -287,16 +292,52 @@ gui:
     actions:
       - "&7&oThe group of actions to execute."
   placeholder:
-    description:
+    target:
+      - "&7&oWhether the placeholder should be referred"
+      - "&7&oto the skill target or the skill source."
     constant-number:
       description:
+        - "&7&oSet a constant number placeholder."
       value:
+        - "&7&oThe constant value."
     health:
       description:
-      target:
+        - "&7&oSet a current health placeholder."
+    on-ground:
+      description:
+        - "&7&oSet a placeholder that checks if"
+        - "&7&otarget or source is on ground."
+    possess-item:
+      description:
+        - "&7&oSet a placeholder that checks for"
+        - "&7&oa certain item possession."
+      item:
+        - "&7&oThe item checked for."
   condition:
-    description:
+    negate:
+      - "&7&oWhether the condition should be negated"
+      - "&7&oor not."
     less-than:
       description:
+        - "&7&oSet a condition that checks if the first operand"
+        - "&7&ois smaller than the second one."
       operand-one:
+        - "&7&oThe first operand."
       operand-two:
+        - "&7&oThe second operand."
+    more-than:
+      description:
+        - "&7&oSet a condition that checks if the first operand"
+        - "&7&ois bigger than the second one."
+      operand-one:
+        - "&7&oThe first operand."
+      operand-two:
+        - "&7&oThe second operand."
+    equals:
+      description:
+        - "&7&oSet a condition that checks if the first operand"
+        - "&7&oequals the second one."
+      operand-one:
+        - "&7&oThe first operand."
+      operand-two:
+        - "&7&oThe second operand."

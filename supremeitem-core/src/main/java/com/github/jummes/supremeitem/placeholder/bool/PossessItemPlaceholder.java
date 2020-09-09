@@ -1,5 +1,6 @@
 package com.github.jummes.supremeitem.placeholder.bool;
 
+import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.model.wrapper.ItemStackWrapper;
 import com.github.jummes.supremeitem.action.source.EntitySource;
@@ -9,17 +10,17 @@ import com.github.jummes.supremeitem.action.targeter.Target;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
 
 @AllArgsConstructor
+@Enumerable.Displayable(name = "&c&lPossess Item Placeholder", description = "gui.placeholder.possess-item.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzVlMmUwOTU5NzEyZGNkMzM1N2NjM2NlYTg1Zjk5YjNmZDgwOTc4NTVjNzU0YjliMTcxZjk2MzUxNDIyNWQifX19")
 public class PossessItemPlaceholder extends BooleanPlaceholder {
 
-    private static final String ACTIONS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODIxNmVlNDA1OTNjMDk4MWVkMjhmNWJkNjc0ODc5NzgxYzQyNWNlMDg0MWI2ODc0ODFjNGY3MTE4YmI1YzNiMSJ9fX0=";
-
-    @Serializable(headTexture = ACTIONS_HEAD, description = "gui.placeholder.target")
+    @Serializable(headTexture = TARGET_HEAD, description = "gui.placeholder.target")
     private boolean target;
-    @Serializable(headTexture = ACTIONS_HEAD, description = "gui.placeholder.target")
+    @Serializable(displayItem = "getFlatItem", description = "gui.placeholder.possess-item.item")
     private ItemStackWrapper item;
 
     public PossessItemPlaceholder() {
@@ -50,4 +51,9 @@ public class PossessItemPlaceholder extends BooleanPlaceholder {
         }
         return false;
     }
+
+    public ItemStack getFlatItem() {
+        return item.getWrapped().clone();
+    }
+
 }

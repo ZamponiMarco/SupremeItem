@@ -12,11 +12,10 @@ import java.util.Map;
 
 @Enumerable.Child
 @AllArgsConstructor
+@Enumerable.Displayable(name = "&c&lOn Ground Placeholder", description = "gui.placeholder.on-ground.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzk1ZDM3OTkzZTU5NDA4MjY3ODQ3MmJmOWQ4NjgyMzQxM2MyNTBkNDMzMmEyYzdkOGM1MmRlNDk3NmIzNjIifX19")
 public class OnGroundPlaceholder extends BooleanPlaceholder {
 
-    private static final String ACTIONS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODIxNmVlNDA1OTNjMDk4MWVkMjhmNWJkNjc0ODc5NzgxYzQyNWNlMDg0MWI2ODc0ODFjNGY3MTE4YmI1YzNiMSJ9fX0=";
-
-    @Serializable(headTexture = ACTIONS_HEAD, description = "gui.placeholder.target")
+    @Serializable(headTexture = TARGET_HEAD, description = "gui.placeholder.target")
     private boolean target;
 
     public OnGroundPlaceholder() {

@@ -12,11 +12,10 @@ import java.util.Map;
 
 @Enumerable.Child
 @AllArgsConstructor
+@Enumerable.Displayable(name = "&c&lHealth Placeholder", description = "gui.placeholder.health.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjEyNjZiNzQ4MjQyMTE1YjMwMzcwOGQ1OWNlOWQ1NTIzYjdkNzljMTNmNmRiNGViYzkxZGQ0NzIwOWViNzU5YyJ9fX0=")
 public class HealthPlaceholder extends NumericPlaceholder {
 
-    private static final String ACTIONS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODIxNmVlNDA1OTNjMDk4MWVkMjhmNWJkNjc0ODc5NzgxYzQyNWNlMDg0MWI2ODc0ODFjNGY3MTE4YmI1YzNiMSJ9fX0=";
-
-    @Serializable(headTexture = ACTIONS_HEAD, description = "gui.placeholder.target")
+    @Serializable(headTexture = TARGET_HEAD, description = "gui.placeholder.target")
     private boolean target;
 
     public HealthPlaceholder() {
