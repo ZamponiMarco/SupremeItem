@@ -303,6 +303,12 @@ gui:
     health:
       description:
         - "&7&oSet a current health placeholder."
+    max-health:
+      description:
+        - "&7&oSet a max health placeholder."
+    hunger:
+      description:
+        - "&7&oSet a hunger placeholder. (only players)"
     on-ground:
       description:
         - "&7&oSet a placeholder that checks if"
@@ -317,6 +323,9 @@ gui:
     negate:
       - "&7&oWhether the condition should be negated"
       - "&7&oor not."
+    numeric:
+      description:
+        - "&7&oSet a numeric condition."
     less-than:
       description:
         - "&7&oSet a condition that checks if the first operand"
