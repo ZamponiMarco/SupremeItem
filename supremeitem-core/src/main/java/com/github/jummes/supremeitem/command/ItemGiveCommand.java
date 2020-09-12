@@ -7,6 +7,7 @@ import com.github.jummes.supremeitem.item.Item;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.permissions.Permission;
 
 public class ItemGiveCommand extends AbstractCommand {
@@ -32,7 +33,25 @@ public class ItemGiveCommand extends AbstractCommand {
             return;
         }
 
-        p.getInventory().addItem(item.getUsableItem());
+        ItemStack toAdd = item.getUsableItem();
+        int itemCount = 0;
+        int remaining = 1;
+        if (arguments.length > 2) {
+            try {
+                int amount = Integer.parseInt(arguments[2]);
+                itemCount = amount >> 6;
+                remaining = amount % 64;
+            } catch (NumberFormatException ignored) {
+            }
+        }
+
+        for (int i = 0; i < itemCount; i++) {
+            toAdd.setAmount(64);
+            p.getInventory().addItem(toAdd);
+        }
+        toAdd.setAmount(remaining);
+        p.getInventory().addItem(toAdd);
+
         sender.sendMessage(Libs.getLocale().get("messages.command.player-item-received").replace("$player", p.getName()));
     }
 

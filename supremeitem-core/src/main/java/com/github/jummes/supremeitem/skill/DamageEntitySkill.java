@@ -9,6 +9,7 @@ import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.manager.CooldownManager;
+import com.github.jummes.supremeitem.util.Utils;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.LivingEntity;
@@ -65,7 +66,7 @@ public class DamageEntitySkill extends Skill {
                 item.setAmount(--amount);
             }
             cancelled = onDamagedActions.stream().anyMatch(action ->
-                    action.executeAction(new EntityTarget(damaged), new EntitySource(damaged)).
+                    action.executeAction(new EntityTarget(damaged), new EntitySource(damager)).
                             equals(Action.ActionResult.CANCELLED)) ||
                     onDamagerActions.stream().anyMatch(action ->
                             action.executeAction(new EntityTarget(damager), new EntitySource(damaged)).
