@@ -10,16 +10,15 @@ import com.github.jummes.supremeitem.placeholder.numeric.NumericPlaceholder;
 import java.util.Map;
 
 @Enumerable.Child
-@Enumerable.Displayable(name = "&6&lEquals Condition", description = "gui.condition.equals.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODEzM2E0MjM2MDY2OTRkYTZjOTFhODRlYTY2ZDQ5ZWZjM2EyM2Y3M2ZhOGFmOGNjMWZlMjk4M2ZlOGJiNWQzIn19fQ==")
-
+@Enumerable.Displayable(name = "&c&lEquals Condition", description = "gui.condition.equals.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzAzMDgyZjAzM2Y5NzI0Y2IyMmZlMjdkMGRlNDk3NTA5MDMzNTY0MWVlZTVkOGQ5MjdhZGY1YThiNjdmIn19fQ==")
 public class EqualsCondition extends NumericCondition {
 
     private static final String ONE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTBhMTllMjNkMjFmMmRiMDYzY2M1NWU5OWFlODc0ZGM4YjIzYmU3NzliZTM0ZTUyZTdjN2I5YTI1In19fQ==";
     private static final String TWO_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2M1OTZhNDFkYWVhNTFiZTJlOWZlYzdkZTJkODkwNjhlMmZhNjFjOWQ1N2E4YmRkZTQ0YjU1OTM3YjYwMzcifX19";
 
-    @Serializable(headTexture = ONE_HEAD, description = "gui.action.equals.operand-one")
+    @Serializable(headTexture = ONE_HEAD, description = "gui.condition.equals.operand-one")
     private NumericPlaceholder operandOne;
-    @Serializable(headTexture = TWO_HEAD, description = "gui.action.equals.operand-two")
+    @Serializable(headTexture = TWO_HEAD, description = "gui.condition.equals.operand-two")
     private NumericPlaceholder operandTwo;
 
     public EqualsCondition() {

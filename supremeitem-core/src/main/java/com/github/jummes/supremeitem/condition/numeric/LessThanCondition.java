@@ -7,20 +7,19 @@ import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.condition.Condition;
 import com.github.jummes.supremeitem.placeholder.numeric.ConstantNumberPlaceholder;
 import com.github.jummes.supremeitem.placeholder.numeric.NumericPlaceholder;
-import lombok.AllArgsConstructor;
 
 import java.util.Map;
 
 @Enumerable.Child
-@Enumerable.Displayable(name = "&6&lLess Than Condition", description = "gui.condition.less-than.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzg2NzExOTgzODJkZTkzZTFkM2M3ODM0ZGU4NjcwNGE2ZWNjNzkxNDE5ZjBkZGI0OWE0MWE5NjA4YWQ0NzIifX19")
+@Enumerable.Displayable(name = "&c&lLess Than Condition", description = "gui.condition.less-than.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzg2NzExOTgzODJkZTkzZTFkM2M3ODM0ZGU4NjcwNGE2ZWNjNzkxNDE5ZjBkZGI0OWE0MWE5NjA4YWQ0NzIifX19")
 public class LessThanCondition extends Condition {
 
     private static final String ONE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTBhMTllMjNkMjFmMmRiMDYzY2M1NWU5OWFlODc0ZGM4YjIzYmU3NzliZTM0ZTUyZTdjN2I5YTI1In19fQ==";
     private static final String TWO_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2M1OTZhNDFkYWVhNTFiZTJlOWZlYzdkZTJkODkwNjhlMmZhNjFjOWQ1N2E4YmRkZTQ0YjU1OTM3YjYwMzcifX19";
 
-    @Serializable(headTexture = ONE_HEAD, description = "gui.action.less-than.operand-one")
+    @Serializable(headTexture = ONE_HEAD, description = "gui.condition.less-than.operand-one")
     private NumericPlaceholder operandOne;
-    @Serializable(headTexture = TWO_HEAD, description = "gui.action.less-than.operand-two")
+    @Serializable(headTexture = TWO_HEAD, description = "gui.condition.less-than.operand-two")
     private NumericPlaceholder operandTwo;
 
     public LessThanCondition() {
