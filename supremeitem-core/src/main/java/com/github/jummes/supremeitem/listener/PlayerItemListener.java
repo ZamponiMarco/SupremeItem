@@ -44,18 +44,20 @@ public class PlayerItemListener implements Listener {
     @EventHandler
     public void onPlayerDamage(EntityDamageByEntityEvent e) {
         boolean cancelled;
-        LivingEntity damaged = (LivingEntity) e.getEntity();
-        LivingEntity damager;
-        if (e.getDamager() instanceof LivingEntity && e.getEntity() instanceof LivingEntity) {
-            damager = (LivingEntity) e.getDamager();
-        } else if (e.getDamager() instanceof Projectile) {
-            Projectile projectile = (Projectile) e.getDamager();
-            damager = (LivingEntity) projectile.getShooter();
-        } else {
-            return;
+        if (e.getEntity() instanceof LivingEntity) {
+            LivingEntity damaged = (LivingEntity) e.getEntity();
+            LivingEntity damager;
+            if (e.getDamager() instanceof LivingEntity && e.getEntity() instanceof LivingEntity) {
+                damager = (LivingEntity) e.getDamager();
+            } else if (e.getDamager() instanceof Projectile) {
+                Projectile projectile = (Projectile) e.getDamager();
+                damager = (LivingEntity) projectile.getShooter();
+            } else {
+                return;
+            }
+            cancelled = executeDamageEntitySkill(damager, damaged) || executeHitEntitySkill(damager, damaged);
+            e.setCancelled(cancelled);
         }
-        cancelled = executeDamageEntitySkill(damager, damaged) || executeHitEntitySkill(damager, damaged);
-        e.setCancelled(cancelled);
     }
 
     /**
