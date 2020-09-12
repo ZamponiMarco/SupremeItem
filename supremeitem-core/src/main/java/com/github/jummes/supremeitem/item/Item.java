@@ -26,7 +26,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.lang.reflect.Field;
 import java.util.*;
 
-@AllArgsConstructor
 @Getter
 @Setter
 @CustomClickable(customCollectionClickConsumer = "defaultClickConsumer")
@@ -35,6 +34,8 @@ public class Item implements Model {
     private static final String NAME_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTdlZDY2ZjVhNzAyMDlkODIxMTY3ZDE1NmZkYmMwY2EzYmYxMWFkNTRlZDVkODZlNzVjMjY1ZjdlNTAyOWVjMSJ9fX0=";
     private static final String SKILL_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmJiMTI1NmViOWY2NjdjMDVmYjIxZTAyN2FhMWQ1MzU1OGJkYTc0ZTI0MGU0ZmE5ZTEzN2Q4NTFjNDE2ZmU5OCJ9fX0=";
     private static final String CONSUMABLE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTg0YTY4ZmQ3YjYyOGQzMDk2NjdkYjdhNTU4NTViNTRhYmMyM2YzNTk1YmJlNDMyMTYyMTFiZTVmZTU3MDE0In19fQ==";
+
+    private static int counter = 1;
 
     @Serializable(stringValue = true)
     private UUID id;
@@ -48,7 +49,16 @@ public class Item implements Model {
     private boolean consumable;
 
     public Item() {
-        this(UUID.randomUUID(), RandomStringUtils.randomAlphabetic(6), new ItemStackWrapper(), Sets.newHashSet(), false);
+        this(UUID.randomUUID(), "skill" + counter, new ItemStackWrapper(), Sets.newHashSet(), false);
+    }
+
+    public Item(UUID id, String name, ItemStackWrapper item, Set<Skill> skillSet, boolean consumable) {
+        counter++;
+        this.id = id;
+        this.name = name;
+        this.item = item;
+        this.skillSet = skillSet;
+        this.consumable = consumable;
     }
 
     public static Item deserialize(Map<String, Object> map) {
