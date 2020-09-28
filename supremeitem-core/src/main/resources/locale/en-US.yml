@@ -186,6 +186,11 @@ gui:
         - "&7&oSet the consumation of an item."
       item:
         - "&7&oThe item to consume."
+    command:
+      description:
+        - "&7&oSet the command to execute."
+      command:
+        - "&7&oThe command to execute."
   skill:
     description:
       - "&6&lLeft click &eto modify."
