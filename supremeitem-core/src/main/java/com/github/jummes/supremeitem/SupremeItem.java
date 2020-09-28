@@ -23,10 +23,10 @@ import com.github.jummes.supremeitem.manager.CooldownManager;
 import com.github.jummes.supremeitem.manager.ItemManager;
 import com.github.jummes.supremeitem.manager.SavedSkillManager;
 import com.github.jummes.supremeitem.manager.TimerManager;
-import com.github.jummes.supremeitem.placeholder.numeric.ConstantNumberPlaceholder;
 import com.github.jummes.supremeitem.placeholder.numeric.NumericPlaceholder;
 import com.github.jummes.supremeitem.placeholder.Placeholder;
 import com.github.jummes.supremeitem.placeholder.numeric.HealthPlaceholder;
+import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.github.jummes.supremeitem.skill.*;
 import com.google.common.collect.Lists;
@@ -90,8 +90,8 @@ public class SupremeItem extends JavaPlugin {
 
         ConfigurationSerialization.registerClass(Placeholder.class);
         ConfigurationSerialization.registerClass(NumericPlaceholder.class);
-        ConfigurationSerialization.registerClass(ConstantNumberPlaceholder.class);
         ConfigurationSerialization.registerClass(HealthPlaceholder.class);
+        ConfigurationSerialization.registerClass(NumericValue.class);
     }
 
     private ItemManager itemManager;

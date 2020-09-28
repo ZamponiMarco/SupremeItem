@@ -295,11 +295,6 @@ gui:
     target:
       - "&7&oWhether the placeholder should be referred"
       - "&7&oto the skill target or the skill source."
-    constant-number:
-      description:
-        - "&7&oSet a constant number placeholder."
-      value:
-        - "&7&oThe constant value."
     health:
       description:
         - "&7&oSet a current health placeholder."
@@ -326,27 +321,25 @@ gui:
     numeric:
       description:
         - "&7&oSet a numeric condition."
+      operand-one:
+        - "&7&oThe first operand."
+        - "&6&lLeft click &eto modify."
+        - "&6&lRight click &eto recreate."
+        - "&6&lMiddle click &eto switch (const/placeholder)"
+      operand-two:
+        - "&7&oThe second operand."
+        - "&6&lLeft click &eto modify."
+        - "&6&lRight click &eto recreate."
+        - "&6&lMiddle click &eto switch (const/placeholder)"
     less-than:
       description:
         - "&7&oSet a condition that checks if the first operand"
         - "&7&ois smaller than the second one."
-      operand-one:
-        - "&7&oThe first operand."
-      operand-two:
-        - "&7&oThe second operand."
     more-than:
       description:
         - "&7&oSet a condition that checks if the first operand"
         - "&7&ois bigger than the second one."
-      operand-one:
-        - "&7&oThe first operand."
-      operand-two:
-        - "&7&oThe second operand."
     equals:
       description:
         - "&7&oSet a condition that checks if the first operand"
         - "&7&oequals the second one."
-      operand-one:
-        - "&7&oThe first operand."
-      operand-two:
-        - "&7&oThe second operand."

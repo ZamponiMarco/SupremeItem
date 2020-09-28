@@ -1,0 +1,102 @@
+package com.github.jummes.supremeitem.placeholder.numeric;
+
+import com.github.jummes.libs.annotation.CustomClickable;
+import com.github.jummes.libs.annotation.GUINameable;
+import com.github.jummes.libs.annotation.Serializable;
+import com.github.jummes.libs.gui.PluginInventoryHolder;
+import com.github.jummes.libs.gui.model.ModelObjectInventoryHolder;
+import com.github.jummes.libs.gui.model.create.ModelCreateInventoryHolderFactory;
+import com.github.jummes.libs.gui.setting.DoubleFieldChangeInventoryHolder;
+import com.github.jummes.libs.gui.setting.change.FieldChangeInformation;
+import com.github.jummes.libs.model.Model;
+import com.github.jummes.libs.model.ModelPath;
+import com.github.jummes.supremeitem.action.source.Source;
+import com.github.jummes.supremeitem.action.targeter.Target;
+import lombok.AllArgsConstructor;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.plugin.java.JavaPlugin;
+
+import java.lang.reflect.Field;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+@GUINameable(GUIName = "getName")
+@AllArgsConstructor
+@CustomClickable(customFieldClickConsumer = "getCustomClickConsumer")
+public class NumericValue implements Model {
+
+    private static final String VALUE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdkYzNlMjlhMDkyM2U1MmVjZWU2YjRjOWQ1MzNhNzllNzRiYjZiZWQ1NDFiNDk1YTEzYWJkMzU5NjI3NjUzIn19fQ===";
+
+    @Serializable(headTexture = VALUE_HEAD, description = "gui.placeholder.constant-number.value")
+    private boolean doubleValue;
+    @Serializable(headTexture = VALUE_HEAD, description = "gui.placeholder.constant-number.value")
+    private double value;
+    @Serializable(headTexture = VALUE_HEAD, description = "gui.placeholder.constant-number.value")
+    private NumericPlaceholder placeholderValue;
+
+    public NumericValue() {
+        this(true, 10.0, new HealthPlaceholder());
+    }
+
+    public static NumericValue deserialize(Map<String, Object> map) {
+        boolean doubleValue = (boolean) map.get("doubleValue");
+        double value = 10.0;
+        NumericPlaceholder placeholderValue = new HealthPlaceholder();
+        if (doubleValue) {
+            value = (double) map.get("value");
+        } else {
+            placeholderValue = (NumericPlaceholder) map.get("placeholderValue");
+        }
+        return new NumericValue(doubleValue, value, placeholderValue);
+    }
+
+    public double getRealValue(Target target, Source source) {
+        return doubleValue ? value : placeholderValue.computePlaceholder(target, source);
+    }
+
+    public Map<String, Object> serialize() {
+        Map<String, Object> map = new LinkedHashMap();
+        map.put("==", this.getClass().getName());
+        map.put("doubleValue", doubleValue);
+        if (doubleValue) {
+            map.put("value", value);
+        } else {
+            map.put("placeholderValue", placeholderValue);
+        }
+        return map;
+    }
+
+    public String getName() {
+        return doubleValue ? String.valueOf(value) : placeholderValue.getClass().getSimpleName();
+    }
+
+    public PluginInventoryHolder getCustomClickConsumer(JavaPlugin plugin, PluginInventoryHolder parent,
+                                                        ModelPath<? extends Model> path, Field field,
+                                                        InventoryClickEvent e) {
+        try {
+            if (e.getClick().equals(ClickType.LEFT)) {
+                if (doubleValue) {
+                    path.addModel(this);
+                    return new DoubleFieldChangeInventoryHolder(plugin, parent, path,
+                            new FieldChangeInformation(getClass().getDeclaredField("value")));
+                } else {
+                    path.addModel(placeholderValue);
+                    return new ModelObjectInventoryHolder(plugin, parent, path);
+                }
+            } else if (e.getClick().equals(ClickType.RIGHT)) {
+                if (!doubleValue) {
+                    path.addModel(this);
+                    return ModelCreateInventoryHolderFactory.create(plugin, parent, path,
+                            getClass().getDeclaredField("placeholderValue"));
+                }
+            } else if (e.getClick().equals(ClickType.MIDDLE)) {
+                doubleValue = !doubleValue;
+                return parent;
+            }
+        } catch (Exception ignored) {
+        }
+        return null;
+    }
+
+}

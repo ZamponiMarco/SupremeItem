@@ -4,8 +4,8 @@ import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
-import com.github.jummes.supremeitem.placeholder.numeric.ConstantNumberPlaceholder;
 import com.github.jummes.supremeitem.placeholder.numeric.NumericPlaceholder;
+import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
 
 import java.util.Map;
 
@@ -16,16 +16,16 @@ public class EqualsCondition extends NumericCondition {
     private static final String ONE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTBhMTllMjNkMjFmMmRiMDYzY2M1NWU5OWFlODc0ZGM4YjIzYmU3NzliZTM0ZTUyZTdjN2I5YTI1In19fQ==";
     private static final String TWO_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2M1OTZhNDFkYWVhNTFiZTJlOWZlYzdkZTJkODkwNjhlMmZhNjFjOWQ1N2E4YmRkZTQ0YjU1OTM3YjYwMzcifX19";
 
-    @Serializable(headTexture = ONE_HEAD, description = "gui.condition.equals.operand-one")
-    private NumericPlaceholder operandOne;
-    @Serializable(headTexture = TWO_HEAD, description = "gui.condition.equals.operand-two")
-    private NumericPlaceholder operandTwo;
+    @Serializable(headTexture = ONE_HEAD, description = "gui.condition.numeric.operand-one")
+    private NumericValue operandOne;
+    @Serializable(headTexture = TWO_HEAD, description = "gui.condition.numeric.operand-two")
+    private NumericValue operandTwo;
 
     public EqualsCondition() {
-        this(false, new ConstantNumberPlaceholder(), new ConstantNumberPlaceholder());
+        this(false, new NumericValue(), new NumericValue());
     }
 
-    public EqualsCondition(boolean negate, NumericPlaceholder operandOne, NumericPlaceholder operandTwo) {
+    public EqualsCondition(boolean negate, NumericValue operandOne, NumericValue operandTwo) {
         super(negate);
         this.operandOne = operandOne;
         this.operandTwo = operandTwo;
@@ -33,13 +33,13 @@ public class EqualsCondition extends NumericCondition {
 
     public static EqualsCondition deserialize(Map<String, Object> map) {
         boolean negate = (boolean) map.get("negate");
-        NumericPlaceholder operandOne = (NumericPlaceholder) map.get("operandOne");
-        NumericPlaceholder operandTwo = (NumericPlaceholder) map.get("operandTwo");
+        NumericValue operandOne = (NumericValue) map.get("operandOne");
+        NumericValue operandTwo = (NumericValue) map.get("operandTwo");
         return new EqualsCondition(negate, operandOne, operandTwo);
     }
 
     @Override
     public boolean testCondition(Target target, Source source) {
-        return operandOne.computePlaceholder(target, source) < operandTwo.computePlaceholder(target, source);
+        return operandOne.getRealValue(target, source) == operandTwo.getRealValue(target, source);
     }
 }
