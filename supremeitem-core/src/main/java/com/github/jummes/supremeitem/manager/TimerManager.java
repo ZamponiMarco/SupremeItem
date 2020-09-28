@@ -13,7 +13,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -22,12 +21,14 @@ import java.util.*;
 
 public class TimerManager {
 
-    private Map<LivingEntity, Set<TimerInfo>> timers;
+    private Map<Player, Set<TimerInfo>> timers;
 
     public TimerManager() {
         timers = new HashMap<>();
         Bukkit.getScheduler().runTaskTimer(SupremeItem.getInstance(), () -> {
-            Bukkit.getOnlinePlayers().forEach(player -> {
+            Set<Player> set = new HashSet<>(Bukkit.getOnlinePlayers());
+            set.addAll(timers.keySet());
+            set.forEach(player -> {
                 Utils.getEntityItems(player).stream().filter(armor -> !Libs.getWrapper().getTagItem(armor, "supreme-item").
                         equals("")).forEach(armor -> addNewTimers(player, armor));
                 removeTimers(player);
@@ -35,12 +36,12 @@ public class TimerManager {
         }, 0, 5);
     }
 
-    private void removeTimers(Player player) {
+    public void removeTimers(Player player) {
         if (timers.containsKey(player)) {
             Iterator<TimerInfo> i = timers.get(player).iterator();
             while (i.hasNext()) {
                 TimerInfo current = i.next();
-                if (Utils.getEntityItems(player).stream().noneMatch(armor ->
+                if (!player.isOnline() || Utils.getEntityItems(player).stream().noneMatch(armor ->
                         armor != null && !Libs.getWrapper().
                                 getTagItem(armor, "supreme-item").equals("") &&
                                 current.getItemId().equals(UUID.fromString(Libs.getWrapper().
@@ -55,7 +56,7 @@ public class TimerManager {
         }
     }
 
-    private void addNewTimers(Player player, ItemStack armor) {
+    public void addNewTimers(Player player, ItemStack armor) {
         if (armor != null) {
             UUID id = UUID.fromString(Libs.getWrapper().getTagItem(armor, "supreme-item"));
             Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);
@@ -69,7 +70,7 @@ public class TimerManager {
         }
     }
 
-    private void startTimerTask(Player player, UUID id, TimerSkill timerSkill) {
+    public void startTimerTask(Player player, UUID id, TimerSkill timerSkill) {
         if (!timers.containsKey(player)) {
             timers.put(player, Sets.newHashSet());
         }
