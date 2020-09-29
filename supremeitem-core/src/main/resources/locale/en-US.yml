@@ -348,3 +348,10 @@ gui:
       description:
         - "&7&oSet a condition that checks if the first operand"
         - "&7&oequals the second one."
+    boolean:
+      description:
+        - "&7&oSet a condition that checks if the placeholder"
+        - "&7&ocontained in it returns true."
+      value:
+        - "&7&oThe placeholder that will be computed to return"
+        - "&7&othe boolean value."
