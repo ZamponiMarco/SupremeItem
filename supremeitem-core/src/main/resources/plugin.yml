@@ -1,6 +1,6 @@
 name: SupremeItem
 author: jummes
-version: 1.0
+version: ${version}
 main: com.github.jummes.supremeitem.SupremeItem
 api-version: 1.13
 commands:
