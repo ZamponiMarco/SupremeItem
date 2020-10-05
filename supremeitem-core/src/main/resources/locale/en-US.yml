@@ -324,6 +324,10 @@ gui:
       amount:
         - "&7&oThe amount of item that has to be"
         - "&7&opossessed at least."
+    is-sneaking:
+      description:
+        - "&7&oSet a placeholder that checks if"
+        - "&7&otarget or source is crouching. (only players)"
   condition:
     negate:
       - "&7&oWhether the condition should be negated"
