@@ -22,18 +22,21 @@ import java.util.Map;
 @Enumerable.Child
 public class HealAction extends Action {
 
+    private static final int AMOUNT_DEFAULT = 1;
+
     private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdkYzNlMjlhMDkyM2U1MmVjZWU2YjRjOWQ1MzNhNzllNzRiYjZiZWQ1NDFiNDk1YTEzYWJkMzU5NjI3NjUzIn19fQ==";
 
     @Serializable(headTexture = HEAD, description = "gui.action.heal.amount")
     @Serializable.Number(minValue = 0)
+    @Serializable.Optional(defaultValue = "AMOUNT_DEFAULT")
     private int amount;
 
     public HealAction() {
-        this(1);
+        this(AMOUNT_DEFAULT);
     }
 
     public static HealAction deserialize(Map<String, Object> map) {
-        int amount = (int) map.getOrDefault("amount", 1);
+        int amount = (int) map.getOrDefault("amount", AMOUNT_DEFAULT);
         return new HealAction(amount);
     }
 

@@ -7,28 +7,29 @@ import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
-import lombok.AllArgsConstructor;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
 
-@AllArgsConstructor
 @Enumerable.Displayable(name = "&c&lPossess Item Placeholder", description = "gui.placeholder.possess-item.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzVlMmUwOTU5NzEyZGNkMzM1N2NjM2NlYTg1Zjk5YjNmZDgwOTc4NTVjNzU0YjliMTcxZjk2MzUxNDIyNWQifX19")
 public class PossessItemPlaceholder extends BooleanPlaceholder {
 
-    @Serializable(headTexture = TARGET_HEAD, description = "gui.placeholder.target")
-    private boolean target;
     @Serializable(displayItem = "getFlatItem", description = "gui.placeholder.possess-item.item")
     private ItemStackWrapper item;
 
     public PossessItemPlaceholder() {
-        this(false, new ItemStackWrapper());
+        this(TARGET_DEFAULT, new ItemStackWrapper());
+    }
+
+    public PossessItemPlaceholder(boolean target, ItemStackWrapper item) {
+        super(target);
+        this.item = item;
     }
 
     public static PossessItemPlaceholder deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.get("target");
+        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
         ItemStackWrapper item = (ItemStackWrapper) map.get("item");
         return new PossessItemPlaceholder(target, item);
     }

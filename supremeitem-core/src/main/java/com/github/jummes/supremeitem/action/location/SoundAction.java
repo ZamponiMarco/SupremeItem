@@ -28,6 +28,9 @@ import java.util.function.Function;
 @Enumerable.Child
 public class SoundAction extends Action {
 
+    private static final double PITCH_DEFAULT = 1f;
+    private static final double VOLUME_DEFAULT = 10f;
+
     private static final String TYPE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzkxOWZiZDFkZjQ4YzMyMmMxMzA1YmIxZjhlYWI5Njc0YzIxODQ0YTA0OTNhNTUzNWQ5NGNhYmExZWNhM2MxZCJ9fX0=";
     private static final String CATEGORY_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmQzYjJlM2U5OTU0ZjgyMmI0M2ZlNWY5MTUwOTllMGE2Y2FhYTgxZjc5MTIyMmI1ODAzZDQxNDVhODUxNzAifX19";
     private static final String PITCH_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmQzYjJlM2U5OTU0ZjgyMmI0M2ZlNWY5MTUwOTllMGE2Y2FhYTgxZjc5MTIyMmI1ODAzZDQxNDVhODUxNzAifX19";
@@ -39,20 +42,22 @@ public class SoundAction extends Action {
     private SoundCategory category;
     @Serializable(headTexture = PITCH_HEAD, description = "gui.action.sound.pitch")
     @Serializable.Number(minValue = 0, maxValue = 2)
+    @Serializable.Optional(defaultValue = "PITCH_DEFAULT")
     private double pitch;
     @Serializable(headTexture = VOLUME_HEAD, description = "gui.action.sound.volume")
     @Serializable.Number(minValue = 0)
+    @Serializable.Optional(defaultValue = "VOLUME_DEFAULT")
     private double volume;
 
     public SoundAction() {
-        this(Sound.BLOCK_ANVIL_BREAK, SoundCategory.MASTER, 1f, 10f);
+        this(Sound.BLOCK_ANVIL_BREAK, SoundCategory.MASTER, PITCH_DEFAULT, VOLUME_DEFAULT);
     }
 
     public static SoundAction deserialize(Map<String, Object> map) {
         Sound type = Sound.valueOf((String) map.getOrDefault("type", "BLOCK_ANVIL_BREAK"));
         SoundCategory category = SoundCategory.valueOf((String) map.getOrDefault("category", "MASTER"));
-        double pitch = (double) map.getOrDefault("pitch", 1f);
-        double volume = (double) map.getOrDefault("volume", 10f);
+        double pitch = (double) map.getOrDefault("pitch", PITCH_DEFAULT);
+        double volume = (double) map.getOrDefault("volume", VOLUME_DEFAULT);
         return new SoundAction(type, category, pitch, volume);
     }
 

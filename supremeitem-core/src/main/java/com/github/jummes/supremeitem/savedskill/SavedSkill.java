@@ -18,6 +18,8 @@ import java.util.Map;
 @Setter
 public class SavedSkill implements Model {
 
+    private static final List<Action> ACTIONS_DEFAULT = Lists.newArrayList();
+
     private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdkYzNlMjlhMDkyM2U1MmVjZWU2YjRjOWQ1MzNhNzllNzRiYjZiZWQ1NDFiNDk1YTEzYWJkMzU5NjI3NjUzIn19fQ==";
 
     private static int counter = 1;
@@ -25,6 +27,7 @@ public class SavedSkill implements Model {
     @Serializable(headTexture = HEAD, description = "gui.saved-skill.name")
     private String name;
     @Serializable(headTexture = HEAD, description = "gui.saved-skill.actions")
+    @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     private List<Action> actions;
 
     public SavedSkill() {
@@ -39,7 +42,7 @@ public class SavedSkill implements Model {
 
     public static SavedSkill deserialize(Map<String, Object> map) {
         String name = (String) map.get("name");
-        List<Action> actions = (List<Action>) map.get("actions");
+        List<Action> actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
         return new SavedSkill(name, actions);
     }
 

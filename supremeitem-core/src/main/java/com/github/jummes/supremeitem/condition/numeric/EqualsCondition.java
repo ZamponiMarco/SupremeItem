@@ -4,7 +4,6 @@ import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
-import com.github.jummes.supremeitem.placeholder.numeric.NumericPlaceholder;
 import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
 
 import java.util.Map;
@@ -22,7 +21,7 @@ public class EqualsCondition extends NumericCondition {
     private NumericValue operandTwo;
 
     public EqualsCondition() {
-        this(false, new NumericValue(), new NumericValue());
+        this(NEGATE_DEFAULT, new NumericValue(), new NumericValue());
     }
 
     public EqualsCondition(boolean negate, NumericValue operandOne, NumericValue operandTwo) {
@@ -32,7 +31,7 @@ public class EqualsCondition extends NumericCondition {
     }
 
     public static EqualsCondition deserialize(Map<String, Object> map) {
-        boolean negate = (boolean) map.get("negate");
+        boolean negate = (boolean) map.getOrDefault("negate", NEGATE_DEFAULT);
         NumericValue operandOne = (NumericValue) map.get("operandOne");
         NumericValue operandTwo = (NumericValue) map.get("operandTwo");
         return new EqualsCondition(negate, operandOne, operandTwo);

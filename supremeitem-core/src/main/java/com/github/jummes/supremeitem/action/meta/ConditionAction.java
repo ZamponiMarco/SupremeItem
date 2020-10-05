@@ -27,6 +27,7 @@ public class ConditionAction extends MetaAction {
     private static final String CONDITION_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmMyNzEwNTI3MTllZjY0MDc5ZWU4YzE0OTg5NTEyMzhhNzRkYWM0YzI3Yjk1NjQwZGI2ZmJkZGMyZDZiNWI2ZSJ9fX0=";
 
     @Serializable(headTexture = ACTIONS_HEAD, description = "gui.action.area-entities.actions")
+    @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     private List<Action> actions;
     @Serializable(headTexture = CONDITION_HEAD, description = "gui.action.area-entities.actions")
     private Condition condition;
@@ -36,7 +37,7 @@ public class ConditionAction extends MetaAction {
     }
 
     public static ConditionAction deserialize(Map<String, Object> map) {
-        List<Action> actions = (List<Action>) map.get("actions");
+        List<Action> actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
         Condition condition = (Condition) map.get("condition");
         return new ConditionAction(actions, condition);
     }

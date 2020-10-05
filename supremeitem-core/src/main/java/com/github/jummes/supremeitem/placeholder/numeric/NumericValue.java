@@ -26,21 +26,24 @@ import java.util.Map;
 @CustomClickable(customFieldClickConsumer = "getCustomClickConsumer")
 public class NumericValue implements Model {
 
+    private static final boolean DOUBLE_VALUE_DEFAULT = true;
+
     private static final String VALUE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdkYzNlMjlhMDkyM2U1MmVjZWU2YjRjOWQ1MzNhNzllNzRiYjZiZWQ1NDFiNDk1YTEzYWJkMzU5NjI3NjUzIn19fQ===";
 
-    @Serializable(headTexture = VALUE_HEAD, description = "gui.placeholder.constant-number.value")
+    @Serializable
+    @Serializable.Optional(defaultValue = "DOUBLE_VALUE_DEFAULT")
     private boolean doubleValue;
-    @Serializable(headTexture = VALUE_HEAD, description = "gui.placeholder.constant-number.value")
+    @Serializable
     private double value;
-    @Serializable(headTexture = VALUE_HEAD, description = "gui.placeholder.constant-number.value")
+    @Serializable
     private NumericPlaceholder placeholderValue;
 
     public NumericValue() {
-        this(true, 10.0, new HealthPlaceholder());
+        this(DOUBLE_VALUE_DEFAULT, 10.0, new HealthPlaceholder());
     }
 
     public static NumericValue deserialize(Map<String, Object> map) {
-        boolean doubleValue = (boolean) map.get("doubleValue");
+        boolean doubleValue = (boolean) map.getOrDefault("doubleValue", DOUBLE_VALUE_DEFAULT);
         double value = 10.0;
         NumericPlaceholder placeholderValue = new HealthPlaceholder();
         if (doubleValue) {
@@ -58,7 +61,9 @@ public class NumericValue implements Model {
     public Map<String, Object> serialize() {
         Map<String, Object> map = new LinkedHashMap();
         map.put("==", this.getClass().getName());
-        map.put("doubleValue", doubleValue);
+        if (doubleValue != DOUBLE_VALUE_DEFAULT) {
+            map.put("doubleValue", doubleValue);
+        }
         if (doubleValue) {
             map.put("value", value);
         } else {
@@ -92,6 +97,7 @@ public class NumericValue implements Model {
                 }
             } else if (e.getClick().equals(ClickType.MIDDLE)) {
                 doubleValue = !doubleValue;
+                path.saveModel();
                 return parent;
             }
         } catch (Exception ignored) {

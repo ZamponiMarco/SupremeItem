@@ -22,18 +22,21 @@ import java.util.Map;
 @Enumerable.Displayable(name = "&c&lPull action", description = "gui.action.pull.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGMzMDFhMTdjOTU1ODA3ZDg5ZjljNzJhMTkyMDdkMTM5M2I4YzU4YzRlNmU0MjBmNzE0ZjY5NmE4N2ZkZCJ9fX0=")
 public class PullAction extends EntityAction {
 
+    private static final double FORCE_DEFAULT = 1.0;
+
     private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzZlZjgzZTZjYWIxOWNkMjM4MDdlZjIwNmQxY2E2NmU0MWJhYTNhMGZhNWJkYzllYTQ0YmJlOTZkMTg2YiJ9fX0=";
 
     @Serializable(headTexture = HEAD, description = "gui.action.pull.force")
     @Serializable.Number(minValue = 0)
+    @Serializable.Optional(defaultValue = "FORCE_DEFAULT")
     private double force;
 
     public PullAction() {
-        this(1.0);
+        this(FORCE_DEFAULT);
     }
 
     public static PullAction deserialize(Map<String, Object> map) {
-        double force = (double) map.getOrDefault("force", 1.0);
+        double force = (double) map.getOrDefault("force", FORCE_DEFAULT);
         return new PullAction(force);
     }
 

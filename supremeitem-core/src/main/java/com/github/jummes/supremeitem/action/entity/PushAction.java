@@ -22,23 +22,28 @@ import java.util.Map;
 @Enumerable.Displayable(name = "&c&lPush action", description = "gui.action.push.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjU0ZmFiYjE2NjRiOGI0ZDhkYjI4ODk0NzZjNmZlZGRiYjQ1MDVlYmE0Mjg3OGM2NTNhNWQ3OTNmNzE5YjE2In19fQ==")
 public class PushAction extends EntityAction {
 
+    private static final double HORIZONTAL_DEFAULT = 1.0;
+    private static final double VERTICAL_DEFAULT = 0.5;
+
     private static final String HORIZONTAL_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTNmYzUyMjY0ZDhhZDllNjU0ZjQxNWJlZjAxYTIzOTQ3ZWRiY2NjY2Y2NDkzNzMyODliZWE0ZDE0OTU0MWY3MCJ9fX0=";
     private static final String VERTICAL_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTk5YWFmMjQ1NmE2MTIyZGU4ZjZiNjI2ODNmMmJjMmVlZDlhYmI4MWZkNWJlYTFiNGMyM2E1ODE1NmI2NjkifX19";
 
     @Serializable(headTexture = HORIZONTAL_HEAD, description = "gui.action.push.horizontal")
     @Serializable.Number(minValue = 0)
+    @Serializable.Optional(defaultValue = "HORIZONTAL_DEFAULT")
     private double horizontalVelocity;
     @Serializable(headTexture = VERTICAL_HEAD, description = "gui.action.push.vertical")
     @Serializable.Number(minValue = 0)
+    @Serializable.Optional(defaultValue = "VERTICAL_DEFAULT")
     private double verticalVelocity;
 
     public PushAction() {
-        this(1.0, 0.5);
+        this(HORIZONTAL_DEFAULT, VERTICAL_DEFAULT);
     }
 
     public static PushAction deserialize(Map<String, Object> map) {
-        double horizontalVelocity = (double) map.getOrDefault("horizontalVelocity", 1.0);
-        double verticalVelocity = (double) map.getOrDefault("verticalVelocity", 0.5);
+        double horizontalVelocity = (double) map.getOrDefault("horizontalVelocity", HORIZONTAL_DEFAULT);
+        double verticalVelocity = (double) map.getOrDefault("verticalVelocity", VERTICAL_DEFAULT);
         return new PushAction(horizontalVelocity, verticalVelocity);
     }
 

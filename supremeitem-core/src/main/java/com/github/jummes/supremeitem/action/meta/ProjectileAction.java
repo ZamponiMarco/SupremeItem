@@ -32,6 +32,10 @@ import java.util.Map;
 @Enumerable.Displayable(name = "&c&lProjectile", description = "gui.action.projectile.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjE1ZmVjNjUxOGE0MWYxNjYxMzFlNjViMTBmNDZmYjg3ZTk3YzQ5MmI0NmRiYzI1ZGUyNjM3NjcyMWZhNjRlMCJ9fX0=")
 public class ProjectileAction extends Action {
 
+    private static final double INITIAL_DEFAULT = 10.0;
+    private static final double GRAVITY_DEFAULT = 0.1;
+    private static final double HIT_BOX_SIZE_DEFAULT = 0.5;
+
     private static final String INITIAL_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTc2OWUyYzEzNGVlNWZjNmRhZWZlNDEyZTRhZjNkNTdkZjlkYmIzY2FhY2Q4ZTM2ZTU5OTk3OWVjMWFjNCJ9fX0=";
     private static final String GRAVITY_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzY4ZGZiYzk1YWRiNGY2NDhjMzYxNjRhMTVkNjhlZjVmOWM3Njk3ZDg2Zjg3MjEzYzdkN2E2NDU1NzdhYTY2In19fQ==";
     private static final String ENTITY_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTNjOGFhM2ZkZTI5NWZhOWY5YzI3ZjczNGJkYmFiMTFkMzNhMmU0M2U4NTVhY2NkNzQ2NTM1MjM3NzQxM2IifX19";
@@ -42,34 +46,41 @@ public class ProjectileAction extends Action {
 
     @Serializable(headTexture = INITIAL_HEAD, description = "gui.action.projectile.initial-speed")
     @Serializable.Number(minValue = 0)
+    @Serializable.Optional(defaultValue = "INITIAL_DEFAULT")
     private double initialSpeed;
     @Serializable(headTexture = GRAVITY_HEAD, description = "gui.action.projectile.gravity")
     @Serializable.Number(minValue = 0)
+    @Serializable.Optional(defaultValue = "GRAVITY_DEFAULT")
     private double gravity;
     @Serializable(headTexture = ENTITY_HIT_HEAD, description = "gui.action.projectile.entity-hit-actions")
+    @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     private List<Action> onEntityHitActions;
     @Serializable(headTexture = BLOCK_HIT_HEAD, description = "gui.action.projectile.block-hit-actions")
+    @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     private List<Action> onBlockHitActions;
     @Serializable(headTexture = TICK_HEAD, description = "gui.action.projectile.projectile-tick-actions")
+    @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     private List<Action> onProjectileTickActions;
     @Serializable(headTexture = ENTITY_HEAD, description = "gui.action.projectile.entity", recreateTooltip = true)
     private Entity entity;
     @Serializable(headTexture = HIT_BOX_HEAD, description = "gui.action.projectile.hit-box")
     @Serializable.Number(minValue = 0)
+    @Serializable.Optional(defaultValue = "HIT_BOX_SIZE_DEFAULT")
     private double hitBoxSize;
 
     public ProjectileAction() {
-        this(10.0, 0.1, Lists.newArrayList(), Lists.newArrayList(), Lists.newArrayList(), new NoEntity(), 0.5);
+        this(INITIAL_DEFAULT, GRAVITY_DEFAULT, Lists.newArrayList(), Lists.newArrayList(), Lists.newArrayList(),
+                new NoEntity(), HIT_BOX_SIZE_DEFAULT);
     }
 
     public static ProjectileAction deserialize(Map<String, Object> map) {
-        double initialSpeed = (double) map.getOrDefault("initialSpeed", 10.0);
-        double gravity = (double) map.getOrDefault("gravity", 0.1);
+        double initialSpeed = (double) map.getOrDefault("initialSpeed", INITIAL_DEFAULT);
+        double gravity = (double) map.getOrDefault("gravity", GRAVITY_DEFAULT);
         List<Action> onEntityHitActions = (List<Action>) map.getOrDefault("onEntityHitActions", Lists.newArrayList());
         List<Action> onBlockHitActions = (List<Action>) map.getOrDefault("onBlockHitActions", Lists.newArrayList());
         List<Action> onProjectileTickActions = (List<Action>) map.getOrDefault("onProjectileTickActions", Lists.newArrayList());
         Entity entity = (Entity) map.getOrDefault("entity", new NoEntity());
-        double hitBoxSize = (double) map.getOrDefault("hitBoxSize", 0.5);
+        double hitBoxSize = (double) map.getOrDefault("hitBoxSize", HIT_BOX_SIZE_DEFAULT);
         return new ProjectileAction(initialSpeed, gravity, onEntityHitActions, onBlockHitActions,
                 onProjectileTickActions, entity, hitBoxSize);
     }

@@ -36,26 +36,32 @@ import java.util.Map;
 @Enumerable.Displayable(name = "&c&lExecute actions on a timer", description = "gui.action.timer.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGJjYjIzMGE0MTBlOTNiN2Q0YjVjMjg5NjMxZDYxNGI5MDQ1Mzg0M2Q2ZWQwM2RhZjVlNDAxNWEyZmUxZjU2YiJ9fX0=")
 public class TimerAction extends MetaAction {
 
+    private static final int TIMER_DEFAULT = 5;
+    private static final int REPETITIONS_DEFAULT = 10;
+
     private static final String ACTIONS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODIxNmVlNDA1OTNjMDk4MWVkMjhmNWJkNjc0ODc5NzgxYzQyNWNlMDg0MWI2ODc0ODFjNGY3MTE4YmI1YzNiMSJ9fX0=";
     private static final String TIMER_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZlOGNmZjc1ZjdkNDMzMjYwYWYxZWNiMmY3NzNiNGJjMzgxZDk1MWRlNGUyZWI2NjE0MjM3NzlhNTkwZTcyYiJ9fX0=";
     private static final String REPETITIONS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmM4ZGVmNjdhMTI2MjJlYWQxZGVjZDNkODkzNjQyNTdiNTMxODk2ZDg3ZTQ2OTgxMzEzMWNhMjM1YjVjNyJ9fX0=";
 
     @Serializable(headTexture = TIMER_HEAD, description = "gui.action.timer.timer")
     @Serializable.Number(minValue = 0)
+    @Serializable.Optional(defaultValue = "TIMER_DEFAULT")
     private int timer;
     @Serializable(headTexture = REPETITIONS_HEAD, description = "gui.action.timer.repetitions")
     @Serializable.Number(minValue = 0)
+    @Serializable.Optional(defaultValue = "REPETITIONS_DEFAULT")
     private int repetitions;
     @Serializable(headTexture = ACTIONS_HEAD, description = "gui.action.timer.actions")
+    @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     private List<Action> actions;
 
     public TimerAction() {
-        this(5, 10, Lists.newArrayList());
+        this(TIMER_DEFAULT, REPETITIONS_DEFAULT, Lists.newArrayList());
     }
 
     public static TimerAction deserialize(Map<String, Object> map) {
-        int timer = (int) map.getOrDefault("timer", 5);
-        int repetitions = (int) map.getOrDefault("repetitions", 10);
+        int timer = (int) map.getOrDefault("timer", TIMER_DEFAULT);
+        int repetitions = (int) map.getOrDefault("repetitions", REPETITIONS_DEFAULT);
         List<Action> actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
         return new TimerAction(timer, repetitions, actions);
     }

@@ -30,21 +30,24 @@ public class HitEntitySkill extends Skill {
     private static final String COOLDOWN_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZlOGNmZjc1ZjdkNDMzMjYwYWYxZWNiMmY3NzNiNGJjMzgxZDk1MWRlNGUyZWI2NjE0MjM3NzlhNTkwZTcyYiJ9fX0=";
 
     @Serializable(headTexture = DAMAGER_HEAD, description = "gui.skill.hit-entity.damager-actions")
+    @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     protected List<Action> onDamagerActions;
     @Serializable(headTexture = DAMAGED_HEAD, description = "gui.skill.hit-entity.damaged-actions")
+    @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     protected List<Action> onDamagedActions;
     @Serializable(headTexture = COOLDOWN_HEAD, description = "gui.skill.hit-entity.cooldown")
     @Serializable.Number(minValue = 0)
+    @Serializable.Optional(defaultValue = "COOLDOWN_DEFAULT")
     protected int cooldown;
 
     public HitEntitySkill() {
-        this(Lists.newArrayList(), Lists.newArrayList(), 0);
+        this(Lists.newArrayList(), Lists.newArrayList(), COOLDOWN_DEFAULT);
     }
 
     public static HitEntitySkill deserialize(Map<String, Object> map) {
-        List<Action> onDamagerActions = (List<Action>) map.get("onDamagerActions");
-        List<Action> onDamagedActions = (List<Action>) map.get("onDamagedActions");
-        int cooldown = (int) map.get("cooldown");
+        List<Action> onDamagerActions = (List<Action>) map.getOrDefault("onDamagerActions", Lists.newArrayList());
+        List<Action> onDamagedActions = (List<Action>) map.getOrDefault("onDamagedActions", Lists.newArrayList());
+        int cooldown = (int) map.getOrDefault("cooldown", COOLDOWN_DEFAULT);
         return new HitEntitySkill(onDamagerActions, onDamagedActions, cooldown);
     }
 

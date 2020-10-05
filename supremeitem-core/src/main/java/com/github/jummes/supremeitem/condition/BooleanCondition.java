@@ -19,7 +19,7 @@ public class BooleanCondition extends Condition {
     private BooleanPlaceholder value;
 
     public BooleanCondition() {
-        this(false, new OnGroundPlaceholder());
+        this(NEGATE_DEFAULT, new OnGroundPlaceholder());
     }
 
     public BooleanCondition(boolean negate, BooleanPlaceholder value) {
@@ -28,7 +28,7 @@ public class BooleanCondition extends Condition {
     }
 
     public static BooleanCondition deserialize(Map<String, Object> map) {
-        boolean negate = (boolean) map.get("negate");
+        boolean negate = (boolean) map.getOrDefault("negate", NEGATE_DEFAULT);
         BooleanPlaceholder value = (BooleanPlaceholder) map.get("value");
         return new BooleanCondition(negate, value);
     }

@@ -27,30 +27,36 @@ import java.util.function.Predicate;
 @Enumerable.Displayable(name = "&c&lApply actions to entities in Area", description = "gui.action.area-entities.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWZjZDQxNGIwNWE1MzJjNjA5YzJhYTQ4ZDZjMDYyYzI5MmQ1MzNkZmFmNGQ3MzJhYmU5YWY1NzQxNTg5ZSJ9fX0=")
 public class AreaEntitiesAction extends MetaAction {
 
+    private static final double MAX_DISTANCE_DEFAULT = 3.0;
+    private static final boolean CAST_LOCATION_DEFAULT = true;
+
     private static final String ACTIONS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODIxNmVlNDA1OTNjMDk4MWVkMjhmNWJkNjc0ODc5NzgxYzQyNWNlMDg0MWI2ODc0ODFjNGY3MTE4YmI1YzNiMSJ9fX0=";
     private static final String MAX_DISTANCE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODIxNmVlNDA1OTNjMDk4MWVkMjhmNWJkNjc0ODc5NzgxYzQyNWNlMDg0MWI2ODc0ODFjNGY3MTE4YmI1YzNiMSJ9fX0=";
     private static final String SELECTOR_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjM4ZDI3NTk1NjlkNTE1ZDI0NTRkNGE3ODkxYTk0Y2M2M2RkZmU3MmQwM2JmZGY3NmYxZDQyNzdkNTkwIn19fQ==";
     private static final String CAST_LOCATION_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmQzYjJlM2U5OTU0ZjgyMmI0M2ZlNWY5MTUwOTllMGE2Y2FhYTgxZjc5MTIyMmI1ODAzZDQxNDVhODUxNzAifX19";
 
     @Serializable(headTexture = ACTIONS_HEAD, description = "gui.action.area-entities.actions")
+    @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     private List<Action> actions;
     @Serializable(headTexture = MAX_DISTANCE_HEAD, description = "gui.action.area-entities.max-distance")
     @Serializable.Number(minValue = 0)
+    @Serializable.Optional(defaultValue = "MAX_DISTANCE_DEFAULT")
     private double maxDistance;
     @Serializable(headTexture = SELECTOR_HEAD, description = "gui.action.area-entities.selectors")
     private List<EntitySelector> selectors;
     @Serializable(headTexture = CAST_LOCATION_HEAD, description = "gui.action.area-entities.cast-from-location")
+    @Serializable.Optional(defaultValue = "CAST_LOCATION_DEFAULT")
     private boolean castFromLocation;
 
     public AreaEntitiesAction() {
-        this(Lists.newArrayList(), 3.0, Lists.newArrayList(new SourceSelector()), true);
+        this(Lists.newArrayList(), MAX_DISTANCE_DEFAULT, Lists.newArrayList(new SourceSelector()), CAST_LOCATION_DEFAULT);
     }
 
     public static AreaEntitiesAction deserialize(Map<String, Object> map) {
         List<Action> actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
-        double maxDistance = (double) map.getOrDefault("maxDistance", 3.0);
+        double maxDistance = (double) map.getOrDefault("maxDistance", MAX_DISTANCE_DEFAULT);
         List<EntitySelector> selectors = (List<EntitySelector>) map.getOrDefault("selectors", Lists.newArrayList());
-        boolean castFromLocation = (boolean) map.getOrDefault("castFromLocation", true);
+        boolean castFromLocation = (boolean) map.getOrDefault("castFromLocation", CAST_LOCATION_DEFAULT);
         return new AreaEntitiesAction(actions, maxDistance, selectors, castFromLocation);
     }
 

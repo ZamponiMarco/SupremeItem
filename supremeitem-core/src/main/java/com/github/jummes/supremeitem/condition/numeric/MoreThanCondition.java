@@ -22,7 +22,7 @@ public class MoreThanCondition extends NumericCondition {
     private NumericValue operandTwo;
 
     public MoreThanCondition() {
-        this(false, new NumericValue(), new NumericValue());
+        this(NEGATE_DEFAULT, new NumericValue(), new NumericValue());
     }
 
     public MoreThanCondition(boolean negate, NumericValue operandOne, NumericValue operandTwo) {
@@ -32,7 +32,7 @@ public class MoreThanCondition extends NumericCondition {
     }
 
     public static MoreThanCondition deserialize(Map<String, Object> map) {
-        boolean negate = (boolean) map.get("negate");
+        boolean negate = (boolean) map.getOrDefault("negate", NEGATE_DEFAULT);
         NumericValue operandOne = (NumericValue) map.get("operandOne");
         NumericValue operandTwo = (NumericValue) map.get("operandTwo");
         return new MoreThanCondition(negate, operandOne, operandTwo);

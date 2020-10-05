@@ -27,6 +27,12 @@ import java.util.function.Function;
 @Enumerable.Child
 public class EffectAction extends Action {
 
+    private static final int DURATION_DEFAULT = 20;
+    private static final int LEVEL_DEFAULT = 0;
+    private static final boolean PARTICLES_DEFAULT = true;
+    private static final boolean AMBIENT_DEFAULT = true;
+    private static final boolean ICON_DEFAULT = true;
+
     private static final String TYPE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzJhN2RjYmY3ZWNhNmI2ZjYzODY1OTFkMjM3OTkxY2ExYjg4OGE0ZjBjNzUzZmY5YTMyMDJjZjBlOTIyMjllMyJ9fX0=";
     private static final String DURATION_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGE2YWU1YjM0YzRmNzlhNWY5ZWQ2Y2NjMzNiYzk4MWZjNDBhY2YyYmZjZDk1MjI2NjRmZTFjNTI0ZDJlYjAifX19";
     private static final String LEVEL_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODIxNmVlNDA1OTNjMDk4MWVkMjhmNWJkNjc0ODc5NzgxYzQyNWNlMDg0MWI2ODc0ODFjNGY3MTE4YmI1YzNiMSJ9fX0=";
@@ -38,29 +44,35 @@ public class EffectAction extends Action {
     private PotionEffectType type;
     @Serializable(headTexture = DURATION_HEAD, description = "gui.action.effect.duration")
     @Serializable.Number(minValue = 0)
+    @Serializable.Optional(defaultValue = "DURATION_DEFAULT")
     private int duration;
     @Serializable(headTexture = LEVEL_HEAD, description = "gui.action.effect.level")
     @Serializable.Number(minValue = 0)
+    @Serializable.Optional(defaultValue = "LEVEL_DEFAULT")
     private int level;
     @Serializable(headTexture = PARTICLE_HEAD, description = "gui.action.effect.particles")
+    @Serializable.Optional(defaultValue = "PARTICLES_DEFAULT")
     private boolean particles;
     @Serializable(headTexture = AMBIENT_HEAD, description = "gui.action.effect.ambient")
+    @Serializable.Optional(defaultValue = "AMBIENT_DEFAULT")
     private boolean ambient;
     @Serializable(headTexture = ICON_HEAD, description = "gui.action.effect.icon")
+    @Serializable.Optional(defaultValue = "ICON_DEFAULT")
     private boolean icon;
 
     public EffectAction() {
-        this(PotionEffectType.INCREASE_DAMAGE, 20, 0, true, true, true);
+        this(PotionEffectType.INCREASE_DAMAGE, DURATION_DEFAULT, LEVEL_DEFAULT, PARTICLES_DEFAULT,
+                AMBIENT_DEFAULT, ICON_DEFAULT);
     }
 
     public static EffectAction deserialize(Map<String, Object> map) {
         PotionEffectType type = PotionEffectType.getByName(((String) map.getOrDefault("type", "INCREASE_DAMAGE"))
                 .replaceAll("[\\[\\]\\d, ]|PotionEffectType", ""));
-        int duration = (int) map.getOrDefault("duration", 20);
-        int level = (int) map.getOrDefault("level", 0);
-        boolean particles = (boolean) map.getOrDefault("particles", true);
-        boolean ambient = (boolean) map.getOrDefault("ambient", true);
-        boolean icon = (boolean) map.getOrDefault("icon", true);
+        int duration = (int) map.getOrDefault("duration", DURATION_DEFAULT);
+        int level = (int) map.getOrDefault("level", LEVEL_DEFAULT);
+        boolean particles = (boolean) map.getOrDefault("particles", PARTICLES_DEFAULT);
+        boolean ambient = (boolean) map.getOrDefault("ambient", AMBIENT_DEFAULT);
+        boolean icon = (boolean) map.getOrDefault("icon", ICON_DEFAULT);
         return new EffectAction(type, duration, level, particles, ambient, icon);
     }
 

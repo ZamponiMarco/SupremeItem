@@ -5,4 +5,7 @@ import com.github.jummes.supremeitem.placeholder.Placeholder;
 
 @Enumerable.Parent(classArray = {OnGroundPlaceholder.class, PossessItemPlaceholder.class})
 public abstract class BooleanPlaceholder extends Placeholder<Boolean> {
+    public BooleanPlaceholder(boolean target) {
+        super(target);
+    }
 }

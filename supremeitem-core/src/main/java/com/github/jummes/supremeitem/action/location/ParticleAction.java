@@ -32,40 +32,48 @@ import java.util.stream.Collectors;
 @Enumerable.Child
 public class ParticleAction extends Action {
 
+    private static final int COUNT_DEFAULT = 1;
+    private static final double OFFSET_DEFAULT = 0;
+    private static final double SPEED_DEFAULT = 0;
+    private static final boolean FORCE_DEFAULT = false;
+
     private static final String TYPE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWY4NDczNWZjOWM3NjBlOTVlYWYxMGNlYzRmMTBlZGI1ZjM4MjJhNWZmOTU1MWVlYjUwOTUxMzVkMWZmYTMwMiJ9fX0=";
     private static final String COUNT_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdkYzNlMjlhMDkyM2U1MmVjZWU2YjRjOWQ1MzNhNzllNzRiYjZiZWQ1NDFiNDk1YTEzYWJkMzU5NjI3NjUzIn19fQ==";
     private static final String OFFSET_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDI4OTIyMTdjZThmYTg0MTI4YWJlMjY0YjVlNzFkN2VlN2U2YTlkNTgyMzgyNThlZjdkMmVmZGMzNDcifX19";
     private static final String SPEED_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTNmYzUyMjY0ZDhhZDllNjU0ZjQxNWJlZjAxYTIzOTQ3ZWRiY2NjY2Y2NDkzNzMyODliZWE0ZDE0OTU0MWY3MCJ9fX0=";
     private static final String FORCE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==";
 
-
     @Serializable(headTexture = TYPE_HEAD, stringValue = true, description = "gui.action.particle.type", fromListMapper = "particlesMapper", fromList = "getParticles")
     private Particle type;
     @Serializable(headTexture = COUNT_HEAD, description = "gui.action.particle.count")
     @Serializable.Number(minValue = 0)
+    @Serializable.Optional(defaultValue = "COUNT_DEFAULT")
     private int count;
     @Serializable(headTexture = OFFSET_HEAD, description = "gui.action.particle.offset")
     @Serializable.Number(minValue = 0)
+    @Serializable.Optional(defaultValue = "OFFSET_DEFAULT")
     private double offset;
     @Serializable(headTexture = SPEED_HEAD, description = "gui.action.particle.speed")
     @Serializable.Number(minValue = 0)
+    @Serializable.Optional(defaultValue = "SPEED_DEFAULT")
     private double speed;
     @Serializable(headTexture = FORCE_HEAD, description = "gui.action.particle.force")
+    @Serializable.Optional(defaultValue = "FORCE_DEFAULT")
     private boolean force;
     @Serializable(displayItem = "getDataObject", description = "gui.action.particle.data")
     private ParticleOptions data;
 
     public ParticleAction() {
-        this(Particle.FIREWORKS_SPARK, 1, 0, 0, false, null);
+        this(Particle.FIREWORKS_SPARK, COUNT_DEFAULT, OFFSET_DEFAULT, SPEED_DEFAULT, FORCE_DEFAULT, null);
     }
 
     public static ParticleAction deserialize(Map<String, Object> map) {
         Particle type = Particle.valueOf((String) map.getOrDefault("type", "FIREWORKS_SPARK"));
-        int count = (int) map.getOrDefault("count", 1);
-        double offset = (double) map.getOrDefault("offset", 0);
-        double speed = (double) map.getOrDefault("speed", 0);
-        boolean force = (boolean) map.getOrDefault("force", false);
-        ParticleOptions data = (ParticleOptions) map.getOrDefault("data", null);
+        int count = (int) map.getOrDefault("count", COUNT_DEFAULT);
+        double offset = (double) map.getOrDefault("offset", OFFSET_DEFAULT);
+        double speed = (double) map.getOrDefault("speed", SPEED_DEFAULT);
+        boolean force = (boolean) map.getOrDefault("force", FORCE_DEFAULT);
+        ParticleOptions data = (ParticleOptions) map.get("data");
         return new ParticleAction(type, count, offset, speed, force, data);
     }
 

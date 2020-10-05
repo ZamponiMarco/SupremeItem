@@ -20,14 +20,17 @@ import java.util.Map;
 @Enumerable.Child
 public class DamageAction extends Action {
 
+    private static final int DAMAGE_DEFAULT = 1;
+
     private static final String AMOUNT_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdkYzNlMjlhMDkyM2U1MmVjZWU2YjRjOWQ1MzNhNzllNzRiYjZiZWQ1NDFiNDk1YTEzYWJkMzU5NjI3NjUzIn19fQ==";
 
     @Serializable(headTexture = AMOUNT_HEAD, description = "gui.action.damage.amount")
     @Serializable.Number(minValue = 0)
+    @Serializable.Optional(defaultValue = "DAMAGE_DEFAULT")
     private int amount;
 
     public DamageAction() {
-        this(1);
+        this(DAMAGE_DEFAULT);
     }
 
     public DamageAction(int amount) {
@@ -36,7 +39,7 @@ public class DamageAction extends Action {
     }
 
     public static DamageAction deserialize(Map<String, Object> map) {
-        int amount = (int) map.getOrDefault("amount", 1);
+        int amount = (int) map.getOrDefault("amount", DAMAGE_DEFAULT);
         return new DamageAction(amount);
     }
 

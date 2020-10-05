@@ -7,9 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Item;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import java.util.Map;
@@ -27,7 +25,7 @@ public class ItemEntity extends Entity {
     private ItemStackWrapper item;
 
     public ItemEntity() {
-        this(new ItemStackWrapper(new ItemStack(Material.CARROT)));
+        this(new ItemStackWrapper());
     }
 
     public static ItemEntity deserialize(Map<String, Object> map) {

@@ -38,28 +38,33 @@ import java.util.Map;
 @CustomClickable(customCollectionClickConsumer = "getCustomConsumer")
 public class DelayedAction extends Action {
 
+    private static final int DELAY_DEFAULT = 10;
+
     private static final String ACTIONS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODIxNmVlNDA1OTNjMDk4MWVkMjhmNWJkNjc0ODc5NzgxYzQyNWNlMDg0MWI2ODc0ODFjNGY3MTE4YmI1YzNiMSJ9fX0=";
     private static final String DELAY_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZlOGNmZjc1ZjdkNDMzMjYwYWYxZWNiMmY3NzNiNGJjMzgxZDk1MWRlNGUyZWI2NjE0MjM3NzlhNTkwZTcyYiJ9fX0=";
 
     @Serializable(headTexture = ACTIONS_HEAD, description = "gui.action.delayed.actions")
+    @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     private List<Action> actions;
     @Serializable(headTexture = DELAY_HEAD, description = "gui.action.delayed.delay")
     @Serializable.Number(minValue = 0)
+    @Serializable.Optional(defaultValue = "DELAY_DEFAULT")
     private int delay;
 
     public DelayedAction() {
-        this(Lists.newArrayList(), 10);
+        this(Lists.newArrayList(), DELAY_DEFAULT);
     }
 
     public static DelayedAction deserialize(Map<String, Object> map) {
         List<Action> actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
-        int delay = (int) map.getOrDefault("delay", 10);
+        int delay = (int) map.getOrDefault("delay", DELAY_DEFAULT);
         return new DelayedAction(actions, delay);
     }
 
     @Override
     protected ActionResult execute(Target target, Source source) {
-        Bukkit.getScheduler().runTaskLater(SupremeItem.getInstance(), () -> actions.forEach(action -> action.executeAction(target, source)), delay);
+        Bukkit.getScheduler().runTaskLater(SupremeItem.getInstance(), () ->
+                actions.forEach(action -> action.executeAction(target, source)), delay);
         return ActionResult.SUCCESS;
     }
 

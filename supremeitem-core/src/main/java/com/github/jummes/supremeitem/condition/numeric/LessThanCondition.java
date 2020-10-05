@@ -22,7 +22,7 @@ public class LessThanCondition extends Condition {
     private NumericValue operandTwo;
 
     public LessThanCondition() {
-        this(false, new NumericValue(), new NumericValue());
+        this(NEGATE_DEFAULT, new NumericValue(), new NumericValue());
     }
 
     public LessThanCondition(boolean negate, NumericValue operandOne, NumericValue operandTwo) {
@@ -32,7 +32,7 @@ public class LessThanCondition extends Condition {
     }
 
     public static LessThanCondition deserialize(Map<String, Object> map) {
-        boolean negate = (boolean) map.get("negate");
+        boolean negate = (boolean) map.getOrDefault("negate", NEGATE_DEFAULT);
         NumericValue operandOne = (NumericValue) map.get("operandOne");
         NumericValue operandTwo = (NumericValue) map.get("operandTwo");
         return new LessThanCondition(negate, operandOne, operandTwo);
