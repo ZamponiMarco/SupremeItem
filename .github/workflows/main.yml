@@ -1,0 +1,19 @@
+name: SupremeItem
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Discord Commits
+        uses: Sniddl/discord-commits@v1.2
+        with:
+          webhook: ${{ secrets.DISCORD }}
+          message: "New commit into **{{ github.context.payload.repository.owner.name }}/{{ github.context.payload.repository.name}}**."
+          embed: '{ "title": "{{ commit.title }}", "description": "{{ commit.description }}", "url": "{{ commit.url }}", "author": { "name": "{{ commit.author.name }} ({{ commit.author.username }})", "icon_url": "https://avatars3.githubusercontent.com/u/32539635?s=400&u=d9038b82096fd87145509d8607fde5d3f551f77e&v=4"} }'
