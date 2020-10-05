@@ -186,6 +186,8 @@ gui:
         - "&7&oSet the consumation of an item."
       item:
         - "&7&oThe item to consume."
+      amount:
+        - "&7&oThe amount of items to consume."
     command:
       description:
         - "&7&oSet the command to execute."
@@ -319,6 +321,9 @@ gui:
         - "&7&oa certain item possession."
       item:
         - "&7&oThe item checked for."
+      amount:
+        - "&7&oThe amount of item that has to be"
+        - "&7&opossessed at least."
   condition:
     negate:
       - "&7&oWhether the condition should be negated"
