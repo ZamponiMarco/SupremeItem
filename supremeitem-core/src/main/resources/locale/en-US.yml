@@ -328,6 +328,12 @@ gui:
       description:
         - "&7&oSet a placeholder that checks if"
         - "&7&otarget or source is crouching. (only players)"
+    is-sprinting:
+      - "&7&oSet a placeholder that checks if"
+      - "&7&otarget or source is sprinting. (only players)"
+    is-flying:
+      - "&7&oSet a placeholder that checks if"
+      - "&7&otarget or source is flying. (only players)"
   condition:
     negate:
       - "&7&oWhether the condition should be negated"
