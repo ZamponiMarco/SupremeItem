@@ -193,6 +193,18 @@ gui:
         - "&7&oSet the command to execute."
       command:
         - "&7&oThe command to execute."
+    condition:
+      description:
+        - "&7&oSet the execution of actions"
+        - "&7&oonly if a defined condition is"
+        - "&7&otrue"
+      actions:
+        - "&7&oThe group of actions to execute."
+      condition:
+        - "&7&oThe condition that has to be met"
+        - "&7&oto execute the actions."
+        - "&6&lLeft click &eto modify."
+        - "&6&lRight click &eto delete."
   skill:
     description:
       - "&6&lLeft click &eto modify."

@@ -64,6 +64,11 @@ public class PossessItemPlaceholder extends BooleanPlaceholder {
         return false;
     }
 
+    @Override
+    public String getName() {
+        return String.format("%s Possesses Item %s", target ? "Target" : "Source", item.getWrapped().toString());
+    }
+
     public ItemStack getFlatItem() {
         return item.getWrapped().clone();
     }

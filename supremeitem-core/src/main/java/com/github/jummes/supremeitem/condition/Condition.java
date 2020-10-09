@@ -1,6 +1,7 @@
 package com.github.jummes.supremeitem.condition;
 
 import com.github.jummes.libs.annotation.Enumerable;
+import com.github.jummes.libs.annotation.GUINameable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.model.Model;
 import com.github.jummes.supremeitem.action.source.Source;
@@ -8,6 +9,7 @@ import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.condition.numeric.NumericCondition;
 
 @Enumerable.Parent(classArray = {NumericCondition.class, BooleanCondition.class})
+@GUINameable(GUIName = "getName")
 public abstract class Condition implements Model {
 
     protected static final boolean NEGATE_DEFAULT = false;
@@ -16,7 +18,7 @@ public abstract class Condition implements Model {
 
     @Serializable(headTexture = ACTIONS_HEAD, description = "gui.condition.negate")
     @Serializable.Optional(defaultValue = "NEGATE_DEFAULT")
-    private boolean negate;
+    protected boolean negate;
 
     public Condition(boolean negate) {
         this.negate = negate;
@@ -30,5 +32,7 @@ public abstract class Condition implements Model {
     }
 
     public abstract boolean testCondition(Target target, Source source);
+
+    public abstract String getName();
 
 }

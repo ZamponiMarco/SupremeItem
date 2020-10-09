@@ -39,4 +39,9 @@ public class HungerPlaceholder extends NumericPlaceholder {
         }
         return Double.NaN;
     }
+
+    @Override
+    public String getName() {
+        return String.format("%s Hunger", target ? "Target" : "Source");
+    }
 }

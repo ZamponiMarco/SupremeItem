@@ -44,4 +44,9 @@ public class MaxHealthPlaceholder extends NumericPlaceholder {
         }
         return Double.NaN;
     }
+
+    @Override
+    public String getName() {
+        return String.format("%s Max Health", target ? "Target" : "Source");
+    }
 }

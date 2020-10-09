@@ -39,4 +39,9 @@ public class HealthPlaceholder extends NumericPlaceholder {
         return Double.NaN;
     }
 
+    @Override
+    public String getName() {
+        return String.format("%s Health", target ? "Target" : "Source");
+    }
+
 }

@@ -23,4 +23,6 @@ public abstract class Placeholder<S> implements Model {
 
     public abstract S computePlaceholder(Target target, Source source);
 
+    public abstract String getName();
+
 }

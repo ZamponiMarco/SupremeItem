@@ -73,7 +73,7 @@ public class NumericValue implements Model {
     }
 
     public String getName() {
-        return doubleValue ? String.valueOf(value) : placeholderValue.getClass().getSimpleName();
+        return doubleValue ? String.valueOf(value) : placeholderValue.getName();
     }
 
     public PluginInventoryHolder getCustomClickConsumer(JavaPlugin plugin, PluginInventoryHolder parent,

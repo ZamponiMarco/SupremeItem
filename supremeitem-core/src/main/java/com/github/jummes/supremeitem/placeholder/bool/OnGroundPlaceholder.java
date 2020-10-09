@@ -37,4 +37,9 @@ public class OnGroundPlaceholder extends BooleanPlaceholder {
         }
         return false;
     }
+
+    @Override
+    public String getName() {
+        return String.format("%s Is On Ground", target ? "Target" : "Source");
+    }
 }
