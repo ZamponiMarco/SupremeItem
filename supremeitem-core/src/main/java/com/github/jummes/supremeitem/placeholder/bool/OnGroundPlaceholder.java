@@ -9,7 +9,7 @@ import com.github.jummes.supremeitem.action.targeter.Target;
 import java.util.Map;
 
 @Enumerable.Child
-@Enumerable.Displayable(name = "&c&lOn Ground Placeholder", description = "gui.placeholder.on-ground.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzk1ZDM3OTkzZTU5NDA4MjY3ODQ3MmJmOWQ4NjgyMzQxM2MyNTBkNDMzMmEyYzdkOGM1MmRlNDk3NmIzNjIifX19")
+@Enumerable.Displayable(name = "&c&lOn Ground Placeholder", description = "gui.placeholder.boolean.on-ground.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzk1ZDM3OTkzZTU5NDA4MjY3ODQ3MmJmOWQ4NjgyMzQxM2MyNTBkNDMzMmEyYzdkOGM1MmRlNDk3NmIzNjIifX19")
 public class OnGroundPlaceholder extends BooleanPlaceholder {
 
     public OnGroundPlaceholder() {

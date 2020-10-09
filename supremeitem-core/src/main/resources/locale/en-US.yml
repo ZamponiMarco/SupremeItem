@@ -299,38 +299,45 @@ gui:
     target:
       - "&7&oWhether the placeholder should be referred"
       - "&7&oto the skill target or the skill source."
-    health:
-      description:
-        - "&7&oSet a current health placeholder."
-    max-health:
-      description:
-        - "&7&oSet a max health placeholder."
-    hunger:
-      description:
-        - "&7&oSet a hunger placeholder. (only players)"
-    on-ground:
-      description:
-        - "&7&oSet a placeholder that checks if"
-        - "&7&otarget or source is on ground."
-    possess-item:
-      description:
-        - "&7&oSet a placeholder that checks for"
-        - "&7&oa certain item possession."
-      item:
-        - "&7&oThe item checked for."
-      amount:
-        - "&7&oThe amount of item that has to be"
-        - "&7&opossessed at least."
-    is-sneaking:
-      description:
-        - "&7&oSet a placeholder that checks if"
-        - "&7&otarget or source is crouching. (only players)"
-    is-sprinting:
-      - "&7&oSet a placeholder that checks if"
-      - "&7&otarget or source is sprinting. (only players)"
-    is-flying:
-      - "&7&oSet a placeholder that checks if"
-      - "&7&otarget or source is flying. (only players)"
+    double:
+      health:
+        description:
+          - "&7&oSet a current health placeholder."
+      max-health:
+        description:
+          - "&7&oSet a max health placeholder."
+      hunger:
+        description:
+          - "&7&oSet a hunger placeholder. (only players)"
+    boolean:
+      player:
+        description:
+          - "&7&oPlayer related placeholders."
+      on-ground:
+        description:
+          - "&7&oSet a placeholder that checks if"
+          - "&7&otarget or source is on ground."
+      possess-item:
+        description:
+          - "&7&oSet a placeholder that checks for"
+          - "&7&oa certain item possession."
+        item:
+          - "&7&oThe item checked for."
+        amount:
+          - "&7&oThe amount of item that has to be"
+          - "&7&opossessed at least."
+      is-sneaking:
+        description:
+          - "&7&oSet a placeholder that checks if"
+          - "&7&otarget or source is crouching. (only players)"
+      is-sprinting:
+        description:
+          - "&7&oSet a placeholder that checks if"
+          - "&7&otarget or source is sprinting. (only players)"
+      is-flying:
+        description:
+          - "&7&oSet a placeholder that checks if"
+          - "&7&otarget or source is flying. (only players)"
   condition:
     negate:
       - "&7&oWhether the condition should be negated"

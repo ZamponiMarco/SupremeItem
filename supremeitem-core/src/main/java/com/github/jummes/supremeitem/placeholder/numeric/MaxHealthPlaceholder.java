@@ -11,7 +11,7 @@ import org.bukkit.attribute.AttributeInstance;
 import java.util.Map;
 
 @Enumerable.Child
-@Enumerable.Displayable(name = "&c&lMax Health Placeholder", description = "gui.placeholder.max-health.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzc3OTFjY2VjMTZmYjY4ZjNjOTJlMGIwMjY0Zjk2ODBlMTI0YzM4NTlkNjY0MDM1MjRiYTViOTU3NmM5ODE4In19fQ==")
+@Enumerable.Displayable(name = "&c&lMax Health Placeholder", description = "gui.placeholder.double.max-health.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzc3OTFjY2VjMTZmYjY4ZjNjOTJlMGIwMjY0Zjk2ODBlMTI0YzM4NTlkNjY0MDM1MjRiYTViOTU3NmM5ODE4In19fQ==")
 public class MaxHealthPlaceholder extends NumericPlaceholder {
 
     public MaxHealthPlaceholder() {
