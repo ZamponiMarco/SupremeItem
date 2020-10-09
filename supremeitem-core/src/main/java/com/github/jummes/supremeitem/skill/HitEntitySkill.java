@@ -13,6 +13,7 @@ import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -68,7 +69,9 @@ public class HitEntitySkill extends Skill {
                                     equals(Action.ActionResult.CANCELLED));
             cooldown(damager, id);
         } else {
-            damager.sendMessage(Libs.getLocale().get("messages.cooldown").replace("$cooldown", String.valueOf(cooldown / 20.0)));
+            if (damager instanceof Player) {
+                SupremeItem.getInstance().getCooldownManager().switchCooldownContext((Player) damager, id, this.cooldown);
+            }
         }
         return cancelled ? DamageEntitySkill.SkillResult.CANCELLED : DamageEntitySkill.SkillResult.SUCCESS;
     }

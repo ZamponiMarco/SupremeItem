@@ -16,6 +16,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.RayTraceResult;
 
@@ -87,7 +88,9 @@ public class LeftClickSkill extends Skill {
             }
             cooldown(e, id);
         } else {
-            e.sendMessage(Libs.getLocale().get("messages.cooldown").replace("$cooldown", String.valueOf(cooldown / 20.0)));
+            if (e instanceof Player) {
+                SupremeItem.getInstance().getCooldownManager().switchCooldownContext((Player) e, id, this.cooldown);
+            }
         }
         return cancelled ? SkillResult.CANCELLED : SkillResult.SUCCESS;
     }

@@ -22,7 +22,7 @@ public class IsFlyingPlaceholder extends BooleanPlaceholder {
     }
 
     public static IsFlyingPlaceholder deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.get("target");
+        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
         return new IsFlyingPlaceholder(target);
     }
 

@@ -12,6 +12,7 @@ import com.github.jummes.supremeitem.manager.CooldownManager;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -75,7 +76,9 @@ public class DamageEntitySkill extends Skill {
                                     equals(Action.ActionResult.CANCELLED));
             cooldown(damager, id);
         } else {
-            damaged.sendMessage(Libs.getLocale().get("messages.cooldown").replace("$cooldown", String.valueOf(cooldown / 20.0)));
+            if (damaged instanceof Player) {
+                SupremeItem.getInstance().getCooldownManager().switchCooldownContext((Player) damaged, id, this.cooldown);
+            }
         }
         return cancelled ? SkillResult.CANCELLED : SkillResult.SUCCESS;
     }
