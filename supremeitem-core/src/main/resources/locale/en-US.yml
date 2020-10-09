@@ -197,6 +197,11 @@ gui:
     description:
       - "&6&lLeft click &eto modify."
       - "&6&lRight click &eto delete."
+    cooldown:
+      - "&7&oThe cooldown between skill executions."
+    cooldown-message:
+      - "&7&oWhether the cooldown message should be"
+      - "&7&odisplayed to the player."
     hit-entity:
       description:
         - "&7&oSet a skill to be triggered when an entity hits"
@@ -209,8 +214,6 @@ gui:
         - "&7&oThe actions to execute on the damaged entity."
         - "&6&oSource: &edamager entity."
         - "&6&oTarget: &edamaged entity."
-      cooldown:
-        - "&7&oThe cooldown between skill executions."
     damage-entity:
       description:
         - "&7&oSet a skill to be triggered when an entity is"
@@ -223,8 +226,6 @@ gui:
         - "&7&oThe actions to execute on the damaged entity."
         - "&6&oSource: &edamager entity."
         - "&6&oTarget: &edamaged entity."
-      cooldown:
-        - "&7&oThe cooldown between skill executions."
     left-click:
       description:
         - "&7&oSet a skill to be triggered when an entity right"
@@ -233,8 +234,6 @@ gui:
         - "&7&oThe actions to execute on the caster."
         - "&6&oSource: &ecaster entity."
         - "&6&oTarget: &ecaster entity."
-      cooldown:
-        - "&7&oThe cooldown between skill executions."
       ray-cast-actions:
         - "&7&oThe actions to execute in the location hit by a ray"
         - "&7&ocast from the caster."
@@ -250,8 +249,6 @@ gui:
         - "&7&oThe actions to execute on the caster."
         - "&6&oSource: &ecaster entity."
         - "&6&oTarget: &ecaster entity."
-      cooldown:
-        - "&7&oThe cooldown between skill executions."
       ray-cast-actions:
         - "&7&oThe actions to execute in the location hit by a ray"
         - "&7&ocast from the caster."

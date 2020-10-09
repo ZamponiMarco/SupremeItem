@@ -41,25 +41,27 @@ public class CooldownManager {
         };
     }
 
-    public void addCooldown(LivingEntity e, CooldownInfo info) {
+    public void addCooldown(LivingEntity e, CooldownInfo info, boolean showMessage) {
         cooldowns.computeIfAbsent(e, k -> Lists.newArrayList());
         cooldowns.get(e).add(info);
         if (e instanceof Player) {
-            switchCooldownContext((Player) e, info, info.getRemainingCooldown());
+            switchCooldownContext((Player) e, info, info.getRemainingCooldown(), showMessage);
         }
     }
 
-    public void switchCooldownContext(Player p, UUID id, int maxCooldown) {
-        switchCooldownContext(p, getCooldownInfo(p, id), maxCooldown);
+    public void switchCooldownContext(Player p, UUID id, int maxCooldown, boolean showMessage) {
+        switchCooldownContext(p, getCooldownInfo(p, id), maxCooldown, showMessage);
     }
 
-    private void switchCooldownContext(Player p, CooldownInfo info, int maxCooldown) {
-        if (cooldownMessagesMap.containsKey(p)) {
-            Bukkit.getScheduler().cancelTask(cooldownMessagesMap.get(p));
+    private void switchCooldownContext(Player p, CooldownInfo info, int maxCooldown, boolean showMessage) {
+        if (showMessage) {
+            if (cooldownMessagesMap.containsKey(p)) {
+                Bukkit.getScheduler().cancelTask(cooldownMessagesMap.get(p));
+            }
+            cooldownMessagesMap.put(p, sendProgressMessage(p, info, maxCooldown).
+                    runTaskTimer(SupremeItem.getInstance(),
+                            0, 1).getTaskId());
         }
-        cooldownMessagesMap.put(p, sendProgressMessage(p, info, maxCooldown).
-                runTaskTimer(SupremeItem.getInstance(),
-                        0, 1).getTaskId());
     }
 
     private BukkitRunnable sendProgressMessage(Player player, CooldownInfo info, int maxCooldown) {

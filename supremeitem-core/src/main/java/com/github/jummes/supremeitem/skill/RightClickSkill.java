@@ -34,7 +34,6 @@ public class RightClickSkill extends Skill {
     private static final int RAY_CAST_DISTANCE_DEFAULT = 30;
 
     private static final String CASTER_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjY4YjQzMTE1MmU4MmFmNWRlZjg4ZjkxYmI2MWM2MjNiM2I3YWMzYWJlODJkMjc2ZmFkMzQ3Nzc2NDBmOTU5MCJ9fX0=";
-    private static final String COOLDOWN_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZlOGNmZjc1ZjdkNDMzMjYwYWYxZWNiMmY3NzNiNGJjMzgxZDk1MWRlNGUyZWI2NjE0MjM3NzlhNTkwZTcyYiJ9fX0=";
     private static final String RAY_CAST_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzc4N2I3YWZiNWE1OTk1Mzk3NWJiYTI0NzM3NDliNjAxZDU0ZDZmOTNjZWFjN2EwMmFjNjlhYWU3ZjliOCJ9fX0=";
     private static final String DISTANCE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmFhNjg2MGQxMGQ3Yzg2ZmNjYzY1MjhkOWYyNTY0YTJmNTZkNWNmMzdlNzllZDVjNzc4NDk0MDI1MTVkNzc1MSJ9fX0=";
 
@@ -42,7 +41,7 @@ public class RightClickSkill extends Skill {
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     protected List<Action> onCasterActions;
 
-    @Serializable(headTexture = COOLDOWN_HEAD, description = "gui.skill.right-click.cooldown")
+    @Serializable(headTexture = COOLDOWN_HEAD, description = "gui.skill.cooldown")
     @Serializable.Number(minValue = 0)
     @Serializable.Optional(defaultValue = "COOLDOWN_DEFAULT")
     protected int cooldown;
@@ -56,8 +55,12 @@ public class RightClickSkill extends Skill {
     @Serializable.Optional(defaultValue = "RAY_CAST_DISTANCE_DEFAULT")
     protected int onRayCastMaxDistance;
 
+    @Serializable(headTexture = COOLDOWN_MESSAGE_HEAD, description = "gui.skill.cooldown-message")
+    @Serializable.Optional(defaultValue = "COOLDOWN_MESSAGE_DEFAULT")
+    protected boolean cooldownMessage;
+
     public RightClickSkill() {
-        this(Lists.newArrayList(), COOLDOWN_DEFAULT, Lists.newArrayList(), RAY_CAST_DISTANCE_DEFAULT);
+        this(Lists.newArrayList(), COOLDOWN_DEFAULT, Lists.newArrayList(), RAY_CAST_DISTANCE_DEFAULT, COOLDOWN_MESSAGE_DEFAULT);
     }
 
     public static RightClickSkill deserialize(Map<String, Object> map) {
@@ -65,7 +68,8 @@ public class RightClickSkill extends Skill {
         int cooldown = (int) map.getOrDefault("cooldown", COOLDOWN_DEFAULT);
         List<Action> onRayCastPointActions = (List<Action>) map.getOrDefault("onRayCastPointActions", Lists.newArrayList());
         int onRayCastMaxDistance = (int) map.getOrDefault("onRayCastMaxDistance", RAY_CAST_DISTANCE_DEFAULT);
-        return new RightClickSkill(onCasterActions, cooldown, onRayCastPointActions, onRayCastMaxDistance);
+        boolean cooldownMessage = (boolean) map.getOrDefault("cooldownMessage", COOLDOWN_MESSAGE_DEFAULT);
+        return new RightClickSkill(onCasterActions, cooldown, onRayCastPointActions, onRayCastMaxDistance, cooldownMessage);
     }
 
     public SkillResult executeSkill(LivingEntity e, UUID id, ItemStack item) {
@@ -89,7 +93,8 @@ public class RightClickSkill extends Skill {
             cooldown(e, id);
         } else {
             if (e instanceof Player) {
-                SupremeItem.getInstance().getCooldownManager().switchCooldownContext((Player) e, id, this.cooldown);
+                SupremeItem.getInstance().getCooldownManager().switchCooldownContext((Player) e, id,
+                        this.cooldown, cooldownMessage);
             }
         }
         return cancelled ? SkillResult.CANCELLED : SkillResult.SUCCESS;
@@ -99,7 +104,7 @@ public class RightClickSkill extends Skill {
     private void cooldown(LivingEntity e, UUID id) {
         if (cooldown > 0) {
             SupremeItem.getInstance().getCooldownManager().addCooldown(e,
-                    new CooldownManager.CooldownInfo(id, cooldown));
+                    new CooldownManager.CooldownInfo(id, cooldown), cooldownMessage);
         }
     }
 

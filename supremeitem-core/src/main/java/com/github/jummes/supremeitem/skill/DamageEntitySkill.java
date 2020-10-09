@@ -26,7 +26,6 @@ public class DamageEntitySkill extends Skill {
 
     private static final String DAMAGER_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTBkZmM4YTM1NjNiZjk5NmY1YzFiNzRiMGIwMTViMmNjZWIyZDA0Zjk0YmJjZGFmYjIyOTlkOGE1OTc5ZmFjMSJ9fX0=";
     private static final String DAMAGED_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWJlMmRkNTM3Y2I3NDM0YzM5MGQwNDgyZmE0NzI0N2NhM2ViNTZmMTlhOTNjMDRjNmM4NTgxMzUyYjhkOTUzOCJ9fX0=";
-    private static final String COOLDOWN_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZlOGNmZjc1ZjdkNDMzMjYwYWYxZWNiMmY3NzNiNGJjMzgxZDk1MWRlNGUyZWI2NjE0MjM3NzlhNTkwZTcyYiJ9fX0=";
 
     @Serializable(headTexture = DAMAGED_HEAD, description = "gui.skill.damage-entity.damaged-actions")
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
@@ -34,20 +33,24 @@ public class DamageEntitySkill extends Skill {
     @Serializable(headTexture = DAMAGER_HEAD, description = "gui.skill.damage-entity.damager-actions")
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     protected List<Action> onDamagerActions;
-    @Serializable(headTexture = COOLDOWN_HEAD, description = "gui.skill.damage-entity.cooldown")
+    @Serializable(headTexture = COOLDOWN_HEAD, description = "gui.skill.cooldown")
     @Serializable.Number(minValue = 0)
     @Serializable.Optional(defaultValue = "COOLDOWN_DEFAULT")
     protected int cooldown;
+    @Serializable(headTexture = COOLDOWN_MESSAGE_HEAD, description = "gui.skill.cooldown-message")
+    @Serializable.Optional(defaultValue = "COOLDOWN_MESSAGE_DEFAULT")
+    protected boolean cooldownMessage;
 
     public DamageEntitySkill() {
-        this(Lists.newArrayList(), Lists.newArrayList(), COOLDOWN_DEFAULT);
+        this(Lists.newArrayList(), Lists.newArrayList(), COOLDOWN_DEFAULT, COOLDOWN_MESSAGE_DEFAULT);
     }
 
     public static DamageEntitySkill deserialize(Map<String, Object> map) {
         List<Action> onDamagedActions = (List<Action>) map.getOrDefault("onDamagedActions", Lists.newArrayList());
         List<Action> onDamagerActions = (List<Action>) map.getOrDefault("onDamagerActions", Lists.newArrayList());
         int cooldown = (int) map.getOrDefault("cooldown", COOLDOWN_DEFAULT);
-        return new DamageEntitySkill(onDamagedActions, onDamagerActions, cooldown);
+        boolean cooldownMessage = (boolean) map.getOrDefault("cooldownMessage", COOLDOWN_MESSAGE_DEFAULT);
+        return new DamageEntitySkill(onDamagedActions, onDamagerActions, cooldown, cooldownMessage);
     }
 
     /**
@@ -77,7 +80,8 @@ public class DamageEntitySkill extends Skill {
             cooldown(damager, id);
         } else {
             if (damaged instanceof Player) {
-                SupremeItem.getInstance().getCooldownManager().switchCooldownContext((Player) damaged, id, this.cooldown);
+                SupremeItem.getInstance().getCooldownManager().switchCooldownContext((Player) damaged, id,
+                        this.cooldown, cooldownMessage);
             }
         }
         return cancelled ? SkillResult.CANCELLED : SkillResult.SUCCESS;
@@ -86,7 +90,7 @@ public class DamageEntitySkill extends Skill {
     private void cooldown(LivingEntity e, UUID id) {
         if (cooldown > 0) {
             SupremeItem.getInstance().getCooldownManager().addCooldown(e,
-                    new CooldownManager.CooldownInfo(id, cooldown));
+                    new CooldownManager.CooldownInfo(id, cooldown), cooldownMessage);
         }
     }
 
