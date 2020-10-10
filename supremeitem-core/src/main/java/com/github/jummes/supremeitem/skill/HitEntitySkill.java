@@ -8,7 +8,6 @@ import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
-import com.github.jummes.supremeitem.manager.CooldownManager;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -57,20 +56,16 @@ public class HitEntitySkill extends Skill {
 
     public SkillResult executeSkill(LivingEntity damager, LivingEntity damaged, UUID id, ItemStack item) {
         boolean cancelled = false;
-        int cooldown = SupremeItem.getInstance().getCooldownManager().getCooldown(damager, id);
-        if (cooldown == 0) {
-            boolean consumable = SupremeItem.getInstance().getItemManager().getById(id).isConsumable();
-            if (consumable) {
-                int amount = item.getAmount();
-                item.setAmount(--amount);
-            }
+        int currentCooldown = SupremeItem.getInstance().getCooldownManager().getCooldown(damager, id);
+        if (currentCooldown == 0) {
+            consumeIfConsumable(id, item);
             cancelled = onDamagedActions.stream().anyMatch(action ->
                     action.executeAction(new EntityTarget(damaged), new EntitySource(damager)).
                             equals(Action.ActionResult.CANCELLED)) ||
                     onDamagerActions.stream().anyMatch(action ->
                             action.executeAction(new EntityTarget(damager), new EntitySource(damaged)).
                                     equals(Action.ActionResult.CANCELLED));
-            cooldown(damager, id);
+            cooldown(damager, id, cooldown, cooldownMessage);
         } else {
             if (damager instanceof Player) {
                 SupremeItem.getInstance().getCooldownManager().switchCooldownContext((Player) damager, id,
@@ -78,13 +73,6 @@ public class HitEntitySkill extends Skill {
             }
         }
         return cancelled ? DamageEntitySkill.SkillResult.CANCELLED : DamageEntitySkill.SkillResult.SUCCESS;
-    }
-
-    private void cooldown(LivingEntity e, UUID id) {
-        if (cooldown > 0) {
-            SupremeItem.getInstance().getCooldownManager().addCooldown(e,
-                    new CooldownManager.CooldownInfo(id, cooldown), cooldownMessage);
-        }
     }
 
     @Override

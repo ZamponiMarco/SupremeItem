@@ -13,7 +13,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
@@ -59,6 +59,35 @@ public class PlayerItemListener implements Listener {
             cancelled = executeDamageEntitySkill(damager, damaged) || executeHitEntitySkill(damager, damaged);
             e.setCancelled(cancelled);
         }
+    }
+
+    @EventHandler
+    public void onPlayerSneak(PlayerToggleSneakEvent e) {
+        Player player = e.getPlayer();
+        if (player.isSneaking()) {
+            boolean cancelled = executeSneakSkill(player);
+        }
+    }
+
+    private boolean executeSneakSkill(Player player) {
+        AtomicBoolean toReturn = new AtomicBoolean(false);
+        Utils.getEntityItems(player).forEach(item -> {
+            try {
+                UUID id = UUID.fromString(Libs.getWrapper().getTagItem(item, "supreme-item"));
+                Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);
+                if (supremeItem != null) {
+                    supremeItem.getSkillSet().stream().filter(skill -> skill instanceof EntitySneakSkill).findFirst().
+                            ifPresent(skill -> {
+                                if (((EntitySneakSkill) skill).executeSkill(player, id, item).
+                                        equals(DamageEntitySkill.SkillResult.CANCELLED)) {
+                                    toReturn.set(true);
+                                }
+                            });
+                }
+            } catch (IllegalArgumentException ignored) {
+            }
+        });
+        return toReturn.get();
     }
 
     /**

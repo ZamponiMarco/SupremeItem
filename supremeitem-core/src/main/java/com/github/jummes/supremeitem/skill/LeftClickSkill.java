@@ -6,19 +6,13 @@ import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
-import com.github.jummes.supremeitem.action.source.EntitySource;
-import com.github.jummes.supremeitem.action.targeter.EntityTarget;
-import com.github.jummes.supremeitem.action.targeter.LocationTarget;
-import com.github.jummes.supremeitem.manager.CooldownManager;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.util.RayTraceResult;
 
 import java.util.List;
 import java.util.Map;
@@ -74,23 +68,11 @@ public class LeftClickSkill extends Skill {
 
     public SkillResult executeSkill(LivingEntity e, UUID id, ItemStack item) {
         boolean cancelled = false;
-        int cooldown = SupremeItem.getInstance().getCooldownManager().getCooldown(e, id);
-        if (cooldown == 0) {
-            boolean consumable = SupremeItem.getInstance().getItemManager().getById(id).isConsumable();
-            if (consumable) {
-                int amount = item.getAmount();
-                item.setAmount(--amount);
-            }
-            cancelled = onCasterActions.stream().anyMatch(action -> action.executeAction(new EntityTarget(e),
-                    new EntitySource(e)).equals(Action.ActionResult.CANCELLED));
-            RayTraceResult result = e.rayTraceBlocks(onRayCastMaxDistance);
-            if (result != null) {
-                Location l = result.getHitPosition().toLocation(e.getWorld());
-                cancelled = onRayCastPointActions.stream().anyMatch(action ->
-                        action.executeAction(new LocationTarget(l),
-                                new EntitySource(e)).equals(Action.ActionResult.CANCELLED)) || cancelled;
-            }
-            cooldown(e, id);
+        int currentCooldown = SupremeItem.getInstance().getCooldownManager().getCooldown(e, id);
+        if (currentCooldown == 0) {
+            consumeIfConsumable(id, item);
+            cancelled = executeCasterActions(e, onCasterActions) || executeRayCastActions(e, onRayCastMaxDistance, onRayCastPointActions);
+            cooldown(e, id, cooldown, cooldownMessage);
         } else {
             if (e instanceof Player) {
                 SupremeItem.getInstance().getCooldownManager().switchCooldownContext((Player) e, id,
@@ -98,14 +80,6 @@ public class LeftClickSkill extends Skill {
             }
         }
         return cancelled ? SkillResult.CANCELLED : SkillResult.SUCCESS;
-    }
-
-
-    private void cooldown(LivingEntity e, UUID id) {
-        if (cooldown > 0) {
-            SupremeItem.getInstance().getCooldownManager().addCooldown(e,
-                    new CooldownManager.CooldownInfo(id, cooldown), cooldownMessage);
-        }
     }
 
     @Override

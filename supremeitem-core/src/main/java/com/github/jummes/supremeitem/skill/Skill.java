@@ -2,12 +2,23 @@ package com.github.jummes.supremeitem.skill;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.model.Model;
+import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
+import com.github.jummes.supremeitem.action.source.EntitySource;
+import com.github.jummes.supremeitem.action.targeter.EntityTarget;
+import com.github.jummes.supremeitem.action.targeter.LocationTarget;
+import com.github.jummes.supremeitem.manager.CooldownManager;
 import com.google.common.collect.Lists;
+import org.bukkit.Location;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.util.RayTraceResult;
 
 import java.util.List;
+import java.util.UUID;
 
-@Enumerable.Parent(classArray = {RightClickSkill.class, LeftClickSkill.class, HitEntitySkill.class, TimerSkill.class, DamageEntitySkill.class})
+@Enumerable.Parent(classArray = {RightClickSkill.class, LeftClickSkill.class, HitEntitySkill.class, TimerSkill.class,
+        DamageEntitySkill.class, EntitySneakSkill.class})
 public abstract class Skill implements Model {
 
     protected static final List<Action> ACTIONS_DEFAULT = Lists.newArrayList();
@@ -26,6 +37,37 @@ public abstract class Skill implements Model {
     @Override
     public int hashCode() {
         return getClass().hashCode();
+    }
+
+    protected void cooldown(LivingEntity e, UUID id, int cooldown, boolean cooldownMessage) {
+        if (cooldown > 0) {
+            SupremeItem.getInstance().getCooldownManager().addCooldown(e,
+                    new CooldownManager.CooldownInfo(id, cooldown), cooldownMessage);
+        }
+    }
+
+    protected void consumeIfConsumable(UUID id, ItemStack item) {
+        boolean consumable = SupremeItem.getInstance().getItemManager().getById(id).isConsumable();
+        if (consumable) {
+            int amount = item.getAmount();
+            item.setAmount(--amount);
+        }
+    }
+
+    protected boolean executeCasterActions(LivingEntity e, List<Action> actions) {
+        return actions.stream().anyMatch(action -> action.executeAction(new EntityTarget(e),
+                new EntitySource(e)).equals(Action.ActionResult.CANCELLED));
+    }
+
+    protected boolean executeRayCastActions(LivingEntity e, int onRayCastMaxDistance, List<Action> onRayCastPointActions) {
+        RayTraceResult result = e.rayTraceBlocks(onRayCastMaxDistance);
+        if (result != null) {
+            Location l = result.getHitPosition().toLocation(e.getWorld());
+            return onRayCastPointActions.stream().anyMatch(action ->
+                    action.executeAction(new LocationTarget(l),
+                            new EntitySource(e)).equals(Action.ActionResult.CANCELLED));
+        }
+        return false;
     }
 
     public enum SkillResult {
