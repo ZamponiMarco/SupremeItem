@@ -350,6 +350,12 @@ gui:
         description:
           - "&7&oSet a placeholder that checks if"
           - "&7&otarget or source is flying. (only players)"
+      has-permission:
+        description:
+          - "&7&oSet a placeholder that checks if"
+          - "&7&otarget or source has a permission. (only players)"
+        permission:
+          - "&7&oThe permission to check."
   condition:
     description:
       - "&6&lLeft click &eto modify."

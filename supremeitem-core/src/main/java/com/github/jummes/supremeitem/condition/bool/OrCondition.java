@@ -55,7 +55,7 @@ public class OrCondition extends TrueFalseCondition {
 
     @Override
     public String getName() {
-        String[] s = conditions.stream().map(condition -> condition.getName()).toArray(String[]::new);
-        return String.join(" &6&l∨&c ", s);
+        String[] s = conditions.stream().map(condition -> "&6&l(" + condition.getName() + "&6&l)").toArray(String[]::new);
+        return String.join(" &6&lor&c ", s);
     }
 }

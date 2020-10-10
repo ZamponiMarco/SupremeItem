@@ -16,6 +16,7 @@ import com.github.jummes.supremeitem.manager.ItemManager;
 import com.github.jummes.supremeitem.manager.SavedSkillManager;
 import com.github.jummes.supremeitem.manager.TimerManager;
 import com.github.jummes.supremeitem.placeholder.Placeholder;
+import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.github.jummes.supremeitem.skill.Skill;
 import com.google.common.collect.Lists;
@@ -52,6 +53,8 @@ public class SupremeItem extends JavaPlugin {
                 "com.github.jummes.supremeitem.condition.BooleanCondition");
 
         ConfigurationSerialization.registerClass(Placeholder.class);
+
+        ConfigurationSerialization.registerClass(NumericValue.class);
     }
 
     private ItemManager itemManager;
