@@ -12,6 +12,7 @@ import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
+import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -47,16 +48,13 @@ public class ParticleAction extends Action {
     private Particle type;
     @Serializable(headTexture = COUNT_HEAD, description = "gui.action.particle.count")
     @Serializable.Number(minValue = 0)
-    @Serializable.Optional(defaultValue = "COUNT_DEFAULT")
-    private int count;
+    private NumericValue count;
     @Serializable(headTexture = OFFSET_HEAD, description = "gui.action.particle.offset")
     @Serializable.Number(minValue = 0)
-    @Serializable.Optional(defaultValue = "OFFSET_DEFAULT")
-    private double offset;
+    private NumericValue offset;
     @Serializable(headTexture = SPEED_HEAD, description = "gui.action.particle.speed")
     @Serializable.Number(minValue = 0)
-    @Serializable.Optional(defaultValue = "SPEED_DEFAULT")
-    private double speed;
+    private NumericValue speed;
     @Serializable(headTexture = FORCE_HEAD, description = "gui.action.particle.force")
     @Serializable.Optional(defaultValue = "FORCE_DEFAULT")
     private boolean force;
@@ -64,16 +62,27 @@ public class ParticleAction extends Action {
     private ParticleOptions data;
 
     public ParticleAction() {
-        this(Particle.FIREWORKS_SPARK, COUNT_DEFAULT, OFFSET_DEFAULT, SPEED_DEFAULT, FORCE_DEFAULT, null);
+        this(Particle.FIREWORKS_SPARK, new NumericValue(COUNT_DEFAULT), new NumericValue(OFFSET_DEFAULT),
+                new NumericValue(SPEED_DEFAULT), FORCE_DEFAULT, null);
     }
 
     public static ParticleAction deserialize(Map<String, Object> map) {
         Particle type = Particle.valueOf((String) map.getOrDefault("type", "FIREWORKS_SPARK"));
-        int count = (int) map.getOrDefault("count", COUNT_DEFAULT);
-        double offset = (double) map.getOrDefault("offset", OFFSET_DEFAULT);
-        double speed = (double) map.getOrDefault("speed", SPEED_DEFAULT);
         boolean force = (boolean) map.getOrDefault("force", FORCE_DEFAULT);
         ParticleOptions data = (ParticleOptions) map.get("data");
+
+        NumericValue count;
+        NumericValue offset;
+        NumericValue speed;
+        try {
+            count = (NumericValue) map.getOrDefault("count", new NumericValue(COUNT_DEFAULT));
+            offset = (NumericValue) map.getOrDefault("offset", new NumericValue(OFFSET_DEFAULT));
+            speed = (NumericValue) map.getOrDefault("speed", new NumericValue(SPEED_DEFAULT));
+        } catch (ClassCastException e) {
+            count = new NumericValue(((Number) map.getOrDefault("count", COUNT_DEFAULT)).doubleValue());
+            offset = new NumericValue(((Number) map.getOrDefault("offset", OFFSET_DEFAULT)).doubleValue());
+            speed = new NumericValue(((Number) map.getOrDefault("speed", SPEED_DEFAULT)).doubleValue());
+        }
         return new ParticleAction(type, count, offset, speed, force, data);
     }
 
@@ -92,6 +101,9 @@ public class ParticleAction extends Action {
 
     @Override
     public ActionResult execute(Target target, Source source) {
+        int count = (int) this.count.getRealValue(target, source);
+        double offset = this.offset.getRealValue(target, source);
+        double speed = this.offset.getRealValue(target, source);
         if (target instanceof LocationTarget) {
             ((LocationTarget) target).getTarget().getWorld().spawnParticle(type, ((LocationTarget) target).getTarget(),
                     count, offset, offset, offset, speed, data == null ? null : data.buildData(), force);

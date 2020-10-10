@@ -9,6 +9,7 @@ import com.github.jummes.supremeitem.action.source.LocationSource;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
+import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import org.bukkit.inventory.ItemStack;
@@ -30,20 +31,25 @@ public class PushAction extends EntityAction {
 
     @Serializable(headTexture = HORIZONTAL_HEAD, description = "gui.action.push.horizontal")
     @Serializable.Number(minValue = 0)
-    @Serializable.Optional(defaultValue = "HORIZONTAL_DEFAULT")
-    private double horizontalVelocity;
+    private NumericValue horizontalVelocity;
     @Serializable(headTexture = VERTICAL_HEAD, description = "gui.action.push.vertical")
     @Serializable.Number(minValue = 0)
-    @Serializable.Optional(defaultValue = "VERTICAL_DEFAULT")
-    private double verticalVelocity;
+    private NumericValue verticalVelocity;
 
     public PushAction() {
-        this(HORIZONTAL_DEFAULT, VERTICAL_DEFAULT);
+        this(new NumericValue(HORIZONTAL_DEFAULT), new NumericValue(VERTICAL_DEFAULT));
     }
 
     public static PushAction deserialize(Map<String, Object> map) {
-        double horizontalVelocity = (double) map.getOrDefault("horizontalVelocity", HORIZONTAL_DEFAULT);
-        double verticalVelocity = (double) map.getOrDefault("verticalVelocity", VERTICAL_DEFAULT);
+        NumericValue horizontalVelocity;
+        NumericValue verticalVelocity;
+        try {
+            horizontalVelocity = (NumericValue) map.getOrDefault("horizontalVelocity", new NumericValue(HORIZONTAL_DEFAULT));
+            verticalVelocity = (NumericValue) map.getOrDefault("verticalVelocity", new NumericValue(VERTICAL_DEFAULT));
+        } catch (ClassCastException e) {
+            horizontalVelocity = new NumericValue(((Number) map.getOrDefault("horizontalVelocity", HORIZONTAL_DEFAULT)).doubleValue());
+            verticalVelocity = new NumericValue(((Number) map.getOrDefault("verticalVelocity", VERTICAL_DEFAULT)).doubleValue());
+        }
         return new PushAction(horizontalVelocity, verticalVelocity);
     }
 
@@ -60,13 +66,15 @@ public class PushAction extends EntityAction {
         }
         if (difference != null) {
             difference.normalize();
+            double hV = horizontalVelocity.getRealValue(target, source);
+            double vV = verticalVelocity.getRealValue(target, source);
             if (Double.isFinite(difference.getX()) && Double.isFinite(difference.getY())
                     && Double.isFinite(difference.getZ())) {
-                difference.setX(difference.getX() * horizontalVelocity);
-                difference.setZ(difference.getZ() * horizontalVelocity);
-                difference.setY(verticalVelocity);
-                entity.getTarget().setVelocity(difference.setY(0).multiply(horizontalVelocity)
-                        .add(new Vector(0, verticalVelocity, 0)));
+                difference.setX(difference.getX() * hV);
+                difference.setZ(difference.getZ() * hV);
+                difference.setY(vV);
+                entity.getTarget().setVelocity(difference.setY(0).multiply(hV)
+                        .add(new Vector(0, vV, 0)));
             }
         }
         return ActionResult.SUCCESS;

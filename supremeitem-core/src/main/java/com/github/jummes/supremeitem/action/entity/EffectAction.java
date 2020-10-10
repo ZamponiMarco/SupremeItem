@@ -9,6 +9,7 @@ import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
+import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang.WordUtils;
@@ -44,12 +45,10 @@ public class EffectAction extends Action {
     private PotionEffectType type;
     @Serializable(headTexture = DURATION_HEAD, description = "gui.action.effect.duration")
     @Serializable.Number(minValue = 0)
-    @Serializable.Optional(defaultValue = "DURATION_DEFAULT")
-    private int duration;
+    private NumericValue duration;
     @Serializable(headTexture = LEVEL_HEAD, description = "gui.action.effect.level")
     @Serializable.Number(minValue = 0)
-    @Serializable.Optional(defaultValue = "LEVEL_DEFAULT")
-    private int level;
+    private NumericValue level;
     @Serializable(headTexture = PARTICLE_HEAD, description = "gui.action.effect.particles")
     @Serializable.Optional(defaultValue = "PARTICLES_DEFAULT")
     private boolean particles;
@@ -61,18 +60,25 @@ public class EffectAction extends Action {
     private boolean icon;
 
     public EffectAction() {
-        this(PotionEffectType.INCREASE_DAMAGE, DURATION_DEFAULT, LEVEL_DEFAULT, PARTICLES_DEFAULT,
-                AMBIENT_DEFAULT, ICON_DEFAULT);
+        this(PotionEffectType.INCREASE_DAMAGE, new NumericValue(DURATION_DEFAULT), new NumericValue(LEVEL_DEFAULT),
+                PARTICLES_DEFAULT, AMBIENT_DEFAULT, ICON_DEFAULT);
     }
 
     public static EffectAction deserialize(Map<String, Object> map) {
         PotionEffectType type = PotionEffectType.getByName(((String) map.getOrDefault("type", "INCREASE_DAMAGE"))
                 .replaceAll("[\\[\\]\\d, ]|PotionEffectType", ""));
-        int duration = (int) map.getOrDefault("duration", DURATION_DEFAULT);
-        int level = (int) map.getOrDefault("level", LEVEL_DEFAULT);
         boolean particles = (boolean) map.getOrDefault("particles", PARTICLES_DEFAULT);
         boolean ambient = (boolean) map.getOrDefault("ambient", AMBIENT_DEFAULT);
         boolean icon = (boolean) map.getOrDefault("icon", ICON_DEFAULT);
+        NumericValue duration;
+        NumericValue level;
+        try {
+            duration = (NumericValue) map.getOrDefault("duration", new NumericValue(DURATION_DEFAULT));
+            level = (NumericValue) map.getOrDefault("level", new NumericValue(LEVEL_DEFAULT));
+        } catch (ClassCastException e) {
+            duration = new NumericValue(((Number) map.getOrDefault("duration", DURATION_DEFAULT)).doubleValue());
+            level = new NumericValue(((Number) map.getOrDefault("level", LEVEL_DEFAULT)).doubleValue());
+        }
         return new EffectAction(type, duration, level, particles, ambient, icon);
     }
 
@@ -89,7 +95,9 @@ public class EffectAction extends Action {
 
     @Override
     public ActionResult execute(Target target, Source source) {
-        ((EntityTarget) target).getTarget().addPotionEffect(new PotionEffect(type, duration, level, ambient, particles, icon));
+        ((EntityTarget) target).getTarget().addPotionEffect(new PotionEffect(type,
+                (int) duration.getRealValue(target, source), (int) level.getRealValue(target, source), ambient,
+                particles, icon));
         return ActionResult.SUCCESS;
     }
 

@@ -14,6 +14,7 @@ import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
+import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -48,23 +49,27 @@ public class DelayedAction extends MetaAction {
     private List<Action> actions;
     @Serializable(headTexture = DELAY_HEAD, description = "gui.action.delayed.delay")
     @Serializable.Number(minValue = 0)
-    @Serializable.Optional(defaultValue = "DELAY_DEFAULT")
-    private int delay;
+    private NumericValue delay;
 
     public DelayedAction() {
-        this(Lists.newArrayList(), DELAY_DEFAULT);
+        this(Lists.newArrayList(), new NumericValue(DELAY_DEFAULT));
     }
 
     public static DelayedAction deserialize(Map<String, Object> map) {
         List<Action> actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
-        int delay = (int) map.getOrDefault("delay", DELAY_DEFAULT);
+        NumericValue delay;
+        try {
+            delay = (NumericValue) map.getOrDefault("delay", new NumericValue(DELAY_DEFAULT));
+        } catch (ClassCastException e) {
+            delay = new NumericValue(((Number) map.getOrDefault("delay", DELAY_DEFAULT)).doubleValue());
+        }
         return new DelayedAction(actions, delay);
     }
 
     @Override
     protected ActionResult execute(Target target, Source source) {
         Bukkit.getScheduler().runTaskLater(SupremeItem.getInstance(), () ->
-                actions.forEach(action -> action.executeAction(target, source)), delay);
+                actions.forEach(action -> action.executeAction(target, source)), (long) delay.getRealValue(target, source));
         return ActionResult.SUCCESS;
     }
 

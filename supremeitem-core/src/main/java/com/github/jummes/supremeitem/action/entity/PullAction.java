@@ -9,6 +9,7 @@ import com.github.jummes.supremeitem.action.source.LocationSource;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
+import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import org.bukkit.inventory.ItemStack;
@@ -28,15 +29,19 @@ public class PullAction extends EntityAction {
 
     @Serializable(headTexture = HEAD, description = "gui.action.pull.force")
     @Serializable.Number(minValue = 0)
-    @Serializable.Optional(defaultValue = "FORCE_DEFAULT")
-    private double force;
+    private NumericValue force;
 
     public PullAction() {
-        this(FORCE_DEFAULT);
+        this(new NumericValue(FORCE_DEFAULT));
     }
 
     public static PullAction deserialize(Map<String, Object> map) {
-        double force = (double) map.getOrDefault("force", FORCE_DEFAULT);
+        NumericValue force;
+        try {
+            force = (NumericValue) map.getOrDefault("force", new NumericValue(FORCE_DEFAULT));
+        } catch (ClassCastException e) {
+            force = new NumericValue(((Number) map.getOrDefault("force", FORCE_DEFAULT)).doubleValue());
+        }
         return new PullAction(force);
     }
 
@@ -55,7 +60,7 @@ public class PullAction extends EntityAction {
             difference.normalize();
             if (Double.isFinite(difference.getX()) && Double.isFinite(difference.getY())
                     && Double.isFinite(difference.getZ())) {
-                difference.multiply(force);
+                difference.multiply(force.getRealValue(target, source));
                 entity.getTarget().setVelocity(difference);
             }
         }
