@@ -47,7 +47,7 @@ public class ParticleAction extends Action {
     @Serializable(headTexture = TYPE_HEAD, stringValue = true, description = "gui.action.particle.type", fromListMapper = "particlesMapper", fromList = "getParticles")
     private Particle type;
     @Serializable(headTexture = COUNT_HEAD, description = "gui.action.particle.count")
-    @Serializable.Number(minValue = 0)
+    @Serializable.Number(minValue = 0, scale = 1)
     private NumericValue count;
     @Serializable(headTexture = OFFSET_HEAD, description = "gui.action.particle.offset")
     @Serializable.Number(minValue = 0)
@@ -103,7 +103,7 @@ public class ParticleAction extends Action {
     public ActionResult execute(Target target, Source source) {
         int count = (int) this.count.getRealValue(target, source);
         double offset = this.offset.getRealValue(target, source);
-        double speed = this.offset.getRealValue(target, source);
+        double speed = this.speed.getRealValue(target, source);
         if (target instanceof LocationTarget) {
             ((LocationTarget) target).getTarget().getWorld().spawnParticle(type, ((LocationTarget) target).getTarget(),
                     count, offset, offset, offset, speed, data == null ? null : data.buildData(), force);

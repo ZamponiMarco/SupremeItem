@@ -346,6 +346,10 @@ gui:
         - "&6&oTarget: &ewearer entity."
       timer:
         - "&7&oThe interval of time between skill executions."
+    sneak-skill:
+      description:
+        - "&7&oSet a skill to be triggered when a player"
+        - "&7&oenters sneaking mode."
   entity:
     no-entity:
       description:

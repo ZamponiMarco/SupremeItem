@@ -48,7 +48,7 @@ public class DelayedAction extends MetaAction {
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     private List<Action> actions;
     @Serializable(headTexture = DELAY_HEAD, description = "gui.action.delayed.delay")
-    @Serializable.Number(minValue = 0)
+    @Serializable.Number(minValue = 0, scale = 1)
     private NumericValue delay;
 
     public DelayedAction() {
