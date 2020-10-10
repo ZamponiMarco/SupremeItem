@@ -4,6 +4,7 @@ import com.github.jummes.libs.command.PluginCommandExecutor;
 import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.localization.PluginLocale;
 import com.github.jummes.supremeitem.action.Action;
+import com.github.jummes.supremeitem.action.location.ParticleAction;
 import com.github.jummes.supremeitem.command.*;
 import com.github.jummes.supremeitem.condition.Condition;
 import com.github.jummes.supremeitem.condition.bool.BooleanCondition;
@@ -55,6 +56,10 @@ public class SupremeItem extends JavaPlugin {
         ConfigurationSerialization.registerClass(Placeholder.class);
 
         ConfigurationSerialization.registerClass(NumericValue.class);
+
+        ConfigurationSerialization.registerClass(ParticleAction.BlockDataData.class);
+        ConfigurationSerialization.registerClass(ParticleAction.DustOptionsData.class);
+        ConfigurationSerialization.registerClass(ParticleAction.ItemStackData.class);
     }
 
     private ItemManager itemManager;
