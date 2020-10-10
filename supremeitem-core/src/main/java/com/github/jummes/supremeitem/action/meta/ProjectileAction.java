@@ -12,6 +12,7 @@ import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.entity.Entity;
 import com.github.jummes.supremeitem.entity.NoEntity;
+import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
 import com.github.jummes.supremeitem.projectile.Projectile;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
@@ -46,12 +47,10 @@ public class ProjectileAction extends MetaAction {
 
     @Serializable(headTexture = INITIAL_HEAD, description = "gui.action.projectile.initial-speed")
     @Serializable.Number(minValue = 0)
-    @Serializable.Optional(defaultValue = "INITIAL_DEFAULT")
-    private double initialSpeed;
+    private NumericValue initialSpeed;
     @Serializable(headTexture = GRAVITY_HEAD, description = "gui.action.projectile.gravity")
     @Serializable.Number(minValue = 0)
-    @Serializable.Optional(defaultValue = "GRAVITY_DEFAULT")
-    private double gravity;
+    private NumericValue gravity;
     @Serializable(headTexture = ENTITY_HIT_HEAD, description = "gui.action.projectile.entity-hit-actions")
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     private List<Action> onEntityHitActions;
@@ -65,22 +64,30 @@ public class ProjectileAction extends MetaAction {
     private Entity entity;
     @Serializable(headTexture = HIT_BOX_HEAD, description = "gui.action.projectile.hit-box")
     @Serializable.Number(minValue = 0)
-    @Serializable.Optional(defaultValue = "HIT_BOX_SIZE_DEFAULT")
-    private double hitBoxSize;
+    private NumericValue hitBoxSize;
 
     public ProjectileAction() {
-        this(INITIAL_DEFAULT, GRAVITY_DEFAULT, Lists.newArrayList(), Lists.newArrayList(), Lists.newArrayList(),
-                new NoEntity(), HIT_BOX_SIZE_DEFAULT);
+        this(new NumericValue(INITIAL_DEFAULT), new NumericValue(GRAVITY_DEFAULT), Lists.newArrayList(), Lists.newArrayList(), Lists.newArrayList(),
+                new NoEntity(), new NumericValue(HIT_BOX_SIZE_DEFAULT));
     }
 
     public static ProjectileAction deserialize(Map<String, Object> map) {
-        double initialSpeed = (double) map.getOrDefault("initialSpeed", INITIAL_DEFAULT);
-        double gravity = (double) map.getOrDefault("gravity", GRAVITY_DEFAULT);
         List<Action> onEntityHitActions = (List<Action>) map.getOrDefault("onEntityHitActions", Lists.newArrayList());
         List<Action> onBlockHitActions = (List<Action>) map.getOrDefault("onBlockHitActions", Lists.newArrayList());
         List<Action> onProjectileTickActions = (List<Action>) map.getOrDefault("onProjectileTickActions", Lists.newArrayList());
         Entity entity = (Entity) map.getOrDefault("entity", new NoEntity());
-        double hitBoxSize = (double) map.getOrDefault("hitBoxSize", HIT_BOX_SIZE_DEFAULT);
+        NumericValue initialSpeed;
+        NumericValue gravity;
+        NumericValue hitBoxSize;
+        try {
+            initialSpeed = (NumericValue) map.getOrDefault("initialSpeed", new NumericValue(INITIAL_DEFAULT));
+            gravity = (NumericValue) map.getOrDefault("gravity", new NumericValue(GRAVITY_DEFAULT));
+            hitBoxSize = (NumericValue) map.getOrDefault("hitBoxSize", new NumericValue(HIT_BOX_SIZE_DEFAULT));
+        } catch (ClassCastException e) {
+            initialSpeed = new NumericValue(((Number) map.getOrDefault("initialSpeed", INITIAL_DEFAULT)).doubleValue());
+            gravity = new NumericValue(((Number) map.getOrDefault("gravity", GRAVITY_DEFAULT)).doubleValue());
+            hitBoxSize = new NumericValue(((Number) map.getOrDefault("hitBoxSize", HIT_BOX_SIZE_DEFAULT)).doubleValue());
+        }
         return new ProjectileAction(initialSpeed, gravity, onEntityHitActions, onBlockHitActions,
                 onProjectileTickActions, entity, hitBoxSize);
     }
@@ -100,8 +107,9 @@ public class ProjectileAction extends MetaAction {
             l = ((LocationSource) source).getSource();
         }
         if (l != null) {
-            new Projectile(source, l, gravity, initialSpeed, onEntityHitActions, onBlockHitActions, onProjectileTickActions,
-                    this.entity, this.hitBoxSize);
+            new Projectile(source, l, gravity.getRealValue(target, source), initialSpeed.getRealValue(target, source),
+                    onEntityHitActions, onBlockHitActions, onProjectileTickActions,
+                    this.entity, this.hitBoxSize.getRealValue(target, source));
         }
         return ActionResult.SUCCESS;
     }

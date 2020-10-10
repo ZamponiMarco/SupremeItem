@@ -8,6 +8,7 @@ import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
+import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import org.bukkit.entity.LivingEntity;
@@ -32,17 +33,21 @@ public class ConsumeItemAction extends EntityAction {
     @Serializable(displayItem = "getFlatItem", description = "gui.action.consume-item.item")
     private ItemStackWrapper item;
     @Serializable(headTexture = AMOUNT_HEAD, description = "gui.action.consume-item.amount")
-    @Serializable.Number(minValue = 1)
-    @Serializable.Optional(defaultValue = "AMOUNT_DEFAULT")
-    private int amount;
+    @Serializable.Number(minValue = 1, scale = 1)
+    private NumericValue amount;
 
     public ConsumeItemAction() {
-        this(new ItemStackWrapper(), AMOUNT_DEFAULT);
+        this(new ItemStackWrapper(), new NumericValue(AMOUNT_DEFAULT));
     }
 
     public static ConsumeItemAction deserialize(Map<String, Object> map) {
         ItemStackWrapper item = (ItemStackWrapper) map.get("item");
-        int amount = (int) map.getOrDefault("amount", AMOUNT_DEFAULT);
+        NumericValue amount;
+        try {
+            amount = (NumericValue) map.getOrDefault("amount", new NumericValue(AMOUNT_DEFAULT));
+        } catch (ClassCastException e) {
+            amount = new NumericValue(((Number) map.getOrDefault("amount", AMOUNT_DEFAULT)).doubleValue());
+        }
         return new ConsumeItemAction(item, amount);
     }
 
@@ -50,7 +55,7 @@ public class ConsumeItemAction extends EntityAction {
     protected ActionResult execute(Target target, Source source) {
         LivingEntity e = ((EntityTarget) target).getTarget();
         if (e instanceof InventoryHolder) {
-            int toRemove = amount;
+            int toRemove = (int) amount.getRealValue(target, source);
             Inventory inventory = ((InventoryHolder) e).getInventory();
             List<ItemStack> toConsume = Arrays.stream(inventory.getStorageContents()).filter(item -> ItemUtils.isSimilar(item,
                     this.item.getWrapped())).collect(Collectors.toList());

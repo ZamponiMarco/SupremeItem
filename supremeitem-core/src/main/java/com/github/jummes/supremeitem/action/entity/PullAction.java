@@ -9,6 +9,7 @@ import com.github.jummes.supremeitem.action.source.LocationSource;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
+import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import org.bukkit.inventory.ItemStack;
@@ -28,15 +29,19 @@ public class PullAction extends EntityAction {
 
     @Serializable(headTexture = HEAD, description = "gui.action.pull.force")
     @Serializable.Number(minValue = 0)
-    @Serializable.Optional(defaultValue = "FORCE_DEFAULT")
-    private double force;
+    private NumericValue force;
 
     public PullAction() {
-        this(FORCE_DEFAULT);
+        this(new NumericValue(FORCE_DEFAULT));
     }
 
     public static PullAction deserialize(Map<String, Object> map) {
-        double force = (double) map.getOrDefault("force", FORCE_DEFAULT);
+        NumericValue force;
+        try {
+            force = (NumericValue) map.getOrDefault("force", new NumericValue(FORCE_DEFAULT));
+        } catch (ClassCastException e) {
+            force = new NumericValue(((Number) map.getOrDefault("force", FORCE_DEFAULT)).doubleValue());
+        }
         return new PullAction(force);
     }
 
@@ -55,7 +60,7 @@ public class PullAction extends EntityAction {
             difference.normalize();
             if (Double.isFinite(difference.getX()) && Double.isFinite(difference.getY())
                     && Double.isFinite(difference.getZ())) {
-                difference.multiply(force);
+                difference.multiply(force.getRealValue(target, source));
                 entity.getTarget().setVelocity(difference);
             }
         }
@@ -70,6 +75,6 @@ public class PullAction extends EntityAction {
     @Override
     public ItemStack getGUIItem() {
         return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGMzMDFhMTdjOTU1ODA3ZDg5ZjljNzJhMTkyMDdkMTM5M2I4YzU4YzRlNmU0MjBmNzE0ZjY5NmE4N2ZkZCJ9fX0="),
-                "&6&Pull", Libs.getLocale().getList("gui.action.description"));
+                "&6&lPull", Libs.getLocale().getList("gui.action.description"));
     }
 }

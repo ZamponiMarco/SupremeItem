@@ -64,8 +64,9 @@ public class PlayerItemListener implements Listener {
     @EventHandler
     public void onPlayerSneak(PlayerToggleSneakEvent e) {
         Player player = e.getPlayer();
-        if (player.isSneaking()) {
+        if (e.isSneaking()) {
             boolean cancelled = executeSneakSkill(player);
+            e.setCancelled(cancelled);
         }
     }
 

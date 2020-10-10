@@ -11,6 +11,7 @@ import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
+import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang.WordUtils;
@@ -42,22 +43,28 @@ public class SoundAction extends Action {
     private SoundCategory category;
     @Serializable(headTexture = PITCH_HEAD, description = "gui.action.sound.pitch")
     @Serializable.Number(minValue = 0, maxValue = 2)
-    @Serializable.Optional(defaultValue = "PITCH_DEFAULT")
-    private double pitch;
+    private NumericValue pitch;
     @Serializable(headTexture = VOLUME_HEAD, description = "gui.action.sound.volume")
     @Serializable.Number(minValue = 0)
-    @Serializable.Optional(defaultValue = "VOLUME_DEFAULT")
-    private double volume;
+    private NumericValue volume;
 
     public SoundAction() {
-        this(Sound.BLOCK_ANVIL_BREAK, SoundCategory.MASTER, PITCH_DEFAULT, VOLUME_DEFAULT);
+        this(Sound.BLOCK_ANVIL_BREAK, SoundCategory.MASTER, new NumericValue(PITCH_DEFAULT), new NumericValue(VOLUME_DEFAULT));
     }
 
     public static SoundAction deserialize(Map<String, Object> map) {
         Sound type = Sound.valueOf((String) map.getOrDefault("type", "BLOCK_ANVIL_BREAK"));
         SoundCategory category = SoundCategory.valueOf((String) map.getOrDefault("category", "MASTER"));
-        double pitch = (double) map.getOrDefault("pitch", PITCH_DEFAULT);
-        double volume = (double) map.getOrDefault("volume", VOLUME_DEFAULT);
+
+        NumericValue pitch;
+        NumericValue volume;
+        try {
+            pitch = (NumericValue) map.getOrDefault("pitch", new NumericValue(PITCH_DEFAULT));
+            volume = (NumericValue) map.getOrDefault("volume", new NumericValue(VOLUME_DEFAULT));
+        } catch (ClassCastException e) {
+            pitch = new NumericValue(((Number) map.getOrDefault("pitch", PITCH_DEFAULT)).doubleValue());
+            volume = new NumericValue(((Number) map.getOrDefault("volume", VOLUME_DEFAULT)).doubleValue());
+        }
         return new SoundAction(type, category, pitch, volume);
     }
 
@@ -87,6 +94,8 @@ public class SoundAction extends Action {
 
     @Override
     public ActionResult execute(Target target, Source source) {
+        double volume = this.volume.getRealValue(target, source);
+        double pitch = this.pitch.getRealValue(target, source);
         if (target instanceof LocationTarget) {
             ((LocationTarget) target).getTarget().getWorld().playSound(((LocationTarget) target).getTarget(), type,
                     category, (float) volume, (float) pitch);

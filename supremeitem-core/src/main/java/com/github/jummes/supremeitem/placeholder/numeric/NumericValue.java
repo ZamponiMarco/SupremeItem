@@ -28,8 +28,6 @@ public class NumericValue implements Model {
 
     private static final boolean DOUBLE_VALUE_DEFAULT = true;
 
-    private static final String VALUE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdkYzNlMjlhMDkyM2U1MmVjZWU2YjRjOWQ1MzNhNzllNzRiYjZiZWQ1NDFiNDk1YTEzYWJkMzU5NjI3NjUzIn19fQ===";
-
     @Serializable
     @Serializable.Optional(defaultValue = "DOUBLE_VALUE_DEFAULT")
     private boolean doubleValue;
@@ -40,6 +38,10 @@ public class NumericValue implements Model {
 
     public NumericValue() {
         this(DOUBLE_VALUE_DEFAULT, 10.0, new HealthPlaceholder());
+    }
+
+    public NumericValue(double i) {
+        this(true, i, new HealthPlaceholder());
     }
 
     public static NumericValue deserialize(Map<String, Object> map) {
@@ -83,8 +85,14 @@ public class NumericValue implements Model {
             if (e.getClick().equals(ClickType.LEFT)) {
                 if (doubleValue) {
                     path.addModel(this);
-                    return new DoubleFieldChangeInventoryHolder(plugin, parent, path,
-                            new FieldChangeInformation(getClass().getDeclaredField("value")));
+                    if (field.isAnnotationPresent(Serializable.Number.class)) {
+                        return new DoubleFieldChangeInventoryHolder(plugin, parent, path,
+                                new FieldChangeInformation(getClass().getDeclaredField("value")),
+                                field.getAnnotation(Serializable.Number.class));
+                    } else {
+                        return new DoubleFieldChangeInventoryHolder(plugin, parent, path,
+                                new FieldChangeInformation(getClass().getDeclaredField("value")));
+                    }
                 } else {
                     path.addModel(placeholderValue);
                     return new ModelObjectInventoryHolder(plugin, parent, path);

@@ -8,6 +8,7 @@ import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
+import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import org.bukkit.attribute.Attribute;
@@ -29,20 +30,25 @@ public class HealAction extends Action {
     @Serializable(headTexture = HEAD, description = "gui.action.heal.amount")
     @Serializable.Number(minValue = 0)
     @Serializable.Optional(defaultValue = "AMOUNT_DEFAULT")
-    private int amount;
+    private NumericValue amount;
 
     public HealAction() {
-        this(AMOUNT_DEFAULT);
+        this(new NumericValue(AMOUNT_DEFAULT));
     }
 
     public static HealAction deserialize(Map<String, Object> map) {
-        int amount = (int) map.getOrDefault("amount", AMOUNT_DEFAULT);
+        NumericValue amount;
+        try {
+            amount = (NumericValue) map.getOrDefault("amount", new NumericValue(AMOUNT_DEFAULT));
+        } catch (ClassCastException e) {
+            amount = new NumericValue(((Number) map.getOrDefault("amount", AMOUNT_DEFAULT)).doubleValue());
+        }
         return new HealAction(amount);
     }
 
     @Override
     public ActionResult execute(Target target, Source source) {
-        healEntity(((EntityTarget) target).getTarget());
+        healEntity(((EntityTarget) target).getTarget(), target, source);
         return ActionResult.SUCCESS;
     }
 
@@ -51,17 +57,17 @@ public class HealAction extends Action {
         return Lists.newArrayList(EntityTarget.class);
     }
 
-    private void healEntity(LivingEntity e) {
+    private void healEntity(LivingEntity e, Target target, Source source) {
         double maxHealth = e.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
         double currHealth = e.getHealth();
 
-        e.setHealth(Math.min(currHealth + amount, maxHealth));
+        e.setHealth(Math.min(currHealth + amount.getRealValue(target, source), maxHealth));
     }
 
     @Override
     public ItemStack getGUIItem() {
         return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjEyNjZiNzQ4MjQyMTE1YjMwMzcwOGQ1OWNlOWQ1NTIzYjdkNzljMTNmNmRiNGViYzkxZGQ0NzIwOWViNzU5YyJ9fX0="),
-                "&6&lHeal: &c" + amount, Libs.getLocale().getList("gui.action.description"));
+                "&6&lHeal: &c" + amount.getName(), Libs.getLocale().getList("gui.action.description"));
     }
 
 }

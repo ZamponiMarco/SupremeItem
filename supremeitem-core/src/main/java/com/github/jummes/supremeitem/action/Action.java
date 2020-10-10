@@ -14,6 +14,7 @@ import com.github.jummes.supremeitem.action.meta.MetaAction;
 import com.github.jummes.supremeitem.action.meta.TimerAction;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
+import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang.ClassUtils;
 import org.apache.commons.lang.reflect.FieldUtils;
@@ -71,7 +72,7 @@ public abstract class Action implements Model {
             path.popModel();
             onRemoval();
             if (e.getHotbarButton() == 0) {
-                actions.add(new DelayedAction(Lists.newArrayList(this), 10));
+                actions.add(new DelayedAction(Lists.newArrayList(this), new NumericValue(10)));
                 path.saveModel();
             } else if (e.getHotbarButton() == 1) {
                 actions.add(new TimerAction(5, 10, Lists.newArrayList(this)));
