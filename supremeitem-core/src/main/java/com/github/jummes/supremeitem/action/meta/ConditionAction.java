@@ -10,7 +10,7 @@ import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.condition.Condition;
-import com.github.jummes.supremeitem.condition.numeric.LessThanCondition;
+import com.github.jummes.supremeitem.condition.bool.BooleanCondition;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import org.bukkit.inventory.ItemStack;
@@ -33,7 +33,7 @@ public class ConditionAction extends MetaAction {
     private Condition condition;
 
     public ConditionAction() {
-        this(Lists.newArrayList(), new LessThanCondition());
+        this(Lists.newArrayList(), new BooleanCondition());
     }
 
     public static ConditionAction deserialize(Map<String, Object> map) {

@@ -205,6 +205,20 @@ gui:
         - "&7&oto execute the actions."
         - "&6&lLeft click &eto modify."
         - "&6&lRight click &eto delete."
+    repeat-until:
+      description:
+        - "&7&oSet the execution of actions"
+        - "&7&ocontinuously based on a defined"
+        - "&7&ointerval until a condition is met."
+      actions:
+        - "&7&oThe group of actions to execute."
+      condition:
+        - "&7&oThe condition that has to be met"
+        - "&7&oto execute the actions."
+        - "&6&lLeft click &eto modify."
+        - "&6&lRight click &eto delete."
+      timer:
+        - "&7&oThe time interval between actions executions."
   skill:
     description:
       - "&6&lLeft click &eto modify."

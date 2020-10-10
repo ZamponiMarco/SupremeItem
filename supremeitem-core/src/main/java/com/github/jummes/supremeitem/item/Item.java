@@ -50,7 +50,7 @@ public class Item implements Model {
     private boolean consumable;
 
     public Item() {
-        this(UUID.randomUUID(), "skill" + counter, new ItemStackWrapper(true),
+        this(UUID.randomUUID(), "item" + counter, new ItemStackWrapper(true),
                 Sets.newHashSet(), CONSUMABLE_DEFAULT);
     }
 
