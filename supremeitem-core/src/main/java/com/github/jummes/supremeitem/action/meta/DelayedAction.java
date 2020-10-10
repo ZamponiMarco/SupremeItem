@@ -36,7 +36,7 @@ import java.util.Map;
 @Enumerable.Child
 @Enumerable.Displayable(name = "&c&lDelayed Action", description = "gui.action.delayed.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZlOGNmZjc1ZjdkNDMzMjYwYWYxZWNiMmY3NzNiNGJjMzgxZDk1MWRlNGUyZWI2NjE0MjM3NzlhNTkwZTcyYiJ9fX0=")
 @CustomClickable(customCollectionClickConsumer = "getCustomConsumer")
-public class DelayedAction extends Action {
+public class DelayedAction extends MetaAction {
 
     private static final int DELAY_DEFAULT = 10;
 

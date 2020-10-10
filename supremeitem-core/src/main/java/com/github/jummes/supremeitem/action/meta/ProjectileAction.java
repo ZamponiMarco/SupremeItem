@@ -30,7 +30,7 @@ import java.util.Map;
 @Setter
 @Enumerable.Child
 @Enumerable.Displayable(name = "&c&lProjectile", description = "gui.action.projectile.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjE1ZmVjNjUxOGE0MWYxNjYxMzFlNjViMTBmNDZmYjg3ZTk3YzQ5MmI0NmRiYzI1ZGUyNjM3NjcyMWZhNjRlMCJ9fX0=")
-public class ProjectileAction extends Action {
+public class ProjectileAction extends MetaAction {
 
     private static final double INITIAL_DEFAULT = 10.0;
     private static final double GRAVITY_DEFAULT = 0.1;

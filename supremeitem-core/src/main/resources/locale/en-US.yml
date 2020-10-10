@@ -214,7 +214,7 @@ gui:
         - "&7&oThe group of actions to execute."
       condition:
         - "&7&oThe condition that has to be met"
-        - "&7&oto execute the actions."
+        - "&7&oto stop executing the actions."
         - "&6&lLeft click &eto modify."
         - "&6&lRight click &eto delete."
       timer:

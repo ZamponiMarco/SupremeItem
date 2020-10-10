@@ -66,7 +66,7 @@ public class RepeatUntilAction extends MetaAction {
         return new BukkitRunnable() {
             @Override
             public void run() {
-                if (!condition.checkCondition(target, source)) {
+                if (condition.checkCondition(target, source)) {
                     this.cancel();
                     return;
                 }
