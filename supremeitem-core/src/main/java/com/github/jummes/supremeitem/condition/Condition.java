@@ -6,9 +6,10 @@ import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.model.Model;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
+import com.github.jummes.supremeitem.condition.bool.TrueFalseCondition;
 import com.github.jummes.supremeitem.condition.numeric.NumericCondition;
 
-@Enumerable.Parent(classArray = {NumericCondition.class, BooleanCondition.class})
+@Enumerable.Parent(classArray = {NumericCondition.class, TrueFalseCondition.class})
 @GUINameable(GUIName = "getName")
 public abstract class Condition implements Model {
 

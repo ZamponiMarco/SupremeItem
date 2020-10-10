@@ -351,6 +351,9 @@ gui:
           - "&7&oSet a placeholder that checks if"
           - "&7&otarget or source is flying. (only players)"
   condition:
+    description:
+      - "&6&lLeft click &eto modify."
+      - "&6&lRight click &eto delete."
     negate:
       - "&7&oWhether the condition should be negated"
       - "&7&oor not."
@@ -379,6 +382,10 @@ gui:
       description:
         - "&7&oSet a condition that checks if the first operand"
         - "&7&oequals the second one."
+    true-false:
+      description:
+        - "&7&oSet a condition based on."
+        - "&7&oboolean values."
     boolean:
       description:
         - "&7&oSet a condition that checks if the placeholder"
@@ -386,3 +393,15 @@ gui:
       value:
         - "&7&oThe placeholder that will be computed to return"
         - "&7&othe boolean value."
+    and:
+      description:
+        - "&7&oSet a condition that checks all the"
+        - "&7&ocontained conditions returns true."
+      conditions:
+        - "&7&oThe collection of conditions."
+    or:
+      description:
+        - "&7&oSet a condition that checks any of the"
+        - "&7&ocontained conditions returns true."
+      conditions:
+        - "&7&oThe collection of conditions."

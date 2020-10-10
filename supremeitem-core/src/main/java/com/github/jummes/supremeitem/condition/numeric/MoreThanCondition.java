@@ -3,9 +3,12 @@ package com.github.jummes.supremeitem.condition.numeric;
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.GUINameable;
 import com.github.jummes.libs.annotation.Serializable;
+import com.github.jummes.libs.core.Libs;
+import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
 
@@ -43,6 +46,11 @@ public class MoreThanCondition extends NumericCondition {
     @Override
     public boolean testCondition(Target target, Source source) {
         return operandOne.getRealValue(target, source) > operandTwo.getRealValue(target, source);
+    }
+
+    public ItemStack getGUIItem() {
+        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODEzM2E0MjM2MDY2OTRkYTZjOTFhODRlYTY2ZDQ5ZWZjM2EyM2Y3M2ZhOGFmOGNjMWZlMjk4M2ZlOGJiNWQzIn19fQ"),
+                getName(), Libs.getLocale().getList("gui.condition.description"));
     }
 
     @Override

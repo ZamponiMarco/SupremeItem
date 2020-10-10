@@ -4,31 +4,20 @@ import com.github.jummes.libs.command.PluginCommandExecutor;
 import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.localization.PluginLocale;
 import com.github.jummes.supremeitem.action.Action;
-import com.github.jummes.supremeitem.action.entity.*;
-import com.github.jummes.supremeitem.action.location.ParticleAction;
-import com.github.jummes.supremeitem.action.location.SoundAction;
-import com.github.jummes.supremeitem.action.meta.*;
 import com.github.jummes.supremeitem.command.*;
 import com.github.jummes.supremeitem.condition.Condition;
-import com.github.jummes.supremeitem.condition.numeric.LessThanCondition;
+import com.github.jummes.supremeitem.condition.bool.BooleanCondition;
 import com.github.jummes.supremeitem.entity.Entity;
-import com.github.jummes.supremeitem.entity.GenericEntity;
-import com.github.jummes.supremeitem.entity.ItemEntity;
-import com.github.jummes.supremeitem.entity.NoEntity;
 import com.github.jummes.supremeitem.entity.selector.EntitySelector;
-import com.github.jummes.supremeitem.entity.selector.SourceSelector;
 import com.github.jummes.supremeitem.item.Item;
 import com.github.jummes.supremeitem.listener.PlayerItemListener;
 import com.github.jummes.supremeitem.manager.CooldownManager;
 import com.github.jummes.supremeitem.manager.ItemManager;
 import com.github.jummes.supremeitem.manager.SavedSkillManager;
 import com.github.jummes.supremeitem.manager.TimerManager;
-import com.github.jummes.supremeitem.placeholder.numeric.NumericPlaceholder;
 import com.github.jummes.supremeitem.placeholder.Placeholder;
-import com.github.jummes.supremeitem.placeholder.numeric.HealthPlaceholder;
-import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
-import com.github.jummes.supremeitem.skill.*;
+import com.github.jummes.supremeitem.skill.Skill;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
@@ -49,49 +38,20 @@ public class SupremeItem extends JavaPlugin {
         ConfigurationSerialization.registerClass(Item.class);
 
         ConfigurationSerialization.registerClass(Skill.class);
-        ConfigurationSerialization.registerClass(RightClickSkill.class);
-        ConfigurationSerialization.registerClass(LeftClickSkill.class);
-        ConfigurationSerialization.registerClass(HitEntitySkill.class);
-        ConfigurationSerialization.registerClass(DamageEntitySkill.class);
-        ConfigurationSerialization.registerClass(TimerSkill.class);
 
         ConfigurationSerialization.registerClass(Action.class);
-        ConfigurationSerialization.registerClass(DamageAction.class);
-        ConfigurationSerialization.registerClass(EffectAction.class);
-        ConfigurationSerialization.registerClass(HealAction.class);
-        ConfigurationSerialization.registerClass(MessageAction.class);
-        ConfigurationSerialization.registerClass(PushAction.class);
-        ConfigurationSerialization.registerClass(PullAction.class);
-        ConfigurationSerialization.registerClass(ParticleAction.class);
-        ConfigurationSerialization.registerClass(ParticleAction.ParticleOptions.class);
-        ConfigurationSerialization.registerClass(ParticleAction.DustOptionsData.class);
-        ConfigurationSerialization.registerClass(ParticleAction.ItemStackData.class);
-        ConfigurationSerialization.registerClass(ParticleAction.BlockDataData.class);
-        ConfigurationSerialization.registerClass(SoundAction.class);
-        ConfigurationSerialization.registerClass(DelayedAction.class);
-        ConfigurationSerialization.registerClass(ProjectileAction.class);
-        ConfigurationSerialization.registerClass(AreaEntitiesAction.class);
-        ConfigurationSerialization.registerClass(TimerAction.class);
-        ConfigurationSerialization.registerClass(CancelEventAction.class);
 
         ConfigurationSerialization.registerClass(Entity.class);
-        ConfigurationSerialization.registerClass(GenericEntity.class);
-        ConfigurationSerialization.registerClass(NoEntity.class);
-        ConfigurationSerialization.registerClass(ItemEntity.class);
-
 
         ConfigurationSerialization.registerClass(EntitySelector.class);
-        ConfigurationSerialization.registerClass(SourceSelector.class);
 
         ConfigurationSerialization.registerClass(SavedSkill.class);
 
         ConfigurationSerialization.registerClass(Condition.class);
-        ConfigurationSerialization.registerClass(LessThanCondition.class);
+        ConfigurationSerialization.registerClass(BooleanCondition.class,
+                "com.github.jummes.supremeitem.condition.BooleanCondition");
 
         ConfigurationSerialization.registerClass(Placeholder.class);
-        ConfigurationSerialization.registerClass(NumericPlaceholder.class);
-        ConfigurationSerialization.registerClass(HealthPlaceholder.class);
-        ConfigurationSerialization.registerClass(NumericValue.class);
     }
 
     private ItemManager itemManager;
