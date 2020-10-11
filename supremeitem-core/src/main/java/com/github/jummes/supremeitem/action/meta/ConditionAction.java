@@ -13,12 +13,16 @@ import com.github.jummes.supremeitem.condition.Condition;
 import com.github.jummes.supremeitem.condition.bool.BooleanCondition;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Map;
 
 @AllArgsConstructor
+@Getter
+@Setter
 @Enumerable.Child
 @Enumerable.Displayable(name = "&c&lCondition Action", description = "gui.action.condition.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmMyNzEwNTI3MTllZjY0MDc5ZWU4YzE0OTg5NTEyMzhhNzRkYWM0YzI3Yjk1NjQwZGI2ZmJkZGMyZDZiNWI2ZSJ9fX0=")
 public class ConditionAction extends MetaAction {
@@ -29,6 +33,7 @@ public class ConditionAction extends MetaAction {
     @Serializable(headTexture = ACTIONS_HEAD, description = "gui.action.condition.actions")
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     private List<Action> actions;
+
     @Serializable(headTexture = CONDITION_HEAD, description = "gui.action.condition.condition")
     private Condition condition;
 

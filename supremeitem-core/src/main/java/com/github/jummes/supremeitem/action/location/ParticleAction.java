@@ -15,12 +15,11 @@ import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.SneakyThrows;
 import org.apache.commons.lang.WordUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.Material;
-import org.bukkit.Particle;
+import org.bukkit.*;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.inventory.ItemStack;
 
@@ -29,6 +28,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
+@Getter
+@Setter
 @Enumerable.Displayable(name = "&c&lParticle", description = "gui.action.particle.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDQ2MWQ5ZDA2YzBiZjRhN2FmNGIxNmZkMTI4MzFlMmJlMGNmNDJlNmU1NWU5YzBkMzExYTJhODk2NWEyM2IzNCJ9fX0=")
 @Enumerable.Child
 public class ParticleAction extends Action {
@@ -46,18 +47,23 @@ public class ParticleAction extends Action {
 
     @Serializable(headTexture = TYPE_HEAD, stringValue = true, description = "gui.action.particle.type", fromListMapper = "particlesMapper", fromList = "getParticles")
     private Particle type;
+
     @Serializable(headTexture = COUNT_HEAD, description = "gui.action.particle.count")
     @Serializable.Number(minValue = 0, scale = 1)
     private NumericValue count;
+
     @Serializable(headTexture = OFFSET_HEAD, description = "gui.action.particle.offset")
     @Serializable.Number(minValue = 0)
     private NumericValue offset;
+
     @Serializable(headTexture = SPEED_HEAD, description = "gui.action.particle.speed")
     @Serializable.Number(minValue = 0)
     private NumericValue speed;
+
     @Serializable(headTexture = FORCE_HEAD, description = "gui.action.particle.force")
     @Serializable.Optional(defaultValue = "FORCE_DEFAULT")
     private boolean force;
+
     @Serializable(displayItem = "getDataObject", description = "gui.action.particle.data")
     private ParticleOptions data;
 
@@ -86,7 +92,7 @@ public class ParticleAction extends Action {
         return new ParticleAction(type, count, offset, speed, force, data);
     }
 
-    public static List<Object> getParticles(ModelPath path) {
+    public static List<Object> getParticles(ModelPath<?> path) {
         return Arrays.stream(Particle.values()).filter(particle -> !particle.name().toLowerCase().contains("legacy")).
                 collect(Collectors.toList());
     }
@@ -105,8 +111,13 @@ public class ParticleAction extends Action {
         double offset = this.offset.getRealValue(target, source);
         double speed = this.speed.getRealValue(target, source);
         if (target instanceof LocationTarget) {
-            ((LocationTarget) target).getTarget().getWorld().spawnParticle(type, ((LocationTarget) target).getTarget(),
-                    count, offset, offset, offset, speed, data == null ? null : data.buildData(), force);
+            World world = ((LocationTarget) target).getTarget().getWorld();
+            if (world != null) {
+                world.spawnParticle(type, ((LocationTarget) target).getTarget(),
+                        count, offset, offset, offset, speed, data == null ? null : data.buildData(), force);
+            } else {
+                return ActionResult.FAILURE;
+            }
         } else if (target instanceof EntityTarget) {
             ((EntityTarget) target).getTarget().getWorld().spawnParticle(type, ((EntityTarget) target).getTarget().
                     getEyeLocation(), count, offset, offset, offset, speed, data == null ? null : data.buildData(), force);
@@ -164,6 +175,8 @@ public class ParticleAction extends Action {
 
     @AllArgsConstructor
     @Enumerable.Child
+    @Getter
+    @Setter
     public static class DustOptionsData extends ParticleOptions {
 
         private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmIyYzI2NzhlOTM2NDA5ODhlNjg1YWM4OTM0N2VmYTQ1MjQxMTljOWQ4ZjcyNzhjZTAxODFiYzNlNGZiMmIwOSJ9fX0=";
@@ -199,6 +212,8 @@ public class ParticleAction extends Action {
 
     @AllArgsConstructor
     @Enumerable.Child
+    @Getter
+    @Setter
     public static class ItemStackData extends ParticleOptions {
 
         private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTJiMzViZGE1ZWJkZjEzNWY0ZTcxY2U0OTcyNmZiZWM1NzM5ZjBhZGVkZjAxYzUxOWUyYWVhN2Y1MTk1MWVhMiJ9fX0=";
@@ -223,6 +238,8 @@ public class ParticleAction extends Action {
 
     @AllArgsConstructor
     @Enumerable.Child
+    @Getter
+    @Setter
     public static class BlockDataData extends ParticleOptions {
 
         private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTU0ODE4MjMzYzgxMTg3M2U4NWY1YTRlYTQ0MjliNzVmMjNiNmFlMGVhNmY1ZmMwZjdiYjQyMGQ3YzQ3MSJ9fX0=";

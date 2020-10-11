@@ -12,6 +12,8 @@ import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -26,6 +28,8 @@ import java.util.function.Function;
 @AllArgsConstructor
 @Enumerable.Displayable(name = "&c&lEffect", description = "gui.action.effect.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzJhN2RjYmY3ZWNhNmI2ZjYzODY1OTFkMjM3OTkxY2ExYjg4OGE0ZjBjNzUzZmY5YTMyMDJjZjBlOTIyMjllMyJ9fX0=")
 @Enumerable.Child
+@Getter
+@Setter
 public class EffectAction extends Action {
 
     private static final int DURATION_DEFAULT = 20;
@@ -43,18 +47,23 @@ public class EffectAction extends Action {
 
     @Serializable(headTexture = TYPE_HEAD, stringValue = true, description = "gui.action.effect.type", fromList = "getPotionEffects", fromListMapper = "potionEffectsMapper")
     private PotionEffectType type;
+
     @Serializable(headTexture = DURATION_HEAD, description = "gui.action.effect.duration")
     @Serializable.Number(minValue = 0, scale = 1)
     private NumericValue duration;
+
     @Serializable(headTexture = LEVEL_HEAD, description = "gui.action.effect.level")
     @Serializable.Number(minValue = 0, scale = 1)
     private NumericValue level;
+
     @Serializable(headTexture = PARTICLE_HEAD, description = "gui.action.effect.particles")
     @Serializable.Optional(defaultValue = "PARTICLES_DEFAULT")
     private boolean particles;
+
     @Serializable(headTexture = AMBIENT_HEAD, description = "gui.action.effect.ambient")
     @Serializable.Optional(defaultValue = "AMBIENT_DEFAULT")
     private boolean ambient;
+
     @Serializable(headTexture = ICON_HEAD, description = "gui.action.effect.icon")
     @Serializable.Optional(defaultValue = "ICON_DEFAULT")
     private boolean icon;
@@ -82,7 +91,7 @@ public class EffectAction extends Action {
         return new EffectAction(type, duration, level, particles, ambient, icon);
     }
 
-    public static List<Object> getPotionEffects(ModelPath path) {
+    public static List<Object> getPotionEffects(ModelPath<?> path) {
         return Lists.newArrayList(PotionEffectType.values());
     }
 

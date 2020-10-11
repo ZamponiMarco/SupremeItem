@@ -38,8 +38,10 @@ public class RepeatUntilAction extends MetaAction {
     @Serializable(headTexture = ACTIONS_HEAD, description = "gui.action.repeat-until.actions")
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     private List<Action> actions;
+
     @Serializable(headTexture = CONDITION_HEAD, description = "gui.action.repeat-until.condition")
     private Condition condition;
+
     @Serializable(headTexture = TIMER_HEAD, description = "gui.action.repeat-until.timer")
     @Serializable.Number(minValue = 0)
     @Serializable.Optional(defaultValue = "TIMER_DEFAULT")

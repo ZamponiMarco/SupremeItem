@@ -21,12 +21,12 @@ public class Projectile {
 
     public Projectile(Source source, Location l, double gravity, double initialSpeed, List<Action> onEntityHitActions,
                       List<Action> onBlockHitActions, List<Action> onProjectileTickActions,
-                      com.github.jummes.supremeitem.entity.Entity entity, double hitBoxSize) {
+                      com.github.jummes.supremeitem.entity.Entity entity, double hitBoxSize, double maxDistance) {
         Vector initialDirection = l.getDirection().multiply(initialSpeed).multiply(.05);
         BukkitRunnable runnable = new BukkitRunnable() {
 
+            private final boolean projectilePresent = !(entity instanceof NoEntity);
             private Entity projectile;
-            private boolean projectilePresent = !(entity instanceof NoEntity);
             private int counter = 0;
 
             @Override
@@ -48,7 +48,7 @@ public class Projectile {
                     entities.forEach(entity -> onEntityHitActions.forEach(Action -> Action.
                             executeAction(new EntityTarget(entity), source)));
                     remove();
-                } else if (counter > 200) {
+                } else if (counter > maxDistance) {
                     remove();
                 }
                 if (projectilePresent)

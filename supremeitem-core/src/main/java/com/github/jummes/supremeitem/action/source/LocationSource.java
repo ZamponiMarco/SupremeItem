@@ -7,5 +7,5 @@ import org.bukkit.Location;
 @Getter
 @AllArgsConstructor
 public class LocationSource implements Source {
-    private Location source;
+    private final Location source;
 }

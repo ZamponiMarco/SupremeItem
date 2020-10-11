@@ -12,6 +12,8 @@ import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -19,6 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 @AllArgsConstructor
+@Getter
+@Setter
 @Enumerable.Child
 @Enumerable.Displayable(name = "&c&lPush action", description = "gui.action.push.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjU0ZmFiYjE2NjRiOGI0ZDhkYjI4ODk0NzZjNmZlZGRiYjQ1MDVlYmE0Mjg3OGM2NTNhNWQ3OTNmNzE5YjE2In19fQ==")
 public class PushAction extends EntityAction {
@@ -32,6 +36,7 @@ public class PushAction extends EntityAction {
     @Serializable(headTexture = HORIZONTAL_HEAD, description = "gui.action.push.horizontal")
     @Serializable.Number(minValue = 0)
     private NumericValue horizontalVelocity;
+
     @Serializable(headTexture = VERTICAL_HEAD, description = "gui.action.push.vertical")
     @Serializable.Number(minValue = 0)
     private NumericValue verticalVelocity;

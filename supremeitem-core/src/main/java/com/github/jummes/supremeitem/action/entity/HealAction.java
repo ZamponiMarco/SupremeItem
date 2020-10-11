@@ -11,7 +11,10 @@ import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
@@ -21,6 +24,8 @@ import java.util.Map;
 @AllArgsConstructor
 @Enumerable.Displayable(name = "&c&lHeal", description = "gui.action.heal.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjEyNjZiNzQ4MjQyMTE1YjMwMzcwOGQ1OWNlOWQ1NTIzYjdkNzljMTNmNmRiNGViYzkxZGQ0NzIwOWViNzU5YyJ9fX0=")
 @Enumerable.Child
+@Getter
+@Setter
 public class HealAction extends Action {
 
     private static final int AMOUNT_DEFAULT = 1;
@@ -58,10 +63,13 @@ public class HealAction extends Action {
     }
 
     private void healEntity(LivingEntity e, Target target, Source source) {
-        double maxHealth = e.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue();
-        double currHealth = e.getHealth();
+        AttributeInstance attribute = e.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        if (attribute != null) {
+            double maxHealth = attribute.getValue();
+            double currHealth = e.getHealth();
 
-        e.setHealth(Math.min(currHealth + amount.getRealValue(target, source), maxHealth));
+            e.setHealth(Math.min(currHealth + amount.getRealValue(target, source), maxHealth));
+        }
     }
 
     @Override

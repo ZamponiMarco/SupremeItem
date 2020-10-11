@@ -13,6 +13,8 @@ import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -23,6 +25,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Enumerable.Child
+@Getter
+@Setter
 @AllArgsConstructor
 @Enumerable.Displayable(name = "&c&lExecute a saved skill", description = "gui.action.skill.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjM1NGM4YmE3NDIwNzlhZWQ1YWNmYmYwN2M0MjhiNDA2YmMwOTJkYjhhYmM2ZjE3ZjcwNTkwOTliMDQ5NTliZCJ9fX0=")
 public class SkillAction extends MetaAction {
@@ -41,7 +45,7 @@ public class SkillAction extends MetaAction {
         return new SkillAction(skillName);
     }
 
-    public static List<Object> getSkills(ModelPath path) {
+    public static List<Object> getSkills(ModelPath<?> path) {
         return SupremeItem.getInstance().getSavedSkillManager().getSkills().stream().
                 map(SavedSkill::getName).collect(Collectors.toList());
     }

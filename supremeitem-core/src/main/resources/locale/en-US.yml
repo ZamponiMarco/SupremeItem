@@ -211,6 +211,12 @@ gui:
         - "&6&lLeft click &eto modify."
         - "&6&lRight click &eto recreate."
         - "&6&lMiddle click &eto switch (const/placeholder)"
+      max-distance:
+        - "&7&oThe max duration of the projectile flight"
+        - "&7&oin ticks."
+        - "&6&lLeft click &eto modify."
+        - "&6&lRight click &eto recreate."
+        - "&6&lMiddle click &eto switch (const/placeholder)"
     skill:
       description:
         - "&7&oSet the use of a previously saved skill."

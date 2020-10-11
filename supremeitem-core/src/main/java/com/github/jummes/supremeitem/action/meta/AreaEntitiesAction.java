@@ -15,7 +15,10 @@ import com.github.jummes.supremeitem.entity.selector.SourceSelector;
 import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
@@ -24,6 +27,8 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 @AllArgsConstructor
+@Getter
+@Setter
 @Enumerable.Child
 @Enumerable.Displayable(name = "&c&lApply actions to entities in Area", description = "gui.action.area-entities.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWZjZDQxNGIwNWE1MzJjNjA5YzJhYTQ4ZDZjMDYyYzI5MmQ1MzNkZmFmNGQ3MzJhYmU5YWY1NzQxNTg5ZSJ9fX0=")
 public class AreaEntitiesAction extends MetaAction {
@@ -39,11 +44,14 @@ public class AreaEntitiesAction extends MetaAction {
     @Serializable(headTexture = ACTIONS_HEAD, description = "gui.action.area-entities.actions")
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     private List<Action> actions;
+
     @Serializable(headTexture = MAX_DISTANCE_HEAD, description = "gui.action.area-entities.max-distance")
     @Serializable.Number(minValue = 0, scale = 1)
     private NumericValue maxDistance;
+
     @Serializable(headTexture = SELECTOR_HEAD, description = "gui.action.area-entities.selectors")
     private List<EntitySelector> selectors;
+
     @Serializable(headTexture = CAST_LOCATION_HEAD, description = "gui.action.area-entities.cast-from-location")
     @Serializable.Optional(defaultValue = "CAST_LOCATION_DEFAULT")
     private boolean castFromLocation;
@@ -79,11 +87,16 @@ public class AreaEntitiesAction extends MetaAction {
             Predicate<LivingEntity> select = selectors.stream().map(selector -> selector.getFilter(source)).
                     reduce(e -> true, Predicate::and);
             Location finalL = l;
-            l.getWorld().getNearbyEntities(l, maxDistance, maxDistance, maxDistance).stream().
-                    filter(entity -> entity instanceof LivingEntity && select.test((LivingEntity) entity)).
-                    forEach(entity -> actions.forEach(action -> action.executeAction(
-                            new EntityTarget((LivingEntity) entity),
-                            castFromLocation ? new LocationSource(finalL) : source)));
+            World world = l.getWorld();
+            if (world != null) {
+                l.getWorld().getNearbyEntities(l, maxDistance, maxDistance, maxDistance).stream().
+                        filter(entity -> entity instanceof LivingEntity && select.test((LivingEntity) entity)).
+                        forEach(entity -> actions.forEach(action -> action.executeAction(
+                                new EntityTarget((LivingEntity) entity),
+                                castFromLocation ? new LocationSource(finalL) : source)));
+            } else {
+                return ActionResult.FAILURE;
+            }
         }
         return ActionResult.SUCCESS;
     }

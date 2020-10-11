@@ -14,9 +14,12 @@ import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
+import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -25,6 +28,8 @@ import java.util.Map;
 import java.util.function.Function;
 
 @AllArgsConstructor
+@Getter
+@Setter
 @Enumerable.Displayable(name = "&c&lSound", description = "gui.action.sound.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWIxZTIwNDEwYmI2YzdlNjk2OGFmY2QzZWM4NTU1MjBjMzdhNDBkNTRhNTRlOGRhZmMyZTZiNmYyZjlhMTkxNSJ9fX0=")
 @Enumerable.Child
 public class SoundAction extends Action {
@@ -39,11 +44,14 @@ public class SoundAction extends Action {
 
     @Serializable(headTexture = TYPE_HEAD, stringValue = true, description = "gui.action.sound.type", fromList = "getSounds", fromListMapper = "soundsMapper")
     private Sound type;
+
     @Serializable(headTexture = CATEGORY_HEAD, stringValue = true, description = "gui.action.sound.category", fromList = "getSoundCategories", fromListMapper = "soundCategoriesMapper")
     private SoundCategory category;
+
     @Serializable(headTexture = PITCH_HEAD, description = "gui.action.sound.pitch")
     @Serializable.Number(minValue = 0, maxValue = 2)
     private NumericValue pitch;
+
     @Serializable(headTexture = VOLUME_HEAD, description = "gui.action.sound.volume")
     @Serializable.Number(minValue = 0)
     private NumericValue volume;
@@ -68,7 +76,7 @@ public class SoundAction extends Action {
         return new SoundAction(type, category, pitch, volume);
     }
 
-    public static List<Object> getSounds(ModelPath path) {
+    public static List<Object> getSounds(ModelPath<?> path) {
         return Lists.newArrayList(Sound.values());
     }
 
@@ -80,7 +88,7 @@ public class SoundAction extends Action {
         };
     }
 
-    public static List<Object> getSoundCategories(ModelPath path) {
+    public static List<Object> getSoundCategories(ModelPath<?> path) {
         return Lists.newArrayList(SoundCategory.values());
     }
 
@@ -97,8 +105,13 @@ public class SoundAction extends Action {
         double volume = this.volume.getRealValue(target, source);
         double pitch = this.pitch.getRealValue(target, source);
         if (target instanceof LocationTarget) {
-            ((LocationTarget) target).getTarget().getWorld().playSound(((LocationTarget) target).getTarget(), type,
-                    category, (float) volume, (float) pitch);
+            World world = ((LocationTarget) target).getTarget().getWorld();
+            if (world != null) {
+                world.playSound(((LocationTarget) target).getTarget(), type,
+                        category, (float) volume, (float) pitch);
+            } else {
+                return ActionResult.FAILURE;
+            }
         } else if (target instanceof EntityTarget) {
             ((EntityTarget) target).getTarget().getWorld().playSound(((EntityTarget) target).getTarget().getEyeLocation(),
                     type, category, (float) volume, (float) pitch);
