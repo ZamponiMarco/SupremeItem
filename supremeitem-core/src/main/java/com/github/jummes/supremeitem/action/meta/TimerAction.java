@@ -1,5 +1,6 @@
 package com.github.jummes.supremeitem.action.meta;
 
+import com.github.jummes.libs.annotation.CustomClickable;
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.core.Libs;
@@ -30,6 +31,7 @@ import java.util.Map;
 @Setter
 @Enumerable.Child
 @Enumerable.Displayable(name = "&c&lExecute actions on a timer", description = "gui.action.timer.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGJjYjIzMGE0MTBlOTNiN2Q0YjVjMjg5NjMxZDYxNGI5MDQ1Mzg0M2Q2ZWQwM2RhZjVlNDAxNWEyZmUxZjU2YiJ9fX0=")
+@CustomClickable(customCollectionClickConsumer = "getCustomConsumer")
 public class TimerAction extends MetaAction {
 
     private static final int TIMER_DEFAULT = 5;

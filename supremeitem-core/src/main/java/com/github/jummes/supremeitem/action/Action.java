@@ -4,6 +4,7 @@ import com.github.jummes.libs.annotation.CustomClickable;
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.gui.PluginInventoryHolder;
 import com.github.jummes.libs.gui.model.ModelObjectInventoryHolder;
+import com.github.jummes.libs.gui.model.RemoveConfirmationInventoryHolder;
 import com.github.jummes.libs.model.Model;
 import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.supremeitem.SupremeItem;
@@ -64,20 +65,26 @@ public abstract class Action implements Model {
         if (e.getClick().equals(ClickType.LEFT)) {
             path.addModel(this);
             e.getWhoClicked().openInventory(new ModelObjectInventoryHolder(plugin, parent, path).getInventory());
-        } else if (e.getClick().equals(ClickType.RIGHT)
-                || (e.getClick().equals(ClickType.NUMBER_KEY) && (e.getHotbarButton() == 0 || e.getHotbarButton() == 1))) {
+        } else if (e.getClick().equals(ClickType.RIGHT)) {
+            e.getWhoClicked().openInventory(new RemoveConfirmationInventoryHolder(plugin, parent, path, this,
+                    field).getInventory());
+        } else if (e.getClick().equals(ClickType.NUMBER_KEY) && e.getHotbarButton() == 0) {
             actions.remove(this);
             path.addModel(this);
             path.deleteModel();
             path.popModel();
             onRemoval();
-            if (e.getHotbarButton() == 0) {
-                actions.add(new DelayedAction(Lists.newArrayList(this), new NumericValue(10)));
-                path.saveModel();
-            } else if (e.getHotbarButton() == 1) {
-                actions.add(new TimerAction(5, 10, Lists.newArrayList(this)));
-                path.saveModel();
-            }
+            actions.add(new DelayedAction(Lists.newArrayList(this), new NumericValue(10)));
+            path.saveModel();
+            e.getWhoClicked().openInventory(parent.getInventory());
+        } else if (e.getClick().equals(ClickType.NUMBER_KEY) && e.getHotbarButton() == 1) {
+            actions.remove(this);
+            path.addModel(this);
+            path.deleteModel();
+            path.popModel();
+            onRemoval();
+            actions.add(new TimerAction(5, 10, Lists.newArrayList(this)));
+            path.saveModel();
             e.getWhoClicked().openInventory(parent.getInventory());
         }
     }
@@ -86,6 +93,7 @@ public abstract class Action implements Model {
     public ItemStack getGUIItem() {
         return new ItemStack(Material.PAPER);
     }
+
 
     public enum ActionResult {
         /**

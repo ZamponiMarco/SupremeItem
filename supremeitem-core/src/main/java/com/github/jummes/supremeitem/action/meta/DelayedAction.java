@@ -78,7 +78,7 @@ public class DelayedAction extends MetaAction {
     @Override
     public ItemStack getGUIItem() {
         return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZlOGNmZjc1ZjdkNDMzMjYwYWYxZWNiMmY3NzNiNGJjMzgxZDk1MWRlNGUyZWI2NjE0MjM3NzlhNTkwZTcyYiJ9fX0="),
-                "&6&lDelay: &c" + delay, Libs.getLocale().getList("gui.action.delayed.item-description"));
+                "&6&lDelay: &c" + delay.getName(), Libs.getLocale().getList("gui.action.delayed.item-description"));
     }
 
     public void getCustomConsumer(JavaPlugin plugin, PluginInventoryHolder parent, ModelPath<?> path, Field field,

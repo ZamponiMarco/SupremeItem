@@ -3,6 +3,7 @@ package com.github.jummes.supremeitem.action.meta;
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.gui.PluginInventoryHolder;
 import com.github.jummes.libs.gui.model.ModelObjectInventoryHolder;
+import com.github.jummes.libs.gui.model.RemoveConfirmationInventoryHolder;
 import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.supremeitem.action.Action;
 import com.google.common.collect.Lists;
@@ -30,8 +31,10 @@ public abstract class MetaAction extends Action {
         if (e.getClick().equals(ClickType.LEFT)) {
             path.addModel(this);
             e.getWhoClicked().openInventory(new ModelObjectInventoryHolder(plugin, parent, path).getInventory());
-        } else if (e.getClick().equals(ClickType.RIGHT)
-                || (e.getClick().equals(ClickType.NUMBER_KEY) && (e.getHotbarButton() == 0))) {
+        } else if (e.getClick().equals(ClickType.RIGHT)) {
+            e.getWhoClicked().openInventory(new RemoveConfirmationInventoryHolder(plugin, parent, path, this,
+                    field).getInventory());
+        } else if (e.getClick().equals(ClickType.NUMBER_KEY) && (e.getHotbarButton() == 0)) {
             superActions.remove(this);
             path.addModel(this);
             path.deleteModel();
@@ -44,5 +47,4 @@ public abstract class MetaAction extends Action {
             e.getWhoClicked().openInventory(parent.getInventory());
         }
     }
-
 }

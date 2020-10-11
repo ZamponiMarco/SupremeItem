@@ -5,6 +5,7 @@ import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.gui.PluginInventoryHolder;
 import com.github.jummes.libs.gui.model.ModelObjectInventoryHolder;
+import com.github.jummes.libs.gui.model.RemoveConfirmationInventoryHolder;
 import com.github.jummes.libs.model.Model;
 import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.libs.model.wrapper.ItemStackWrapper;
@@ -15,7 +16,6 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.lang.reflect.FieldUtils;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -104,18 +104,13 @@ public class Item implements Model {
     }
 
     public void defaultClickConsumer(JavaPlugin plugin, PluginInventoryHolder parent, ModelPath<?> path, Field field,
-                                     InventoryClickEvent e) throws IllegalAccessException {
+                                     InventoryClickEvent e) {
         if (e.getClick().equals(ClickType.LEFT)) {
             path.addModel(this);
             e.getWhoClicked().openInventory(new ModelObjectInventoryHolder(plugin, parent, path).getInventory());
         } else if (e.getClick().equals(ClickType.RIGHT)) {
-            ((Collection<Item>) FieldUtils.readField(field,
-                    path.getLast() != null ? path.getLast() : path.getModelManager(), true)).remove(this);
-            path.addModel(this);
-            path.deleteModel();
-            path.popModel();
-            onRemoval();
-            e.getWhoClicked().openInventory(parent.getInventory());
+            e.getWhoClicked().openInventory(new RemoveConfirmationInventoryHolder(plugin, parent, path, this,
+                    field).getInventory());
         } else if (e.getClick().equals(ClickType.MIDDLE)) {
             e.getWhoClicked().getInventory().addItem(getUsableItem());
         }
