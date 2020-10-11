@@ -36,6 +36,7 @@ public class ProjectileAction extends MetaAction {
     private static final double INITIAL_DEFAULT = 10.0;
     private static final double GRAVITY_DEFAULT = 0.1;
     private static final double HIT_BOX_SIZE_DEFAULT = 0.5;
+    private static final double MAX_DISTANCE_DEFAULT = 100.0;
 
     private static final String INITIAL_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTc2OWUyYzEzNGVlNWZjNmRhZWZlNDEyZTRhZjNkNTdkZjlkYmIzY2FhY2Q4ZTM2ZTU5OTk3OWVjMWFjNCJ9fX0=";
     private static final String GRAVITY_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzY4ZGZiYzk1YWRiNGY2NDhjMzYxNjRhMTVkNjhlZjVmOWM3Njk3ZDg2Zjg3MjEzYzdkN2E2NDU1NzdhYTY2In19fQ==";
@@ -48,27 +49,37 @@ public class ProjectileAction extends MetaAction {
     @Serializable(headTexture = INITIAL_HEAD, description = "gui.action.projectile.initial-speed")
     @Serializable.Number(minValue = 0)
     private NumericValue initialSpeed;
+
     @Serializable(headTexture = GRAVITY_HEAD, description = "gui.action.projectile.gravity")
     @Serializable.Number(minValue = 0)
     private NumericValue gravity;
+
     @Serializable(headTexture = ENTITY_HIT_HEAD, description = "gui.action.projectile.entity-hit-actions")
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     private List<Action> onEntityHitActions;
+
     @Serializable(headTexture = BLOCK_HIT_HEAD, description = "gui.action.projectile.block-hit-actions")
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     private List<Action> onBlockHitActions;
+
     @Serializable(headTexture = TICK_HEAD, description = "gui.action.projectile.projectile-tick-actions")
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     private List<Action> onProjectileTickActions;
+
     @Serializable(headTexture = ENTITY_HEAD, description = "gui.action.projectile.entity", recreateTooltip = true)
     private Entity entity;
+
     @Serializable(headTexture = HIT_BOX_HEAD, description = "gui.action.projectile.hit-box")
     @Serializable.Number(minValue = 0)
     private NumericValue hitBoxSize;
 
+    @Serializable(headTexture = HIT_BOX_HEAD, description = "gui.action.projectile.max-distance")
+    @Serializable.Number(minValue = 0)
+    private NumericValue maxDistance;
+
     public ProjectileAction() {
         this(new NumericValue(INITIAL_DEFAULT), new NumericValue(GRAVITY_DEFAULT), Lists.newArrayList(), Lists.newArrayList(), Lists.newArrayList(),
-                new NoEntity(), new NumericValue(HIT_BOX_SIZE_DEFAULT));
+                new NoEntity(), new NumericValue(HIT_BOX_SIZE_DEFAULT), new NumericValue(MAX_DISTANCE_DEFAULT));
     }
 
     public static ProjectileAction deserialize(Map<String, Object> map) {
@@ -79,6 +90,7 @@ public class ProjectileAction extends MetaAction {
         NumericValue initialSpeed;
         NumericValue gravity;
         NumericValue hitBoxSize;
+        NumericValue maxDistance = (NumericValue) map.getOrDefault("maxDistance", new NumericValue(MAX_DISTANCE_DEFAULT));
         try {
             initialSpeed = (NumericValue) map.getOrDefault("initialSpeed", new NumericValue(INITIAL_DEFAULT));
             gravity = (NumericValue) map.getOrDefault("gravity", new NumericValue(GRAVITY_DEFAULT));
@@ -89,7 +101,7 @@ public class ProjectileAction extends MetaAction {
             hitBoxSize = new NumericValue(((Number) map.getOrDefault("hitBoxSize", HIT_BOX_SIZE_DEFAULT)).doubleValue());
         }
         return new ProjectileAction(initialSpeed, gravity, onEntityHitActions, onBlockHitActions,
-                onProjectileTickActions, entity, hitBoxSize);
+                onProjectileTickActions, entity, hitBoxSize, maxDistance);
     }
 
     @Override
@@ -109,7 +121,7 @@ public class ProjectileAction extends MetaAction {
         if (l != null) {
             new Projectile(source, l, gravity.getRealValue(target, source), initialSpeed.getRealValue(target, source),
                     onEntityHitActions, onBlockHitActions, onProjectileTickActions,
-                    this.entity, this.hitBoxSize.getRealValue(target, source));
+                    this.entity, this.hitBoxSize.getRealValue(target, source), maxDistance.getRealValue(target, source));
         }
         return ActionResult.SUCCESS;
     }

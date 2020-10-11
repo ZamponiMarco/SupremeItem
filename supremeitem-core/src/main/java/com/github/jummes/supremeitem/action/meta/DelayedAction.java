@@ -5,7 +5,6 @@ import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.gui.PluginInventoryHolder;
-import com.github.jummes.libs.gui.model.ModelObjectInventoryHolder;
 import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.SupremeItem;
@@ -19,15 +18,12 @@ import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.lang.reflect.FieldUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.Field;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -47,6 +43,7 @@ public class DelayedAction extends MetaAction {
     @Serializable(headTexture = ACTIONS_HEAD, description = "gui.action.delayed.actions")
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     private List<Action> actions;
+
     @Serializable(headTexture = DELAY_HEAD, description = "gui.action.delayed.delay")
     @Serializable.Number(minValue = 0, scale = 1)
     private NumericValue delay;
@@ -86,23 +83,6 @@ public class DelayedAction extends MetaAction {
 
     public void getCustomConsumer(JavaPlugin plugin, PluginInventoryHolder parent, ModelPath<?> path, Field field,
                                   InventoryClickEvent e) throws IllegalAccessException {
-        Collection<Action> actions = ((Collection<Action>) FieldUtils.readField(field,
-                path.getLast() != null ? path.getLast() : path.getModelManager(), true));
-        if (e.getClick().equals(ClickType.LEFT)) {
-            path.addModel(this);
-            e.getWhoClicked().openInventory(new ModelObjectInventoryHolder(plugin, parent, path).getInventory());
-        } else if (e.getClick().equals(ClickType.RIGHT)
-                || (e.getClick().equals(ClickType.NUMBER_KEY) && (e.getHotbarButton() == 0))) {
-            actions.remove(this);
-            path.addModel(this);
-            path.deleteModel();
-            path.popModel();
-            onRemoval();
-            if (e.getHotbarButton() == 0) {
-                actions.addAll(this.actions);
-                path.saveModel();
-            }
-            e.getWhoClicked().openInventory(parent.getInventory());
-        }
+        getExtractConsumer(plugin, parent, path, field, e, this.actions);
     }
 }

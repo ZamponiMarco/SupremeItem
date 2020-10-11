@@ -12,6 +12,7 @@ import com.github.jummes.supremeitem.action.targeter.Target;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.Map;
 
 @AllArgsConstructor
 @Getter
+@Setter
 @Enumerable.Displayable(name = "&c&lMessage", description = "gui.action.message.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmJmM2ZjZGNjZmZkOTYzZTQzMzQ4MTgxMDhlMWU5YWUzYTgwNTY2ZDBkM2QyZDRhYjMwNTFhMmNkODExMzQ4YyJ9fX0=")
 @Enumerable.Child
 public class MessageAction extends Action {

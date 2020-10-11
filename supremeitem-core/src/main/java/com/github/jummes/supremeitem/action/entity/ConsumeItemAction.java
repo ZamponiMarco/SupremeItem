@@ -11,6 +11,8 @@ import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -24,6 +26,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Enumerable.Child
 @Enumerable.Displayable(name = "&c&lConsume Item", description = "gui.action.consume-item.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjFiYjJjM2JkNjVjZGQ4NGE4MDRlY2E5OGI3YTQ2NzM1ZjAxZTZhMWM5MTk5ZDY2NjE2NjNkYmRiNGY1YjQifX19")
+@Getter
+@Setter
 public class ConsumeItemAction extends EntityAction {
 
     private static final int AMOUNT_DEFAULT = 1;
@@ -32,6 +36,7 @@ public class ConsumeItemAction extends EntityAction {
 
     @Serializable(displayItem = "getFlatItem", description = "gui.action.consume-item.item")
     private ItemStackWrapper item;
+
     @Serializable(headTexture = AMOUNT_HEAD, description = "gui.action.consume-item.amount")
     @Serializable.Number(minValue = 1, scale = 1)
     private NumericValue amount;
