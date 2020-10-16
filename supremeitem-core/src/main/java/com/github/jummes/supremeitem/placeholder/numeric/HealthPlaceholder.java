@@ -26,6 +26,11 @@ public class HealthPlaceholder extends NumericPlaceholder {
     }
 
     @Override
+    public NumericPlaceholder clone() {
+        return new MaxHealthPlaceholder(target);
+    }
+
+    @Override
     public Double computePlaceholder(Target target, Source source) {
         if (this.target) {
             if (target instanceof EntityTarget) {

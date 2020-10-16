@@ -13,6 +13,7 @@ import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,8 +24,9 @@ import java.util.Map;
 
 @GUINameable(GUIName = "getName")
 @AllArgsConstructor
+@Getter
 @CustomClickable(customFieldClickConsumer = "getCustomClickConsumer")
-public class NumericValue implements Model {
+public class NumericValue implements Model, Cloneable {
 
     private static final boolean DOUBLE_VALUE_DEFAULT = true;
 
@@ -54,6 +56,39 @@ public class NumericValue implements Model {
             placeholderValue = (NumericPlaceholder) map.get("placeholderValue");
         }
         return new NumericValue(doubleValue, value, placeholderValue);
+    }
+
+    @Override
+    public NumericValue clone() {
+        return new NumericValue(doubleValue, value, placeholderValue.clone());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        NumericValue that = (NumericValue) o;
+
+        if (doubleValue != that.doubleValue) return false;
+        if (doubleValue) {
+            return Double.compare(that.value, value) == 0;
+        } else
+            return placeholderValue != null ? placeholderValue.equals(that.placeholderValue) : that.placeholderValue == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = (doubleValue ? 1 : 0);
+        if (doubleValue) {
+            result = 31 * result + (int) (Double.doubleToLongBits(value) ^ (Double.doubleToLongBits(value) >>> 32));
+        } else {
+            result = 31 * result + (placeholderValue != null ? placeholderValue.hashCode() : 0);
+        }
+        return result;
     }
 
     public double getRealValue(Target target, Source source) {

@@ -27,7 +27,7 @@ import java.util.Map;
 @Enumerable.Displayable(name = "&c&lPull action", description = "gui.action.pull.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGMzMDFhMTdjOTU1ODA3ZDg5ZjljNzJhMTkyMDdkMTM5M2I4YzU4YzRlNmU0MjBmNzE0ZjY5NmE4N2ZkZCJ9fX0=")
 public class PullAction extends EntityAction {
 
-    private static final double FORCE_DEFAULT = 1.0;
+    private static final NumericValue FORCE_DEFAULT = new NumericValue(1.0);
 
     private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzZlZjgzZTZjYWIxOWNkMjM4MDdlZjIwNmQxY2E2NmU0MWJhYTNhMGZhNWJkYzllYTQ0YmJlOTZkMTg2YiJ9fX0=";
 
@@ -36,15 +36,15 @@ public class PullAction extends EntityAction {
     private NumericValue force;
 
     public PullAction() {
-        this(new NumericValue(FORCE_DEFAULT));
+        this(FORCE_DEFAULT.clone());
     }
 
     public static PullAction deserialize(Map<String, Object> map) {
         NumericValue force;
         try {
-            force = (NumericValue) map.getOrDefault("force", new NumericValue(FORCE_DEFAULT));
+            force = (NumericValue) map.getOrDefault("force", FORCE_DEFAULT.clone());
         } catch (ClassCastException e) {
-            force = new NumericValue(((Number) map.getOrDefault("force", FORCE_DEFAULT)).doubleValue());
+            force = new NumericValue(((Double) map.getOrDefault("force", FORCE_DEFAULT.getValue())));
         }
         return new PullAction(force);
     }

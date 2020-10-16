@@ -35,7 +35,7 @@ import java.util.Map;
 @CustomClickable(customCollectionClickConsumer = "getCustomConsumer")
 public class DelayedAction extends MetaAction {
 
-    private static final int DELAY_DEFAULT = 10;
+    private static final NumericValue DELAY_DEFAULT = new NumericValue(10);
 
     private static final String ACTIONS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODIxNmVlNDA1OTNjMDk4MWVkMjhmNWJkNjc0ODc5NzgxYzQyNWNlMDg0MWI2ODc0ODFjNGY3MTE4YmI1YzNiMSJ9fX0=";
     private static final String DELAY_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZlOGNmZjc1ZjdkNDMzMjYwYWYxZWNiMmY3NzNiNGJjMzgxZDk1MWRlNGUyZWI2NjE0MjM3NzlhNTkwZTcyYiJ9fX0=";
@@ -46,19 +46,20 @@ public class DelayedAction extends MetaAction {
 
     @Serializable(headTexture = DELAY_HEAD, description = "gui.action.delayed.delay")
     @Serializable.Number(minValue = 0, scale = 1)
+    @Serializable.Optional(defaultValue = "DELAY_DEFAULT")
     private NumericValue delay;
 
     public DelayedAction() {
-        this(Lists.newArrayList(), new NumericValue(DELAY_DEFAULT));
+        this(Lists.newArrayList(), DELAY_DEFAULT.clone());
     }
 
     public static DelayedAction deserialize(Map<String, Object> map) {
         List<Action> actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
         NumericValue delay;
         try {
-            delay = (NumericValue) map.getOrDefault("delay", new NumericValue(DELAY_DEFAULT));
+            delay = (NumericValue) map.getOrDefault("delay", DELAY_DEFAULT.clone());
         } catch (ClassCastException e) {
-            delay = new NumericValue(((Number) map.getOrDefault("delay", DELAY_DEFAULT)).doubleValue());
+            delay = new NumericValue(((Integer) map.getOrDefault("delay", DELAY_DEFAULT.getValue())));
         }
         return new DelayedAction(actions, delay);
     }

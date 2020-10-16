@@ -32,8 +32,8 @@ import java.util.function.Function;
 @Setter
 public class EffectAction extends Action {
 
-    private static final int DURATION_DEFAULT = 20;
-    private static final int LEVEL_DEFAULT = 0;
+    private static final NumericValue DURATION_DEFAULT = new NumericValue(20);
+    private static final NumericValue LEVEL_DEFAULT = new NumericValue(0);
     private static final boolean PARTICLES_DEFAULT = true;
     private static final boolean AMBIENT_DEFAULT = true;
     private static final boolean ICON_DEFAULT = true;
@@ -50,10 +50,12 @@ public class EffectAction extends Action {
 
     @Serializable(headTexture = DURATION_HEAD, description = "gui.action.effect.duration")
     @Serializable.Number(minValue = 0, scale = 1)
+    @Serializable.Optional(defaultValue = "DURATION_DEFAULT")
     private NumericValue duration;
 
     @Serializable(headTexture = LEVEL_HEAD, description = "gui.action.effect.level")
     @Serializable.Number(minValue = 0, scale = 1)
+    @Serializable.Optional(defaultValue = "LEVEL_DEFAULT")
     private NumericValue level;
 
     @Serializable(headTexture = PARTICLE_HEAD, description = "gui.action.effect.particles")
@@ -69,7 +71,7 @@ public class EffectAction extends Action {
     private boolean icon;
 
     public EffectAction() {
-        this(PotionEffectType.INCREASE_DAMAGE, new NumericValue(DURATION_DEFAULT), new NumericValue(LEVEL_DEFAULT),
+        this(PotionEffectType.INCREASE_DAMAGE, DURATION_DEFAULT.clone(), LEVEL_DEFAULT.clone(),
                 PARTICLES_DEFAULT, AMBIENT_DEFAULT, ICON_DEFAULT);
     }
 
@@ -82,11 +84,11 @@ public class EffectAction extends Action {
         NumericValue duration;
         NumericValue level;
         try {
-            duration = (NumericValue) map.getOrDefault("duration", new NumericValue(DURATION_DEFAULT));
-            level = (NumericValue) map.getOrDefault("level", new NumericValue(LEVEL_DEFAULT));
+            duration = (NumericValue) map.getOrDefault("duration", DURATION_DEFAULT.clone());
+            level = (NumericValue) map.getOrDefault("level", LEVEL_DEFAULT.clone());
         } catch (ClassCastException e) {
-            duration = new NumericValue(((Number) map.getOrDefault("duration", DURATION_DEFAULT)).doubleValue());
-            level = new NumericValue(((Number) map.getOrDefault("level", LEVEL_DEFAULT)).doubleValue());
+            duration = new NumericValue(((Integer) map.getOrDefault("duration", DURATION_DEFAULT.getValue())));
+            level = new NumericValue(((Integer) map.getOrDefault("level", LEVEL_DEFAULT.getValue())));
         }
         return new EffectAction(type, duration, level, particles, ambient, icon);
     }

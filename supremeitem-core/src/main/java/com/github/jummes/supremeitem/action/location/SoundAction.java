@@ -34,8 +34,8 @@ import java.util.function.Function;
 @Enumerable.Child
 public class SoundAction extends Action {
 
-    private static final double PITCH_DEFAULT = 1f;
-    private static final double VOLUME_DEFAULT = 10f;
+    private static final NumericValue PITCH_DEFAULT = new NumericValue(1f);
+    private static final NumericValue VOLUME_DEFAULT = new NumericValue(10f);
 
     private static final String TYPE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzkxOWZiZDFkZjQ4YzMyMmMxMzA1YmIxZjhlYWI5Njc0YzIxODQ0YTA0OTNhNTUzNWQ5NGNhYmExZWNhM2MxZCJ9fX0=";
     private static final String CATEGORY_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmQzYjJlM2U5OTU0ZjgyMmI0M2ZlNWY5MTUwOTllMGE2Y2FhYTgxZjc5MTIyMmI1ODAzZDQxNDVhODUxNzAifX19";
@@ -50,14 +50,16 @@ public class SoundAction extends Action {
 
     @Serializable(headTexture = PITCH_HEAD, description = "gui.action.sound.pitch")
     @Serializable.Number(minValue = 0, maxValue = 2)
+    @Serializable.Optional(defaultValue = "PITCH_DEFAULT")
     private NumericValue pitch;
 
     @Serializable(headTexture = VOLUME_HEAD, description = "gui.action.sound.volume")
     @Serializable.Number(minValue = 0)
+    @Serializable.Optional(defaultValue = "VOLUME_DEFAULT")
     private NumericValue volume;
 
     public SoundAction() {
-        this(Sound.BLOCK_ANVIL_BREAK, SoundCategory.MASTER, new NumericValue(PITCH_DEFAULT), new NumericValue(VOLUME_DEFAULT));
+        this(Sound.BLOCK_ANVIL_BREAK, SoundCategory.MASTER, PITCH_DEFAULT.clone(), VOLUME_DEFAULT.clone());
     }
 
     public static SoundAction deserialize(Map<String, Object> map) {
@@ -67,11 +69,11 @@ public class SoundAction extends Action {
         NumericValue pitch;
         NumericValue volume;
         try {
-            pitch = (NumericValue) map.getOrDefault("pitch", new NumericValue(PITCH_DEFAULT));
-            volume = (NumericValue) map.getOrDefault("volume", new NumericValue(VOLUME_DEFAULT));
+            pitch = (NumericValue) map.getOrDefault("pitch", PITCH_DEFAULT.clone());
+            volume = (NumericValue) map.getOrDefault("volume", VOLUME_DEFAULT.clone());
         } catch (ClassCastException e) {
-            pitch = new NumericValue(((Number) map.getOrDefault("pitch", PITCH_DEFAULT)).doubleValue());
-            volume = new NumericValue(((Number) map.getOrDefault("volume", VOLUME_DEFAULT)).doubleValue());
+            pitch = new NumericValue(((Double) map.getOrDefault("pitch", PITCH_DEFAULT.getValue())));
+            volume = new NumericValue(((Double) map.getOrDefault("volume", VOLUME_DEFAULT.getValue())));
         }
         return new SoundAction(type, category, pitch, volume);
     }

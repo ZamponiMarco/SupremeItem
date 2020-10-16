@@ -28,7 +28,7 @@ import java.util.Map;
 @Setter
 public class HealAction extends Action {
 
-    private static final int AMOUNT_DEFAULT = 1;
+    private static final NumericValue AMOUNT_DEFAULT = new NumericValue(1);
 
     private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdkYzNlMjlhMDkyM2U1MmVjZWU2YjRjOWQ1MzNhNzllNzRiYjZiZWQ1NDFiNDk1YTEzYWJkMzU5NjI3NjUzIn19fQ==";
 
@@ -38,15 +38,15 @@ public class HealAction extends Action {
     private NumericValue amount;
 
     public HealAction() {
-        this(new NumericValue(AMOUNT_DEFAULT));
+        this(AMOUNT_DEFAULT.clone());
     }
 
     public static HealAction deserialize(Map<String, Object> map) {
         NumericValue amount;
         try {
-            amount = (NumericValue) map.getOrDefault("amount", new NumericValue(AMOUNT_DEFAULT));
+            amount = (NumericValue) map.getOrDefault("amount", AMOUNT_DEFAULT.clone());
         } catch (ClassCastException e) {
-            amount = new NumericValue(((Number) map.getOrDefault("amount", AMOUNT_DEFAULT)).doubleValue());
+            amount = new NumericValue(((Integer) map.getOrDefault("amount", AMOUNT_DEFAULT.getValue())));
         }
         return new HealAction(amount);
     }

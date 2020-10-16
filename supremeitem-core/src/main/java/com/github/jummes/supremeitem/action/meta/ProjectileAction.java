@@ -33,10 +33,10 @@ import java.util.Map;
 @Enumerable.Displayable(name = "&c&lProjectile", description = "gui.action.projectile.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjE1ZmVjNjUxOGE0MWYxNjYxMzFlNjViMTBmNDZmYjg3ZTk3YzQ5MmI0NmRiYzI1ZGUyNjM3NjcyMWZhNjRlMCJ9fX0=")
 public class ProjectileAction extends MetaAction {
 
-    private static final double INITIAL_DEFAULT = 10.0;
-    private static final double GRAVITY_DEFAULT = 0.1;
-    private static final double HIT_BOX_SIZE_DEFAULT = 0.5;
-    private static final double MAX_DISTANCE_DEFAULT = 100.0;
+    private static final NumericValue INITIAL_DEFAULT = new NumericValue(10.0);
+    private static final NumericValue GRAVITY_DEFAULT = new NumericValue(0.1);
+    private static final NumericValue HIT_BOX_SIZE_DEFAULT = new NumericValue(0.5);
+    private static final NumericValue MAX_DISTANCE_DEFAULT = new NumericValue(100.0);
 
     private static final String INITIAL_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTc2OWUyYzEzNGVlNWZjNmRhZWZlNDEyZTRhZjNkNTdkZjlkYmIzY2FhY2Q4ZTM2ZTU5OTk3OWVjMWFjNCJ9fX0=";
     private static final String GRAVITY_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzY4ZGZiYzk1YWRiNGY2NDhjMzYxNjRhMTVkNjhlZjVmOWM3Njk3ZDg2Zjg3MjEzYzdkN2E2NDU1NzdhYTY2In19fQ==";
@@ -48,10 +48,12 @@ public class ProjectileAction extends MetaAction {
 
     @Serializable(headTexture = INITIAL_HEAD, description = "gui.action.projectile.initial-speed")
     @Serializable.Number(minValue = 0)
+    @Serializable.Optional(defaultValue = "INITIAL_DEFAULT")
     private NumericValue initialSpeed;
 
     @Serializable(headTexture = GRAVITY_HEAD, description = "gui.action.projectile.gravity")
     @Serializable.Number(minValue = 0)
+    @Serializable.Optional(defaultValue = "GRAVITY_DEFAULT")
     private NumericValue gravity;
 
     @Serializable(headTexture = ENTITY_HIT_HEAD, description = "gui.action.projectile.entity-hit-actions")
@@ -71,15 +73,17 @@ public class ProjectileAction extends MetaAction {
 
     @Serializable(headTexture = HIT_BOX_HEAD, description = "gui.action.projectile.hit-box")
     @Serializable.Number(minValue = 0)
+    @Serializable.Optional(defaultValue = "HIT_BOX_SIZE_DEFAULT")
     private NumericValue hitBoxSize;
 
     @Serializable(headTexture = HIT_BOX_HEAD, description = "gui.action.projectile.max-distance")
     @Serializable.Number(minValue = 0)
+    @Serializable.Optional(defaultValue = "MAX_DISTANCE_DEFAULT")
     private NumericValue maxDistance;
 
     public ProjectileAction() {
-        this(new NumericValue(INITIAL_DEFAULT), new NumericValue(GRAVITY_DEFAULT), Lists.newArrayList(), Lists.newArrayList(), Lists.newArrayList(),
-                new NoEntity(), new NumericValue(HIT_BOX_SIZE_DEFAULT), new NumericValue(MAX_DISTANCE_DEFAULT));
+        this(INITIAL_DEFAULT.clone(), GRAVITY_DEFAULT.clone(), Lists.newArrayList(), Lists.newArrayList(), Lists.newArrayList(),
+                new NoEntity(), HIT_BOX_SIZE_DEFAULT.clone(), MAX_DISTANCE_DEFAULT.clone());
     }
 
     public static ProjectileAction deserialize(Map<String, Object> map) {
@@ -90,15 +94,15 @@ public class ProjectileAction extends MetaAction {
         NumericValue initialSpeed;
         NumericValue gravity;
         NumericValue hitBoxSize;
-        NumericValue maxDistance = (NumericValue) map.getOrDefault("maxDistance", new NumericValue(MAX_DISTANCE_DEFAULT));
+        NumericValue maxDistance = (NumericValue) map.getOrDefault("maxDistance", MAX_DISTANCE_DEFAULT.clone());
         try {
-            initialSpeed = (NumericValue) map.getOrDefault("initialSpeed", new NumericValue(INITIAL_DEFAULT));
-            gravity = (NumericValue) map.getOrDefault("gravity", new NumericValue(GRAVITY_DEFAULT));
-            hitBoxSize = (NumericValue) map.getOrDefault("hitBoxSize", new NumericValue(HIT_BOX_SIZE_DEFAULT));
+            initialSpeed = (NumericValue) map.getOrDefault("initialSpeed", INITIAL_DEFAULT.clone());
+            gravity = (NumericValue) map.getOrDefault("gravity", GRAVITY_DEFAULT.clone());
+            hitBoxSize = (NumericValue) map.getOrDefault("hitBoxSize", HIT_BOX_SIZE_DEFAULT.clone());
         } catch (ClassCastException e) {
-            initialSpeed = new NumericValue(((Number) map.getOrDefault("initialSpeed", INITIAL_DEFAULT)).doubleValue());
-            gravity = new NumericValue(((Number) map.getOrDefault("gravity", GRAVITY_DEFAULT)).doubleValue());
-            hitBoxSize = new NumericValue(((Number) map.getOrDefault("hitBoxSize", HIT_BOX_SIZE_DEFAULT)).doubleValue());
+            initialSpeed = new NumericValue(((Double) map.getOrDefault("initialSpeed", INITIAL_DEFAULT.getValue())));
+            gravity = new NumericValue(((Double) map.getOrDefault("gravity", GRAVITY_DEFAULT.getValue())));
+            hitBoxSize = new NumericValue(((Double) map.getOrDefault("hitBoxSize", HIT_BOX_SIZE_DEFAULT.getValue())));
         }
         return new ProjectileAction(initialSpeed, gravity, onEntityHitActions, onBlockHitActions,
                 onProjectileTickActions, entity, hitBoxSize, maxDistance);

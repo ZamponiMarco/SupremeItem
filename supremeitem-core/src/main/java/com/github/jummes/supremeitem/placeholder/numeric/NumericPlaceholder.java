@@ -9,4 +9,6 @@ public abstract class NumericPlaceholder extends Placeholder<Double> {
     public NumericPlaceholder(boolean target) {
         super(target);
     }
+
+    public abstract NumericPlaceholder clone();
 }

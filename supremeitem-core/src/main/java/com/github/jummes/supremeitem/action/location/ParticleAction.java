@@ -34,9 +34,9 @@ import java.util.stream.Collectors;
 @Enumerable.Child
 public class ParticleAction extends Action {
 
-    private static final int COUNT_DEFAULT = 1;
-    private static final double OFFSET_DEFAULT = 0;
-    private static final double SPEED_DEFAULT = 0;
+    private static final NumericValue COUNT_DEFAULT = new NumericValue(1);
+    private static final NumericValue OFFSET_DEFAULT = new NumericValue(0);
+    private static final NumericValue SPEED_DEFAULT = new NumericValue(0);
     private static final boolean FORCE_DEFAULT = false;
 
     private static final String TYPE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWY4NDczNWZjOWM3NjBlOTVlYWYxMGNlYzRmMTBlZGI1ZjM4MjJhNWZmOTU1MWVlYjUwOTUxMzVkMWZmYTMwMiJ9fX0=";
@@ -50,14 +50,17 @@ public class ParticleAction extends Action {
 
     @Serializable(headTexture = COUNT_HEAD, description = "gui.action.particle.count")
     @Serializable.Number(minValue = 0, scale = 1)
+    @Serializable.Optional(defaultValue = "COUNT_DEFAULT")
     private NumericValue count;
 
     @Serializable(headTexture = OFFSET_HEAD, description = "gui.action.particle.offset")
     @Serializable.Number(minValue = 0)
+    @Serializable.Optional(defaultValue = "OFFSET_DEFAULT")
     private NumericValue offset;
 
     @Serializable(headTexture = SPEED_HEAD, description = "gui.action.particle.speed")
     @Serializable.Number(minValue = 0)
+    @Serializable.Optional(defaultValue = "SPEED_DEFAULT")
     private NumericValue speed;
 
     @Serializable(headTexture = FORCE_HEAD, description = "gui.action.particle.force")
@@ -68,8 +71,8 @@ public class ParticleAction extends Action {
     private ParticleOptions data;
 
     public ParticleAction() {
-        this(Particle.FIREWORKS_SPARK, new NumericValue(COUNT_DEFAULT), new NumericValue(OFFSET_DEFAULT),
-                new NumericValue(SPEED_DEFAULT), FORCE_DEFAULT, null);
+        this(Particle.FIREWORKS_SPARK, COUNT_DEFAULT.clone(), OFFSET_DEFAULT.clone(),
+                SPEED_DEFAULT.clone(), FORCE_DEFAULT, null);
     }
 
     public static ParticleAction deserialize(Map<String, Object> map) {
@@ -81,13 +84,13 @@ public class ParticleAction extends Action {
         NumericValue offset;
         NumericValue speed;
         try {
-            count = (NumericValue) map.getOrDefault("count", new NumericValue(COUNT_DEFAULT));
-            offset = (NumericValue) map.getOrDefault("offset", new NumericValue(OFFSET_DEFAULT));
-            speed = (NumericValue) map.getOrDefault("speed", new NumericValue(SPEED_DEFAULT));
+            count = (NumericValue) map.getOrDefault("count", COUNT_DEFAULT.clone());
+            offset = (NumericValue) map.getOrDefault("offset", OFFSET_DEFAULT.clone());
+            speed = (NumericValue) map.getOrDefault("speed", SPEED_DEFAULT.clone());
         } catch (ClassCastException e) {
-            count = new NumericValue(((Number) map.getOrDefault("count", COUNT_DEFAULT)).doubleValue());
-            offset = new NumericValue(((Number) map.getOrDefault("offset", OFFSET_DEFAULT)).doubleValue());
-            speed = new NumericValue(((Number) map.getOrDefault("speed", SPEED_DEFAULT)).doubleValue());
+            count = new NumericValue(((Integer) map.getOrDefault("count", COUNT_DEFAULT.getValue())));
+            offset = new NumericValue(((Double) map.getOrDefault("offset", OFFSET_DEFAULT.getValue())));
+            speed = new NumericValue(((Double) map.getOrDefault("speed", SPEED_DEFAULT.getValue())));
         }
         return new ParticleAction(type, count, offset, speed, force, data);
     }

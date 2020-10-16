@@ -13,6 +13,7 @@ import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -30,7 +31,7 @@ import java.util.stream.Collectors;
 @Setter
 public class ConsumeItemAction extends EntityAction {
 
-    private static final int AMOUNT_DEFAULT = 1;
+    private static final NumericValue AMOUNT_DEFAULT = new NumericValue(1);
 
     private static final String AMOUNT_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdkYzNlMjlhMDkyM2U1MmVjZWU2YjRjOWQ1MzNhNzllNzRiYjZiZWQ1NDFiNDk1YTEzYWJkMzU5NjI3NjUzIn19fQ==";
 
@@ -38,20 +39,22 @@ public class ConsumeItemAction extends EntityAction {
     private ItemStackWrapper item;
 
     @Serializable(headTexture = AMOUNT_HEAD, description = "gui.action.consume-item.amount")
+    @Serializable.Optional(defaultValue = "AMOUNT_DEFAULT")
     @Serializable.Number(minValue = 1, scale = 1)
     private NumericValue amount;
 
+    @SneakyThrows
     public ConsumeItemAction() {
-        this(new ItemStackWrapper(), new NumericValue(AMOUNT_DEFAULT));
+        this(new ItemStackWrapper(), AMOUNT_DEFAULT.clone());
     }
 
     public static ConsumeItemAction deserialize(Map<String, Object> map) {
         ItemStackWrapper item = (ItemStackWrapper) map.get("item");
         NumericValue amount;
         try {
-            amount = (NumericValue) map.getOrDefault("amount", new NumericValue(AMOUNT_DEFAULT));
+            amount = (NumericValue) map.getOrDefault("amount", AMOUNT_DEFAULT.clone());
         } catch (ClassCastException e) {
-            amount = new NumericValue(((Number) map.getOrDefault("amount", AMOUNT_DEFAULT)).doubleValue());
+            amount = new NumericValue(((Integer) map.getOrDefault("amount", AMOUNT_DEFAULT.getValue())));
         }
         return new ConsumeItemAction(item, amount);
     }

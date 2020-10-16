@@ -33,7 +33,7 @@ import java.util.function.Predicate;
 @Enumerable.Displayable(name = "&c&lApply actions to entities in Area", description = "gui.action.area-entities.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWZjZDQxNGIwNWE1MzJjNjA5YzJhYTQ4ZDZjMDYyYzI5MmQ1MzNkZmFmNGQ3MzJhYmU5YWY1NzQxNTg5ZSJ9fX0=")
 public class AreaEntitiesAction extends MetaAction {
 
-    private static final double MAX_DISTANCE_DEFAULT = 3.0;
+    private static final NumericValue MAX_DISTANCE_DEFAULT = new NumericValue(3.0);
     private static final boolean CAST_LOCATION_DEFAULT = true;
 
     private static final String ACTIONS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODIxNmVlNDA1OTNjMDk4MWVkMjhmNWJkNjc0ODc5NzgxYzQyNWNlMDg0MWI2ODc0ODFjNGY3MTE4YmI1YzNiMSJ9fX0=";
@@ -47,6 +47,7 @@ public class AreaEntitiesAction extends MetaAction {
 
     @Serializable(headTexture = MAX_DISTANCE_HEAD, description = "gui.action.area-entities.max-distance")
     @Serializable.Number(minValue = 0, scale = 1)
+    @Serializable.Optional(defaultValue = "MAX_DISTANCE_DEFAULT")
     private NumericValue maxDistance;
 
     @Serializable(headTexture = SELECTOR_HEAD, description = "gui.action.area-entities.selectors")
@@ -57,7 +58,7 @@ public class AreaEntitiesAction extends MetaAction {
     private boolean castFromLocation;
 
     public AreaEntitiesAction() {
-        this(Lists.newArrayList(), new NumericValue(MAX_DISTANCE_DEFAULT), Lists.newArrayList(new SourceSelector()),
+        this(Lists.newArrayList(), MAX_DISTANCE_DEFAULT.clone(), Lists.newArrayList(new SourceSelector()),
                 CAST_LOCATION_DEFAULT);
     }
 
@@ -67,9 +68,9 @@ public class AreaEntitiesAction extends MetaAction {
         boolean castFromLocation = (boolean) map.getOrDefault("castFromLocation", CAST_LOCATION_DEFAULT);
         NumericValue maxDistance;
         try {
-            maxDistance = (NumericValue) map.getOrDefault("maxDistance", new NumericValue(MAX_DISTANCE_DEFAULT));
+            maxDistance = (NumericValue) map.getOrDefault("maxDistance", MAX_DISTANCE_DEFAULT.clone());
         } catch (ClassCastException e) {
-            maxDistance = new NumericValue(((Number) map.getOrDefault("maxDistance", MAX_DISTANCE_DEFAULT)).doubleValue());
+            maxDistance = new NumericValue(((Double) map.getOrDefault("maxDistance", MAX_DISTANCE_DEFAULT.clone())));
         }
         return new AreaEntitiesAction(actions, maxDistance, selectors, castFromLocation);
     }

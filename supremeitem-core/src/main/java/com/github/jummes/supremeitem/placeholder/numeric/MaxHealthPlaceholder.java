@@ -28,6 +28,11 @@ public class MaxHealthPlaceholder extends NumericPlaceholder {
     }
 
     @Override
+    public NumericPlaceholder clone() {
+        return new MaxHealthPlaceholder(target);
+    }
+
+    @Override
     public Double computePlaceholder(Target target, Source source) {
         AttributeInstance maxHealth = null;
         if (this.target) {
