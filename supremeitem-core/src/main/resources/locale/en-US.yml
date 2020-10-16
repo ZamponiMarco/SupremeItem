@@ -197,12 +197,18 @@ gui:
       entity-hit-actions:
         - "&7&oThe group of actions to apply when the projectile"
         - "&7&ohits an entity."
+        - "&6&oSource: &eshooter entity."
+        - "&6&oTarget: &ehit entity."
       block-hit-actions:
         - "&7&oThe group of actions to apply when the projectile"
         - "&7&ohits a block."
+        - "&6&oSource: &eshooter entity."
+        - "&6&oTarget: &ehit block location."
       projectile-tick-actions:
         - "&7&oThe group of actions to apply for every tick of the"
         - "&7&oprojectile."
+        - "&6&oSource: &eshooter entity."
+        - "&6&oTarget: &eprojectile location."
       entity:
         - "&7&oThe entity that will represent the projectile."
         - "&7&oCan be null."
