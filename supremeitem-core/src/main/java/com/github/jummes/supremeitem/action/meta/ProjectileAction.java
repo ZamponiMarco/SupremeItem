@@ -37,6 +37,7 @@ public class ProjectileAction extends MetaAction {
     private static final NumericValue GRAVITY_DEFAULT = new NumericValue(0.1);
     private static final NumericValue HIT_BOX_SIZE_DEFAULT = new NumericValue(0.5);
     private static final NumericValue MAX_DISTANCE_DEFAULT = new NumericValue(100.0);
+    private static final boolean SHOOT_FROM_HAND_DEFAULT = false;
 
     private static final String INITIAL_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTc2OWUyYzEzNGVlNWZjNmRhZWZlNDEyZTRhZjNkNTdkZjlkYmIzY2FhY2Q4ZTM2ZTU5OTk3OWVjMWFjNCJ9fX0=";
     private static final String GRAVITY_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzY4ZGZiYzk1YWRiNGY2NDhjMzYxNjRhMTVkNjhlZjVmOWM3Njk3ZDg2Zjg3MjEzYzdkN2E2NDU1NzdhYTY2In19fQ==";
@@ -45,6 +46,8 @@ public class ProjectileAction extends MetaAction {
     private static final String BLOCK_HIT_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODhiNzY3YzhhMWVhOGU0MDRiM2NjYTg1MzQ5ZjY1M2I1N2IwYzNmNDY0MjdmYmVjZWFjY2YzNjAyYmMyOWUifX19";
     private static final String TICK_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2FhMjVhZTFiOGU2ZTgxY2FkMTU3NTdjMzk3YmYwYzk5M2E1ZDg3NmQ5N2NiZWFlNGEyMGYyNDMzYzMyM2EifX19";
     private static final String HIT_BOX_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjMzYzBiYjM3ZWJlMTE5M2VlNDYxODEwMzQ2MGE3ZjEyOTI3N2E4YzdmZDA4MWI2YWVkYjM0YTkyYmQ1In19fQ==";
+    private static final String MAX_DISTANCE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTI0NjFiNGQ2YWIxYzE0MThlZWFiZDQ2N2Q4OTNmMGU4OWEyMWE0MjM2OTFiN2UxZjYwNWQ2Njk3ZDBhOGU1MSJ9fX0=";
+    private static final String SHOOT_FROM_HAND_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTNmYzUyMjY0ZDhhZDllNjU0ZjQxNWJlZjAxYTIzOTQ3ZWRiY2NjY2Y2NDkzNzMyODliZWE0ZDE0OTU0MWY3MCJ9fX0=";
 
     @Serializable(headTexture = INITIAL_HEAD, description = "gui.action.projectile.initial-speed")
     @Serializable.Number(minValue = 0)
@@ -76,14 +79,18 @@ public class ProjectileAction extends MetaAction {
     @Serializable.Optional(defaultValue = "HIT_BOX_SIZE_DEFAULT")
     private NumericValue hitBoxSize;
 
-    @Serializable(headTexture = HIT_BOX_HEAD, description = "gui.action.projectile.max-distance")
+    @Serializable(headTexture = MAX_DISTANCE_HEAD, description = "gui.action.projectile.max-distance")
     @Serializable.Number(minValue = 0)
     @Serializable.Optional(defaultValue = "MAX_DISTANCE_DEFAULT")
     private NumericValue maxDistance;
 
+    @Serializable(headTexture = SHOOT_FROM_HAND_HEAD, description = "gui.action.projectile.shoot-hand")
+    @Serializable.Optional(defaultValue = "SHOOT_FROM_HAND_DEFAULT")
+    private boolean shootFromHand;
+
     public ProjectileAction() {
         this(INITIAL_DEFAULT.clone(), GRAVITY_DEFAULT.clone(), Lists.newArrayList(), Lists.newArrayList(), Lists.newArrayList(),
-                new NoEntity(), HIT_BOX_SIZE_DEFAULT.clone(), MAX_DISTANCE_DEFAULT.clone());
+                new NoEntity(), HIT_BOX_SIZE_DEFAULT.clone(), MAX_DISTANCE_DEFAULT.clone(), SHOOT_FROM_HAND_DEFAULT);
     }
 
     public static ProjectileAction deserialize(Map<String, Object> map) {
@@ -91,6 +98,7 @@ public class ProjectileAction extends MetaAction {
         List<Action> onBlockHitActions = (List<Action>) map.getOrDefault("onBlockHitActions", Lists.newArrayList());
         List<Action> onProjectileTickActions = (List<Action>) map.getOrDefault("onProjectileTickActions", Lists.newArrayList());
         Entity entity = (Entity) map.getOrDefault("entity", new NoEntity());
+        boolean shootFromHand = (boolean) map.getOrDefault("shootFromHand", SHOOT_FROM_HAND_DEFAULT);
         NumericValue initialSpeed;
         NumericValue gravity;
         NumericValue hitBoxSize;
@@ -105,7 +113,7 @@ public class ProjectileAction extends MetaAction {
             hitBoxSize = new NumericValue(((Double) map.getOrDefault("hitBoxSize", HIT_BOX_SIZE_DEFAULT.getValue())));
         }
         return new ProjectileAction(initialSpeed, gravity, onEntityHitActions, onBlockHitActions,
-                onProjectileTickActions, entity, hitBoxSize, maxDistance);
+                onProjectileTickActions, entity, hitBoxSize, maxDistance, shootFromHand);
     }
 
     @Override
@@ -114,10 +122,12 @@ public class ProjectileAction extends MetaAction {
         if (source instanceof EntitySource) {
             EntitySource entitySource = (EntitySource) source;
             l = entitySource.getSource().getEyeLocation().clone();
-            if (entitySource.getHand().equals(MainHand.RIGHT)) {
-                l = getRightSide(l, 0.5);
-            } else {
-                l = getLeftSide(l, 0.5);
+            if (shootFromHand) {
+                if (entitySource.getHand().equals(MainHand.RIGHT)) {
+                    l = getRightSide(l, 0.5);
+                } else {
+                    l = getLeftSide(l, 0.5);
+                }
             }
         } else if (source instanceof LocationSource) {
             l = ((LocationSource) source).getSource();

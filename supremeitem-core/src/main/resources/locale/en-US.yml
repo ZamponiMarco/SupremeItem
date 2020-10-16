@@ -223,6 +223,10 @@ gui:
         - "&6&lLeft click &eto modify."
         - "&6&lRight click &eto recreate."
         - "&6&lMiddle click &eto switch (const/placeholder)"
+      shoot-hand:
+        - "&7&oWhether the projectile should be shot"
+        - "&7&ofrom the hand (slightly not centered)"
+        - "&7&oor from the eyes (centered)."
     skill:
       description:
         - "&7&oSet the use of a previously saved skill."
