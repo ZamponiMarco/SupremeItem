@@ -412,16 +412,44 @@ gui:
       operator:
         description:
           - "&7&oSet a numeric operator placeholder."
+        operand-one:
+          - "&7&oThe first operand."
+          - "&6&lLeft click &eto modify."
+          - "&6&lRight click &eto recreate."
+          - "&6&lMiddle click &eto switch (const/placeholder)"
+        operand-two:
+          - "&7&oThe second operand."
+          - "&6&lLeft click &eto modify."
+          - "&6&lRight click &eto recreate."
+          - "&6&lMiddle click &eto switch (const/placeholder)"
         random:
           description:
             - "&7&oSet a random number placeholder."
           min:
             - "&7&oThe minimum number to roll."
+            - "&6&lLeft click &eto modify."
+            - "&6&lRight click &eto recreate."
+            - "&6&lMiddle click &eto switch (const/placeholder)"
           max:
             - "&7&oThe maximum number to roll."
+            - "&6&lLeft click &eto modify."
+            - "&6&lRight click &eto recreate."
+            - "&6&lMiddle click &eto switch (const/placeholder)"
           is-natural:
             - "&7&oWhether the result should be a natural"
             - "&7&onumber or a rational one."
+        sum:
+          description:
+            - "&7&oSet a number sum placeholder."
+        difference:
+          description:
+            - "&7&oSet a number difference placeholder."
+        multiplication:
+          description:
+            - "&7&oSet a number multiplication placeholder."
+        division:
+          description:
+            - "&7&oSet a number division placeholder."
     boolean:
       player:
         description:

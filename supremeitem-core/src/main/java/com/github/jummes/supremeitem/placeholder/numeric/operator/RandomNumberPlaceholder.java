@@ -6,9 +6,13 @@ import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.placeholder.numeric.NumericPlaceholder;
 import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Map;
 
+@Setter
+@Getter
 @Enumerable.Child
 @Enumerable.Displayable(name = "&c&lRandom Number Placeholder", description = "gui.placeholder.double.operator.random.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTBkMmEzY2U0OTk5ZmVkMzMwZDNhNWQwYTllMjE4ZTM3ZjRmNTc3MTk4MDg2NTczOTZkODMyMjM5ZTEyIn19fQ==")
 public class RandomNumberPlaceholder extends NumberOperatorPlaceholder {

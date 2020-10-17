@@ -46,6 +46,10 @@ public class NumericValue implements Model, Cloneable {
         this(true, i, new HealthPlaceholder());
     }
 
+    public NumericValue(NumericPlaceholder numericPlaceholder) {
+        this(false, 10.0, numericPlaceholder);
+    }
+
     public static NumericValue deserialize(Map<String, Object> map) {
         boolean doubleValue = (boolean) map.getOrDefault("doubleValue", DOUBLE_VALUE_DEFAULT);
         double value = 10.0;
