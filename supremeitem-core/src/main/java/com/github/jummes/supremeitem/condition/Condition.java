@@ -15,9 +15,9 @@ public abstract class Condition implements Model {
 
     protected static final boolean NEGATE_DEFAULT = false;
 
-    private static final String ACTIONS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODIxNmVlNDA1OTNjMDk4MWVkMjhmNWJkNjc0ODc5NzgxYzQyNWNlMDg0MWI2ODc0ODFjNGY3MTE4YmI1YzNiMSJ9fX0=";
+    private static final String NEGATE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWZkMjQwMDAwMmFkOWZiYmJkMDA2Njk0MWViNWIxYTM4NGFiOWIwZTQ4YTE3OGVlOTZlNGQxMjlhNTIwODY1NCJ9fX0=";
 
-    @Serializable(headTexture = ACTIONS_HEAD, description = "gui.condition.negate")
+    @Serializable(headTexture = NEGATE_HEAD, description = "gui.condition.negate")
     @Serializable.Optional(defaultValue = "NEGATE_DEFAULT")
     protected boolean negate;
 

@@ -54,6 +54,6 @@ public class EqualsCondition extends NumericCondition {
 
     @Override
     public String getName() {
-        return String.format("&c" + operandOne.getName() + "&6&l%s&c&l" + operandTwo.getName(), negate ? " ≠ " : " = ");
+        return String.format("&c" + operandOne.getName() + "&6&l%s&c" + operandTwo.getName(), negate ? " ≠ " : " = ");
     }
 }

@@ -409,6 +409,19 @@ gui:
       hunger:
         description:
           - "&7&oSet a hunger placeholder. (only players)"
+      operator:
+        description:
+          - "&7&oSet a numeric operator placeholder."
+        random:
+          description:
+            - "&7&oSet a random number placeholder."
+          min:
+            - "&7&oThe minimum number to roll."
+          max:
+            - "&7&oThe maximum number to roll."
+          is-natural:
+            - "&7&oWhether the result should be a natural"
+            - "&7&onumber or a rational one."
     boolean:
       player:
         description:
