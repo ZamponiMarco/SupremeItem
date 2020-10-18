@@ -14,6 +14,7 @@ import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -32,7 +33,6 @@ public class PullAction extends EntityAction {
     private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzZlZjgzZTZjYWIxOWNkMjM4MDdlZjIwNmQxY2E2NmU0MWJhYTNhMGZhNWJkYzllYTQ0YmJlOTZkMTg2YiJ9fX0=";
 
     @Serializable(headTexture = HEAD, description = "gui.action.pull.force")
-    @Serializable.Number(minValue = 0)
     private NumericValue force;
 
     public PullAction() {
@@ -52,20 +52,25 @@ public class PullAction extends EntityAction {
     @Override
     protected ActionResult execute(Target target, Source source) {
         Vector difference = null;
-        EntityTarget entity = (EntityTarget) target;
+        LivingEntity entityTarget = ((EntityTarget) target).getTarget();
         if (source instanceof EntitySource) {
-            difference = ((EntitySource) source).getSource().getLocation().toVector().
-                    subtract(entity.getTarget().getLocation().toVector());
+            LivingEntity entitySource = ((EntitySource) source).getSource();
+            if (entitySource.equals(entityTarget)) {
+                difference = entityTarget.getLocation().getDirection().multiply(-1);
+            } else {
+                difference = entitySource.getLocation().toVector().
+                        subtract(entityTarget.getLocation().toVector());
+            }
         } else if (source instanceof LocationSource) {
             difference = ((LocationSource) source).getSource().toVector().
-                    subtract(entity.getTarget().getLocation().toVector());
+                    subtract(entityTarget.getLocation().toVector());
         }
         if (difference != null) {
             difference.normalize();
             if (Double.isFinite(difference.getX()) && Double.isFinite(difference.getY())
                     && Double.isFinite(difference.getZ())) {
                 difference.multiply(force.getRealValue(target, source));
-                entity.getTarget().setVelocity(difference);
+                entityTarget.setVelocity(difference);
             }
         }
         return ActionResult.SUCCESS;

@@ -85,23 +85,32 @@ gui:
     pull:
       description:
         - "&7&oSet the pull force to apply to the target"
-        - "&7&otowards the skill source."
+        - "&7&otowards the skill source. If source and"
+        - "&7&otarget are the same entity moves the entity"
+        - "&7&obackwards (onwards with negative force)"
       force:
         - "&7&oThe quantity of force to apply to the target."
+        - "&7&oWill produce an attraction if positive, otherwise"
+        - "&7&oa repulsion."
         - "&6&lLeft click &eto modify."
         - "&6&lRight click &eto recreate."
         - "&6&lMiddle click &eto switch (const/placeholder)"
     push:
       description:
-        - "&7&oSet the push force to apply to the target"
-        - "&7&oin the opposite direction of the skill source."
+        - "&7&oSet a push to the target in the opposite direction."
+        - "&7&oof the source. If source and target are the same"
+        - "&7&oentity push the entity onwards."
       horizontal:
         - "&7&oThe horizontal force to apply."
+        - "&7&oWill push target away from source if positive,"
+        - "&7&ootherwise it will push it towards the source."
         - "&6&lLeft click &eto modify."
         - "&6&lRight click &eto recreate."
         - "&6&lMiddle click &eto switch (const/placeholder)"
       vertical:
         - "&7&oThe vertical force to apply."
+        - "&7&oWill push the target upwards if positive,"
+        - "&7&ootherwise it will push it downwards."
         - "&6&lLeft click &eto modify."
         - "&6&lRight click &eto recreate."
         - "&6&lMiddle click &eto switch (const/placeholder)"

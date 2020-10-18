@@ -14,6 +14,7 @@ import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
@@ -34,12 +35,10 @@ public class PushAction extends EntityAction {
     private static final String VERTICAL_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTk5YWFmMjQ1NmE2MTIyZGU4ZjZiNjI2ODNmMmJjMmVlZDlhYmI4MWZkNWJlYTFiNGMyM2E1ODE1NmI2NjkifX19";
 
     @Serializable(headTexture = HORIZONTAL_HEAD, description = "gui.action.push.horizontal")
-    @Serializable.Number(minValue = 0)
     @Serializable.Optional(defaultValue = "HORIZONTAL_DEFAULT")
     private NumericValue horizontalVelocity;
 
     @Serializable(headTexture = VERTICAL_HEAD, description = "gui.action.push.vertical")
-    @Serializable.Number(minValue = 0)
     @Serializable.Optional(defaultValue = "VERTICAL_DEFAULT")
     private NumericValue verticalVelocity;
 
@@ -63,12 +62,17 @@ public class PushAction extends EntityAction {
     @Override
     protected ActionResult execute(Target target, Source source) {
         Vector difference = null;
-        EntityTarget entity = (EntityTarget) target;
+        LivingEntity entityTarget = ((EntityTarget) target).getTarget();
         if (source instanceof EntitySource) {
-            difference = entity.getTarget().getLocation().toVector().
-                    subtract(((EntitySource) source).getSource().getLocation().toVector());
+            LivingEntity entitySource = ((EntitySource) source).getSource();
+            if (entitySource.equals(entityTarget)) {
+                difference = entityTarget.getLocation().getDirection();
+            } else {
+                difference = entityTarget.getLocation().toVector().
+                        subtract(((EntitySource) source).getSource().getLocation().toVector());
+            }
         } else if (source instanceof LocationSource) {
-            difference = entity.getTarget().getLocation().toVector().
+            difference = entityTarget.getLocation().toVector().
                     subtract(((LocationSource) source).getSource().toVector());
         }
         if (difference != null) {
@@ -80,11 +84,12 @@ public class PushAction extends EntityAction {
                 difference.setX(difference.getX() * hV);
                 difference.setZ(difference.getZ() * hV);
                 difference.setY(vV);
-                entity.getTarget().setVelocity(difference.setY(0).multiply(hV)
+                entityTarget.setVelocity(difference.setY(0).multiply(hV)
                         .add(new Vector(0, vV, 0)));
+                return ActionResult.SUCCESS;
             }
         }
-        return ActionResult.SUCCESS;
+        return ActionResult.FAILURE;
     }
 
     @Override
