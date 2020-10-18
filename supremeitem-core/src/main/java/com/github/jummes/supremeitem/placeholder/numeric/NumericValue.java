@@ -46,6 +46,10 @@ public class NumericValue implements Model, Cloneable {
         this(true, i, new HealthPlaceholder());
     }
 
+    public NumericValue(Number i) {
+        this(true, i.doubleValue(), new HealthPlaceholder());
+    }
+
     public NumericValue(NumericPlaceholder numericPlaceholder) {
         this(false, 10.0, numericPlaceholder);
     }

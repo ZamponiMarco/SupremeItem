@@ -54,7 +54,7 @@ public class ConsumeItemAction extends EntityAction {
         try {
             amount = (NumericValue) map.getOrDefault("amount", AMOUNT_DEFAULT.clone());
         } catch (ClassCastException e) {
-            amount = new NumericValue(((Integer) map.getOrDefault("amount", AMOUNT_DEFAULT.getValue())));
+            amount = new NumericValue(((Number) map.getOrDefault("amount", AMOUNT_DEFAULT.getValue())));
         }
         return new ConsumeItemAction(item, amount);
     }

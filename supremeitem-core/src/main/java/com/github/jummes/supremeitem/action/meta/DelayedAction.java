@@ -59,7 +59,7 @@ public class DelayedAction extends MetaAction {
         try {
             delay = (NumericValue) map.getOrDefault("delay", DELAY_DEFAULT.clone());
         } catch (ClassCastException e) {
-            delay = new NumericValue(((Integer) map.getOrDefault("delay", DELAY_DEFAULT.getValue())));
+            delay = new NumericValue(((Number) map.getOrDefault("delay", DELAY_DEFAULT.getValue())));
         }
         return new DelayedAction(actions, delay);
     }

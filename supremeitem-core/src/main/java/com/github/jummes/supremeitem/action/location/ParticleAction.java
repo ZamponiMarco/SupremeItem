@@ -89,9 +89,9 @@ public class ParticleAction extends Action {
             offset = (NumericValue) map.getOrDefault("offset", OFFSET_DEFAULT.clone());
             speed = (NumericValue) map.getOrDefault("speed", SPEED_DEFAULT.clone());
         } catch (ClassCastException e) {
-            count = new NumericValue(((Integer) map.getOrDefault("count", COUNT_DEFAULT.getValue())));
-            offset = new NumericValue(((Double) map.getOrDefault("offset", OFFSET_DEFAULT.getValue())));
-            speed = new NumericValue(((Double) map.getOrDefault("speed", SPEED_DEFAULT.getValue())));
+            count = new NumericValue(((Number) map.getOrDefault("count", COUNT_DEFAULT.getValue())));
+            offset = new NumericValue(((Number) map.getOrDefault("offset", OFFSET_DEFAULT.getValue())));
+            speed = new NumericValue(((Number) map.getOrDefault("speed", SPEED_DEFAULT.getValue())));
         }
         return new ParticleAction(type, count, offset, speed, force, data);
     }

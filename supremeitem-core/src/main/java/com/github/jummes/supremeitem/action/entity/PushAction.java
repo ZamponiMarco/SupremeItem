@@ -53,8 +53,9 @@ public class PushAction extends EntityAction {
             horizontalVelocity = (NumericValue) map.getOrDefault("horizontalVelocity", HORIZONTAL_DEFAULT.clone());
             verticalVelocity = (NumericValue) map.getOrDefault("verticalVelocity", VERTICAL_DEFAULT.clone());
         } catch (ClassCastException e) {
-            horizontalVelocity = new NumericValue(((Double) map.getOrDefault("horizontalVelocity", HORIZONTAL_DEFAULT)));
-            verticalVelocity = new NumericValue(((Double) map.getOrDefault("verticalVelocity", VERTICAL_DEFAULT)));
+
+            horizontalVelocity = new NumericValue(((Number) map.getOrDefault("horizontalVelocity", HORIZONTAL_DEFAULT.getValue())));
+            verticalVelocity = new NumericValue(((Number) map.getOrDefault("verticalVelocity", VERTICAL_DEFAULT.getValue())));
         }
         return new PushAction(horizontalVelocity, verticalVelocity);
     }

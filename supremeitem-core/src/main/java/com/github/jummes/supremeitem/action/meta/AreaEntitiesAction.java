@@ -70,7 +70,7 @@ public class AreaEntitiesAction extends MetaAction {
         try {
             maxDistance = (NumericValue) map.getOrDefault("maxDistance", MAX_DISTANCE_DEFAULT.clone());
         } catch (ClassCastException e) {
-            maxDistance = new NumericValue(((Double) map.getOrDefault("maxDistance", MAX_DISTANCE_DEFAULT.clone())));
+            maxDistance = new NumericValue(((Number) map.getOrDefault("maxDistance", MAX_DISTANCE_DEFAULT.getValue())));
         }
         return new AreaEntitiesAction(actions, maxDistance, selectors, castFromLocation);
     }

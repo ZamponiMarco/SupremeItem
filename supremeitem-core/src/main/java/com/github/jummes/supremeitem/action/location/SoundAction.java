@@ -72,8 +72,8 @@ public class SoundAction extends Action {
             pitch = (NumericValue) map.getOrDefault("pitch", PITCH_DEFAULT.clone());
             volume = (NumericValue) map.getOrDefault("volume", VOLUME_DEFAULT.clone());
         } catch (ClassCastException e) {
-            pitch = new NumericValue(((Double) map.getOrDefault("pitch", PITCH_DEFAULT.getValue())));
-            volume = new NumericValue(((Double) map.getOrDefault("volume", VOLUME_DEFAULT.getValue())));
+            pitch = new NumericValue(((Number) map.getOrDefault("pitch", PITCH_DEFAULT.getValue())));
+            volume = new NumericValue(((Number) map.getOrDefault("volume", VOLUME_DEFAULT.getValue())));
         }
         return new SoundAction(type, category, pitch, volume);
     }

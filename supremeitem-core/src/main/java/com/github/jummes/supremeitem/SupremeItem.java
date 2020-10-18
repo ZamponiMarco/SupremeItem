@@ -12,10 +12,7 @@ import com.github.jummes.supremeitem.entity.Entity;
 import com.github.jummes.supremeitem.entity.selector.EntitySelector;
 import com.github.jummes.supremeitem.item.Item;
 import com.github.jummes.supremeitem.listener.PlayerItemListener;
-import com.github.jummes.supremeitem.manager.CooldownManager;
-import com.github.jummes.supremeitem.manager.ItemManager;
-import com.github.jummes.supremeitem.manager.SavedSkillManager;
-import com.github.jummes.supremeitem.manager.TimerManager;
+import com.github.jummes.supremeitem.manager.*;
 import com.github.jummes.supremeitem.placeholder.Placeholder;
 import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
@@ -66,6 +63,7 @@ public class SupremeItem extends JavaPlugin {
     private CooldownManager cooldownManager;
     private SavedSkillManager savedSkillManager;
     private TimerManager timerManager;
+    private VariableManager variableManager;
 
     public static SupremeItem getInstance() {
         return getPlugin(SupremeItem.class);
@@ -107,6 +105,7 @@ public class SupremeItem extends JavaPlugin {
         cooldownManager = new CooldownManager();
         savedSkillManager = new SavedSkillManager(SavedSkill.class, "yaml", this);
         timerManager = new TimerManager();
+        variableManager = new VariableManager();
     }
 
     private void setUpCommands() {

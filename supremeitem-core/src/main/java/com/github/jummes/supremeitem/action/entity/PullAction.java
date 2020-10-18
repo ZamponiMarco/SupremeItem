@@ -44,7 +44,7 @@ public class PullAction extends EntityAction {
         try {
             force = (NumericValue) map.getOrDefault("force", FORCE_DEFAULT.clone());
         } catch (ClassCastException e) {
-            force = new NumericValue(((Double) map.getOrDefault("force", FORCE_DEFAULT.getValue())));
+            force = new NumericValue(((Number) map.getOrDefault("force", FORCE_DEFAULT.getValue())));
         }
         return new PullAction(force);
     }

@@ -87,8 +87,8 @@ public class EffectAction extends Action {
             duration = (NumericValue) map.getOrDefault("duration", DURATION_DEFAULT.clone());
             level = (NumericValue) map.getOrDefault("level", LEVEL_DEFAULT.clone());
         } catch (ClassCastException e) {
-            duration = new NumericValue(((Integer) map.getOrDefault("duration", DURATION_DEFAULT.getValue())));
-            level = new NumericValue(((Integer) map.getOrDefault("level", LEVEL_DEFAULT.getValue())));
+            duration = new NumericValue(((Number) map.getOrDefault("duration", DURATION_DEFAULT.getValue())));
+            level = new NumericValue(((Number) map.getOrDefault("level", LEVEL_DEFAULT.getValue())));
         }
         return new EffectAction(type, duration, level, particles, ambient, icon);
     }

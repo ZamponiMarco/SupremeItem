@@ -53,7 +53,7 @@ public class Projectile {
                 }
                 if (projectilePresent)
                     projectile.setVelocity(initialDirection);
-                onProjectileTickActions.forEach(Action -> Action.executeAction(new LocationTarget(l), source));
+                onProjectileTickActions.forEach(action -> action.executeAction(new LocationTarget(l), source));
                 l.add(initialDirection);
                 if (gravity > 0) {
                     double newYSpeed = initialDirection.getY() - gravity * .05;

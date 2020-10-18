@@ -33,7 +33,10 @@ public class DifferencePlaceholder extends NumberOperatorPlaceholder {
     }
 
     public static DifferencePlaceholder deserialize(Map<String, Object> map) {
-        return new DifferencePlaceholder();
+        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
+        NumericValue operandOne = (NumericValue) map.getOrDefault("operandOne", OPERAND_ONE_DEFAULT.clone());
+        NumericValue operandTwo = (NumericValue) map.getOrDefault("operandTwo", OPERAND_TWO_DEFAULT.clone());
+        return new DifferencePlaceholder(target, operandOne, operandTwo);
     }
 
     @Override

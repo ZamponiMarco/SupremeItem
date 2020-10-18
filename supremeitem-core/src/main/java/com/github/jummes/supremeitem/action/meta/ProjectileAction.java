@@ -108,9 +108,9 @@ public class ProjectileAction extends MetaAction {
             gravity = (NumericValue) map.getOrDefault("gravity", GRAVITY_DEFAULT.clone());
             hitBoxSize = (NumericValue) map.getOrDefault("hitBoxSize", HIT_BOX_SIZE_DEFAULT.clone());
         } catch (ClassCastException e) {
-            initialSpeed = new NumericValue(((Double) map.getOrDefault("initialSpeed", INITIAL_DEFAULT.getValue())));
-            gravity = new NumericValue(((Double) map.getOrDefault("gravity", GRAVITY_DEFAULT.getValue())));
-            hitBoxSize = new NumericValue(((Double) map.getOrDefault("hitBoxSize", HIT_BOX_SIZE_DEFAULT.getValue())));
+            initialSpeed = new NumericValue(((Number) map.getOrDefault("initialSpeed", INITIAL_DEFAULT.getValue())));
+            gravity = new NumericValue(((Number) map.getOrDefault("gravity", GRAVITY_DEFAULT.getValue())));
+            hitBoxSize = new NumericValue(((Number) map.getOrDefault("hitBoxSize", HIT_BOX_SIZE_DEFAULT.getValue())));
         }
         return new ProjectileAction(initialSpeed, gravity, onEntityHitActions, onBlockHitActions,
                 onProjectileTickActions, entity, hitBoxSize, maxDistance, shootFromHand);
