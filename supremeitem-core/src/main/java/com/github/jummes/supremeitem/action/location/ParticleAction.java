@@ -23,6 +23,7 @@ import org.bukkit.*;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.inventory.ItemStack;
 
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -147,7 +148,7 @@ public class ParticleAction extends Action {
     }
 
     @Override
-    public void onModify() {
+    public void onModify(Field field) {
         if (data == null || !data.getClass().equals(ParticleOptions.getParticleOptionsMap().get(type.getDataType()))) {
             data = ParticleOptions.buildOptions(type.getDataType());
         }
