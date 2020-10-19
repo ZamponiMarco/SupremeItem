@@ -34,7 +34,7 @@ import java.util.List;
         LocationAction.class, MetaAction.class})
 public abstract class Action implements Model {
 
-    protected SupremeItem plugin;
+    protected transient SupremeItem plugin;
 
     public Action() {
         this.plugin = SupremeItem.getInstance();

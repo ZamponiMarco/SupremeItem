@@ -257,6 +257,10 @@ gui:
     cancel-event:
       description:
         - "&7&oSet the cancellation of the event."
+        - "&cAttention! &7&oSome events can't be"
+        - "&7&ocancelled (e.g. you can't cancel)"
+        - "&7&othe interaction in left-right click"
+        - "&7&oskill)."
     consume-item:
       description:
         - "&7&oSet the consumation of an item."

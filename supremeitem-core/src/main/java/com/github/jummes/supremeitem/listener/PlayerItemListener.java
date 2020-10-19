@@ -24,22 +24,20 @@ public class PlayerItemListener implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
-        boolean cancelled = false;
         if (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.LEFT_CLICK_AIR)) {
             Player p = e.getPlayer();
             if (e.getHand().equals(EquipmentSlot.HAND)) {
                 ItemStack mainItem = p.getEquipment().getItemInMainHand();
                 if (!Libs.getWrapper().getTagItem(mainItem, "supreme-item").equals("")) {
-                    cancelled = executeInteractSkill(e, mainItem);
+                    executeInteractSkill(e, mainItem);
                 }
             } else {
                 ItemStack offItem = p.getEquipment().getItemInOffHand();
                 if (!Libs.getWrapper().getTagItem(offItem, "supreme-item").equals("")) {
-                    cancelled = executeInteractSkill(e, offItem);
+                    executeInteractSkill(e, offItem);
                 }
             }
         }
-        e.setCancelled(cancelled);
     }
 
     @EventHandler
