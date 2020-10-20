@@ -80,7 +80,7 @@ public class ProjectileAction extends MetaAction {
     private NumericValue hitBoxSize;
 
     @Serializable(headTexture = MAX_DISTANCE_HEAD, description = "gui.action.projectile.max-distance")
-    @Serializable.Number(minValue = 0)
+    @Serializable.Number(minValue = 0, scale = 1)
     @Serializable.Optional(defaultValue = "MAX_DISTANCE_DEFAULT")
     private NumericValue maxDistance;
 

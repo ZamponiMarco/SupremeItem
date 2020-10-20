@@ -4,6 +4,7 @@ import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.util.ItemUtils;
+import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.source.Source;
@@ -16,6 +17,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.List;
 import java.util.Map;
@@ -59,6 +61,7 @@ public class DamageAction extends Action {
             sourceEntity = ((EntitySource) source).getSource();
         }
 
+        e.getTarget().setMetadata("siattack", new FixedMetadataValue(SupremeItem.getInstance(), true));
         e.getTarget().damage(amount.getRealValue(target, source), sourceEntity);
         return ActionResult.SUCCESS;
     }

@@ -222,21 +222,38 @@ public class ParticleAction extends Action {
 
         private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTJiMzViZGE1ZWJkZjEzNWY0ZTcxY2U0OTcyNmZiZWM1NzM5ZjBhZGVkZjAxYzUxOWUyYWVhN2Y1MTk1MWVhMiJ9fX0=";
 
-        @Serializable(headTexture = HEAD)
-        private ItemStackWrapper item;
+        @Serializable(headTexture = HEAD, stringValue = true, fromListMapper = "materialListMapper", fromList = "materialList")
+        private Material item;
 
         public ItemStackData() {
-            this(new ItemStackWrapper());
+            this(Material.IRON_AXE);
         }
 
         public static ItemStackData deserialize(Map<String, Object> map) {
-            ItemStackWrapper item = (ItemStackWrapper) map.get("item");
+            Material item;
+            try {
+                item = Material.valueOf((String) map.get("item"));
+            } catch (Exception e) {
+                item = ((ItemStackWrapper) map.get("item")).getWrapped().getType();
+            }
             return new ItemStackData(item);
+        }
+
+        public static List<Object> materialList(ModelPath<?> path) {
+            return Arrays.stream(Material.values()).filter(m -> !m.name().toLowerCase().contains("legacy") &&
+                    m.isItem()).collect(Collectors.toList());
+        }
+
+        public static Function<Object, ItemStack> materialListMapper() {
+            return obj -> {
+                Material m = (Material) obj;
+                return new ItemStack(m);
+            };
         }
 
         @Override
         protected Object buildData() {
-            return item.getWrapped();
+            return new ItemStack(item);
         }
     }
 

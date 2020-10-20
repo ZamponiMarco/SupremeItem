@@ -17,6 +17,7 @@ import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -42,7 +43,7 @@ public class PlayerItemListener implements Listener {
 
     @EventHandler
     public void onPlayerDamage(EntityDamageByEntityEvent e) {
-        boolean cancelled;
+        boolean cancelled = false;
         if (e.getEntity() instanceof LivingEntity) {
             LivingEntity damaged = (LivingEntity) e.getEntity();
             LivingEntity damager;
@@ -54,7 +55,12 @@ public class PlayerItemListener implements Listener {
             } else {
                 return;
             }
-            cancelled = executeDamageEntitySkill(damager, damaged) || executeHitEntitySkill(damager, damaged);
+            if (e.getEntity().getMetadata("siattack").stream().noneMatch(metadataValue ->
+                    Objects.equals(metadataValue.getOwningPlugin(), SupremeItem.getInstance()))) {
+                cancelled = executeDamageEntitySkill(damager, damaged) || executeHitEntitySkill(damager, damaged);
+            } else {
+                e.getEntity().removeMetadata("siattack", SupremeItem.getInstance());
+            }
             e.setCancelled(cancelled);
         }
     }
