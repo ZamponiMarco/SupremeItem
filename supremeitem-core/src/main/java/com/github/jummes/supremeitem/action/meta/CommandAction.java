@@ -4,6 +4,7 @@ import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.util.ItemUtils;
+import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.LocationTarget;
@@ -40,7 +41,8 @@ public class CommandAction extends MetaAction {
 
     @Override
     protected ActionResult execute(Target target, Source source) {
-        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);
+        Bukkit.dispatchCommand(Bukkit.getConsoleSender(), SupremeItem.getInstance().
+                getSavedPlaceholderManager().computePlaceholders(command, source, target));
         return ActionResult.SUCCESS;
     }
 

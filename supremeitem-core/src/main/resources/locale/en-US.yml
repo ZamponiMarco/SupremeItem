@@ -575,3 +575,14 @@ gui:
         - "&7&ocontained conditions returns true."
       conditions:
         - "&7&oThe collection of conditions."
+  saved-placeholder:
+    description:
+      - "&6&lLeft click &eto modify."
+      - "&6&lRight click &eto delete."
+    name:
+      - "&7&oThe name of the placeholder."
+      - "&7&oTo use it inside a string just"
+      - "&7&otype &c%name&7&o, assuming this saved"
+      - "&7&oplaceholder name is &cname&7&o."
+    placeholder:
+      - "&7&oThe referenced placeholder."

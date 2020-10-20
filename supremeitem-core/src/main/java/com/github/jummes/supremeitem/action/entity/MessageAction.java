@@ -5,6 +5,7 @@ import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.libs.util.MessageUtils;
+import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
@@ -41,7 +42,8 @@ public class MessageAction extends Action {
 
     @Override
     public ActionResult execute(Target target, Source source) {
-        ((EntityTarget) target).getTarget().sendMessage(MessageUtils.color(message));
+        ((EntityTarget) target).getTarget().sendMessage(MessageUtils.color(SupremeItem.getInstance().
+                getSavedPlaceholderManager().computePlaceholders(message, source, target)));
         return ActionResult.SUCCESS;
     }
 

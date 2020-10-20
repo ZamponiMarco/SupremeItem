@@ -15,6 +15,7 @@ import com.github.jummes.supremeitem.listener.PlayerItemListener;
 import com.github.jummes.supremeitem.manager.*;
 import com.github.jummes.supremeitem.placeholder.Placeholder;
 import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
+import com.github.jummes.supremeitem.savedplaceholder.SavedPlaceholder;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.github.jummes.supremeitem.skill.Skill;
 import com.google.common.collect.Lists;
@@ -64,6 +65,7 @@ public class SupremeItem extends JavaPlugin {
     private SavedSkillManager savedSkillManager;
     private TimerManager timerManager;
     private VariableManager variableManager;
+    private SavedPlaceholderManager savedPlaceholderManager;
 
     public static SupremeItem getInstance() {
         return getPlugin(SupremeItem.class);
@@ -106,6 +108,7 @@ public class SupremeItem extends JavaPlugin {
         savedSkillManager = new SavedSkillManager(SavedSkill.class, "yaml", this);
         timerManager = new TimerManager();
         variableManager = new VariableManager();
+        savedPlaceholderManager = new SavedPlaceholderManager(SavedPlaceholder.class, "yaml", this);
     }
 
     private void setUpCommands() {
@@ -114,6 +117,7 @@ public class SupremeItem extends JavaPlugin {
         ex.registerCommand("list", ItemListCommand.class);
         ex.registerCommand("get", ItemGetCommand.class);
         ex.registerCommand("give", ItemGiveCommand.class);
+        ex.registerCommand("placeholder", PlaceholderListCommand.class);
         getCommand("si").setExecutor(ex);
     }
 
