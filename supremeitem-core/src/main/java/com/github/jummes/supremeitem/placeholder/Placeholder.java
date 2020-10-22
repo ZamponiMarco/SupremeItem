@@ -28,7 +28,7 @@ public abstract class Placeholder<S> implements Model, Cloneable {
 
     public abstract String getName();
 
-    protected ItemStack targetItem() {
+    public ItemStack targetItem() {
         return Libs.getWrapper().skullFromValue(TARGET_HEAD);
     }
 }

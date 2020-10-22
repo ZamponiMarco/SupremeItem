@@ -22,7 +22,7 @@ public abstract class NumberOperatorPlaceholder extends NumericPlaceholder {
     }
 
     @Override
-    protected ItemStack targetItem() {
+    public ItemStack targetItem() {
         return null;
     }
 }
