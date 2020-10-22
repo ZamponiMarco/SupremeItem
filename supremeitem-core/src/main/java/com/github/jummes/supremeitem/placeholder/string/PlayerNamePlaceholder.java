@@ -11,6 +11,7 @@ import org.bukkit.entity.Player;
 import java.util.Map;
 
 @Enumerable.Child
+@Enumerable.Displayable(name = "&c&lPlayer Name Placeholder", description = "gui.placeholder.string.player-name.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjVlNTIyMzMxN2E4OTBhMzAzNTFmNmY3OGQwYWJmOGRkNzZjYmQwOGRmNmY5MTg4ODM5MzQ1NjRkMjhlNThlIn19fQ==")
 public class PlayerNamePlaceholder extends StringPlaceholder {
     public PlayerNamePlaceholder(boolean target) {
         super(target);

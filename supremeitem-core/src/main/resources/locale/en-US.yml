@@ -485,6 +485,22 @@ gui:
         division:
           description:
             - "&7&oSet a number division placeholder."
+      location:
+        x:
+          description:
+            - "&7&oSet a location x placeholder."
+        y:
+          description:
+            - "&7&oSet a location y placeholder."
+        z:
+          description:
+            - "&7&oSet a location z placeholder."
+        yaw:
+          description:
+            - "&7&oSet a location yaw placeholder."
+        pitch:
+          description:
+            - "&7&oSet a location pitch placeholder."
     boolean:
       player:
         description:
@@ -520,6 +536,15 @@ gui:
           - "&7&otarget or source has a permission. (only players)"
         permission:
           - "&7&oThe permission to check."
+    string:
+      player-name:
+        description:
+          - "&7&oSet a placeholder that returns the"
+          - "&7&oplayer name. (only players)"
+      world-name:
+        description:
+          - "&7&oSet a placeholder that returns the"
+          - "&7&oworld name."
   condition:
     description:
       - "&6&lLeft click &eto modify."
