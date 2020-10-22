@@ -163,6 +163,8 @@ gui:
         - "&7&oto all entities in a range around the target location."
       actions:
         - "&7&oThe group of actions to apply."
+        - "&6&oSource: &eSee castFromLocation."
+        - "&6&oTarget: &eEntities in range."
       max-distance:
         - "&7&oThe max distance of the entities from the target location."
         - "&6&lLeft click &eto modify."
@@ -174,6 +176,8 @@ gui:
         - "&7&oWhether the source of group of actions should be"
         - "&7&othe target location or the entity who casted the skill."
         - "&7&oChanges the dynamics of some skills (like pull/push)."
+        - "&6&oIf true, Source: &elocation of caster entity."
+        - "&6&oIf false, Source: &ecaster entity."
     delayed:
       item-description:
         - "&6&lLeft click &eto modify."
@@ -184,6 +188,8 @@ gui:
         - "&7&oafter a set delay of time."
       actions:
         - "&7&oThe group of actions to execute."
+        - "&6&oSource: &ethe same of skill."
+        - "&6&oTarget: &ethe same of skill."
       delay:
         - "&7&oThe delay in ticks."
         - "&6&lLeft click &eto modify."

@@ -240,15 +240,11 @@ public class ParticleAction extends Action {
         }
 
         public static List<Object> materialList(ModelPath<?> path) {
-            return Arrays.stream(Material.values()).filter(m -> !m.name().toLowerCase().contains("legacy") &&
-                    m.isItem()).collect(Collectors.toList());
+            return ItemUtils.getMaterialList();
         }
 
         public static Function<Object, ItemStack> materialListMapper() {
-            return obj -> {
-                Material m = (Material) obj;
-                return new ItemStack(m);
-            };
+            return ItemUtils.getMaterialMapper();
         }
 
         @Override
@@ -278,14 +274,11 @@ public class ParticleAction extends Action {
         }
 
         public static List<Object> materialList(ModelPath<?> path) {
-            return Arrays.stream(Material.values()).filter(m -> !m.name().toLowerCase().contains("legacy") && m.isBlock() && m.isItem()).collect(Collectors.toList());
+            return ItemUtils.getMaterialList().stream().filter(m -> ((Material) m).isBlock()).collect(Collectors.toList());
         }
 
         public static Function<Object, ItemStack> materialListMapper() {
-            return obj -> {
-                Material m = (Material) obj;
-                return new ItemStack(m);
-            };
+            return ItemUtils.getMaterialMapper();
         }
 
         @Override

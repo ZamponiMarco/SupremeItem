@@ -3,6 +3,8 @@ author: jummes
 version: ${version}
 main: com.github.jummes.supremeitem.SupremeItem
 api-version: 1.13
+softdepend:
+  - WorldGuard
 commands:
   si:
 permissions:

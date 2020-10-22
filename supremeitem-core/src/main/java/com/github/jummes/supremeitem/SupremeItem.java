@@ -7,9 +7,9 @@ import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.location.ParticleAction;
 import com.github.jummes.supremeitem.command.*;
 import com.github.jummes.supremeitem.condition.Condition;
-import com.github.jummes.supremeitem.condition.bool.BooleanCondition;
 import com.github.jummes.supremeitem.entity.Entity;
 import com.github.jummes.supremeitem.entity.selector.EntitySelector;
+import com.github.jummes.supremeitem.hook.WorldGuardHook;
 import com.github.jummes.supremeitem.item.Item;
 import com.github.jummes.supremeitem.listener.PlayerItemListener;
 import com.github.jummes.supremeitem.manager.*;
@@ -48,8 +48,6 @@ public class SupremeItem extends JavaPlugin {
         ConfigurationSerialization.registerClass(SavedSkill.class);
 
         ConfigurationSerialization.registerClass(Condition.class);
-        ConfigurationSerialization.registerClass(BooleanCondition.class,
-                "com.github.jummes.supremeitem.condition.BooleanCondition");
 
         ConfigurationSerialization.registerClass(Placeholder.class);
 
@@ -60,12 +58,20 @@ public class SupremeItem extends JavaPlugin {
         ConfigurationSerialization.registerClass(ParticleAction.ItemStackData.class);
     }
 
+    /*
+     * Managers
+     */
     private ItemManager itemManager;
     private CooldownManager cooldownManager;
     private SavedSkillManager savedSkillManager;
     private TimerManager timerManager;
     private VariableManager variableManager;
     private SavedPlaceholderManager savedPlaceholderManager;
+
+    /*
+     * Hooks
+     */
+    private WorldGuardHook worldGuardHook;
 
     public static SupremeItem getInstance() {
         return getPlugin(SupremeItem.class);
@@ -75,6 +81,7 @@ public class SupremeItem extends JavaPlugin {
     public void onEnable() {
         setUpFolder();
         setUpData();
+        setUpHooks();
         setUpCommands();
         setUpListeners();
     }
@@ -109,6 +116,10 @@ public class SupremeItem extends JavaPlugin {
         timerManager = new TimerManager();
         variableManager = new VariableManager();
         savedPlaceholderManager = new SavedPlaceholderManager(SavedPlaceholder.class, "yaml", this);
+    }
+
+    private void setUpHooks() {
+        worldGuardHook = new WorldGuardHook();
     }
 
     private void setUpCommands() {
