@@ -56,16 +56,9 @@ public class DamageAction extends Action {
     @Override
     public ActionResult execute(Target target, Source source) {
         EntityTarget e = ((EntityTarget) target);
-        LivingEntity sourceEntity = null;
-
-        if (source instanceof EntitySource) {
-            sourceEntity = ((EntitySource) source).getSource();
-        } else if (source instanceof LocationSource) {
-            sourceEntity = ((LocationSource) source).getOriginalCaster();
-        }
 
         e.getTarget().setMetadata("siattack", new FixedMetadataValue(SupremeItem.getInstance(), true));
-        e.getTarget().damage(amount.getRealValue(target, source), sourceEntity);
+        e.getTarget().damage(amount.getRealValue(target, source), source.getCaster());
         return ActionResult.SUCCESS;
     }
 

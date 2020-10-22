@@ -3,7 +3,6 @@ package com.github.jummes.supremeitem.placeholder.bool;
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.model.wrapper.ItemStackWrapper;
-import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
@@ -55,11 +54,9 @@ public class PossessItemPlaceholder extends BooleanPlaceholder {
                 }
             }
         }
-        if (source instanceof EntitySource) {
-            LivingEntity entity = ((EntitySource) source).getSource();
-            if (entity instanceof InventoryHolder) {
-                return ((InventoryHolder) entity).getInventory().containsAtLeast(item.getWrapped(), amount);
-            }
+        LivingEntity entity = source.getCaster();
+        if (entity instanceof InventoryHolder) {
+            return ((InventoryHolder) entity).getInventory().containsAtLeast(item.getWrapped(), amount);
         }
         return false;
     }

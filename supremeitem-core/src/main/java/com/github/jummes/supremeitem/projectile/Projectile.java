@@ -42,7 +42,7 @@ public class Projectile {
                 List<LivingEntity> entities = l.getWorld().getNearbyEntities(l, hitBoxSize, hitBoxSize, hitBoxSize).stream().
                         filter(entity -> entity instanceof LivingEntity
                                 && (!projectilePresent || !entity.equals(projectile))
-                                && (source instanceof EntitySource && !entity.equals(((EntitySource) source).getSource()))).
+                                && (source instanceof EntitySource && !entity.equals(source.getCaster()))).
                         map(entity -> (LivingEntity) entity).collect(Collectors.toList());
                 if (!entities.isEmpty()) {
                     entities.forEach(entity -> onEntityHitActions.forEach(Action -> Action.

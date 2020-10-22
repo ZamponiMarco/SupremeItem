@@ -27,11 +27,6 @@ public abstract class LocationPlaceholder extends NumericPlaceholder {
                 return ((EntityTarget) target).getTarget().getLocation();
             }
         }
-        if (source instanceof LocationSource) {
-            return ((LocationSource) source).getSource();
-        } else if (source instanceof EntitySource) {
-            return ((EntitySource) source).getSource().getLocation();
-        }
-        return null;
+        return source.getLocation();
     }
 }

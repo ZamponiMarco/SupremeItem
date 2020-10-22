@@ -65,16 +65,16 @@ public class PushAction extends EntityAction {
         Vector difference = null;
         LivingEntity entityTarget = ((EntityTarget) target).getTarget();
         if (source instanceof EntitySource) {
-            LivingEntity entitySource = ((EntitySource) source).getSource();
+            LivingEntity entitySource = source.getCaster();
             if (entitySource.equals(entityTarget)) {
                 difference = entityTarget.getLocation().getDirection();
             } else {
                 difference = entityTarget.getLocation().toVector().
-                        subtract(((EntitySource) source).getSource().getLocation().toVector());
+                        subtract((entitySource.getLocation().toVector()));
             }
         } else if (source instanceof LocationSource) {
             difference = entityTarget.getLocation().toVector().
-                    subtract(((LocationSource) source).getSource().toVector());
+                    subtract(source.getLocation().toVector());
         }
         if (difference != null) {
             difference.normalize();

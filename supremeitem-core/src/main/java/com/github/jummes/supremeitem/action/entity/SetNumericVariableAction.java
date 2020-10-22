@@ -62,7 +62,7 @@ public class SetNumericVariableAction extends EntityAction {
             }
         }
         if (source instanceof EntitySource) {
-            variableManager.setNumericVariable(((EntitySource) source).getSource(), name, value.getRealValue(target, source));
+            variableManager.setNumericVariable(source.getCaster(), name, value.getRealValue(target, source));
             return ActionResult.SUCCESS;
         }
         return ActionResult.FAILURE;

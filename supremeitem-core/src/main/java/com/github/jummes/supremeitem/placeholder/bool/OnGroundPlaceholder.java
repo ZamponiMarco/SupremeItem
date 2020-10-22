@@ -1,7 +1,6 @@
 package com.github.jummes.supremeitem.placeholder.bool;
 
 import com.github.jummes.libs.annotation.Enumerable;
-import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
@@ -32,10 +31,7 @@ public class OnGroundPlaceholder extends BooleanPlaceholder {
                 return ((EntityTarget) target).getTarget().isOnGround();
             }
         }
-        if (source instanceof EntitySource) {
-            return ((EntitySource) source).getSource().isOnGround();
-        }
-        return false;
+        return source.getCaster().isOnGround();
     }
 
     @Override

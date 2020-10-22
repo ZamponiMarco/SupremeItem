@@ -1,7 +1,6 @@
 package com.github.jummes.supremeitem.placeholder.numeric;
 
 import com.github.jummes.libs.annotation.Enumerable;
-import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
@@ -38,10 +37,7 @@ public class HealthPlaceholder extends NumericPlaceholder {
             }
             return Double.NaN;
         }
-        if (source instanceof EntitySource) {
-            return ((EntitySource) source).getSource().getHealth();
-        }
-        return Double.NaN;
+        return source.getCaster().getHealth();
     }
 
     @Override

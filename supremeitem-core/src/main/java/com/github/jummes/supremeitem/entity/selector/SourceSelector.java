@@ -5,7 +5,6 @@ import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.libs.util.MessageUtils;
-import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
@@ -36,12 +35,7 @@ public class SourceSelector extends EntitySelector {
 
     @Override
     public Predicate<LivingEntity> getFilter(Source source) {
-        return entity -> {
-            if (source instanceof EntitySource) {
-                return deny != ((EntitySource) source).getSource().equals(entity);
-            }
-            return deny;
-        };
+        return entity -> deny != source.getCaster().equals(entity);
     }
 
     @Override

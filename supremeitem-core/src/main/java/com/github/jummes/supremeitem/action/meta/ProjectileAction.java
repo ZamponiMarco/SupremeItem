@@ -121,7 +121,7 @@ public class ProjectileAction extends MetaAction {
         Location l = null;
         if (source instanceof EntitySource) {
             EntitySource entitySource = (EntitySource) source;
-            l = entitySource.getSource().getEyeLocation().clone();
+            l = entitySource.getCaster().getEyeLocation().clone();
             if (shootFromHand) {
                 if (entitySource.getHand().equals(MainHand.RIGHT)) {
                     l = getRightSide(l, 0.5);
@@ -130,7 +130,7 @@ public class ProjectileAction extends MetaAction {
                 }
             }
         } else if (source instanceof LocationSource) {
-            l = ((LocationSource) source).getSource();
+            l = source.getLocation();
         }
         if (l != null) {
             new Projectile(source, l, gravity.getRealValue(target, source), initialSpeed.getRealValue(target, source),

@@ -39,8 +39,8 @@ public class HungerPlaceholder extends NumericPlaceholder {
             }
             return Double.NaN;
         }
-        if (source instanceof EntitySource && ((EntitySource) source).getSource() instanceof Player) {
-            return (double) ((Player) ((EntitySource) source).getSource()).getFoodLevel();
+        if (source.getCaster() instanceof Player) {
+            return (double) ((Player) source.getCaster()).getFoodLevel();
         }
         return Double.NaN;
     }

@@ -1,7 +1,6 @@
 package com.github.jummes.supremeitem.placeholder.bool;
 
 import com.github.jummes.libs.annotation.Enumerable;
-import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
@@ -30,12 +29,10 @@ public abstract class PlayerPropertyBooleanPlaceholder extends BooleanPlaceholde
                 }
             }
         }
-        if (source instanceof EntitySource) {
-            LivingEntity livingEntity = ((EntitySource) source).getSource();
-            if (livingEntity instanceof Player) {
-                Player player = (Player) livingEntity;
-                return getPropertyValue(player);
-            }
+        LivingEntity livingEntity = (source.getCaster());
+        if (livingEntity instanceof Player) {
+            Player player = (Player) livingEntity;
+            return getPropertyValue(player);
         }
         return false;
     }

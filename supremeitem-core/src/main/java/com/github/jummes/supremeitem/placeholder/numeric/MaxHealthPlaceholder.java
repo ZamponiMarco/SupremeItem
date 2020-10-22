@@ -1,7 +1,6 @@
 package com.github.jummes.supremeitem.placeholder.numeric;
 
 import com.github.jummes.libs.annotation.Enumerable;
-import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
@@ -40,9 +39,7 @@ public class MaxHealthPlaceholder extends NumericPlaceholder {
                 maxHealth = ((EntityTarget) target).getTarget().getAttribute(Attribute.GENERIC_MAX_HEALTH);
             }
         }
-        if (source instanceof EntitySource) {
-            maxHealth = ((EntitySource) source).getSource().getAttribute(Attribute.GENERIC_MAX_HEALTH);
-        }
+        maxHealth = source.getCaster().getAttribute(Attribute.GENERIC_MAX_HEALTH);
 
         if (maxHealth != null) {
             return maxHealth.getValue();

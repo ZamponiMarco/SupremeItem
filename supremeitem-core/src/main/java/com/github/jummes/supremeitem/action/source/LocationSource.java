@@ -6,9 +6,18 @@ import lombok.NonNull;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 
-@Getter
 @AllArgsConstructor
 public class LocationSource implements Source {
     private final @NonNull Location source;
     private final @NonNull LivingEntity originalCaster;
+
+    @Override
+    public LivingEntity getCaster() {
+        return originalCaster;
+    }
+
+    @Override
+    public Location getLocation() {
+        return source;
+    }
 }

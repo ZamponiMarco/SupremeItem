@@ -85,25 +85,19 @@ public class AreaEntitiesAction extends MetaAction {
             l = ((EntityTarget) target).getTarget().getLocation();
         }
 
-        LivingEntity caster = null;
-        if (source instanceof EntitySource) {
-            caster = ((EntitySource) source).getSource();
-        } else if (source instanceof LocationSource) {
-            caster = ((LocationSource) source).getOriginalCaster();
-        }
-        if (l != null && caster != null) {
+        LivingEntity caster = source.getCaster();
+        if (l != null) {
             double maxDistance = this.maxDistance.getRealValue(target, source);
             Predicate<LivingEntity> select = selectors.stream().map(selector -> selector.getFilter(source)).
                     reduce(e -> true, Predicate::and);
             Location finalL = l;
-            LivingEntity finalCaster = caster;
             World world = l.getWorld();
             if (world != null) {
                 l.getWorld().getNearbyEntities(l, maxDistance, maxDistance, maxDistance).stream().
                         filter(entity -> entity instanceof LivingEntity && select.test((LivingEntity) entity)).
                         forEach(entity -> actions.forEach(action -> action.executeAction(
                                 new EntityTarget((LivingEntity) entity),
-                                castFromLocation ? new LocationSource(finalL, finalCaster) : source)));
+                                castFromLocation ? new LocationSource(finalL, caster) : source)));
             } else {
                 return ActionResult.FAILURE;
             }

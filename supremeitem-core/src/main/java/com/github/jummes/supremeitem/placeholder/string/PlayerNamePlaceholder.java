@@ -43,7 +43,7 @@ public class PlayerNamePlaceholder extends StringPlaceholder {
             }
         }
         if (source instanceof EntitySource) {
-            LivingEntity livingEntity = ((EntitySource) source).getSource();
+            LivingEntity livingEntity = source.getCaster();
             if (livingEntity instanceof Player) {
                 Player player = (Player) livingEntity;
                 return player.getName();

@@ -54,7 +54,7 @@ public class PullAction extends EntityAction {
         Vector difference = null;
         LivingEntity entityTarget = ((EntityTarget) target).getTarget();
         if (source instanceof EntitySource) {
-            LivingEntity entitySource = ((EntitySource) source).getSource();
+            LivingEntity entitySource = source.getCaster();
             if (entitySource.equals(entityTarget)) {
                 difference = entityTarget.getLocation().getDirection().multiply(-1);
             } else {
@@ -62,7 +62,7 @@ public class PullAction extends EntityAction {
                         subtract(entityTarget.getLocation().toVector());
             }
         } else if (source instanceof LocationSource) {
-            difference = ((LocationSource) source).getSource().toVector().
+            difference = source.getLocation().toVector().
                     subtract(entityTarget.getLocation().toVector());
         }
         if (difference != null) {
