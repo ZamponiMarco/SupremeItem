@@ -5,6 +5,7 @@ import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.Action;
+import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.source.LocationSource;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
@@ -83,18 +84,26 @@ public class AreaEntitiesAction extends MetaAction {
         } else if (target instanceof EntityTarget) {
             l = ((EntityTarget) target).getTarget().getLocation();
         }
-        if (l != null) {
+
+        LivingEntity caster = null;
+        if (source instanceof EntitySource) {
+            caster = ((EntitySource) source).getSource();
+        } else if (source instanceof LocationSource) {
+            caster = ((LocationSource) source).getOriginalCaster();
+        }
+        if (l != null && caster != null) {
             double maxDistance = this.maxDistance.getRealValue(target, source);
             Predicate<LivingEntity> select = selectors.stream().map(selector -> selector.getFilter(source)).
                     reduce(e -> true, Predicate::and);
             Location finalL = l;
+            LivingEntity finalCaster = caster;
             World world = l.getWorld();
             if (world != null) {
                 l.getWorld().getNearbyEntities(l, maxDistance, maxDistance, maxDistance).stream().
                         filter(entity -> entity instanceof LivingEntity && select.test((LivingEntity) entity)).
                         forEach(entity -> actions.forEach(action -> action.executeAction(
                                 new EntityTarget((LivingEntity) entity),
-                                castFromLocation ? new LocationSource(finalL) : source)));
+                                castFromLocation ? new LocationSource(finalL, finalCaster) : source)));
             } else {
                 return ActionResult.FAILURE;
             }

@@ -4,6 +4,7 @@ import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.source.EntitySource;
+import com.github.jummes.supremeitem.action.source.LocationSource;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
@@ -48,8 +49,12 @@ public class NumericVariablePlaceholder extends NumericPlaceholder {
         VariableManager variableManager = SupremeItem.getInstance().getVariableManager();
         if (this.target && (target instanceof EntityTarget)) {
             return variableManager.getNumericVariable(((EntityTarget) target).getTarget(), name);
-        } else if (!this.target && (source instanceof EntitySource)) {
-            return variableManager.getNumericVariable(((EntitySource) source).getSource(), name);
+        } else if (!this.target) {
+            if (source instanceof EntitySource) {
+                return variableManager.getNumericVariable(((EntitySource) source).getSource(), name);
+            } else if (source instanceof LocationSource) {
+                return variableManager.getNumericVariable(((LocationSource) source).getOriginalCaster(), name);
+            }
         }
         return 0.0;
     }
