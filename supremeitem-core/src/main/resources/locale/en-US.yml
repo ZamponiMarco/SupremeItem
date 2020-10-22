@@ -486,6 +486,8 @@ gui:
           description:
             - "&7&oSet a number division placeholder."
       location:
+        description:
+          - "&7&oSet a numeric location related placeholder."
         x:
           description:
             - "&7&oSet a location x placeholder."

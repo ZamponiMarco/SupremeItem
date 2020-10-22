@@ -11,7 +11,7 @@ import com.github.jummes.supremeitem.placeholder.numeric.NumericPlaceholder;
 import org.bukkit.Location;
 
 @Enumerable.Displayable(name = "&c&lNumeric Location Placeholders", description = "gui.placeholder.double.location.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmUyY2M0MjAxNWU2Njc4ZjhmZDQ5Y2NjMDFmYmY3ODdmMWJhMmMzMmJjZjU1OWEwMTUzMzJmYzVkYjUwIn19fQ")
-@Enumerable.Parent(classArray = {LocationXPlaceholder.class, LocationYPlaceholder.class, LocationZPlaceholder.class,
+@Enumerable.Parent(classArray = {LocationYPlaceholder.class, LocationXPlaceholder.class, LocationZPlaceholder.class,
         LocationYawPlaceholder.class, LocationPitchPlaceholder.class})
 public abstract class LocationPlaceholder extends NumericPlaceholder {
 
