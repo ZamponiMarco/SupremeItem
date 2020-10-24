@@ -39,6 +39,11 @@ public class SourceSelector extends EntitySelector {
     }
 
     @Override
+    public EntitySelector clone() {
+        return new SourceSelector(deny);
+    }
+
+    @Override
     public ItemStack getGUIItem() {
         return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjM2Mzc5NjFmODQ1MWE1M2I2N2QyNTMxMmQzNTBjNjIwZjMyYjVmNjA4YmQ2YWRlMDY2MzdiZTE3MTJmMzY0ZSJ9fX0"),
                 "&cSource &6&lselector", Lists.newArrayList(MessageUtils.color(deny ? "&c&lDeny" : "&a&lAllow")));

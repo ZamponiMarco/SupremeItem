@@ -22,6 +22,11 @@ public class IsFlyingPlaceholder extends PlayerPropertyBooleanPlaceholder {
     }
 
     @Override
+    public BooleanPlaceholder clone() {
+        return new IsFlyingPlaceholder(target);
+    }
+
+    @Override
     public String getName() {
         return String.format("%s Is Flying", target ? "Target" : "Source");
     }

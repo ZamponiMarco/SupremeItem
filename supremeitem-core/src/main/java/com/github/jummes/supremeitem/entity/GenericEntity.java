@@ -58,6 +58,11 @@ public class GenericEntity extends Entity {
     }
 
     @Override
+    public Entity clone() {
+        return new GenericEntity(type);
+    }
+
+    @Override
     public ItemStack getGUIItem() {
         return ItemUtils.getNamedItem(new ItemStack(Material.BAT_SPAWN_EGG), "Entity", Lists.newArrayList());
     }

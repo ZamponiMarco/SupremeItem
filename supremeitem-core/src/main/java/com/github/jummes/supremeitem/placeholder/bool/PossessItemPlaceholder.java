@@ -70,4 +70,8 @@ public class PossessItemPlaceholder extends BooleanPlaceholder {
         return item.getWrapped().clone();
     }
 
+    @Override
+    public BooleanPlaceholder clone() {
+        return new PossessItemPlaceholder(target, new ItemStackWrapper(item.getWrapped(), true), amount);
+    }
 }

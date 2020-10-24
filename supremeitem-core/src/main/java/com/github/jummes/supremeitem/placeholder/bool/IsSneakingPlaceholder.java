@@ -22,6 +22,11 @@ public class IsSneakingPlaceholder extends PlayerPropertyBooleanPlaceholder {
     }
 
     @Override
+    public BooleanPlaceholder clone() {
+        return new IsSneakingPlaceholder(target);
+    }
+
+    @Override
     public String getName() {
         return String.format("%s Is Sneaking", target ? "Target" : "Source");
     }

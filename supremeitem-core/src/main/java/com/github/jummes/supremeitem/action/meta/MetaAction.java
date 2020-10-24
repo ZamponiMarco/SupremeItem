@@ -34,6 +34,10 @@ public abstract class MetaAction extends Action {
         } else if (e.getClick().equals(ClickType.RIGHT)) {
             e.getWhoClicked().openInventory(new RemoveConfirmationInventoryHolder(plugin, parent, path, this,
                     field).getInventory());
+        } else if (e.getClick().equals(ClickType.MIDDLE)) {
+            actions.add(clone());
+            path.saveModel();
+            e.getWhoClicked().openInventory(parent.getInventory());
         } else if (e.getClick().equals(ClickType.NUMBER_KEY) && (e.getHotbarButton() == 0)) {
             superActions.remove(this);
             path.addModel(this);

@@ -22,6 +22,11 @@ public class IsSprintingPlaceholder extends PlayerPropertyBooleanPlaceholder {
     }
 
     @Override
+    public BooleanPlaceholder clone() {
+        return new IsSprintingPlaceholder(target);
+    }
+
+    @Override
     public String getName() {
         return String.format("%s Is Sprinting", target ? "Target" : "Source");
     }

@@ -42,4 +42,9 @@ public class HasPermissionPlaceholder extends PlayerPropertyBooleanPlaceholder {
     public String getName() {
         return String.format("%s Has Permission '%s'", target ? "Target" : "Source", permission);
     }
+
+    @Override
+    public BooleanPlaceholder clone() {
+        return new HasPermissionPlaceholder(target, permission);
+    }
 }

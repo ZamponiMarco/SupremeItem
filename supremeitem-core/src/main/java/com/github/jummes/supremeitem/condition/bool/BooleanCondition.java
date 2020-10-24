@@ -7,6 +7,7 @@ import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
+import com.github.jummes.supremeitem.condition.Condition;
 import com.github.jummes.supremeitem.placeholder.bool.BooleanPlaceholder;
 import com.github.jummes.supremeitem.placeholder.bool.OnGroundPlaceholder;
 import org.bukkit.inventory.ItemStack;
@@ -52,5 +53,10 @@ public class BooleanCondition extends TrueFalseCondition {
     @Override
     public String getName() {
         return String.format("%s" + value.getName(), negate ? "&6&lNot &c" : "&c");
+    }
+
+    @Override
+    public Condition clone() {
+        return new BooleanCondition(negate, value.clone());
     }
 }

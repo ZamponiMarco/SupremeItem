@@ -19,6 +19,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Getter
@@ -67,5 +68,10 @@ public class ConditionAction extends MetaAction {
     public ItemStack getGUIItem() {
         return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmMyNzEwNTI3MTllZjY0MDc5ZWU4YzE0OTg5NTEyMzhhNzRkYWM0YzI3Yjk1NjQwZGI2ZmJkZGMyZDZiNWI2ZSJ9fX0="),
                 String.format("&6&lCondition: %s", condition.getName()), Libs.getLocale().getList("gui.action.description"));
+    }
+
+    @Override
+    public Action clone() {
+        return new ConditionAction(actions.stream().map(Action::clone).collect(Collectors.toList()), condition.clone());
     }
 }

@@ -132,4 +132,9 @@ public class SoundAction extends Action {
                 "&6&lSound: &c" + WordUtils.capitalize(type.toString()), Libs.getLocale().getList("gui.action.description"));
     }
 
+    @Override
+    public Action clone() {
+        return new SoundAction(type, category, pitch.clone(), volume.clone());
+    }
+
 }

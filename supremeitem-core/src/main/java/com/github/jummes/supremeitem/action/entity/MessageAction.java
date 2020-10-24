@@ -58,4 +58,9 @@ public class MessageAction extends Action {
                 "&6&lMessage: &c" + message, Libs.getLocale().getList("gui.action.description"));
     }
 
+    @Override
+    public Action clone() {
+        return new MessageAction(message);
+    }
+
 }

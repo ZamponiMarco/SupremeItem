@@ -32,7 +32,7 @@ import java.util.List;
 @CustomClickable(customCollectionClickConsumer = "getCustomConsumer")
 @Enumerable.Parent(classArray = {EntityAction.class,
         LocationAction.class, MetaAction.class})
-public abstract class Action implements Model {
+public abstract class Action implements Model, Cloneable {
 
     protected transient SupremeItem plugin;
 
@@ -68,6 +68,10 @@ public abstract class Action implements Model {
         } else if (e.getClick().equals(ClickType.RIGHT)) {
             e.getWhoClicked().openInventory(new RemoveConfirmationInventoryHolder(plugin, parent, path, this,
                     field).getInventory());
+        } else if (e.getClick().equals(ClickType.MIDDLE)) {
+            actions.add(clone());
+            path.saveModel();
+            e.getWhoClicked().openInventory(parent.getInventory());
         } else if (e.getClick().equals(ClickType.NUMBER_KEY) && e.getHotbarButton() == 0) {
             actions.remove(this);
             path.addModel(this);
@@ -93,6 +97,9 @@ public abstract class Action implements Model {
     public ItemStack getGUIItem() {
         return new ItemStack(Material.PAPER);
     }
+
+    @Override
+    public abstract Action clone();
 
 
     public enum ActionResult {

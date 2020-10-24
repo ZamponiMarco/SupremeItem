@@ -57,4 +57,9 @@ public class LessThanCondition extends Condition {
     public String getName() {
         return String.format("&c" + operandOne.getName() + "&6&l%s&c" + operandTwo.getName(), negate ? " ≥ " : " < ");
     }
+
+    @Override
+    public Condition clone() {
+        return new LessThanCondition(negate, operandOne.clone(), operandTwo.clone());
+    }
 }

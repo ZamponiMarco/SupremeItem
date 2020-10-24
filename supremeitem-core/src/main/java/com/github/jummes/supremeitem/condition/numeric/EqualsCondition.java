@@ -7,6 +7,7 @@ import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
+import com.github.jummes.supremeitem.condition.Condition;
 import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
 import org.bukkit.inventory.ItemStack;
 
@@ -55,5 +56,10 @@ public class EqualsCondition extends NumericCondition {
     @Override
     public String getName() {
         return String.format("&c" + operandOne.getName() + "&6&l%s&c" + operandTwo.getName(), negate ? " ≠ " : " = ");
+    }
+
+    @Override
+    public Condition clone() {
+        return new EqualsCondition(negate, operandOne.clone(), operandTwo.clone());
     }
 }

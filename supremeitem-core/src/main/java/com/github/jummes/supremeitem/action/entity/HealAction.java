@@ -78,4 +78,9 @@ public class HealAction extends Action {
                 "&6&lHeal: &c" + amount.getName(), Libs.getLocale().getList("gui.action.description"));
     }
 
+    @Override
+    public Action clone() {
+        return new HealAction(amount.clone());
+    }
+
 }

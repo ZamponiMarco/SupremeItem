@@ -41,4 +41,9 @@ public class ItemEntity extends Entity {
         item.setPickupDelay(37687);
         return item;
     }
+
+    @Override
+    public Entity clone() {
+        return new ItemEntity(new ItemStackWrapper(item.getWrapped().clone(), true));
+    }
 }

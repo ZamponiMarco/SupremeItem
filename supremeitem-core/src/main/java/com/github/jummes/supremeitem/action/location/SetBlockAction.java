@@ -5,6 +5,7 @@ import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.SupremeItem;
+import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.LocationTarget;
@@ -94,5 +95,10 @@ public class SetBlockAction extends LocationAction {
     @Override
     public List<Class<? extends Target>> getPossibleTargets() {
         return Lists.newArrayList(LocationTarget.class, EntityTarget.class);
+    }
+
+    @Override
+    public Action clone() {
+        return new SetBlockAction(material, new HashSet<>(excludedMaterials));
     }
 }

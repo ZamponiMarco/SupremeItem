@@ -5,7 +5,6 @@ import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.Action;
-import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.source.LocationSource;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
@@ -26,6 +25,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Getter
@@ -114,5 +114,11 @@ public class AreaEntitiesAction extends MetaAction {
     public ItemStack getGUIItem() {
         return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWZjZDQxNGIwNWE1MzJjNjA5YzJhYTQ4ZDZjMDYyYzI5MmQ1MzNkZmFmNGQ3MzJhYmU5YWY1NzQxNTg5ZSJ9fX0="),
                 "&6&lMax radius: &c" + maxDistance.getName(), Libs.getLocale().getList("gui.action.description"));
+    }
+
+    @Override
+    public Action clone() {
+        return new AreaEntitiesAction(actions.stream().map(Action::clone).collect(Collectors.toList()), maxDistance.clone(),
+                selectors.stream().map(EntitySelector::clone).collect(Collectors.toList()), castFromLocation);
     }
 }

@@ -21,6 +21,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Getter
@@ -87,5 +88,11 @@ public class RepeatUntilAction extends MetaAction {
     public ItemStack getGUIItem() {
         return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTIzMjI5ZjZlNjA2ZDkxYjdlNjdhMmJjZjNlMmEzMzMzYmE2MTNiNmQ2NDA5MTk5YjcxNjljMDYzODliMCJ9fX0"),
                 String.format("&6&lRepeat Until: %s", condition.getName()), Libs.getLocale().getList("gui.action.description"));
+    }
+
+    @Override
+    public Action clone() {
+        return new RepeatUntilAction(actions.stream().map(Action::clone).collect(Collectors.toList()),
+                condition.clone(), timer);
     }
 }

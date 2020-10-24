@@ -13,6 +13,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @GUINameable(GUIName = "getName")
 @Enumerable.Child
@@ -57,5 +58,10 @@ public class AndCondition extends TrueFalseCondition {
     public String getName() {
         String[] s = conditions.stream().map(condition -> "&6&l(" + condition.getName() + "&6&l)").toArray(String[]::new);
         return String.join(" &6&land&c ", s);
+    }
+
+    @Override
+    public Condition clone() {
+        return new AndCondition(negate, conditions.stream().map(Condition::clone).collect(Collectors.toList()));
     }
 }

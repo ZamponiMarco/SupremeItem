@@ -11,7 +11,7 @@ import com.github.jummes.supremeitem.condition.numeric.NumericCondition;
 
 @Enumerable.Parent(classArray = {NumericCondition.class, TrueFalseCondition.class})
 @GUINameable(GUIName = "getName")
-public abstract class Condition implements Model {
+public abstract class Condition implements Model, Cloneable {
 
     protected static final boolean NEGATE_DEFAULT = false;
 
@@ -35,5 +35,8 @@ public abstract class Condition implements Model {
     public abstract boolean testCondition(Target target, Source source);
 
     public abstract String getName();
+
+    @Override
+    public abstract Condition clone();
 
 }

@@ -140,6 +140,11 @@ public class ParticleAction extends Action {
                 "&6&lParticle: &c" + WordUtils.capitalize(type.toString()), Libs.getLocale().getList("gui.action.description"));
     }
 
+    @Override
+    public Action clone() {
+        return new ParticleAction(type, count.clone(), offset.clone(), speed.clone(), force, data == null ? null : data.clone());
+    }
+
     public ItemStack getDataObject() {
         if (ParticleOptions.getParticleOptionsMap().containsKey(type.getDataType())) {
             return new ItemStack(Material.DIAMOND);
@@ -154,7 +159,7 @@ public class ParticleAction extends Action {
         }
     }
 
-    public static abstract class ParticleOptions implements Model {
+    public static abstract class ParticleOptions implements Model, Cloneable {
 
         @SneakyThrows
         protected static ParticleOptions buildOptions(Class<?> clazz) {
@@ -174,6 +179,8 @@ public class ParticleAction extends Action {
         }
 
         protected abstract Object buildData();
+
+        protected abstract ParticleOptions clone();
 
     }
 
@@ -204,6 +211,11 @@ public class ParticleAction extends Action {
         @Override
         protected Object buildData() {
             return new Particle.DustOptions(hex2Rgb(hexColor), (float) size);
+        }
+
+        @Override
+        protected ParticleOptions clone() {
+            return new DustOptionsData(hexColor, size);
         }
 
         public Color hex2Rgb(String colorStr) {
@@ -251,6 +263,11 @@ public class ParticleAction extends Action {
         protected Object buildData() {
             return new ItemStack(item);
         }
+
+        @Override
+        protected ParticleOptions clone() {
+            return new ItemStackData(item);
+        }
     }
 
     @AllArgsConstructor
@@ -284,6 +301,11 @@ public class ParticleAction extends Action {
         @Override
         protected Object buildData() {
             return Bukkit.createBlockData(material);
+        }
+
+        @Override
+        protected ParticleOptions clone() {
+            return new BlockDataData(material);
         }
     }
 }

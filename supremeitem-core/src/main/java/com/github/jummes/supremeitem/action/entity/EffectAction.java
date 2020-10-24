@@ -123,4 +123,10 @@ public class EffectAction extends Action {
                 "&6&lEffect: &c" + WordUtils.capitalize(type.toString()), Libs.getLocale().getList("gui.action.description"));
     }
 
+    @Override
+    public Action clone() {
+        return new EffectAction(PotionEffectType.getByName(type.getName()), duration.clone(), level.clone(),
+                particles, ambient, icon);
+    }
+
 }

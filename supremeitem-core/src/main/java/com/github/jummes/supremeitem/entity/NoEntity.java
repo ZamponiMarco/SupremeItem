@@ -16,4 +16,9 @@ public class NoEntity extends Entity {
     public org.bukkit.entity.Entity spawnEntity(Location l) {
         return null;
     }
+
+    @Override
+    public Entity clone() {
+        return new NoEntity();
+    }
 }

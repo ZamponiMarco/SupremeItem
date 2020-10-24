@@ -9,4 +9,6 @@ public abstract class BooleanPlaceholder extends Placeholder<Boolean> {
     public BooleanPlaceholder(boolean target) {
         super(target);
     }
+
+    public abstract BooleanPlaceholder clone();
 }

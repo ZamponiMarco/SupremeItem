@@ -25,6 +25,7 @@ import org.bukkit.util.Vector;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Getter
@@ -149,6 +150,15 @@ public class ProjectileAction extends MetaAction {
     public ItemStack getGUIItem() {
         return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjE1ZmVjNjUxOGE0MWYxNjYxMzFlNjViMTBmNDZmYjg3ZTk3YzQ5MmI0NmRiYzI1ZGUyNjM3NjcyMWZhNjRlMCJ9fX0="),
                 "&6&lProjectile", Libs.getLocale().getList("gui.action.description"));
+    }
+
+    @Override
+    public Action clone() {
+        return new ProjectileAction(initialSpeed.clone(), gravity.clone(),
+                onEntityHitActions.stream().map(Action::clone).collect(Collectors.toList()),
+                onBlockHitActions.stream().map(Action::clone).collect(Collectors.toList()),
+                onProjectileTickActions.stream().map(Action::clone).collect(Collectors.toList()),
+                entity.clone(), hitBoxSize.clone(), maxDistance.clone(), shootFromHand);
     }
 
 

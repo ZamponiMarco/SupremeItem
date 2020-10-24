@@ -25,6 +25,11 @@ public class OnGroundPlaceholder extends BooleanPlaceholder {
     }
 
     @Override
+    public BooleanPlaceholder clone() {
+        return new OnGroundPlaceholder(target);
+    }
+
+    @Override
     public Boolean computePlaceholder(Target target, Source source) {
         if (this.target) {
             if (target instanceof EntityTarget) {
