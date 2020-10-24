@@ -9,4 +9,9 @@ import org.bukkit.Location;
 public class LocationTarget implements Target {
 
     private final Location target;
+
+    @Override
+    public Location getLocation() {
+        return target;
+    }
 }

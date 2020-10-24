@@ -64,12 +64,7 @@ public class SetBlockAction extends LocationAction {
 
     @Override
     protected ActionResult execute(Target target, Source source) {
-        Location location = null;
-        if (target instanceof EntityTarget) {
-            location = ((EntityTarget) target).getTarget().getLocation();
-        } else if (target instanceof LocationTarget) {
-            location = ((LocationTarget) target).getTarget();
-        }
+        Location location = target.getLocation();
 
         if (location == null) {
             return ActionResult.FAILURE;

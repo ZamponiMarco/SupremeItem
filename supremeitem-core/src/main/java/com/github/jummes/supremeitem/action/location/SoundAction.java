@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang.WordUtils;
+import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.World;
@@ -106,18 +107,12 @@ public class SoundAction extends Action {
     public ActionResult execute(Target target, Source source) {
         double volume = this.volume.getRealValue(target, source);
         double pitch = this.pitch.getRealValue(target, source);
-        if (target instanceof LocationTarget) {
-            World world = ((LocationTarget) target).getTarget().getWorld();
-            if (world != null) {
-                world.playSound(((LocationTarget) target).getTarget(), type,
-                        category, (float) volume, (float) pitch);
-            } else {
-                return ActionResult.FAILURE;
-            }
-        } else if (target instanceof EntityTarget) {
-            ((EntityTarget) target).getTarget().getWorld().playSound(((EntityTarget) target).getTarget().getEyeLocation(),
-                    type, category, (float) volume, (float) pitch);
+        Location location = target.getLocation();
+        World world = location.getWorld();
+        if (world == null) {
+            return ActionResult.FAILURE;
         }
+        location.getWorld().playSound(location, type, category, (float) volume, (float) pitch);
         return ActionResult.SUCCESS;
     }
 
