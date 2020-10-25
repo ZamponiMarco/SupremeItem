@@ -32,4 +32,6 @@ public abstract class Placeholder<S> implements Model, Cloneable {
         return Libs.getWrapper().skullFromValue(TARGET_HEAD);
     }
 
+    public abstract Placeholder clone();
+
 }
