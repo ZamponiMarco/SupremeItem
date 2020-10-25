@@ -7,7 +7,7 @@ import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
-import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
+import com.github.jummes.supremeitem.math.Vector;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,36 +21,31 @@ import java.util.stream.Collectors;
 @Setter
 @Getter
 @Enumerable.Child
+@Enumerable.Displayable(name = "&c&lMove target location", description = "gui.action.move-location.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTNmYzUyMjY0ZDhhZDllNjU0ZjQxNWJlZjAxYTIzOTQ3ZWRiY2NjY2Y2NDkzNzMyODliZWE0ZDE0OTU0MWY3MCJ9fX0=")
 public class MoveLocationTargetAction extends LocationAction {
 
-    private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWY4NDczNWZjOWM3NjBlOTVlYWYxMGNlYzRmMTBlZGI1ZjM4MjJhNWZmOTU1MWVlYjUwOTUxMzVkMWZmYTMwMiJ9fX0=";
+    private static final String ACTIONS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODIxNmVlNDA1OTNjMDk4MWVkMjhmNWJkNjc0ODc5NzgxYzQyNWNlMDg0MWI2ODc0ODFjNGY3MTE4YmI1YzNiMSJ9fX0=";
+    private static final String VECTOR_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTNmYzUyMjY0ZDhhZDllNjU0ZjQxNWJlZjAxYTIzOTQ3ZWRiY2NjY2Y2NDkzNzMyODliZWE0ZDE0OTU0MWY3MCJ9fX0";
 
-    // TODO Heads and descriptions
-    @Serializable(headTexture = HEAD)
+    @Serializable(headTexture = ACTIONS_HEAD, description = "gui.action.move-location.actions")
     private List<Action> actions;
-    @Serializable(headTexture = HEAD)
-    private NumericValue movementX;
-    @Serializable(headTexture = HEAD)
-    private NumericValue movementY;
-    @Serializable(headTexture = HEAD)
-    private NumericValue movementZ;
+    @Serializable(headTexture = VECTOR_HEAD, description = "gui.action.move-location.vector")
+    private Vector vector;
 
     public MoveLocationTargetAction() {
-        this(Lists.newArrayList(), new NumericValue(), new NumericValue(), new NumericValue());
+        this(Lists.newArrayList(), new Vector());
     }
 
     public static MoveLocationTargetAction deserialize(Map<String, Object> map) {
         List<Action> actions = (List<Action>) map.get("actions");
-        NumericValue movementX = (NumericValue) map.get("movementX");
-        NumericValue movementY = (NumericValue) map.get("movementY");
-        NumericValue movementZ = (NumericValue) map.get("movementZ");
-        return new MoveLocationTargetAction(actions, movementX, movementY, movementZ);
+        Vector vector = (Vector) map.get("vector");
+        return new MoveLocationTargetAction(actions, vector);
     }
 
     @Override
     protected ActionResult execute(Target target, Source source) {
-        if (actions.stream().anyMatch(action -> action.executeAction(new LocationTarget(target.getLocation().add(movementX.getRealValue(target, source),
-                movementY.getRealValue(target, source), movementZ.getRealValue(target, source))), source).equals(ActionResult.CANCELLED))) {
+        if (actions.stream().anyMatch(action -> action.executeAction(new LocationTarget(target.getLocation().add(
+                vector.computeVector(target, source))), source).equals(ActionResult.CANCELLED))) {
             return ActionResult.CANCELLED;
         }
         return ActionResult.SUCCESS;
@@ -63,7 +58,6 @@ public class MoveLocationTargetAction extends LocationAction {
 
     @Override
     public Action clone() {
-        return new MoveLocationTargetAction(actions.stream().map(Action::clone).collect(Collectors.toList()), movementX.clone(),
-                movementY.clone(), movementZ.clone());
+        return new MoveLocationTargetAction(actions.stream().map(Action::clone).collect(Collectors.toList()), vector.clone());
     }
 }

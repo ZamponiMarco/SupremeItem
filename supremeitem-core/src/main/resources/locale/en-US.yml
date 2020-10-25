@@ -326,6 +326,22 @@ gui:
         - "&6&lLeft click &eto modify."
         - "&6&lRight click &eto recreate."
         - "&6&lMiddle click &eto switch (const/placeholder)"
+    set-block:
+      description:
+        - "&7&oSet block in target location."
+      material:
+        - "&7&oThe material of the block."
+      excluded-materials:
+        - "&7&oThe set of materials which won't be"
+        - "&7&ochanged by this action."
+    move-location:
+      description:
+        - "&7&oMove the target location."
+      actions:
+        - "&7&oThe actions to perform on the nex location."
+      vector:
+        - "&7&oThe vector that describe the movement"
+        - "&7&ofrom the original location."
   skill:
     description:
       - "&6&lLeft click &eto modify."
@@ -620,3 +636,10 @@ gui:
       - "&7&oplaceholder name is &cname&7&o."
     placeholder:
       - "&7&oThe referenced placeholder."
+  vector:
+    x:
+      - "&7&oThe movement in the x axis."
+    y:
+      - "&7&oThe movement in the y axis."
+    z:
+      - "&7&oThe movement in the z axis."
