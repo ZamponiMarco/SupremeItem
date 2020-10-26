@@ -50,12 +50,12 @@ public class ProjectileAction extends MetaAction {
     private static final String MAX_DISTANCE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTI0NjFiNGQ2YWIxYzE0MThlZWFiZDQ2N2Q4OTNmMGU4OWEyMWE0MjM2OTFiN2UxZjYwNWQ2Njk3ZDBhOGU1MSJ9fX0=";
     private static final String SHOOT_FROM_HAND_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTNmYzUyMjY0ZDhhZDllNjU0ZjQxNWJlZjAxYTIzOTQ3ZWRiY2NjY2Y2NDkzNzMyODliZWE0ZDE0OTU0MWY3MCJ9fX0=";
 
-    @Serializable(headTexture = INITIAL_HEAD, description = "gui.action.projectile.initial-speed")
+    @Serializable(headTexture = INITIAL_HEAD, description = "gui.action.projectile.initial-speed", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(minValue = 0)
     @Serializable.Optional(defaultValue = "INITIAL_DEFAULT")
     private NumericValue initialSpeed;
 
-    @Serializable(headTexture = GRAVITY_HEAD, description = "gui.action.projectile.gravity")
+    @Serializable(headTexture = GRAVITY_HEAD, description = "gui.action.projectile.gravity", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(minValue = 0)
     @Serializable.Optional(defaultValue = "GRAVITY_DEFAULT")
     private NumericValue gravity;
@@ -72,15 +72,15 @@ public class ProjectileAction extends MetaAction {
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     private List<Action> onProjectileTickActions;
 
-    @Serializable(headTexture = ENTITY_HEAD, description = "gui.action.projectile.entity", recreateTooltip = true)
+    @Serializable(headTexture = ENTITY_HEAD, description = "gui.action.projectile.entity")
     private Entity entity;
 
-    @Serializable(headTexture = HIT_BOX_HEAD, description = "gui.action.projectile.hit-box")
+    @Serializable(headTexture = HIT_BOX_HEAD, description = "gui.action.projectile.hit-box", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(minValue = 0)
     @Serializable.Optional(defaultValue = "HIT_BOX_SIZE_DEFAULT")
     private NumericValue hitBoxSize;
 
-    @Serializable(headTexture = MAX_DISTANCE_HEAD, description = "gui.action.projectile.max-distance")
+    @Serializable(headTexture = MAX_DISTANCE_HEAD, description = "gui.action.projectile.max-distance", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(minValue = 0, scale = 1)
     @Serializable.Optional(defaultValue = "MAX_DISTANCE_DEFAULT")
     private NumericValue maxDistance;

@@ -39,7 +39,7 @@ public class ConsumeItemAction extends EntityAction {
     @Serializable(displayItem = "getFlatItem", description = "gui.action.consume-item.item")
     private ItemStackWrapper item;
 
-    @Serializable(headTexture = AMOUNT_HEAD, description = "gui.action.consume-item.amount")
+    @Serializable(headTexture = AMOUNT_HEAD, description = "gui.action.consume-item.amount", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Optional(defaultValue = "AMOUNT_DEFAULT")
     @Serializable.Number(minValue = 1, scale = 1)
     private NumericValue amount;

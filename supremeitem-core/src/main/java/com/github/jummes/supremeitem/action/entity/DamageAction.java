@@ -31,7 +31,7 @@ public class DamageAction extends Action {
 
     private static final String AMOUNT_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdkYzNlMjlhMDkyM2U1MmVjZWU2YjRjOWQ1MzNhNzllNzRiYjZiZWQ1NDFiNDk1YTEzYWJkMzU5NjI3NjUzIn19fQ==";
 
-    @Serializable(headTexture = AMOUNT_HEAD, description = "gui.action.damage.amount")
+    @Serializable(headTexture = AMOUNT_HEAD, description = "gui.action.damage.amount", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(minValue = 0)
     @Serializable.Optional(defaultValue = "AMOUNT_DEFAULT")
     private NumericValue amount;

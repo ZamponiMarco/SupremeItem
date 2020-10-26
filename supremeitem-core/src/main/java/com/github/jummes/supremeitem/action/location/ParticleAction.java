@@ -49,17 +49,17 @@ public class ParticleAction extends Action {
     @Serializable(headTexture = TYPE_HEAD, stringValue = true, description = "gui.action.particle.type", fromListMapper = "particlesMapper", fromList = "getParticles")
     private Particle type;
 
-    @Serializable(headTexture = COUNT_HEAD, description = "gui.action.particle.count")
+    @Serializable(headTexture = COUNT_HEAD, description = "gui.action.particle.count", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(minValue = 0, scale = 1)
     @Serializable.Optional(defaultValue = "COUNT_DEFAULT")
     private NumericValue count;
 
-    @Serializable(headTexture = OFFSET_HEAD, description = "gui.action.particle.offset")
+    @Serializable(headTexture = OFFSET_HEAD, description = "gui.action.particle.offset", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(minValue = 0)
     @Serializable.Optional(defaultValue = "OFFSET_DEFAULT")
     private NumericValue offset;
 
-    @Serializable(headTexture = SPEED_HEAD, description = "gui.action.particle.speed")
+    @Serializable(headTexture = SPEED_HEAD, description = "gui.action.particle.speed", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(minValue = 0)
     @Serializable.Optional(defaultValue = "SPEED_DEFAULT")
     private NumericValue speed;

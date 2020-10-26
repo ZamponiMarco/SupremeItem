@@ -48,12 +48,12 @@ public class EffectAction extends Action {
     @Serializable(headTexture = TYPE_HEAD, stringValue = true, description = "gui.action.effect.type", fromList = "getPotionEffects", fromListMapper = "potionEffectsMapper")
     private PotionEffectType type;
 
-    @Serializable(headTexture = DURATION_HEAD, description = "gui.action.effect.duration")
+    @Serializable(headTexture = DURATION_HEAD, description = "gui.action.effect.duration", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(minValue = 0, scale = 1)
     @Serializable.Optional(defaultValue = "DURATION_DEFAULT")
     private NumericValue duration;
 
-    @Serializable(headTexture = LEVEL_HEAD, description = "gui.action.effect.level")
+    @Serializable(headTexture = LEVEL_HEAD, description = "gui.action.effect.level", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(minValue = 0, scale = 1)
     @Serializable.Optional(defaultValue = "LEVEL_DEFAULT")
     private NumericValue level;

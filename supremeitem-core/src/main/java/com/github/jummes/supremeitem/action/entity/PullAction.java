@@ -33,7 +33,7 @@ public class PullAction extends EntityAction {
 
     private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzZlZjgzZTZjYWIxOWNkMjM4MDdlZjIwNmQxY2E2NmU0MWJhYTNhMGZhNWJkYzllYTQ0YmJlOTZkMTg2YiJ9fX0=";
 
-    @Serializable(headTexture = HEAD, description = "gui.action.pull.force")
+    @Serializable(headTexture = HEAD, description = "gui.action.pull.force", additionalDescription = {"gui.additional-tooltips.value"})
     private NumericValue force;
 
     public PullAction() {

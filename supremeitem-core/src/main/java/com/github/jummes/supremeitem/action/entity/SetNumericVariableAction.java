@@ -38,7 +38,7 @@ public class SetNumericVariableAction extends EntityAction {
     @Serializable(headTexture = NAME_HEAD, description = "gui.action.numeric-variable.name")
     @Serializable.Optional(defaultValue = "NAME_DEFAULT")
     private String name;
-    @Serializable(headTexture = VALUE_HEAD, description = "gui.action.numeric-variable.value")
+    @Serializable(headTexture = VALUE_HEAD, description = "gui.action.numeric-variable.value", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Optional(defaultValue = "VALUE_DEFAULT")
     private NumericValue value;
 

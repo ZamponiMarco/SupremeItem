@@ -40,9 +40,6 @@ gui:
       amount:
         - "&7&oThe amount of damage to deal to"
         - "&7&othe target."
-        - "&6&lLeft click &eto modify."
-        - "&6&lRight click &eto recreate."
-        - "&6&lMiddle click &eto switch (const/placeholder)"
     effect:
       description:
         - "&7&oSet the potion effect to apply to the"
@@ -53,14 +50,8 @@ gui:
       duration:
         - "&7&oThe duration of the effect to apply to"
         - "&7&othe target."
-        - "&6&lLeft click &eto modify."
-        - "&6&lRight click &eto recreate."
-        - "&6&lMiddle click &eto switch (const/placeholder)"
       level:
         - "&7&oThe level of the effect to apply."
-        - "&6&lLeft click &eto modify."
-        - "&6&lRight click &eto recreate."
-        - "&6&lMiddle click &eto switch (const/placeholder)"
       particles:
         - "&7&oWhether the potion particles are enabled or not."
       ambient:
@@ -74,18 +65,12 @@ gui:
       amount:
         - "&7&oThe amount of life to cure to the"
         - "&7&otarget."
-        - "&6&lLeft click &eto modify."
-        - "&6&lRight click &eto recreate."
-        - "&6&lMiddle click &eto switch (const/placeholder)"
     message:
       description:
         - "&7&oSet the message to send to the target."
       message:
         - "&7&oThe message to send to the target."
         - "&7&oSupports color codes."
-        - "&6&lLeft click &eto modify."
-        - "&6&lRight click &eto recreate."
-        - "&6&lMiddle click &eto switch (const/placeholder)"
     pull:
       description:
         - "&7&oSet the pull force to apply to the target"
@@ -96,9 +81,6 @@ gui:
         - "&7&oThe quantity of force to apply to the target."
         - "&7&oWill produce an attraction if positive, otherwise"
         - "&7&oa repulsion."
-        - "&6&lLeft click &eto modify."
-        - "&6&lRight click &eto recreate."
-        - "&6&lMiddle click &eto switch (const/placeholder)"
     push:
       description:
         - "&7&oSet a push to the target in the opposite direction."
@@ -108,16 +90,10 @@ gui:
         - "&7&oThe horizontal force to apply."
         - "&7&oWill push target away from source if positive,"
         - "&7&ootherwise it will push it towards the source."
-        - "&6&lLeft click &eto modify."
-        - "&6&lRight click &eto recreate."
-        - "&6&lMiddle click &eto switch (const/placeholder)"
       vertical:
         - "&7&oThe vertical force to apply."
         - "&7&oWill push the target upwards if positive,"
         - "&7&ootherwise it will push it downwards."
-        - "&6&lLeft click &eto modify."
-        - "&6&lRight click &eto recreate."
-        - "&6&lMiddle click &eto switch (const/placeholder)"
     particle:
       description:
         - "&7&oSet the particles to show on the target."
@@ -125,20 +101,11 @@ gui:
         - "&7&oThe type of the particles."
       count:
         - "&7&oThe number of particles."
-        - "&6&lLeft click &eto modify."
-        - "&6&lRight click &eto recreate."
-        - "&6&lMiddle click &eto switch (const/placeholder)"
       offset:
         - "&7&oThe space offset from the central point which"
         - "&7&odetermines the space where particles are spawned."
-        - "&6&lLeft click &eto modify."
-        - "&6&lRight click &eto recreate."
-        - "&6&lMiddle click &eto switch (const/placeholder)"
       speed:
         - "&7&oThe speed parameter of particles."
-        - "&6&lLeft click &eto modify."
-        - "&6&lRight click &eto recreate."
-        - "&6&lMiddle click &eto switch (const/placeholder)"
       force:
         - "&7&oWhether the particles should be forced on player"
         - "&7&oscreens if they are far away."
@@ -153,14 +120,8 @@ gui:
         - "&7&oThe category of the sound."
       pitch:
         - "&7&oThe pitch of the sound."
-        - "&6&lLeft click &eto modify."
-        - "&6&lRight click &eto recreate."
-        - "&6&lMiddle click &eto switch (const/placeholder)"
       volume:
         - "&7&oThe volume of the sound."
-        - "&6&lLeft click &eto modify."
-        - "&6&lRight click &eto recreate."
-        - "&6&lMiddle click &eto switch (const/placeholder)"
     area-entities:
       description:
         - "&7&oSet a group of actions that will be applied"
@@ -171,9 +132,6 @@ gui:
         - "&6&oTarget: &eEntities in range."
       max-distance:
         - "&7&oThe max distance of the entities from the target location."
-        - "&6&lLeft click &eto modify."
-        - "&6&lRight click &eto recreate."
-        - "&6&lMiddle click &eto switch (const/placeholder)"
       selectors:
         - "&7&oA list of entity selectors to filter them."
       cast-from-location:
@@ -196,23 +154,14 @@ gui:
         - "&6&oTarget: &ethe same of skill."
       delay:
         - "&7&oThe delay in ticks."
-        - "&6&lLeft click &eto modify."
-        - "&6&lRight click &eto recreate."
-        - "&6&lMiddle click &eto switch (const/placeholder)"
     projectile:
       description:
         - "&7&oSet a projectile action that executes actions"
         - "&7&owhen it hits an entity or the ground."
       initial-speed:
         - "&7&oThe initial speed of projectile."
-        - "&6&lLeft click &eto modify."
-        - "&6&lRight click &eto recreate."
-        - "&6&lMiddle click &eto switch (const/placeholder)"
       gravity:
         - "&7&oThe gravity to apply to the projectile."
-        - "&6&lLeft click &eto modify."
-        - "&6&lRight click &eto recreate."
-        - "&6&lMiddle click &eto switch (const/placeholder)"
       entity-hit-actions:
         - "&7&oThe group of actions to apply when the projectile"
         - "&7&ohits an entity."
@@ -233,15 +182,9 @@ gui:
         - "&7&oCan be null."
       hit-box:
         - "&7&oThe size of the hitbox of the projectile."
-        - "&6&lLeft click &eto modify."
-        - "&6&lRight click &eto recreate."
-        - "&6&lMiddle click &eto switch (const/placeholder)"
       max-distance:
         - "&7&oThe max duration of the projectile flight"
         - "&7&oin ticks."
-        - "&6&lLeft click &eto modify."
-        - "&6&lRight click &eto recreate."
-        - "&6&lMiddle click &eto switch (const/placeholder)"
       shoot-hand:
         - "&7&oWhether the projectile should be shot"
         - "&7&ofrom the hand (slightly not centered)"
@@ -278,17 +221,11 @@ gui:
         - "&7&oThe item to consume."
       amount:
         - "&7&oThe amount of items to consume."
-        - "&6&lLeft click &eto modify."
-        - "&6&lRight click &eto recreate."
-        - "&6&lMiddle click &eto switch (const/placeholder)"
     command:
       description:
         - "&7&oSet the command to execute."
       command:
         - "&7&oThe command to execute."
-        - "&6&lLeft click &eto modify."
-        - "&6&lRight click &eto recreate."
-        - "&6&lMiddle click &eto switch (const/placeholder)"
     condition:
       description:
         - "&7&oSet the execution of actions"
@@ -329,9 +266,6 @@ gui:
         - "&7&oretrieve the value from other places."
       value:
         - "&7&oThe value to assign to the variable."
-        - "&6&lLeft click &eto modify."
-        - "&6&lRight click &eto recreate."
-        - "&6&lMiddle click &eto switch (const/placeholder)"
     set-block:
       description:
         - "&7&oSet block in target location."
@@ -655,3 +589,8 @@ gui:
       - "&7&oThe movement in the y axis."
     z:
       - "&7&oThe movement in the z axis."
+  additional-tooltips:
+    value:
+      - "&6&lLeft click &eto modify."
+      - "&6&lRight click &eto recreate."
+      - "&6&lMiddle click &eto switch (const/placeholder)"
