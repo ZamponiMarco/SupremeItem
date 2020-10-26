@@ -5,6 +5,7 @@ import com.github.jummes.libs.annotation.GUINameable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.gui.PluginInventoryHolder;
 import com.github.jummes.libs.gui.model.ModelObjectInventoryHolder;
+import com.github.jummes.libs.gui.model.create.ModelCreateInventoryHolderFactory;
 import com.github.jummes.libs.gui.setting.DoubleFieldChangeInventoryHolder;
 import com.github.jummes.libs.gui.setting.change.FieldChangeInformation;
 import com.github.jummes.libs.model.Model;
@@ -12,6 +13,7 @@ import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.supremeitem.placeholder.numeric.HealthPlaceholder;
 import com.github.jummes.supremeitem.placeholder.numeric.NumericPlaceholder;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -59,29 +61,27 @@ public class NumericValue extends Value<Double, NumericPlaceholder> {
         return new NumericValue(objectValue, value, placeholderValue.clone());
     }
 
+    @SneakyThrows
     public PluginInventoryHolder getCustomClickConsumer(JavaPlugin plugin, PluginInventoryHolder parent,
                                                         ModelPath<? extends Model> path, Field field,
                                                         InventoryClickEvent e) {
+        Field valueField = Value.class.getDeclaredField("value");
         Map<ClickType, Supplier<PluginInventoryHolder>> map = new HashMap<>();
         map.put(ClickType.LEFT, () -> {
-            try {
-                if (objectValue) {
-                    path.addModel(this);
-                    if (field.isAnnotationPresent(Serializable.Number.class)) {
-                        return new DoubleFieldChangeInventoryHolder(plugin, parent, path,
-                                new FieldChangeInformation(getClass().getDeclaredField("value")),
-                                field.getAnnotation(Serializable.Number.class));
-                    } else {
-                        return new DoubleFieldChangeInventoryHolder(plugin, parent, path,
-                                new FieldChangeInformation(getClass().getDeclaredField("value")));
-                    }
+            if (objectValue) {
+                path.addModel(this);
+                if (field.isAnnotationPresent(Serializable.Number.class)) {
+                    return new DoubleFieldChangeInventoryHolder(plugin, parent, path,
+                            new FieldChangeInformation(valueField),
+                            field.getAnnotation(Serializable.Number.class));
                 } else {
-                    path.addModel(placeholderValue);
-                    return new ModelObjectInventoryHolder(plugin, parent, path);
+                    return new DoubleFieldChangeInventoryHolder(plugin, parent, path,
+                            new FieldChangeInformation(valueField));
                 }
-            } catch (NoSuchFieldException ignored) {
+            } else {
+                path.addModel(placeholderValue);
+                return new ModelObjectInventoryHolder(plugin, parent, path);
             }
-            return null;
         });
         return super.getCustomClickConsumer(plugin, parent, path, field, e, map);
     }

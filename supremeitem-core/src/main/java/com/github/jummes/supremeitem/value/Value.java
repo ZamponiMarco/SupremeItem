@@ -10,8 +10,10 @@ import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.placeholder.Placeholder;
+import com.google.common.reflect.TypeToken;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -71,7 +73,6 @@ public abstract class Value<S, T extends Placeholder<S>> implements Model, Clone
     @Override
     public int hashCode() {
         int result;
-        long temp;
         result = (objectValue ? 1 : 0);
         if (objectValue) {
             result = 31 * result + value.hashCode();
@@ -81,40 +82,27 @@ public abstract class Value<S, T extends Placeholder<S>> implements Model, Clone
         return result;
     }
 
+    @SneakyThrows
     public PluginInventoryHolder getCustomClickConsumer(JavaPlugin plugin, PluginInventoryHolder parent,
                                                         ModelPath<? extends Model> path, Field field, InventoryClickEvent e,
                                                         Map<ClickType, Supplier<PluginInventoryHolder>> clickMap) {
-        clickMap.putIfAbsent(ClickType.LEFT, () -> {
-            if (objectValue) {
-                path.addModel(this);
-                try {
-                    return FieldInventoryHolderFactory.createFieldInventoryHolder(plugin, parent, path,
-                            getClass().getDeclaredField("value"), e);
-                } catch (NoSuchFieldException ignored) {
-                }
-            } else {
-                path.addModel(placeholderValue);
-                return new ModelObjectInventoryHolder(plugin, parent, path);
-            }
-            return null;
-        });
+        Class<? extends Value> clazz = getClass();
+        Class<Placeholder> placeholderClass = (Class<Placeholder>) TypeToken.of(clazz).resolveType(Value.class.getTypeParameters()[1]).getRawType();
+        Field placeholderValueField = Value.class.getDeclaredField("placeholderValue");
         clickMap.putIfAbsent(ClickType.RIGHT, () -> {
             if (!objectValue) {
                 path.addModel(this);
-                try {
-                    return ModelCreateInventoryHolderFactory.create(plugin, parent, path,
-                            getClass().getDeclaredField("placeholderValue"));
-                } catch (NoSuchFieldException ignored) {
-                }
+                return ModelCreateInventoryHolderFactory.create(plugin, parent, path,
+                        placeholderValueField, placeholderClass);
             }
-            return null;
+            return parent;
         });
         clickMap.putIfAbsent(ClickType.MIDDLE, () -> {
             objectValue = !objectValue;
             path.saveModel();
             return parent;
         });
-        return clickMap.getOrDefault(e.getClick(), () -> null).get();
+        return clickMap.getOrDefault(e.getClick(), () -> parent).get();
     }
 
     public String getName() {

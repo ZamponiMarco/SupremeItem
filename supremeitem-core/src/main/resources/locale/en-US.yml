@@ -83,6 +83,9 @@ gui:
       message:
         - "&7&oThe message to send to the target."
         - "&7&oSupports color codes."
+        - "&6&lLeft click &eto modify."
+        - "&6&lRight click &eto recreate."
+        - "&6&lMiddle click &eto switch (const/placeholder)"
     pull:
       description:
         - "&7&oSet the pull force to apply to the target"
@@ -283,6 +286,9 @@ gui:
         - "&7&oSet the command to execute."
       command:
         - "&7&oThe command to execute."
+        - "&6&lLeft click &eto modify."
+        - "&6&lRight click &eto recreate."
+        - "&6&lMiddle click &eto switch (const/placeholder)"
     condition:
       description:
         - "&7&oSet the execution of actions"
@@ -570,6 +576,12 @@ gui:
         description:
           - "&7&oSet a placeholder that returns the"
           - "&7&oworld name."
+      to-string:
+        description:
+          - "&7&oSet a string representation of a placeholder."
+        placeholder:
+          - "&7&oThe placeholder which string representation is"
+          - "&7&oreturned."
   condition:
     description:
       - "&6&lLeft click &eto modify."

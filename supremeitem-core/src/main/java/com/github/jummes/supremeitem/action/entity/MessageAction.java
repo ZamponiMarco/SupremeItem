@@ -63,7 +63,7 @@ public class MessageAction extends Action {
     @Override
     public ItemStack getGUIItem() {
         return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmJmM2ZjZGNjZmZkOTYzZTQzMzQ4MTgxMDhlMWU5YWUzYTgwNTY2ZDBkM2QyZDRhYjMwNTFhMmNkODExMzQ4YyJ9fX0="),
-                "&6&lMessage: &c" + message, Libs.getLocale().getList("gui.action.description"));
+                "&6&lMessage: &c" + message.getName(), Libs.getLocale().getList("gui.action.description"));
     }
 
     @Override
