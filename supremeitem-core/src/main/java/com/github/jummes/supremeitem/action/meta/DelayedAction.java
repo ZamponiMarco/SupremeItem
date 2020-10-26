@@ -13,7 +13,7 @@ import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
-import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
+import com.github.jummes.supremeitem.value.NumericValue;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -68,7 +68,7 @@ public class DelayedAction extends MetaAction {
     @Override
     protected ActionResult execute(Target target, Source source) {
         Bukkit.getScheduler().runTaskLater(SupremeItem.getInstance(), () ->
-                actions.forEach(action -> action.executeAction(target, source)), (long) delay.getRealValue(target, source));
+                actions.forEach(action -> action.executeAction(target, source)), delay.getRealValue(target, source).longValue());
         return ActionResult.SUCCESS;
     }
 

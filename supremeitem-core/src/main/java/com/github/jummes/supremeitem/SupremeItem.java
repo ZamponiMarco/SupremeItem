@@ -14,10 +14,11 @@ import com.github.jummes.supremeitem.item.Item;
 import com.github.jummes.supremeitem.listener.PlayerItemListener;
 import com.github.jummes.supremeitem.manager.*;
 import com.github.jummes.supremeitem.placeholder.Placeholder;
-import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
 import com.github.jummes.supremeitem.savedplaceholder.SavedPlaceholder;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.github.jummes.supremeitem.skill.Skill;
+import com.github.jummes.supremeitem.value.NumericValue;
+import com.github.jummes.supremeitem.value.Value;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
@@ -51,7 +52,11 @@ public class SupremeItem extends JavaPlugin {
 
         ConfigurationSerialization.registerClass(Placeholder.class);
 
-        ConfigurationSerialization.registerClass(NumericValue.class);
+        ConfigurationSerialization.registerClass(Value.class);
+        ConfigurationSerialization.registerClass(NumericValue.class,
+                "com.github.jummes.supremeitem.placeholder.numeric.NumericValue");
+
+        ConfigurationSerialization.registerClass(SavedPlaceholder.class);
 
         ConfigurationSerialization.registerClass(ParticleAction.BlockDataData.class);
         ConfigurationSerialization.registerClass(ParticleAction.DustOptionsData.class);

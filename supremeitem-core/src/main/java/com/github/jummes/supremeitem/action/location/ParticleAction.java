@@ -12,7 +12,7 @@ import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
-import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
+import com.github.jummes.supremeitem.value.NumericValue;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -111,7 +111,7 @@ public class ParticleAction extends Action {
 
     @Override
     public ActionResult execute(Target target, Source source) {
-        int count = (int) this.count.getRealValue(target, source);
+        int count = this.count.getRealValue(target, source).intValue();
         double offset = this.offset.getRealValue(target, source);
         double speed = this.speed.getRealValue(target, source);
         if (target instanceof LocationTarget) {

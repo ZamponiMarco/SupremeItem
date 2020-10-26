@@ -9,7 +9,7 @@ import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
-import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
+import com.github.jummes.supremeitem.value.NumericValue;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -64,7 +64,7 @@ public class ConsumeItemAction extends EntityAction {
     protected ActionResult execute(Target target, Source source) {
         LivingEntity e = ((EntityTarget) target).getTarget();
         if (e instanceof InventoryHolder) {
-            int toRemove = (int) amount.getRealValue(target, source);
+            int toRemove = amount.getRealValue(target, source).intValue();
             Inventory inventory = ((InventoryHolder) e).getInventory();
             List<ItemStack> toConsume = Arrays.stream(inventory.getStorageContents()).filter(item -> ItemUtils.isSimilar(item,
                     this.item.getWrapped())).collect(Collectors.toList());

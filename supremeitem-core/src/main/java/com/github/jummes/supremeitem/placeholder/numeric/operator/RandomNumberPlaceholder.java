@@ -5,7 +5,7 @@ import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.placeholder.numeric.NumericPlaceholder;
-import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
+import com.github.jummes.supremeitem.value.NumericValue;
 import lombok.Getter;
 import lombok.Setter;
 

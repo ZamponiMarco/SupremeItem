@@ -5,14 +5,13 @@ import com.github.jummes.libs.gui.FieldInventoryHolderFactory;
 import com.github.jummes.libs.gui.PluginInventoryHolder;
 import com.github.jummes.libs.gui.model.ModelObjectInventoryHolder;
 import com.github.jummes.libs.gui.model.create.ModelCreateInventoryHolderFactory;
-import com.github.jummes.libs.gui.setting.DoubleFieldChangeInventoryHolder;
-import com.github.jummes.libs.gui.setting.change.FieldChangeInformation;
 import com.github.jummes.libs.model.Model;
 import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.placeholder.Placeholder;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -20,11 +19,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.lang.reflect.Field;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 @AllArgsConstructor
+@Getter
 public abstract class Value<S, T extends Placeholder<S>> implements Model, Cloneable {
 
-    protected static final boolean DOUBLE_VALUE_DEFAULT = true;
+    protected static final boolean OBJECT_VALUE_DEFAULT = true;
 
     @Serializable
     @Serializable.Optional(defaultValue = "DOUBLE_VALUE_DEFAULT")
@@ -37,7 +38,7 @@ public abstract class Value<S, T extends Placeholder<S>> implements Model, Clone
     public Map<String, Object> serialize() {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("==", this.getClass().getName());
-        if (objectValue != DOUBLE_VALUE_DEFAULT) {
+        if (objectValue != OBJECT_VALUE_DEFAULT) {
             map.put("objectValue", objectValue);
         }
         if (objectValue) {
@@ -48,9 +49,6 @@ public abstract class Value<S, T extends Placeholder<S>> implements Model, Clone
         return map;
     }
 
-    @Override
-    public abstract Value<S, T> clone();
-
     public S getRealValue(Target target, Source source) {
         return objectValue ? value : placeholderValue.computePlaceholder(target, source);
     }
@@ -60,7 +58,7 @@ public abstract class Value<S, T extends Placeholder<S>> implements Model, Clone
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Value<?, ?> that = (Value<?, ?>) o;
+        Value<S, T> that = (Value<S, T>) o;
 
         if (objectValue != that.objectValue) return false;
         if (objectValue) {
@@ -84,38 +82,39 @@ public abstract class Value<S, T extends Placeholder<S>> implements Model, Clone
     }
 
     public PluginInventoryHolder getCustomClickConsumer(JavaPlugin plugin, PluginInventoryHolder parent,
-                                                        ModelPath<? extends Model> path, Field field,
-                                                        InventoryClickEvent e) {
-        try {
-            if (e.getClick().equals(ClickType.LEFT)) {
-                if (objectValue) {
-                    path.addModel(this);
-                    if (field.isAnnotationPresent(Serializable.Number.class)) {
-                        return new DoubleFieldChangeInventoryHolder(plugin, parent, path,
-                                new FieldChangeInformation(getClass().getDeclaredField("value")),
-                                field.getAnnotation(Serializable.Number.class));
-                    } else {
-                        return FieldInventoryHolderFactory.createFieldInventoryHolder(plugin, parent, path,
-                                getClass().getDeclaredField("value"), e);
-                    }
-                } else {
-                    path.addModel(placeholderValue);
-                    return new ModelObjectInventoryHolder(plugin, parent, path);
+                                                        ModelPath<? extends Model> path, Field field, InventoryClickEvent e,
+                                                        Map<ClickType, Supplier<PluginInventoryHolder>> clickMap) {
+        clickMap.putIfAbsent(ClickType.LEFT, () -> {
+            if (objectValue) {
+                path.addModel(this);
+                try {
+                    return FieldInventoryHolderFactory.createFieldInventoryHolder(plugin, parent, path,
+                            getClass().getDeclaredField("value"), e);
+                } catch (NoSuchFieldException ignored) {
                 }
-            } else if (e.getClick().equals(ClickType.RIGHT)) {
-                if (!objectValue) {
-                    path.addModel(this);
+            } else {
+                path.addModel(placeholderValue);
+                return new ModelObjectInventoryHolder(plugin, parent, path);
+            }
+            return null;
+        });
+        clickMap.putIfAbsent(ClickType.RIGHT, () -> {
+            if (!objectValue) {
+                path.addModel(this);
+                try {
                     return ModelCreateInventoryHolderFactory.create(plugin, parent, path,
                             getClass().getDeclaredField("placeholderValue"));
+                } catch (NoSuchFieldException ignored) {
                 }
-            } else if (e.getClick().equals(ClickType.MIDDLE)) {
-                objectValue = !objectValue;
-                path.saveModel();
-                return parent;
             }
-        } catch (Exception ignored) {
-        }
-        return null;
+            return null;
+        });
+        clickMap.putIfAbsent(ClickType.MIDDLE, () -> {
+            objectValue = !objectValue;
+            path.saveModel();
+            return parent;
+        });
+        return clickMap.getOrDefault(e.getClick(), () -> null).get();
     }
 
     public String getName() {

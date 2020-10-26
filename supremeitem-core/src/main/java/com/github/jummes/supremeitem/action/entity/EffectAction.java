@@ -9,7 +9,7 @@ import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
-import com.github.jummes.supremeitem.placeholder.numeric.NumericValue;
+import com.github.jummes.supremeitem.value.NumericValue;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -107,8 +107,8 @@ public class EffectAction extends Action {
     @Override
     public ActionResult execute(Target target, Source source) {
         ((EntityTarget) target).getTarget().addPotionEffect(new PotionEffect(type,
-                (int) duration.getRealValue(target, source), (int) level.getRealValue(target, source), ambient,
-                particles, icon));
+                duration.getRealValue(target, source).intValue(), level.getRealValue(target, source).intValue(),
+                ambient, particles, icon));
         return ActionResult.SUCCESS;
     }
 
