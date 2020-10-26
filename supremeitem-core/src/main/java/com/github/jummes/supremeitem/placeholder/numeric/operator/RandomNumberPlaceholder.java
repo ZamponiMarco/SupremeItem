@@ -27,9 +27,9 @@ public class RandomNumberPlaceholder extends NumberOperatorPlaceholder {
 
     @Serializable(headTexture = NATURAL_HEAD, description = "gui.placeholder.double.operator.random.is-natural")
     private boolean isNatural;
-    @Serializable(headTexture = MAX_HEAD, description = "gui.placeholder.double.operator.random.max")
+    @Serializable(headTexture = MAX_HEAD, description = "gui.placeholder.double.operator.random.max", additionalDescription = {"gui.additional-tooltips.value"})
     private NumericValue max;
-    @Serializable(headTexture = MIN_HEAD, description = "gui.placeholder.double.operator.random.min")
+    @Serializable(headTexture = MIN_HEAD, description = "gui.placeholder.double.operator.random.min", additionalDescription = {"gui.additional-tooltips.value"})
     private NumericValue min;
 
     public RandomNumberPlaceholder() {

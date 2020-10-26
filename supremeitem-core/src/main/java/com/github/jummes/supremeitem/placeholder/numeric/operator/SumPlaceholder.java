@@ -17,9 +17,9 @@ import java.util.Map;
 @Enumerable.Displayable(name = "&c&lNumber Sum Placeholder", description = "gui.placeholder.double.operator.sum.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhMGZjNmRjZjczOWMxMWZlY2U0M2NkZDE4NGRlYTc5MWNmNzU3YmY3YmQ5MTUzNmZkYmM5NmZhNDdhY2ZiIn19fQ==")
 public class SumPlaceholder extends NumberOperatorPlaceholder {
 
-    @Serializable(headTexture = ONE_HEAD, description = "gui.placeholder.double.operator.operand-one")
+    @Serializable(headTexture = ONE_HEAD, description = "gui.placeholder.double.operator.operand-one", additionalDescription = {"gui.additional-tooltips.value"})
     private NumericValue operandOne;
-    @Serializable(headTexture = TWO_HEAD, description = "gui.placeholder.double.operator.operand-two")
+    @Serializable(headTexture = TWO_HEAD, description = "gui.placeholder.double.operator.operand-two", additionalDescription = {"gui.additional-tooltips.value"})
     private NumericValue operandTwo;
 
     public SumPlaceholder() {

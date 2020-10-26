@@ -4,6 +4,7 @@ import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.model.Model;
+import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.placeholder.block.BlockPlaceholder;
@@ -35,5 +36,11 @@ public abstract class Placeholder<S> implements Model, Cloneable {
     }
 
     public abstract Placeholder clone();
+
+    @Override
+    public ItemStack getGUIItem() {
+        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue(getClass().getAnnotation(Enumerable.Displayable.class).headTexture()),
+                String.format("&6&l%s", getName()), Libs.getLocale().getList("gui.placeholder.description"));
+    }
 
 }

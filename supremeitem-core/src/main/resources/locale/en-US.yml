@@ -389,6 +389,9 @@ gui:
     actions:
       - "&7&oThe group of actions to execute."
   placeholder:
+    description:
+      - "&6&lLeft click &eto modify."
+      - "&6&lRight click &eto delete."
     target:
       - "&7&oWhether the placeholder should be referred"
       - "&7&oto the skill target or the skill source."
@@ -412,27 +415,15 @@ gui:
           - "&7&oSet a numeric operator placeholder."
         operand-one:
           - "&7&oThe first operand."
-          - "&6&lLeft click &eto modify."
-          - "&6&lRight click &eto recreate."
-          - "&6&lMiddle click &eto switch (const/placeholder)"
         operand-two:
           - "&7&oThe second operand."
-          - "&6&lLeft click &eto modify."
-          - "&6&lRight click &eto recreate."
-          - "&6&lMiddle click &eto switch (const/placeholder)"
         random:
           description:
             - "&7&oSet a random number placeholder."
           min:
             - "&7&oThe minimum number to roll."
-            - "&6&lLeft click &eto modify."
-            - "&6&lRight click &eto recreate."
-            - "&6&lMiddle click &eto switch (const/placeholder)"
           max:
             - "&7&oThe maximum number to roll."
-            - "&6&lLeft click &eto modify."
-            - "&6&lRight click &eto recreate."
-            - "&6&lMiddle click &eto switch (const/placeholder)"
           is-natural:
             - "&7&oWhether the result should be a natural"
             - "&7&onumber or a rational one."
@@ -533,14 +524,30 @@ gui:
           - "&7&oreturned."
       block:
         description:
-          description:
-            - "&7&oSet a string block related placeholder."
+          - "&7&oSet a string block related placeholder."
         placeholder:
           - "&7&oThe block placeholder that represents"
           - "&7&othe block to inspect."
         type:
           description:
             - "&7&oSet a block type name placeholder."
+      operator:
+        description:
+          - "&7&oSet a string operator placeholder."
+        format:
+          description:
+            - "&7&oSet a placeholder that returns the formatted."
+            - "&7&oversion of a string."
+          to-format:
+            - "&7&oThe text to format. To specify where to insert"
+            - "&7&oplaceholders write &c%s&7&o. Allows the use of"
+            - "&7&ocolor codes."
+          placeholders:
+            - "&7&oThe ordered list of placeholders that will be"
+            - "&7&oprinted inside the string to format. Note that"
+            - "&7&othe first element in this collection will be"
+            - "&7&oprinted where the first occurrence of &c%s &7&o is"
+            - "&7&oinside the string and so on."
   condition:
     description:
       - "&6&lLeft click &eto modify."
