@@ -44,7 +44,7 @@ public class ObjectToStringPlaceholder extends StringPlaceholder {
 
     @Override
     public String getName() {
-        return String.format("(%s).str()", placeholder.getName());
+        return String.format("&6&l(&c%s&6&l).str()&c", placeholder.getName());
     }
 
     @Override

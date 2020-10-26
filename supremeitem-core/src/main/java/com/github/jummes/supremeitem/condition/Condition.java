@@ -8,8 +8,9 @@ import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.condition.bool.TrueFalseCondition;
 import com.github.jummes.supremeitem.condition.numeric.NumericCondition;
+import com.github.jummes.supremeitem.condition.string.StringCondition;
 
-@Enumerable.Parent(classArray = {NumericCondition.class, TrueFalseCondition.class})
+@Enumerable.Parent(classArray = {NumericCondition.class, TrueFalseCondition.class, StringCondition.class})
 @GUINameable(GUIName = "getName")
 public abstract class Condition implements Model, Cloneable {
 

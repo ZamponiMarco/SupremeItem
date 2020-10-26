@@ -2,6 +2,8 @@ package com.github.jummes.supremeitem.action.location;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
+import com.github.jummes.libs.core.Libs;
+import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
@@ -12,6 +14,7 @@ import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Map;
@@ -54,6 +57,12 @@ public class MoveLocationTargetAction extends LocationAction {
     @Override
     public List<Class<? extends Target>> getPossibleTargets() {
         return Lists.newArrayList(LocationTarget.class, EntityTarget.class);
+    }
+
+    @Override
+    public ItemStack getGUIItem() {
+        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue(VECTOR_HEAD),
+                "&6&lMove Location: &c" + vector.toString(), Libs.getLocale().getList("gui.action.description"));
     }
 
     @Override

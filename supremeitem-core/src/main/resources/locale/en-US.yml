@@ -466,6 +466,21 @@ gui:
         pitch:
           description:
             - "&7&oSet a location pitch placeholder."
+      block:
+        description:
+          - "&7&oSet a numeric block related placeholder."
+        placeholder:
+          - "&7&oThe block placeholder that represents"
+          - "&7&othe block to inspect."
+        x:
+          description:
+            - "&7&oSet a block x placeholder."
+        y:
+          description:
+            - "&7&oSet a block y placeholder."
+        z:
+          description:
+            - "&7&oSet a block z placeholder."
     boolean:
       player:
         description:
@@ -516,6 +531,16 @@ gui:
         placeholder:
           - "&7&oThe placeholder which string representation is"
           - "&7&oreturned."
+      block:
+        description:
+          description:
+            - "&7&oSet a string block related placeholder."
+        placeholder:
+          - "&7&oThe block placeholder that represents"
+          - "&7&othe block to inspect."
+        type:
+          description:
+            - "&7&oSet a block type name placeholder."
   condition:
     description:
       - "&6&lLeft click &eto modify."
@@ -523,19 +548,13 @@ gui:
     negate:
       - "&7&oWhether the condition should be negated"
       - "&7&oor not."
+    operand-one:
+      - "&7&oThe first operand."
+    operand-two:
+      - "&7&oThe second operand."
     numeric:
       description:
         - "&7&oSet a numeric condition."
-      operand-one:
-        - "&7&oThe first operand."
-        - "&6&lLeft click &eto modify."
-        - "&6&lRight click &eto recreate."
-        - "&6&lMiddle click &eto switch (const/placeholder)"
-      operand-two:
-        - "&7&oThe second operand."
-        - "&6&lLeft click &eto modify."
-        - "&6&lRight click &eto recreate."
-        - "&6&lMiddle click &eto switch (const/placeholder)"
     less-than:
       description:
         - "&7&oSet a condition that checks if the first operand"
@@ -571,6 +590,13 @@ gui:
         - "&7&ocontained conditions returns true."
       conditions:
         - "&7&oThe collection of conditions."
+    string:
+      description:
+        - "&7&oSet a string condition."
+      string-equals:
+        description:
+          - "&7&oSet a condition that checks if the"
+          - "&7&otwo given strings are equal."
   saved-placeholder:
     description:
       - "&6&lLeft click &eto modify."

@@ -2,6 +2,7 @@ package com.github.jummes.supremeitem.action.location;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
+import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.SupremeItem;
@@ -14,6 +15,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.AllArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.lang.WordUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -43,7 +45,7 @@ public class SetBlockAction extends LocationAction {
 
     public static SetBlockAction deserialize(Map<String, Object> map) {
         Material material = Material.getMaterial((String) map.get("material"));
-        Set<Material> excludedMaterials = new HashSet<>((List<Material>) map.get("excludedMaterials"));
+        Set<Material> excludedMaterials = ((List<String>) map.get("excludedMaterials")).stream().map(Material::valueOf).collect(Collectors.toSet());
         return new SetBlockAction(material, excludedMaterials);
     }
 
@@ -60,7 +62,7 @@ public class SetBlockAction extends LocationAction {
         Map<String, Object> map = new HashMap<>();
         map.put("==", getClass().getName());
         map.put("material", material.name());
-        map.put("excludedMaterials", new ArrayList<>(excludedMaterials));
+        map.put("excludedMaterials", excludedMaterials.stream().map(Material::name).collect(Collectors.toList()));
         return map;
     }
 
@@ -92,6 +94,12 @@ public class SetBlockAction extends LocationAction {
     @Override
     public List<Class<? extends Target>> getPossibleTargets() {
         return Lists.newArrayList(LocationTarget.class, EntityTarget.class);
+    }
+
+    @Override
+    public ItemStack getGUIItem() {
+        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue(MATERIAL_HEAD),
+                "&6&lSet Block: &c" + WordUtils.capitalize(material.name()), Libs.getLocale().getList("gui.action.description"));
     }
 
     @Override

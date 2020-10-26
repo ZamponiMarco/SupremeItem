@@ -13,6 +13,7 @@ import com.github.jummes.supremeitem.hook.WorldGuardHook;
 import com.github.jummes.supremeitem.item.Item;
 import com.github.jummes.supremeitem.listener.PlayerItemListener;
 import com.github.jummes.supremeitem.manager.*;
+import com.github.jummes.supremeitem.math.Vector;
 import com.github.jummes.supremeitem.placeholder.Placeholder;
 import com.github.jummes.supremeitem.savedplaceholder.SavedPlaceholder;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
@@ -59,6 +60,8 @@ public class SupremeItem extends JavaPlugin {
         ConfigurationSerialization.registerClass(StringValue.class);
 
         ConfigurationSerialization.registerClass(SavedPlaceholder.class);
+
+        ConfigurationSerialization.registerClass(Vector.class);
 
         ConfigurationSerialization.registerClass(ParticleAction.BlockDataData.class);
         ConfigurationSerialization.registerClass(ParticleAction.DustOptionsData.class);

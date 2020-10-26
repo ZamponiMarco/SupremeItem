@@ -19,19 +19,24 @@ import java.util.Map;
 @Setter
 public class Vector implements Model, Cloneable {
 
+    private static final NumericValue DEFAULT = new NumericValue(0);
+
     private static final String X_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzkxZDZlZGE4M2VkMmMyNGRjZGNjYjFlMzNkZjM2OTRlZWUzOTdhNTcwMTIyNTViZmM1NmEzYzI0NGJjYzQ3NCJ9fX0=";
     private static final String Y_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODlmZjhjNzQ0OTUwNzI5ZjU4Y2I0ZTY2ZGM2OGVhZjYyZDAxMDZmOGE1MzE1MjkxMzNiZWQxZDU1ZTMifX19=";
     private static final String Z_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzA1ZjE4ZDQxNmY2OGU5YmQxOWQ1NWRmOWZhNzQyZWRmYmYxYTUyNWM4ZTI5ZjY1OWFlODMzYWYyMTdkNTM1In19fQ===";
 
     @Serializable(headTexture = Y_HEAD, description = "gui.vector.y")
+    @Serializable.Optional(defaultValue = "DEFAULT")
     private NumericValue y;
     @Serializable(headTexture = X_HEAD, description = "gui.vector.x")
+    @Serializable.Optional(defaultValue = "DEFAULT")
     private NumericValue x;
     @Serializable(headTexture = Z_HEAD, description = "gui.vector.z")
+    @Serializable.Optional(defaultValue = "DEFAULT")
     private NumericValue z;
 
     public Vector() {
-        this(new NumericValue(), new NumericValue(), new NumericValue());
+        this(DEFAULT.clone(), DEFAULT.clone(), DEFAULT.clone());
     }
 
     public Vector(NumericValue x, NumericValue y, NumericValue z) {
@@ -41,9 +46,9 @@ public class Vector implements Model, Cloneable {
     }
 
     public static Vector deserialize(Map<String, Object> map) {
-        NumericValue x = (NumericValue) map.get("x");
-        NumericValue y = (NumericValue) map.get("y");
-        NumericValue z = (NumericValue) map.get("z");
+        NumericValue x = (NumericValue) map.getOrDefault("x", DEFAULT.clone());
+        NumericValue y = (NumericValue) map.getOrDefault("y", DEFAULT.clone());
+        NumericValue z = (NumericValue) map.getOrDefault("z", DEFAULT.clone());
         return new Vector(x, y, z);
     }
 
@@ -54,9 +59,8 @@ public class Vector implements Model, Cloneable {
 
     @Override
     public String toString() {
-        NumberFormat f = new DecimalFormat("#0.00");
         return MessageUtils
-                .color(String.format("&c%s&6/&c%s&6/&c%s", f.format(x), f.format(y), f.format(z)));
+                .color(String.format("&c%s&6&l/&c%s&6&l/&c%s", x.getName(), y.getName(), z.getName()));
     }
 
     public Vector clone() {

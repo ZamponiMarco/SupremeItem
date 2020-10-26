@@ -9,7 +9,7 @@ import org.bukkit.Location;
 import java.util.Map;
 
 @Enumerable.Child
-@Enumerable.Displayable(name = "&c&lLocation Z Placeholder", description = "gui.placeholder.double.location.y.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODlmZjhjNzQ0OTUwNzI5ZjU4Y2I0ZTY2ZGM2OGVhZjYyZDAxMDZmOGE1MzE1MjkxMzNiZWQxZDU1ZTMifX19")
+@Enumerable.Displayable(name = "&c&lLocation Y Placeholder", description = "gui.placeholder.double.location.y.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODlmZjhjNzQ0OTUwNzI5ZjU4Y2I0ZTY2ZGM2OGVhZjYyZDAxMDZmOGE1MzE1MjkxMzNiZWQxZDU1ZTMifX19")
 public class LocationYPlaceholder extends LocationPlaceholder{
 
     public LocationYPlaceholder(boolean target) {
