@@ -10,6 +10,7 @@ import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
+import com.github.jummes.supremeitem.value.StringValue;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -27,23 +28,30 @@ import java.util.Map;
 @AllArgsConstructor
 public class CommandAction extends MetaAction {
 
+    private static final StringValue COMMAND_DEFAULT = new StringValue("say example");
+
     private static final String COMMAND_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWY0YzIxZDE3YWQ2MzYzODdlYTNjNzM2YmZmNmFkZTg5NzMxN2UxMzc0Y2Q1ZDliMWMxNWU2ZTg5NTM0MzIifX19";
     @Serializable(headTexture = COMMAND_HEAD, description = "gui.action.command.description")
-    private String command;
+    private StringValue command;
 
     public CommandAction() {
-        this("say example");
+        this(COMMAND_DEFAULT.clone());
     }
 
     public static CommandAction deserialize(Map<String, Object> map) {
-        String command = (String) map.get("command");
+        StringValue command;
+        try {
+            command = (StringValue) map.getOrDefault("command", COMMAND_DEFAULT.clone());
+        } catch (ClassCastException e) {
+            command = new StringValue((String) map.getOrDefault("command", COMMAND_DEFAULT.getValue()));
+        }
         return new CommandAction(command);
     }
 
     @Override
     protected ActionResult execute(Target target, Source source) {
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), SupremeItem.getInstance().
-                getSavedPlaceholderManager().computePlaceholders(command, source, target));
+                getSavedPlaceholderManager().computePlaceholders(command.getRealValue(target, source), source, target));
         return ActionResult.SUCCESS;
     }
 
