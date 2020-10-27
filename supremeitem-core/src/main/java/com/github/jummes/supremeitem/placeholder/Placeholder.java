@@ -9,12 +9,13 @@ import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.placeholder.block.BlockPlaceholder;
 import com.github.jummes.supremeitem.placeholder.bool.BooleanPlaceholder;
+import com.github.jummes.supremeitem.placeholder.material.MaterialPlaceholder;
 import com.github.jummes.supremeitem.placeholder.numeric.NumericPlaceholder;
 import com.github.jummes.supremeitem.placeholder.string.StringPlaceholder;
 import org.bukkit.inventory.ItemStack;
 
 @Enumerable.Parent(classArray = {NumericPlaceholder.class, BooleanPlaceholder.class, StringPlaceholder.class,
-        BlockPlaceholder.class})
+        BlockPlaceholder.class, MaterialPlaceholder.class})
 public abstract class Placeholder<S> implements Model, Cloneable {
 
     protected static final String TARGET_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzc4N2I3YWZiNWE1OTk1Mzk3NWJiYTI0NzM3NDliNjAxZDU0ZDZmOTNjZWFjN2EwMmFjNjlhYWU3ZjliOCJ9fX0==";

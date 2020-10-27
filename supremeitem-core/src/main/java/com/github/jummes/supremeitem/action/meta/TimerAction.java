@@ -10,8 +10,6 @@ import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
-import com.github.jummes.supremeitem.action.targeter.EntityTarget;
-import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.google.common.collect.Lists;
 import lombok.Getter;
@@ -93,11 +91,6 @@ public class TimerAction extends MetaAction {
     public void getCustomConsumer(JavaPlugin plugin, PluginInventoryHolder parent, ModelPath<?> path, Field field,
                                   InventoryClickEvent e) throws IllegalAccessException {
         getExtractConsumer(plugin, parent, path, field, e, this.actions);
-    }
-
-    @Override
-    public List<Class<? extends Target>> getPossibleTargets() {
-        return Lists.newArrayList(LocationTarget.class, EntityTarget.class);
     }
 
     @Override

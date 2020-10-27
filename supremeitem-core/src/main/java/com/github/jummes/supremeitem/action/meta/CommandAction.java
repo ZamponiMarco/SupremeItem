@@ -7,17 +7,13 @@ import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
-import com.github.jummes.supremeitem.action.targeter.EntityTarget;
-import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.value.StringValue;
-import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
 import java.util.Map;
 
 @Enumerable.Displayable(name = "&c&lCommand", description = "gui.action.command.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWY0YzIxZDE3YWQ2MzYzODdlYTNjNzM2YmZmNmFkZTg5NzMxN2UxMzc0Y2Q1ZDliMWMxNWU2ZTg5NTM0MzIifX19")
@@ -56,11 +52,6 @@ public class CommandAction extends MetaAction {
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), SupremeItem.getInstance().
                 getSavedPlaceholderManager().computePlaceholders(command.getRealValue(target, source), source, target));
         return ActionResult.SUCCESS;
-    }
-
-    @Override
-    public List<Class<? extends Target>> getPossibleTargets() {
-        return Lists.newArrayList(LocationTarget.class, EntityTarget.class);
     }
 
     @Override

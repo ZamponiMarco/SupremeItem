@@ -8,7 +8,6 @@ import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.LocationSource;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
-import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.entity.selector.EntitySelector;
 import com.github.jummes.supremeitem.entity.selector.SourceSelector;
@@ -105,11 +104,6 @@ public class AreaEntitiesAction extends MetaAction {
             }
         }
         return ActionResult.SUCCESS;
-    }
-
-    @Override
-    public List<Class<? extends Target>> getPossibleTargets() {
-        return Lists.newArrayList(LocationTarget.class, EntityTarget.class);
     }
 
     @Override

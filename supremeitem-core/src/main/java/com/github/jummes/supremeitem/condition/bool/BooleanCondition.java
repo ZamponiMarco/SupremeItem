@@ -45,12 +45,6 @@ public class BooleanCondition extends TrueFalseCondition {
     }
 
     @Override
-    public ItemStack getGUIItem() {
-        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzdiNjJkMjc1ZDg3YzA5Y2UxMGFjYmNjZjM0YzRiYTBiNWYxMzVkNjQzZGM1MzdkYTFmMWRmMzU1YTIyNWU4MiJ9fX0"),
-                getName(), Libs.getLocale().getList("gui.condition.description"));
-    }
-
-    @Override
     public String getName() {
         return String.format("%s" + value.getName(), negate ? "&6&lNot &c" : "&c");
     }

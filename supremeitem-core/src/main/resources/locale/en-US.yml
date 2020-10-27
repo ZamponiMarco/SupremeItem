@@ -521,15 +521,6 @@ gui:
         placeholder:
           - "&7&oThe placeholder which string representation is"
           - "&7&oreturned."
-      block:
-        description:
-          - "&7&oSet a string block related placeholder."
-        placeholder:
-          - "&7&oThe block placeholder that represents"
-          - "&7&othe block to inspect."
-        type:
-          description:
-            - "&7&oSet a block type name placeholder."
       operator:
         description:
           - "&7&oSet a string operator placeholder."
@@ -547,6 +538,14 @@ gui:
             - "&7&othe first element in this collection will be"
             - "&7&oprinted where the first occurrence of &c%s &7&o is"
             - "&7&oinside the string and so on."
+    material:
+      block:
+        description:
+          - "&7&oSet a placeholder that returns the material."
+          - "&7&oof a block."
+        placeholder:
+          - "&7&oThe block placeholder that represents"
+          - "&7&othe block to inspect."
   condition:
     description:
       - "&6&lLeft click &eto modify."
@@ -626,3 +625,6 @@ gui:
       - "&6&lLeft click &eto modify."
       - "&6&lRight click &eto recreate."
       - "&6&lMiddle click &eto switch (const/placeholder)"
+    recreate:
+      - "&6&lLeft click &eto modify."
+      - "&6&lRight click &eto delete."

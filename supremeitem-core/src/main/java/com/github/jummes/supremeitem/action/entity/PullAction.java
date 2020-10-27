@@ -8,18 +8,14 @@ import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.source.LocationSource;
 import com.github.jummes.supremeitem.action.source.Source;
-import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.value.NumericValue;
-import com.google.common.collect.Lists;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -60,6 +56,11 @@ public class PullAction extends EntityAction {
         Vector difference = null;
         LivingEntity entityTarget = getEntity(target, source);
         LivingEntity entitySource = source.getCaster();
+
+        if (entityTarget == null) {
+            return ActionResult.FAILURE;
+        }
+
         if (source instanceof EntitySource) {
             if (entitySource.equals(entityTarget)) {
                 difference = entityTarget.getLocation().getDirection().multiply(-1);
@@ -81,11 +82,6 @@ public class PullAction extends EntityAction {
             }
         }
         return ActionResult.FAILURE;
-    }
-
-    @Override
-    public List<Class<? extends Target>> getPossibleTargets() {
-        return Lists.newArrayList(EntityTarget.class);
     }
 
     @Override

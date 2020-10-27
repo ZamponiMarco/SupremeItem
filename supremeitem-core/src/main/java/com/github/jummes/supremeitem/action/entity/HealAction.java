@@ -6,10 +6,8 @@ import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
-import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.value.NumericValue;
-import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.attribute.Attribute;
@@ -17,7 +15,6 @@ import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
 import java.util.Map;
 
 @Enumerable.Displayable(name = "&c&lHeal", description = "gui.action.heal.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjEyNjZiNzQ4MjQyMTE1YjMwMzcwOGQ1OWNlOWQ1NTIzYjdkNzljMTNmNmRiNGViYzkxZGQ0NzIwOWViNzU5YyJ9fX0=")
@@ -57,13 +54,14 @@ public class HealAction extends EntityAction {
 
     @Override
     public ActionResult execute(Target target, Source source) {
-        healEntity(getEntity(target, source), target, source);
-        return ActionResult.SUCCESS;
-    }
+        LivingEntity e = getEntity(target, source);
 
-    @Override
-    public List<Class<? extends Target>> getPossibleTargets() {
-        return Lists.newArrayList(EntityTarget.class);
+        if (e == null) {
+            return ActionResult.FAILURE;
+        }
+
+        healEntity(e, target, source);
+        return ActionResult.SUCCESS;
     }
 
     private void healEntity(LivingEntity e, Target target, Source source) {

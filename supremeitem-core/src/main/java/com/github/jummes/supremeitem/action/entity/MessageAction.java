@@ -8,16 +8,13 @@ import com.github.jummes.libs.util.MessageUtils;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
-import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.value.StringValue;
-import com.google.common.collect.Lists;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -55,14 +52,15 @@ public class MessageAction extends EntityAction {
 
     @Override
     public ActionResult execute(Target target, Source source) {
-        getEntity(target, source).sendMessage(MessageUtils.color(SupremeItem.getInstance().
+        LivingEntity e = getEntity(target, source);
+
+        if (e == null) {
+            return ActionResult.FAILURE;
+        }
+
+        e.sendMessage(MessageUtils.color(SupremeItem.getInstance().
                 getSavedPlaceholderManager().computePlaceholders(message.getRealValue(target, source), source, target)));
         return ActionResult.SUCCESS;
-    }
-
-    @Override
-    public List<Class<? extends Target>> getPossibleTargets() {
-        return Lists.newArrayList(EntityTarget.class);
     }
 
     @Override

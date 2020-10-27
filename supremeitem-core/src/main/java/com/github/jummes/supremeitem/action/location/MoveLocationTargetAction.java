@@ -6,7 +6,6 @@ import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
-import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.math.Vector;
@@ -57,11 +56,6 @@ public class MoveLocationTargetAction extends LocationAction {
             return ActionResult.CANCELLED;
         }
         return ActionResult.SUCCESS;
-    }
-
-    @Override
-    public List<Class<? extends Target>> getPossibleTargets() {
-        return Lists.newArrayList(LocationTarget.class, EntityTarget.class);
     }
 
     @Override

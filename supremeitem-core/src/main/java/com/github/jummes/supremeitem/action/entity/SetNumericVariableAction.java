@@ -7,15 +7,12 @@ import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
-import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.value.NumericValue;
-import com.google.common.collect.Lists;
-import lombok.AllArgsConstructor;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
-import java.util.List;
 import java.util.Map;
 
 @Enumerable.Child
@@ -54,21 +51,14 @@ public class SetNumericVariableAction extends EntityAction {
 
     @Override
     protected ActionResult execute(Target target, Source source) {
-        if (this.target) {
-            if (target instanceof EntityTarget) {
-                ((EntityTarget) target).getTarget().setMetadata(name, new FixedMetadataValue(SupremeItem.getInstance(), value.getRealValue(target, source)));
-                return ActionResult.SUCCESS;
-            } else {
-                return ActionResult.FAILURE;
-            }
-        }
-        source.getCaster().setMetadata(name, new FixedMetadataValue(SupremeItem.getInstance(), value.getRealValue(target, source)));
-        return ActionResult.SUCCESS;
-    }
+        LivingEntity e = getEntity(target, source);
 
-    @Override
-    public List<Class<? extends Target>> getPossibleTargets() {
-        return Lists.newArrayList(EntityTarget.class);
+        if (e == null) {
+            return ActionResult.FAILURE;
+        }
+
+        e.setMetadata(name, new FixedMetadataValue(SupremeItem.getInstance(), value.getRealValue(target, source)));
+        return ActionResult.SUCCESS;
     }
 
     @Override

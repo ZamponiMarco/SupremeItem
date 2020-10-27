@@ -3,12 +3,15 @@ package com.github.jummes.supremeitem.condition;
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.GUINameable;
 import com.github.jummes.libs.annotation.Serializable;
+import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.model.Model;
+import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.condition.bool.TrueFalseCondition;
 import com.github.jummes.supremeitem.condition.numeric.NumericCondition;
 import com.github.jummes.supremeitem.condition.string.StringCondition;
+import org.bukkit.inventory.ItemStack;
 
 @Enumerable.Parent(classArray = {NumericCondition.class, TrueFalseCondition.class, StringCondition.class})
 @GUINameable(GUIName = "getName")
@@ -39,5 +42,10 @@ public abstract class Condition implements Model, Cloneable {
 
     @Override
     public abstract Condition clone();
+
+    public ItemStack getGUIItem() {
+        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue(getClass().getAnnotation(Enumerable.Displayable.class).headTexture()),
+                getName(), Libs.getLocale().getList("gui.additional-tooltips.recreate"));
+    }
 
 }

@@ -7,10 +7,8 @@ import com.github.jummes.libs.model.wrapper.ItemStackWrapper;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
-import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.value.NumericValue;
-import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
@@ -88,11 +86,6 @@ public class ConsumeItemAction extends EntityAction {
 
     public ItemStack getFlatItem() {
         return item.getWrapped().clone();
-    }
-
-    @Override
-    public List<Class<? extends Target>> getPossibleTargets() {
-        return Lists.newArrayList(EntityTarget.class);
     }
 
     @Override

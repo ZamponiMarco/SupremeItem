@@ -49,12 +49,6 @@ public class AndCondition extends TrueFalseCondition {
     }
 
     @Override
-    public ItemStack getGUIItem() {
-        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue(CONDITIONS_HEAD),
-                getName(), Libs.getLocale().getList("gui.condition.description"));
-    }
-
-    @Override
     public String getName() {
         String[] s = conditions.stream().map(condition -> "&6&l(" + condition.getName() + "&6&l)").toArray(String[]::new);
         return String.join(" &6&land&c ", s);

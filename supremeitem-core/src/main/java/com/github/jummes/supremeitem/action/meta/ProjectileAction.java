@@ -8,7 +8,6 @@ import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.source.LocationSource;
 import com.github.jummes.supremeitem.action.source.Source;
-import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.entity.Entity;
 import com.github.jummes.supremeitem.entity.NoEntity;
@@ -152,11 +151,6 @@ public class ProjectileAction extends MetaAction {
                     this.entity, this.hitBoxSize.getRealValue(target, source), maxDistance.getRealValue(target, source));
         }
         return ActionResult.SUCCESS;
-    }
-
-    @Override
-    public List<Class<? extends Target>> getPossibleTargets() {
-        return Lists.newArrayList(EntityTarget.class);
     }
 
     @Override

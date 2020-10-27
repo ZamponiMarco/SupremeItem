@@ -7,15 +7,14 @@ import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
-import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.value.NumericValue;
 import com.google.common.collect.Lists;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Material;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -74,6 +73,16 @@ public class EffectAction extends EntityAction {
                 PARTICLES_DEFAULT, AMBIENT_DEFAULT, ICON_DEFAULT);
     }
 
+    public EffectAction(boolean target, PotionEffectType type, NumericValue duration, NumericValue level, boolean particles, boolean ambient, boolean icon) {
+        super(target);
+        this.type = type;
+        this.duration = duration;
+        this.level = level;
+        this.particles = particles;
+        this.ambient = ambient;
+        this.icon = icon;
+    }
+
     public static EffectAction deserialize(Map<String, Object> map) {
         boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
         PotionEffectType type = PotionEffectType.getByName(((String) map.getOrDefault("type", "INCREASE_DAMAGE"))
@@ -93,16 +102,6 @@ public class EffectAction extends EntityAction {
         return new EffectAction(target, type, duration, level, particles, ambient, icon);
     }
 
-    public EffectAction(boolean target, PotionEffectType type, NumericValue duration, NumericValue level, boolean particles, boolean ambient, boolean icon) {
-        super(target);
-        this.type = type;
-        this.duration = duration;
-        this.level = level;
-        this.particles = particles;
-        this.ambient = ambient;
-        this.icon = icon;
-    }
-
     public static List<Object> getPotionEffects(ModelPath<?> path) {
         return Lists.newArrayList(PotionEffectType.values());
     }
@@ -116,15 +115,16 @@ public class EffectAction extends EntityAction {
 
     @Override
     public ActionResult execute(Target target, Source source) {
-        getEntity(target, source).addPotionEffect(new PotionEffect(type,
+        LivingEntity e = getEntity(target, source);
+
+        if (e == null) {
+            return ActionResult.FAILURE;
+        }
+
+        e.addPotionEffect(new PotionEffect(type,
                 duration.getRealValue(target, source).intValue(), level.getRealValue(target, source).intValue(),
                 ambient, particles, icon));
         return ActionResult.SUCCESS;
-    }
-
-    @Override
-    public List<Class<? extends Target>> getPossibleTargets() {
-        return Lists.newArrayList(EntityTarget.class);
     }
 
     @Override

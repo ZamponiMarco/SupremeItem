@@ -48,11 +48,6 @@ public class EqualsCondition extends NumericCondition {
         return operandOne.getRealValue(target, source) == operandTwo.getRealValue(target, source);
     }
 
-    public ItemStack getGUIItem() {
-        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzAzMDgyZjAzM2Y5NzI0Y2IyMmZlMjdkMGRlNDk3NTA5MDMzNTY0MWVlZTVkOGQ5MjdhZGY1YThiNjdmIn19fQ"),
-                getName(), Libs.getLocale().getList("gui.condition.description"));
-    }
-
     @Override
     public String getName() {
         return String.format("&c" + operandOne.getName() + "&6&l%s&c" + operandTwo.getName(), negate ? " ≠ " : " = ");
