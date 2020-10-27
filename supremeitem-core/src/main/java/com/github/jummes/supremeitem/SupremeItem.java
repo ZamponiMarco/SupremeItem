@@ -75,7 +75,6 @@ public class SupremeItem extends JavaPlugin {
     private CooldownManager cooldownManager;
     private SavedSkillManager savedSkillManager;
     private TimerManager timerManager;
-    private VariableManager variableManager;
     private SavedPlaceholderManager savedPlaceholderManager;
 
     /*
@@ -124,7 +123,6 @@ public class SupremeItem extends JavaPlugin {
         cooldownManager = new CooldownManager();
         savedSkillManager = new SavedSkillManager(SavedSkill.class, "yaml", this);
         timerManager = new TimerManager();
-        variableManager = new VariableManager();
         savedPlaceholderManager = new SavedPlaceholderManager(SavedPlaceholder.class, "yaml", this);
     }
 

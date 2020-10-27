@@ -10,7 +10,6 @@ import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.value.NumericValue;
 import com.google.common.collect.Lists;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.attribute.Attribute;
@@ -21,12 +20,11 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 import java.util.Map;
 
-@AllArgsConstructor
 @Enumerable.Displayable(name = "&c&lHeal", description = "gui.action.heal.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjEyNjZiNzQ4MjQyMTE1YjMwMzcwOGQ1OWNlOWQ1NTIzYjdkNzljMTNmNmRiNGViYzkxZGQ0NzIwOWViNzU5YyJ9fX0=")
 @Enumerable.Child
 @Getter
 @Setter
-public class HealAction extends Action {
+public class HealAction extends EntityAction {
 
     private static final NumericValue AMOUNT_DEFAULT = new NumericValue(1);
 
@@ -38,22 +36,28 @@ public class HealAction extends Action {
     private NumericValue amount;
 
     public HealAction() {
-        this(AMOUNT_DEFAULT.clone());
+        this(TARGET_DEFAULT, AMOUNT_DEFAULT.clone());
+    }
+
+    public HealAction(boolean target, NumericValue amount) {
+        super(target);
+        this.amount = amount;
     }
 
     public static HealAction deserialize(Map<String, Object> map) {
+        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
         NumericValue amount;
         try {
             amount = (NumericValue) map.getOrDefault("amount", AMOUNT_DEFAULT.clone());
         } catch (ClassCastException e) {
             amount = new NumericValue(((Number) map.getOrDefault("amount", AMOUNT_DEFAULT.getValue())));
         }
-        return new HealAction(amount);
+        return new HealAction(target, amount);
     }
 
     @Override
     public ActionResult execute(Target target, Source source) {
-        healEntity(((EntityTarget) target).getTarget(), target, source);
+        healEntity(getEntity(target, source), target, source);
         return ActionResult.SUCCESS;
     }
 
@@ -80,7 +84,7 @@ public class HealAction extends Action {
 
     @Override
     public Action clone() {
-        return new HealAction(amount.clone());
+        return new HealAction(target, amount.clone());
     }
 
 }

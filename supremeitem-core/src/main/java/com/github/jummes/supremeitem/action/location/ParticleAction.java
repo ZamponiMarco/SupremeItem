@@ -28,12 +28,11 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Getter
 @Setter
 @Enumerable.Displayable(name = "&c&lParticle", description = "gui.action.particle.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDQ2MWQ5ZDA2YzBiZjRhN2FmNGIxNmZkMTI4MzFlMmJlMGNmNDJlNmU1NWU5YzBkMzExYTJhODk2NWEyM2IzNCJ9fX0=")
 @Enumerable.Child
-public class ParticleAction extends Action {
+public class ParticleAction extends LocationAction {
 
     private static final NumericValue COUNT_DEFAULT = new NumericValue(1);
     private static final NumericValue OFFSET_DEFAULT = new NumericValue(0);
@@ -72,11 +71,22 @@ public class ParticleAction extends Action {
     private ParticleOptions data;
 
     public ParticleAction() {
-        this(Particle.FIREWORKS_SPARK, COUNT_DEFAULT.clone(), OFFSET_DEFAULT.clone(),
+        this(TARGET_DEFAULT, Particle.FIREWORKS_SPARK, COUNT_DEFAULT.clone(), OFFSET_DEFAULT.clone(),
                 SPEED_DEFAULT.clone(), FORCE_DEFAULT, null);
     }
 
+    public ParticleAction(boolean target, Particle type, NumericValue count, NumericValue offset, NumericValue speed, boolean force, ParticleOptions data) {
+        super(target);
+        this.type = type;
+        this.count = count;
+        this.offset = offset;
+        this.speed = speed;
+        this.force = force;
+        this.data = data;
+    }
+
     public static ParticleAction deserialize(Map<String, Object> map) {
+        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
         Particle type = Particle.valueOf((String) map.getOrDefault("type", "FIREWORKS_SPARK"));
         boolean force = (boolean) map.getOrDefault("force", FORCE_DEFAULT);
         ParticleOptions data = (ParticleOptions) map.get("data");
@@ -93,7 +103,7 @@ public class ParticleAction extends Action {
             offset = new NumericValue(((Number) map.getOrDefault("offset", OFFSET_DEFAULT.getValue())));
             speed = new NumericValue(((Number) map.getOrDefault("speed", SPEED_DEFAULT.getValue())));
         }
-        return new ParticleAction(type, count, offset, speed, force, data);
+        return new ParticleAction(target, type, count, offset, speed, force, data);
     }
 
     public static List<Object> getParticles(ModelPath<?> path) {
@@ -114,19 +124,13 @@ public class ParticleAction extends Action {
         int count = this.count.getRealValue(target, source).intValue();
         double offset = this.offset.getRealValue(target, source);
         double speed = this.speed.getRealValue(target, source);
-        if (target instanceof LocationTarget) {
-            World world = ((LocationTarget) target).getTarget().getWorld();
-            if (world != null) {
-                world.spawnParticle(type, ((LocationTarget) target).getTarget(),
-                        count, offset, offset, offset, speed, data == null ? null : data.buildData(), force);
-            } else {
-                return ActionResult.FAILURE;
-            }
-        } else if (target instanceof EntityTarget) {
-            ((EntityTarget) target).getTarget().getWorld().spawnParticle(type, ((EntityTarget) target).getTarget().
-                    getEyeLocation(), count, offset, offset, offset, speed, data == null ? null : data.buildData(), force);
+        Location l = getLocation(target, source);
+        World world = l.getWorld();
+        if (world != null) {
+            world.spawnParticle(type, l, count, offset, offset, offset, speed, data == null ? null : data.buildData(), force);
+            return ActionResult.SUCCESS;
         }
-        return ActionResult.SUCCESS;
+        return ActionResult.FAILURE;
     }
 
     @Override
@@ -142,7 +146,7 @@ public class ParticleAction extends Action {
 
     @Override
     public Action clone() {
-        return new ParticleAction(type, count.clone(), offset.clone(), speed.clone(), force, data == null ? null : data.clone());
+        return new ParticleAction(target, type, count.clone(), offset.clone(), speed.clone(), force, data == null ? null : data.clone());
     }
 
     public ItemStack getDataObject() {

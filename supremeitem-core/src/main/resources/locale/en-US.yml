@@ -33,6 +33,9 @@ gui:
       - "&6&lMiddle click &eto clone."
       - "&6&lPress 1 &eto delay the action."
       - "&6&lPress 2 &eto repeat the action."
+    target:
+      - "&7&oWhether the action should be executed"
+      - "&7&oon the skill target or the skill source."
     damage:
       description:
         - "&7&oSet the damage to deal to the"
@@ -257,10 +260,6 @@ gui:
         - "&7&oAssign a numeric value to an"
         - "&7&oentity to retrieve it later from"
         - "&7&oother places as a placeholder."
-      target:
-        - "&7&oWhether the variable should be"
-        - "&7&oassigned to the target of the skill"
-        - "&7&oor to the source."
       name:
         - "&7&oThe name of the variable, used to"
         - "&7&oretrieve the value from other places."

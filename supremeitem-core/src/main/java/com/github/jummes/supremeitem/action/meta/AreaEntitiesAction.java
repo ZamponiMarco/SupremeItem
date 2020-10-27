@@ -14,7 +14,6 @@ import com.github.jummes.supremeitem.entity.selector.EntitySelector;
 import com.github.jummes.supremeitem.entity.selector.SourceSelector;
 import com.github.jummes.supremeitem.value.NumericValue;
 import com.google.common.collect.Lists;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
@@ -27,7 +26,6 @@ import java.util.Map;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Getter
 @Setter
 @Enumerable.Child
@@ -59,11 +57,20 @@ public class AreaEntitiesAction extends MetaAction {
     private boolean castFromLocation;
 
     public AreaEntitiesAction() {
-        this(Lists.newArrayList(), MAX_DISTANCE_DEFAULT.clone(), Lists.newArrayList(new SourceSelector()),
+        this(TARGET_DEFAULT, Lists.newArrayList(), MAX_DISTANCE_DEFAULT.clone(), Lists.newArrayList(new SourceSelector()),
                 CAST_LOCATION_DEFAULT);
     }
 
+    public AreaEntitiesAction(boolean target, List<Action> actions, NumericValue maxDistance, List<EntitySelector> selectors, boolean castFromLocation) {
+        super(target);
+        this.actions = actions;
+        this.maxDistance = maxDistance;
+        this.selectors = selectors;
+        this.castFromLocation = castFromLocation;
+    }
+
     public static AreaEntitiesAction deserialize(Map<String, Object> map) {
+        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
         List<Action> actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
         List<EntitySelector> selectors = (List<EntitySelector>) map.getOrDefault("selectors", Lists.newArrayList());
         boolean castFromLocation = (boolean) map.getOrDefault("castFromLocation", CAST_LOCATION_DEFAULT);
@@ -73,17 +80,12 @@ public class AreaEntitiesAction extends MetaAction {
         } catch (ClassCastException e) {
             maxDistance = new NumericValue(((Number) map.getOrDefault("maxDistance", MAX_DISTANCE_DEFAULT.getValue())));
         }
-        return new AreaEntitiesAction(actions, maxDistance, selectors, castFromLocation);
+        return new AreaEntitiesAction(target, actions, maxDistance, selectors, castFromLocation);
     }
 
     @Override
     protected ActionResult execute(Target target, Source source) {
-        Location l = null;
-        if (target instanceof LocationTarget) {
-            l = ((LocationTarget) target).getTarget();
-        } else if (target instanceof EntityTarget) {
-            l = ((EntityTarget) target).getTarget().getLocation();
-        }
+        Location l = target.getLocation();
 
         LivingEntity caster = source.getCaster();
         if (l != null) {
@@ -118,7 +120,7 @@ public class AreaEntitiesAction extends MetaAction {
 
     @Override
     public Action clone() {
-        return new AreaEntitiesAction(actions.stream().map(Action::clone).collect(Collectors.toList()), maxDistance.clone(),
+        return new AreaEntitiesAction(target, actions.stream().map(Action::clone).collect(Collectors.toList()), maxDistance.clone(),
                 selectors.stream().map(EntitySelector::clone).collect(Collectors.toList()), castFromLocation);
     }
 }

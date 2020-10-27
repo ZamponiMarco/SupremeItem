@@ -24,6 +24,10 @@ public abstract class MetaAction extends Action {
 
     protected static final List<Action> ACTIONS_DEFAULT = Lists.newArrayList();
 
+    public MetaAction(boolean target) {
+        super(target);
+    }
+
     protected void getExtractConsumer(JavaPlugin plugin, PluginInventoryHolder parent, ModelPath<?> path, Field field,
                                       InventoryClickEvent e, List<Action> actions) throws IllegalAccessException {
         Collection<Action> superActions = ((Collection<Action>) FieldUtils.readField(field,

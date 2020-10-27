@@ -22,7 +22,6 @@ import org.bukkit.util.Vector;
 import java.util.List;
 import java.util.Map;
 
-@AllArgsConstructor
 @Getter
 @Setter
 @Enumerable.Child
@@ -37,25 +36,31 @@ public class PullAction extends EntityAction {
     private NumericValue force;
 
     public PullAction() {
-        this(FORCE_DEFAULT.clone());
+        this(TARGET_DEFAULT, FORCE_DEFAULT.clone());
+    }
+
+    public PullAction(boolean target, NumericValue force) {
+        super(target);
+        this.force = force;
     }
 
     public static PullAction deserialize(Map<String, Object> map) {
+        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
         NumericValue force;
         try {
             force = (NumericValue) map.getOrDefault("force", FORCE_DEFAULT.clone());
         } catch (ClassCastException e) {
             force = new NumericValue(((Number) map.getOrDefault("force", FORCE_DEFAULT.getValue())));
         }
-        return new PullAction(force);
+        return new PullAction(target, force);
     }
 
     @Override
     protected ActionResult execute(Target target, Source source) {
         Vector difference = null;
-        LivingEntity entityTarget = ((EntityTarget) target).getTarget();
+        LivingEntity entityTarget = getEntity(target, source);
+        LivingEntity entitySource = source.getCaster();
         if (source instanceof EntitySource) {
-            LivingEntity entitySource = source.getCaster();
             if (entitySource.equals(entityTarget)) {
                 difference = entityTarget.getLocation().getDirection().multiply(-1);
             } else {
@@ -72,9 +77,10 @@ public class PullAction extends EntityAction {
                     && Double.isFinite(difference.getZ())) {
                 difference.multiply(force.getRealValue(target, source));
                 entityTarget.setVelocity(difference);
+                return ActionResult.SUCCESS;
             }
         }
-        return ActionResult.SUCCESS;
+        return ActionResult.FAILURE;
     }
 
     @Override
@@ -90,6 +96,6 @@ public class PullAction extends EntityAction {
 
     @Override
     public Action clone() {
-        return new PullAction(force.clone());
+        return new PullAction(target, force.clone());
     }
 }

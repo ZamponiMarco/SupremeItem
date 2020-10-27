@@ -13,7 +13,6 @@ import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import lombok.AllArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Location;
@@ -25,7 +24,6 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Enumerable.Child
 @Setter
 @Enumerable.Displayable(name = "&c&lSet block", description = "gui.action.set-block.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2ZmOTgxN2Q3NjdkMmVkZTcxODFhMDU3YWEyNmYwOGY3ZWNmNDY1MWRlYzk3ZGU1YjU0ZWVkZTFkZDJiNDJjNyJ9fX0=")
@@ -40,13 +38,20 @@ public class SetBlockAction extends LocationAction {
     private Set<Material> excludedMaterials;
 
     public SetBlockAction() {
-        this(Material.STONE, Sets.newHashSet(Material.AIR));
+        this(TARGET_DEFAULT, Material.STONE, Sets.newHashSet(Material.AIR));
+    }
+
+    public SetBlockAction(boolean target, Material material, Set<Material> excludedMaterials) {
+        super(target);
+        this.material = material;
+        this.excludedMaterials = excludedMaterials;
     }
 
     public static SetBlockAction deserialize(Map<String, Object> map) {
+        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
         Material material = Material.getMaterial((String) map.get("material"));
         Set<Material> excludedMaterials = ((List<String>) map.get("excludedMaterials")).stream().map(Material::valueOf).collect(Collectors.toSet());
-        return new SetBlockAction(material, excludedMaterials);
+        return new SetBlockAction(target, material, excludedMaterials);
     }
 
     public static List<Object> materialList(ModelPath<?> path) {
@@ -68,7 +73,7 @@ public class SetBlockAction extends LocationAction {
 
     @Override
     protected ActionResult execute(Target target, Source source) {
-        Location location = target.getLocation();
+        Location location = getLocation(target, source);
 
         if (location == null) {
             return ActionResult.FAILURE;
@@ -104,6 +109,6 @@ public class SetBlockAction extends LocationAction {
 
     @Override
     public Action clone() {
-        return new SetBlockAction(material, new HashSet<>(excludedMaterials));
+        return new SetBlockAction(target, material, new HashSet<>(excludedMaterials));
     }
 }

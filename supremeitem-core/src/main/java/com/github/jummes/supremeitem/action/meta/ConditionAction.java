@@ -12,7 +12,6 @@ import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.condition.Condition;
 import com.github.jummes.supremeitem.condition.bool.BooleanCondition;
 import com.google.common.collect.Lists;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
@@ -21,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Getter
 @Setter
 @Enumerable.Child
@@ -39,13 +37,19 @@ public class ConditionAction extends MetaAction {
     private Condition condition;
 
     public ConditionAction() {
-        this(Lists.newArrayList(), new BooleanCondition());
+        this(TARGET_DEFAULT, Lists.newArrayList(), new BooleanCondition());
+    }
+
+    public ConditionAction(boolean target, List<Action> actions, Condition condition) {
+        super(target);
+        this.actions = actions;
+        this.condition = condition;
     }
 
     public static ConditionAction deserialize(Map<String, Object> map) {
         List<Action> actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
         Condition condition = (Condition) map.get("condition");
-        return new ConditionAction(actions, condition);
+        return new ConditionAction(TARGET_DEFAULT, actions, condition);
     }
 
     @Override
@@ -72,6 +76,11 @@ public class ConditionAction extends MetaAction {
 
     @Override
     public Action clone() {
-        return new ConditionAction(actions.stream().map(Action::clone).collect(Collectors.toList()), condition.clone());
+        return new ConditionAction(TARGET_DEFAULT, actions.stream().map(Action::clone).collect(Collectors.toList()), condition.clone());
+    }
+
+    @Override
+    public ItemStack targetItem() {
+        return null;
     }
 }

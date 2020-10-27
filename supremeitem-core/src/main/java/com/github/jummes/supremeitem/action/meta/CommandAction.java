@@ -12,7 +12,6 @@ import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.value.StringValue;
 import com.google.common.collect.Lists;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -25,7 +24,6 @@ import java.util.Map;
 @Enumerable.Child
 @Getter
 @Setter
-@AllArgsConstructor
 public class CommandAction extends MetaAction {
 
     private static final StringValue COMMAND_DEFAULT = new StringValue("say example");
@@ -35,7 +33,12 @@ public class CommandAction extends MetaAction {
     private StringValue command;
 
     public CommandAction() {
-        this(COMMAND_DEFAULT.clone());
+        this(TARGET_DEFAULT, COMMAND_DEFAULT.clone());
+    }
+
+    public CommandAction(boolean target, StringValue command) {
+        super(target);
+        this.command = command;
     }
 
     public static CommandAction deserialize(Map<String, Object> map) {
@@ -45,7 +48,7 @@ public class CommandAction extends MetaAction {
         } catch (ClassCastException e) {
             command = new StringValue((String) map.getOrDefault("command", COMMAND_DEFAULT.getValue()));
         }
-        return new CommandAction(command);
+        return new CommandAction(TARGET_DEFAULT, command);
     }
 
     @Override
@@ -68,6 +71,11 @@ public class CommandAction extends MetaAction {
 
     @Override
     public Action clone() {
-        return new CommandAction(command);
+        return new CommandAction(TARGET_DEFAULT, command);
+    }
+
+    @Override
+    public ItemStack targetItem() {
+        return null;
     }
 }

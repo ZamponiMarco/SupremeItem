@@ -2,6 +2,8 @@ package com.github.jummes.supremeitem.action;
 
 import com.github.jummes.libs.annotation.CustomClickable;
 import com.github.jummes.libs.annotation.Enumerable;
+import com.github.jummes.libs.annotation.Serializable;
+import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.gui.PluginInventoryHolder;
 import com.github.jummes.libs.gui.model.ModelObjectInventoryHolder;
 import com.github.jummes.libs.gui.model.RemoveConfirmationInventoryHolder;
@@ -34,10 +36,19 @@ import java.util.List;
         LocationAction.class, MetaAction.class})
 public abstract class Action implements Model, Cloneable {
 
+    protected static final boolean TARGET_DEFAULT = true;
+
+    private static final String TARGET_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzc4N2I3YWZiNWE1OTk1Mzk3NWJiYTI0NzM3NDliNjAxZDU0ZDZmOTNjZWFjN2EwMmFjNjlhYWU3ZjliOCJ9fX0==";
+
     protected transient SupremeItem plugin;
 
-    public Action() {
+    @Serializable(displayItem = "targetItem", description = "gui.action.target")
+    @Serializable.Optional(defaultValue = "TARGET_DEFAULT")
+    protected boolean target;
+
+    public Action(boolean target) {
         this.plugin = SupremeItem.getInstance();
+        this.target = target;
     }
 
     /**
@@ -78,7 +89,7 @@ public abstract class Action implements Model, Cloneable {
             path.deleteModel();
             path.popModel();
             onRemoval();
-            actions.add(new DelayedAction(Lists.newArrayList(this), new NumericValue(10)));
+            actions.add(new DelayedAction(TARGET_DEFAULT, Lists.newArrayList(this), new NumericValue(10)));
             path.saveModel();
             e.getWhoClicked().openInventory(parent.getInventory());
         } else if (e.getClick().equals(ClickType.NUMBER_KEY) && e.getHotbarButton() == 1) {
@@ -87,7 +98,7 @@ public abstract class Action implements Model, Cloneable {
             path.deleteModel();
             path.popModel();
             onRemoval();
-            actions.add(new TimerAction(5, 10, Lists.newArrayList(this)));
+            actions.add(new TimerAction(TARGET_DEFAULT, 5, 10, Lists.newArrayList(this)));
             path.saveModel();
             e.getWhoClicked().openInventory(parent.getInventory());
         }
@@ -101,6 +112,9 @@ public abstract class Action implements Model, Cloneable {
     @Override
     public abstract Action clone();
 
+    public ItemStack targetItem() {
+        return Libs.getWrapper().skullFromValue(TARGET_HEAD);
+    }
 
     public enum ActionResult {
         /**

@@ -14,7 +14,6 @@ import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.google.common.collect.Lists;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -27,7 +26,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Getter
 @Setter
 @Enumerable.Child
@@ -57,14 +55,21 @@ public class TimerAction extends MetaAction {
     private List<Action> actions;
 
     public TimerAction() {
-        this(TIMER_DEFAULT, REPETITIONS_DEFAULT, Lists.newArrayList());
+        this(TARGET_DEFAULT, TIMER_DEFAULT, REPETITIONS_DEFAULT, Lists.newArrayList());
+    }
+
+    public TimerAction(boolean target, int timer, int repetitions, List<Action> actions) {
+        super(target);
+        this.timer = timer;
+        this.repetitions = repetitions;
+        this.actions = actions;
     }
 
     public static TimerAction deserialize(Map<String, Object> map) {
         int timer = (int) map.getOrDefault("timer", TIMER_DEFAULT);
         int repetitions = (int) map.getOrDefault("repetitions", REPETITIONS_DEFAULT);
         List<Action> actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
-        return new TimerAction(timer, repetitions, actions);
+        return new TimerAction(TARGET_DEFAULT, timer, repetitions, actions);
     }
 
     @Override
@@ -103,6 +108,11 @@ public class TimerAction extends MetaAction {
 
     @Override
     public Action clone() {
-        return new TimerAction(timer, repetitions, actions.stream().map(Action::clone).collect(Collectors.toList()));
+        return new TimerAction(TARGET_DEFAULT, timer, repetitions, actions.stream().map(Action::clone).collect(Collectors.toList()));
+    }
+
+    @Override
+    public ItemStack targetItem() {
+        return null;
     }
 }

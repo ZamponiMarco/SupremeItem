@@ -25,12 +25,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-@AllArgsConstructor
 @Enumerable.Displayable(name = "&c&lEffect", description = "gui.action.effect.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzJhN2RjYmY3ZWNhNmI2ZjYzODY1OTFkMjM3OTkxY2ExYjg4OGE0ZjBjNzUzZmY5YTMyMDJjZjBlOTIyMjllMyJ9fX0=")
 @Enumerable.Child
 @Getter
 @Setter
-public class EffectAction extends Action {
+public class EffectAction extends EntityAction {
 
     private static final NumericValue DURATION_DEFAULT = new NumericValue(20);
     private static final NumericValue LEVEL_DEFAULT = new NumericValue(0);
@@ -71,11 +70,12 @@ public class EffectAction extends Action {
     private boolean icon;
 
     public EffectAction() {
-        this(PotionEffectType.INCREASE_DAMAGE, DURATION_DEFAULT.clone(), LEVEL_DEFAULT.clone(),
+        this(TARGET_DEFAULT, PotionEffectType.INCREASE_DAMAGE, DURATION_DEFAULT.clone(), LEVEL_DEFAULT.clone(),
                 PARTICLES_DEFAULT, AMBIENT_DEFAULT, ICON_DEFAULT);
     }
 
     public static EffectAction deserialize(Map<String, Object> map) {
+        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
         PotionEffectType type = PotionEffectType.getByName(((String) map.getOrDefault("type", "INCREASE_DAMAGE"))
                 .replaceAll("[\\[\\]\\d, ]|PotionEffectType", ""));
         boolean particles = (boolean) map.getOrDefault("particles", PARTICLES_DEFAULT);
@@ -90,7 +90,17 @@ public class EffectAction extends Action {
             duration = new NumericValue(((Number) map.getOrDefault("duration", DURATION_DEFAULT.getValue())));
             level = new NumericValue(((Number) map.getOrDefault("level", LEVEL_DEFAULT.getValue())));
         }
-        return new EffectAction(type, duration, level, particles, ambient, icon);
+        return new EffectAction(target, type, duration, level, particles, ambient, icon);
+    }
+
+    public EffectAction(boolean target, PotionEffectType type, NumericValue duration, NumericValue level, boolean particles, boolean ambient, boolean icon) {
+        super(target);
+        this.type = type;
+        this.duration = duration;
+        this.level = level;
+        this.particles = particles;
+        this.ambient = ambient;
+        this.icon = icon;
     }
 
     public static List<Object> getPotionEffects(ModelPath<?> path) {
@@ -106,7 +116,7 @@ public class EffectAction extends Action {
 
     @Override
     public ActionResult execute(Target target, Source source) {
-        ((EntityTarget) target).getTarget().addPotionEffect(new PotionEffect(type,
+        getEntity(target, source).addPotionEffect(new PotionEffect(type,
                 duration.getRealValue(target, source).intValue(), level.getRealValue(target, source).intValue(),
                 ambient, particles, icon));
         return ActionResult.SUCCESS;
@@ -125,7 +135,7 @@ public class EffectAction extends Action {
 
     @Override
     public Action clone() {
-        return new EffectAction(PotionEffectType.getByName(type.getName()), duration.clone(), level.clone(),
+        return new EffectAction(target, PotionEffectType.getByName(type.getName()), duration.clone(), level.clone(),
                 particles, ambient, icon);
     }
 

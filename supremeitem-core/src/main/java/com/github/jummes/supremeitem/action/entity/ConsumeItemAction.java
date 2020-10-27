@@ -11,7 +11,6 @@ import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.value.NumericValue;
 import com.google.common.collect.Lists;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
@@ -25,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Enumerable.Child
 @Enumerable.Displayable(name = "&c&lConsume Item", description = "gui.action.consume-item.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjFiYjJjM2JkNjVjZGQ4NGE4MDRlY2E5OGI3YTQ2NzM1ZjAxZTZhMWM5MTk5ZDY2NjE2NjNkYmRiNGY1YjQifX19")
 @Getter
@@ -46,10 +44,17 @@ public class ConsumeItemAction extends EntityAction {
 
     @SneakyThrows
     public ConsumeItemAction() {
-        this(new ItemStackWrapper(), AMOUNT_DEFAULT.clone());
+        this(TARGET_DEFAULT, new ItemStackWrapper(), AMOUNT_DEFAULT.clone());
+    }
+
+    public ConsumeItemAction(boolean target, ItemStackWrapper item, NumericValue amount) {
+        super(target);
+        this.item = item;
+        this.amount = amount;
     }
 
     public static ConsumeItemAction deserialize(Map<String, Object> map) {
+        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
         ItemStackWrapper item = (ItemStackWrapper) map.get("item");
         NumericValue amount;
         try {
@@ -57,12 +62,12 @@ public class ConsumeItemAction extends EntityAction {
         } catch (ClassCastException e) {
             amount = new NumericValue(((Number) map.getOrDefault("amount", AMOUNT_DEFAULT.getValue())));
         }
-        return new ConsumeItemAction(item, amount);
+        return new ConsumeItemAction(target, item, amount);
     }
 
     @Override
     protected ActionResult execute(Target target, Source source) {
-        LivingEntity e = ((EntityTarget) target).getTarget();
+        LivingEntity e = getEntity(target, source);
         if (e instanceof InventoryHolder) {
             int toRemove = amount.getRealValue(target, source).intValue();
             Inventory inventory = ((InventoryHolder) e).getInventory();
@@ -98,6 +103,6 @@ public class ConsumeItemAction extends EntityAction {
 
     @Override
     public Action clone() {
-        return new ConsumeItemAction(new ItemStackWrapper(item.getWrapped().clone(), true), amount.clone());
+        return new ConsumeItemAction(target, new ItemStackWrapper(item.getWrapped().clone(), true), amount.clone());
     }
 }

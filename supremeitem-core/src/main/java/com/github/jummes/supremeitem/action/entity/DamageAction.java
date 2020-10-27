@@ -14,6 +14,7 @@ import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -24,8 +25,7 @@ import java.util.Map;
 @Enumerable.Child
 @Getter
 @Setter
-@AllArgsConstructor
-public class DamageAction extends Action {
+public class DamageAction extends EntityAction {
 
     private static final NumericValue AMOUNT_DEFAULT = new NumericValue(1);
 
@@ -37,25 +37,31 @@ public class DamageAction extends Action {
     private NumericValue amount;
 
     public DamageAction() {
-        this(AMOUNT_DEFAULT.clone());
+        this(TARGET_DEFAULT, AMOUNT_DEFAULT.clone());
+    }
+
+    public DamageAction(boolean target, NumericValue amount) {
+        super(target);
+        this.amount = amount;
     }
 
     public static DamageAction deserialize(Map<String, Object> map) {
+        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
         NumericValue amount;
         try {
             amount = (NumericValue) map.getOrDefault("amount", AMOUNT_DEFAULT.clone());
         } catch (ClassCastException e) {
             amount = new NumericValue(((Number) map.getOrDefault("amount", AMOUNT_DEFAULT.getValue())));
         }
-        return new DamageAction(amount);
+        return new DamageAction(target, amount);
     }
 
     @Override
     public ActionResult execute(Target target, Source source) {
-        EntityTarget e = ((EntityTarget) target);
+        LivingEntity e = getEntity(target, source);
 
-        e.getTarget().setMetadata("siattack", new FixedMetadataValue(SupremeItem.getInstance(), true));
-        e.getTarget().damage(amount.getRealValue(target, source), source.getCaster());
+        e.setMetadata("siattack", new FixedMetadataValue(SupremeItem.getInstance(), true));
+        e.damage(amount.getRealValue(target, source), source.getCaster());
         return ActionResult.SUCCESS;
     }
 
@@ -72,7 +78,7 @@ public class DamageAction extends Action {
 
     @Override
     public Action clone() {
-        return new DamageAction(amount.clone());
+        return new DamageAction(target, amount.clone());
     }
 
 }

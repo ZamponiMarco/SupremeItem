@@ -11,7 +11,6 @@ import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.math.Vector;
 import com.google.common.collect.Lists;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
@@ -20,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Setter
 @Getter
 @Enumerable.Child
@@ -36,18 +34,25 @@ public class MoveLocationTargetAction extends LocationAction {
     private Vector vector;
 
     public MoveLocationTargetAction() {
-        this(Lists.newArrayList(), new Vector());
+        this(TARGET_DEFAULT, Lists.newArrayList(), new Vector());
+    }
+
+    public MoveLocationTargetAction(boolean target, List<Action> actions, Vector vector) {
+        super(target);
+        this.actions = actions;
+        this.vector = vector;
     }
 
     public static MoveLocationTargetAction deserialize(Map<String, Object> map) {
+        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
         List<Action> actions = (List<Action>) map.get("actions");
         Vector vector = (Vector) map.get("vector");
-        return new MoveLocationTargetAction(actions, vector);
+        return new MoveLocationTargetAction(target, actions, vector);
     }
 
     @Override
     protected ActionResult execute(Target target, Source source) {
-        if (actions.stream().anyMatch(action -> action.executeAction(new LocationTarget(target.getLocation().add(
+        if (actions.stream().anyMatch(action -> action.executeAction(new LocationTarget(getLocation(target, source).add(
                 vector.computeVector(target, source))), source).equals(ActionResult.CANCELLED))) {
             return ActionResult.CANCELLED;
         }
@@ -67,6 +72,6 @@ public class MoveLocationTargetAction extends LocationAction {
 
     @Override
     public Action clone() {
-        return new MoveLocationTargetAction(actions.stream().map(Action::clone).collect(Collectors.toList()), vector.clone());
+        return new MoveLocationTargetAction(target, actions.stream().map(Action::clone).collect(Collectors.toList()), vector.clone());
     }
 }

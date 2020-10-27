@@ -22,7 +22,6 @@ import org.bukkit.util.Vector;
 import java.util.List;
 import java.util.Map;
 
-@AllArgsConstructor
 @Getter
 @Setter
 @Enumerable.Child
@@ -44,10 +43,17 @@ public class PushAction extends EntityAction {
     private NumericValue verticalVelocity;
 
     public PushAction() {
-        this(HORIZONTAL_DEFAULT.clone(), VERTICAL_DEFAULT.clone());
+        this(TARGET_DEFAULT, HORIZONTAL_DEFAULT.clone(), VERTICAL_DEFAULT.clone());
+    }
+
+    public PushAction(boolean target, NumericValue horizontalVelocity, NumericValue verticalVelocity) {
+        super(target);
+        this.horizontalVelocity = horizontalVelocity;
+        this.verticalVelocity = verticalVelocity;
     }
 
     public static PushAction deserialize(Map<String, Object> map) {
+        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
         NumericValue horizontalVelocity;
         NumericValue verticalVelocity;
         try {
@@ -58,15 +64,15 @@ public class PushAction extends EntityAction {
             horizontalVelocity = new NumericValue(((Number) map.getOrDefault("horizontalVelocity", HORIZONTAL_DEFAULT.getValue())));
             verticalVelocity = new NumericValue(((Number) map.getOrDefault("verticalVelocity", VERTICAL_DEFAULT.getValue())));
         }
-        return new PushAction(horizontalVelocity, verticalVelocity);
+        return new PushAction(target, horizontalVelocity, verticalVelocity);
     }
 
     @Override
     protected ActionResult execute(Target target, Source source) {
         Vector difference = null;
-        LivingEntity entityTarget = ((EntityTarget) target).getTarget();
+        LivingEntity entityTarget = getEntity(target, source);
+        LivingEntity entitySource = source.getCaster();
         if (source instanceof EntitySource) {
-            LivingEntity entitySource = source.getCaster();
             if (entitySource.equals(entityTarget)) {
                 difference = entityTarget.getLocation().getDirection();
             } else {
@@ -107,6 +113,6 @@ public class PushAction extends EntityAction {
 
     @Override
     public Action clone() {
-        return new PushAction(horizontalVelocity.clone(), verticalVelocity.clone());
+        return new PushAction(target, horizontalVelocity.clone(), verticalVelocity.clone());
     }
 }

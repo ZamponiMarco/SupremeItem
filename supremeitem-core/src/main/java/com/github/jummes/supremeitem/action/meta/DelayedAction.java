@@ -15,7 +15,6 @@ import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.value.NumericValue;
 import com.google.common.collect.Lists;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -28,7 +27,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Getter
 @Setter
 @Enumerable.Child
@@ -51,7 +49,13 @@ public class DelayedAction extends MetaAction {
     private NumericValue delay;
 
     public DelayedAction() {
-        this(Lists.newArrayList(), DELAY_DEFAULT.clone());
+        this(TARGET_DEFAULT, Lists.newArrayList(), DELAY_DEFAULT.clone());
+    }
+
+    public DelayedAction(boolean target, List<Action> actions, NumericValue delay) {
+        super(target);
+        this.actions = actions;
+        this.delay = delay;
     }
 
     public static DelayedAction deserialize(Map<String, Object> map) {
@@ -62,7 +66,7 @@ public class DelayedAction extends MetaAction {
         } catch (ClassCastException e) {
             delay = new NumericValue(((Number) map.getOrDefault("delay", DELAY_DEFAULT.getValue())));
         }
-        return new DelayedAction(actions, delay);
+        return new DelayedAction(TARGET_DEFAULT, actions, delay);
     }
 
     @Override
@@ -85,11 +89,16 @@ public class DelayedAction extends MetaAction {
 
     @Override
     public Action clone() {
-        return new DelayedAction(actions.stream().map(Action::clone).collect(Collectors.toList()), delay.clone());
+        return new DelayedAction(TARGET_DEFAULT, actions.stream().map(Action::clone).collect(Collectors.toList()), delay.clone());
     }
 
     public void getCustomConsumer(JavaPlugin plugin, PluginInventoryHolder parent, ModelPath<?> path, Field field,
                                   InventoryClickEvent e) throws IllegalAccessException {
         getExtractConsumer(plugin, parent, path, field, e, this.actions);
+    }
+
+    @Override
+    public ItemStack targetItem() {
+        return null;
     }
 }

@@ -6,9 +6,11 @@ import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
-import com.github.jummes.supremeitem.manager.VariableManager;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.Map;
+import java.util.Objects;
 
 @Enumerable.Child
 @Enumerable.Displayable(name = "&c&lVariable Placeholder", description = "gui.placeholder.double.variable.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjVjNGQyNGFmZmRkNDgxMDI2MjAzNjE1MjdkMjE1NmUxOGMyMjNiYWU1MTg5YWM0Mzk4MTU2NDNmM2NmZjlkIn19fQ==")
@@ -44,13 +46,19 @@ public class NumericVariablePlaceholder extends NumericPlaceholder {
 
     @Override
     public Double computePlaceholder(Target target, Source source) {
-        VariableManager variableManager = SupremeItem.getInstance().getVariableManager();
+        LivingEntity entity = null;
         if (this.target && (target instanceof EntityTarget)) {
-            return variableManager.getNumericVariable(((EntityTarget) target).getTarget(), name);
+            entity = ((EntityTarget) target).getTarget();
         } else if (!this.target) {
-            return variableManager.getNumericVariable(source.getCaster(), name);
+            entity = source.getCaster();
         }
-        return 0.0;
+
+        if (entity == null) {
+            return 0.0;
+        }
+
+        return ((EntityTarget) target).getTarget().getMetadata(name).stream().filter(m -> Objects.equals(m.getOwningPlugin(),
+                SupremeItem.getInstance())).findFirst().orElse(new FixedMetadataValue(SupremeItem.getInstance(), 0.0)).asDouble();
     }
 
     @Override

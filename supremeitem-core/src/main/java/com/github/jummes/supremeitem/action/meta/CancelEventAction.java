@@ -19,6 +19,11 @@ import java.util.Map;
 public class CancelEventAction extends MetaAction {
 
     public CancelEventAction() {
+        this(TARGET_DEFAULT);
+    }
+
+    public CancelEventAction(boolean target) {
+        super(target);
     }
 
     public static CancelEventAction deserialize(Map<String, Object> map) {
@@ -44,5 +49,10 @@ public class CancelEventAction extends MetaAction {
     @Override
     public Action clone() {
         return new CancelEventAction();
+    }
+    
+    @Override
+    public ItemStack targetItem() {
+        return null;
     }
 }

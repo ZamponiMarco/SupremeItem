@@ -20,12 +20,11 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 import java.util.Map;
 
-@AllArgsConstructor
 @Getter
 @Setter
 @Enumerable.Displayable(name = "&c&lMessage", description = "gui.action.message.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmJmM2ZjZGNjZmZkOTYzZTQzMzQ4MTgxMDhlMWU5YWUzYTgwNTY2ZDBkM2QyZDRhYjMwNTFhMmNkODExMzQ4YyJ9fX0=")
 @Enumerable.Child
-public class MessageAction extends Action {
+public class MessageAction extends EntityAction {
 
     private static final StringValue DEFAULT_MESSAGE = new StringValue("message");
 
@@ -35,22 +34,28 @@ public class MessageAction extends Action {
     private StringValue message;
 
     public MessageAction() {
-        this(DEFAULT_MESSAGE.clone());
+        this(TARGET_DEFAULT, DEFAULT_MESSAGE.clone());
+    }
+
+    public MessageAction(boolean target, StringValue message) {
+        super(target);
+        this.message = message;
     }
 
     public static MessageAction deserialize(Map<String, Object> map) {
+        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
         StringValue message;
         try {
             message = (StringValue) map.getOrDefault("message", DEFAULT_MESSAGE.clone());
         } catch (ClassCastException e) {
             message = new StringValue((String) map.getOrDefault("message", DEFAULT_MESSAGE.getValue()));
         }
-        return new MessageAction(message);
+        return new MessageAction(target, message);
     }
 
     @Override
     public ActionResult execute(Target target, Source source) {
-        ((EntityTarget) target).getTarget().sendMessage(MessageUtils.color(SupremeItem.getInstance().
+        getEntity(target, source).sendMessage(MessageUtils.color(SupremeItem.getInstance().
                 getSavedPlaceholderManager().computePlaceholders(message.getRealValue(target, source), source, target)));
         return ActionResult.SUCCESS;
     }
@@ -68,7 +73,7 @@ public class MessageAction extends Action {
 
     @Override
     public Action clone() {
-        return new MessageAction(message);
+        return new MessageAction(target, message);
     }
 
 }

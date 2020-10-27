@@ -13,7 +13,6 @@ import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.google.common.collect.Lists;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Material;
@@ -28,7 +27,6 @@ import java.util.stream.Collectors;
 @Enumerable.Child
 @Getter
 @Setter
-@AllArgsConstructor
 @Enumerable.Displayable(name = "&c&lExecute a saved skill", description = "gui.action.skill.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjM1NGM4YmE3NDIwNzlhZWQ1YWNmYmYwN2M0MjhiNDA2YmMwOTJkYjhhYmM2ZjE3ZjcwNTkwOTliMDQ5NTliZCJ9fX0=")
 public class SkillAction extends MetaAction {
 
@@ -38,12 +36,17 @@ public class SkillAction extends MetaAction {
     private String skillName;
 
     public SkillAction() {
-        this("");
+        this(TARGET_DEFAULT, "");
+    }
+
+    public SkillAction(boolean target, String skillName) {
+        super(target);
+        this.skillName = skillName;
     }
 
     public static SkillAction deserialize(Map<String, Object> map) {
         String skillName = (String) map.getOrDefault("skillName", "");
-        return new SkillAction(skillName);
+        return new SkillAction(TARGET_DEFAULT, skillName);
     }
 
     public static List<Object> getSkills(ModelPath<?> path) {
@@ -80,6 +83,11 @@ public class SkillAction extends MetaAction {
 
     @Override
     public Action clone() {
-        return new SkillAction(skillName);
+        return new SkillAction(TARGET_DEFAULT, skillName);
+    }
+
+    @Override
+    public ItemStack targetItem() {
+        return null;
     }
 }

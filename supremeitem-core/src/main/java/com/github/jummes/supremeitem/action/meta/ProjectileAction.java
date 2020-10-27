@@ -12,10 +12,9 @@ import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.entity.Entity;
 import com.github.jummes.supremeitem.entity.NoEntity;
-import com.github.jummes.supremeitem.value.NumericValue;
 import com.github.jummes.supremeitem.projectile.Projectile;
+import com.github.jummes.supremeitem.value.NumericValue;
 import com.google.common.collect.Lists;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
@@ -27,7 +26,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
 @Getter
 @Setter
 @Enumerable.Child
@@ -90,8 +88,23 @@ public class ProjectileAction extends MetaAction {
     private boolean shootFromHand;
 
     public ProjectileAction() {
-        this(INITIAL_DEFAULT.clone(), GRAVITY_DEFAULT.clone(), Lists.newArrayList(), Lists.newArrayList(), Lists.newArrayList(),
+        this(TARGET_DEFAULT, INITIAL_DEFAULT.clone(), GRAVITY_DEFAULT.clone(), Lists.newArrayList(), Lists.newArrayList(), Lists.newArrayList(),
                 new NoEntity(), HIT_BOX_SIZE_DEFAULT.clone(), MAX_DISTANCE_DEFAULT.clone(), SHOOT_FROM_HAND_DEFAULT);
+    }
+
+    public ProjectileAction(boolean target, NumericValue initialSpeed, NumericValue gravity, List<Action> onEntityHitActions,
+                            List<Action> onBlockHitActions, List<Action> onProjectileTickActions, Entity entity,
+                            NumericValue hitBoxSize, NumericValue maxDistance, boolean shootFromHand) {
+        super(target);
+        this.initialSpeed = initialSpeed;
+        this.gravity = gravity;
+        this.onEntityHitActions = onEntityHitActions;
+        this.onBlockHitActions = onBlockHitActions;
+        this.onProjectileTickActions = onProjectileTickActions;
+        this.entity = entity;
+        this.hitBoxSize = hitBoxSize;
+        this.maxDistance = maxDistance;
+        this.shootFromHand = shootFromHand;
     }
 
     public static ProjectileAction deserialize(Map<String, Object> map) {
@@ -113,7 +126,7 @@ public class ProjectileAction extends MetaAction {
             gravity = new NumericValue(((Number) map.getOrDefault("gravity", GRAVITY_DEFAULT.getValue())));
             hitBoxSize = new NumericValue(((Number) map.getOrDefault("hitBoxSize", HIT_BOX_SIZE_DEFAULT.getValue())));
         }
-        return new ProjectileAction(initialSpeed, gravity, onEntityHitActions, onBlockHitActions,
+        return new ProjectileAction(TARGET_DEFAULT, initialSpeed, gravity, onEntityHitActions, onBlockHitActions,
                 onProjectileTickActions, entity, hitBoxSize, maxDistance, shootFromHand);
     }
 
@@ -154,7 +167,7 @@ public class ProjectileAction extends MetaAction {
 
     @Override
     public Action clone() {
-        return new ProjectileAction(initialSpeed.clone(), gravity.clone(),
+        return new ProjectileAction(TARGET_DEFAULT, initialSpeed.clone(), gravity.clone(),
                 onEntityHitActions.stream().map(Action::clone).collect(Collectors.toList()),
                 onBlockHitActions.stream().map(Action::clone).collect(Collectors.toList()),
                 onProjectileTickActions.stream().map(Action::clone).collect(Collectors.toList()),
@@ -170,5 +183,10 @@ public class ProjectileAction extends MetaAction {
     public Location getLeftSide(Location location, double distance) {
         float angle = location.getYaw() / 60;
         return location.clone().add(new Vector(Math.cos(angle), 0, Math.sin(angle)).normalize().multiply(distance));
+    }
+
+    @Override
+    public ItemStack targetItem() {
+        return null;
     }
 }
