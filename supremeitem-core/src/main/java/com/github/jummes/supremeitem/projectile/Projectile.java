@@ -11,8 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Mob;
-import org.bukkit.loot.Lootable;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -35,9 +34,8 @@ public class Projectile {
             public void run() {
                 if (projectilePresent && projectile == null) {
                     projectile = entity.spawnEntity(l);
-                    if (projectile instanceof Lootable) {
-                        ((Lootable) projectile).setLootTable(null);
-                    }
+                    projectile.setMetadata("projectile", new FixedMetadataValue(SupremeItem.getInstance(),
+                            true));
                 }
                 if (l.getBlock().getType().isBlock() && !l.getBlock().getType().equals(Material.AIR)
                         && l.getBlock().getType().isSolid()) {

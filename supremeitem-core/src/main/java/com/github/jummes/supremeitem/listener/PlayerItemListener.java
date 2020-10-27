@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.EquipmentSlot;
@@ -22,6 +23,13 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PlayerItemListener implements Listener {
+
+    public void onEntityDeath(EntityDeathEvent e) {
+        if (e.getEntity().getMetadata("projectile").stream().anyMatch(value -> value.getOwningPlugin().
+                equals(SupremeItem.getInstance()))) {
+            e.getDrops().clear();
+        }
+    }
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
