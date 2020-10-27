@@ -34,7 +34,7 @@ public class HitEntitySkill extends Skill {
     @Serializable(headTexture = DAMAGED_HEAD, description = "gui.skill.hit-entity.damaged-actions")
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     protected List<Action> onDamagedActions;
-    @Serializable(headTexture = COOLDOWN_HEAD, description = "gui.skill.hit-entity.cooldown")
+    @Serializable(headTexture = COOLDOWN_HEAD, description = "gui.skill.cooldown")
     @Serializable.Number(minValue = 0)
     @Serializable.Optional(defaultValue = "COOLDOWN_DEFAULT")
     protected int cooldown;

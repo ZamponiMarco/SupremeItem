@@ -281,6 +281,11 @@ gui:
       vector:
         - "&7&oThe vector that describe the movement"
         - "&7&ofrom the original location."
+    set-fire:
+      description:
+        - "&7&oSet and action that sets an entity on fire."
+      ticks:
+        - "&7&oThe amount of ticks the fire will last."
   skill:
     description:
       - "&6&lLeft click &eto modify."
