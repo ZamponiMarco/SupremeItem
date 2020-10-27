@@ -49,7 +49,7 @@ public class NumericValue extends Value<Double, NumericPlaceholder> {
         double value = 10.0;
         NumericPlaceholder placeholderValue = new HealthPlaceholder();
         if (objectValue) {
-            value = (double) map.get("value");
+            value = (double) map.getOrDefault("value", 10.0);
         } else {
             placeholderValue = (NumericPlaceholder) map.get("placeholderValue");
         }
