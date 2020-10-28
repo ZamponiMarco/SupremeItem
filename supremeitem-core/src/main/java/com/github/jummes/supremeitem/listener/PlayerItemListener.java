@@ -5,12 +5,11 @@ import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.item.Item;
 import com.github.jummes.supremeitem.skill.*;
 import com.github.jummes.supremeitem.util.Utils;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
-import org.bukkit.entity.Projectile;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -24,10 +23,22 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PlayerItemListener implements Listener {
 
+    @EventHandler
     public void onEntityDeath(EntityDeathEvent e) {
         if (e.getEntity().getMetadata("projectile").stream().anyMatch(value -> value.getOwningPlugin().
                 equals(SupremeItem.getInstance()))) {
             e.getDrops().clear();
+        }
+    }
+
+    @EventHandler
+    public void onFallingBlockLand(EntityChangeBlockEvent e) {
+        Entity ent = e.getEntity();
+        if (e.getEntityType() == EntityType.FALLING_BLOCK) {
+            if (e.getEntity().getMetadata("projectile").stream().anyMatch(value -> value.getOwningPlugin().
+                    equals(SupremeItem.getInstance()))) {
+                e.setCancelled(true);
+            }
         }
     }
 

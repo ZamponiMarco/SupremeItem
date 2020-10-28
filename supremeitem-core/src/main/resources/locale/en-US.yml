@@ -192,6 +192,8 @@ gui:
         - "&7&oWhether the projectile should be shot"
         - "&7&ofrom the hand (slightly not centered)"
         - "&7&oor from the eyes (centered)."
+      spread:
+        - "&7&oThe spread of the projectile in gradiant angles."
     skill:
       description:
         - "&7&oSet the use of a previously saved skill."
@@ -377,6 +379,11 @@ gui:
         - "&7&oSet an item entity."
       item:
         - "&7&oThe item type."
+    falling-block:
+      description:
+        - "&7&oSet a falling block entity."
+      material:
+        - "&7&oThe block material."
     selector:
       source:
         description:

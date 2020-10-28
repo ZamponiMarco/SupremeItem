@@ -5,7 +5,6 @@ import com.github.jummes.libs.annotation.GUINameable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.gui.PluginInventoryHolder;
 import com.github.jummes.libs.gui.model.ModelObjectInventoryHolder;
-import com.github.jummes.libs.gui.model.create.ModelCreateInventoryHolderFactory;
 import com.github.jummes.libs.gui.setting.DoubleFieldChangeInventoryHolder;
 import com.github.jummes.libs.gui.setting.change.FieldChangeInformation;
 import com.github.jummes.libs.model.Model;
@@ -46,6 +45,7 @@ public class NumericValue extends Value<Double, NumericPlaceholder> {
 
     public static NumericValue deserialize(Map<String, Object> map) {
         boolean objectValue = (boolean) map.getOrDefault("objectValue", OBJECT_VALUE_DEFAULT);
+        objectValue = (boolean) map.getOrDefault("doubleValue", objectValue);
         double value = 10.0;
         NumericPlaceholder placeholderValue = new HealthPlaceholder();
         if (objectValue) {

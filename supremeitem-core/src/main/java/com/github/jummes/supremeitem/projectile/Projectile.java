@@ -22,8 +22,13 @@ public class Projectile {
 
     public Projectile(Source source, Location l, double gravity, double initialSpeed, List<Action> onEntityHitActions,
                       List<Action> onBlockHitActions, List<Action> onProjectileTickActions,
-                      com.github.jummes.supremeitem.entity.Entity entity, double hitBoxSize, double maxDistance) {
+                      com.github.jummes.supremeitem.entity.Entity entity, double hitBoxSize, double maxDistance,
+                      double projectileSpread) {
         Vector initialDirection = l.getDirection().multiply(initialSpeed).multiply(.05);
+        double spread = Math.toRadians(projectileSpread);
+        initialDirection.rotateAroundX((Math.random() - 0.5) * spread);
+        initialDirection.rotateAroundY((Math.random() - 0.5) * spread);
+        initialDirection.rotateAroundZ((Math.random() - 0.5) * spread);
         BukkitRunnable runnable = new BukkitRunnable() {
 
             private final boolean projectilePresent = !(entity instanceof NoEntity);

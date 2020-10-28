@@ -35,6 +35,7 @@ public class ProjectileAction extends MetaAction {
     private static final NumericValue GRAVITY_DEFAULT = new NumericValue(0.1);
     private static final NumericValue HIT_BOX_SIZE_DEFAULT = new NumericValue(0.5);
     private static final NumericValue MAX_DISTANCE_DEFAULT = new NumericValue(100.0);
+    private static final NumericValue PROJECTILE_SPREAD_DEFAULT = new NumericValue(0);
     private static final boolean SHOOT_FROM_HAND_DEFAULT = false;
 
     private static final String INITIAL_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTc2OWUyYzEzNGVlNWZjNmRhZWZlNDEyZTRhZjNkNTdkZjlkYmIzY2FhY2Q4ZTM2ZTU5OTk3OWVjMWFjNCJ9fX0=";
@@ -46,6 +47,7 @@ public class ProjectileAction extends MetaAction {
     private static final String HIT_BOX_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjMzYzBiYjM3ZWJlMTE5M2VlNDYxODEwMzQ2MGE3ZjEyOTI3N2E4YzdmZDA4MWI2YWVkYjM0YTkyYmQ1In19fQ==";
     private static final String MAX_DISTANCE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTI0NjFiNGQ2YWIxYzE0MThlZWFiZDQ2N2Q4OTNmMGU4OWEyMWE0MjM2OTFiN2UxZjYwNWQ2Njk3ZDBhOGU1MSJ9fX0=";
     private static final String SHOOT_FROM_HAND_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTNmYzUyMjY0ZDhhZDllNjU0ZjQxNWJlZjAxYTIzOTQ3ZWRiY2NjY2Y2NDkzNzMyODliZWE0ZDE0OTU0MWY3MCJ9fX0=";
+    private static final String SPREAD_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTAxMWU3NTE2ZGFhYzVmMjMyMGY2N2I5N2FkNTMwNGY5MDY2Zjg2NDA3YjU4YTUzMGY4MGY4ZmM5N2IzZTg2ZSJ9fX0=";
 
     @Serializable(headTexture = INITIAL_HEAD, description = "gui.action.projectile.initial-speed", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(minValue = 0)
@@ -86,14 +88,19 @@ public class ProjectileAction extends MetaAction {
     @Serializable.Optional(defaultValue = "SHOOT_FROM_HAND_DEFAULT")
     private boolean shootFromHand;
 
+    @Serializable(headTexture = SPREAD_HEAD, description = "gui.action.projectile.spread", additionalDescription = {"gui.additional-tooltips.value"})
+    @Serializable.Number(minValue = 0, maxValue = 180, scale = 1)
+    @Serializable.Optional(defaultValue = "PROJECTILE_SPREAD_DEFAULT")
+    private NumericValue projectileSpread;
+
     public ProjectileAction() {
         this(TARGET_DEFAULT, INITIAL_DEFAULT.clone(), GRAVITY_DEFAULT.clone(), Lists.newArrayList(), Lists.newArrayList(), Lists.newArrayList(),
-                new NoEntity(), HIT_BOX_SIZE_DEFAULT.clone(), MAX_DISTANCE_DEFAULT.clone(), SHOOT_FROM_HAND_DEFAULT);
+                new NoEntity(), HIT_BOX_SIZE_DEFAULT.clone(), MAX_DISTANCE_DEFAULT.clone(), SHOOT_FROM_HAND_DEFAULT, PROJECTILE_SPREAD_DEFAULT.clone());
     }
 
     public ProjectileAction(boolean target, NumericValue initialSpeed, NumericValue gravity, List<Action> onEntityHitActions,
                             List<Action> onBlockHitActions, List<Action> onProjectileTickActions, Entity entity,
-                            NumericValue hitBoxSize, NumericValue maxDistance, boolean shootFromHand) {
+                            NumericValue hitBoxSize, NumericValue maxDistance, boolean shootFromHand, NumericValue projectileSpread) {
         super(target);
         this.initialSpeed = initialSpeed;
         this.gravity = gravity;
@@ -104,6 +111,7 @@ public class ProjectileAction extends MetaAction {
         this.hitBoxSize = hitBoxSize;
         this.maxDistance = maxDistance;
         this.shootFromHand = shootFromHand;
+        this.projectileSpread = projectileSpread;
     }
 
     public static ProjectileAction deserialize(Map<String, Object> map) {
@@ -116,6 +124,7 @@ public class ProjectileAction extends MetaAction {
         NumericValue gravity;
         NumericValue hitBoxSize;
         NumericValue maxDistance = (NumericValue) map.getOrDefault("maxDistance", MAX_DISTANCE_DEFAULT.clone());
+        NumericValue projectileSpread = (NumericValue) map.getOrDefault("projectileSpread", PROJECTILE_SPREAD_DEFAULT.clone());
         try {
             initialSpeed = (NumericValue) map.getOrDefault("initialSpeed", INITIAL_DEFAULT.clone());
             gravity = (NumericValue) map.getOrDefault("gravity", GRAVITY_DEFAULT.clone());
@@ -126,7 +135,7 @@ public class ProjectileAction extends MetaAction {
             hitBoxSize = new NumericValue(((Number) map.getOrDefault("hitBoxSize", HIT_BOX_SIZE_DEFAULT.getValue())));
         }
         return new ProjectileAction(TARGET_DEFAULT, initialSpeed, gravity, onEntityHitActions, onBlockHitActions,
-                onProjectileTickActions, entity, hitBoxSize, maxDistance, shootFromHand);
+                onProjectileTickActions, entity, hitBoxSize, maxDistance, shootFromHand, projectileSpread);
     }
 
     @Override
@@ -148,7 +157,8 @@ public class ProjectileAction extends MetaAction {
         if (l != null) {
             new Projectile(source, l, gravity.getRealValue(target, source), initialSpeed.getRealValue(target, source),
                     onEntityHitActions, onBlockHitActions, onProjectileTickActions,
-                    this.entity, this.hitBoxSize.getRealValue(target, source), maxDistance.getRealValue(target, source));
+                    this.entity, this.hitBoxSize.getRealValue(target, source), maxDistance.getRealValue(target, source),
+                    projectileSpread.getRealValue(target, source));
         }
         return ActionResult.SUCCESS;
     }
@@ -165,7 +175,8 @@ public class ProjectileAction extends MetaAction {
                 onEntityHitActions.stream().map(Action::clone).collect(Collectors.toList()),
                 onBlockHitActions.stream().map(Action::clone).collect(Collectors.toList()),
                 onProjectileTickActions.stream().map(Action::clone).collect(Collectors.toList()),
-                entity.clone(), hitBoxSize.clone(), maxDistance.clone(), shootFromHand);
+                entity.clone(), hitBoxSize.clone(), maxDistance.clone(), shootFromHand,
+                projectileSpread.clone());
     }
 
 
