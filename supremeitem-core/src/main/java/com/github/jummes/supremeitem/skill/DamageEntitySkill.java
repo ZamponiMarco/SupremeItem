@@ -67,7 +67,7 @@ public class DamageEntitySkill extends Skill {
         if (currentCooldown == 0) {
             consumeIfConsumable(id, item);
             cancelled = onDamagedActions.stream().anyMatch(action ->
-                    action.executeAction(new EntityTarget(damaged), new EntitySource(damager)).
+                    action.executeAction(new EntityTarget(damaged), new EntitySource(damaged)).
                             equals(Action.ActionResult.CANCELLED)) ||
                     onDamagerActions.stream().anyMatch(action ->
                             action.executeAction(new EntityTarget(damager), new EntitySource(damaged)).

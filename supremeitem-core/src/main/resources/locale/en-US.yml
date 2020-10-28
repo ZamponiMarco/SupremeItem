@@ -303,7 +303,7 @@ gui:
         - "&7&oanother one."
       damager-actions:
         - "&7&oThe actions to execute on the damager."
-        - "&6&oSource: &edamaged entity."
+        - "&6&oSource: &edamager entity."
         - "&6&oTarget: &edamager entity."
       damaged-actions:
         - "&7&oThe actions to execute on the damaged entity."
@@ -319,7 +319,7 @@ gui:
         - "&6&oTarget: &edamager entity."
       damaged-actions:
         - "&7&oThe actions to execute on the damaged entity."
-        - "&6&oSource: &edamager entity."
+        - "&6&oSource: &edamaged entity."
         - "&6&oTarget: &edamaged entity."
     left-click:
       description:

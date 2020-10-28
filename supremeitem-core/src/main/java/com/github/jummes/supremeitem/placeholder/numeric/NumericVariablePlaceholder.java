@@ -57,7 +57,7 @@ public class NumericVariablePlaceholder extends NumericPlaceholder {
             return 0.0;
         }
 
-        return ((EntityTarget) target).getTarget().getMetadata(name).stream().filter(m -> Objects.equals(m.getOwningPlugin(),
+        return entity.getMetadata(name).stream().filter(m -> Objects.equals(m.getOwningPlugin(),
                 SupremeItem.getInstance())).findFirst().orElse(new FixedMetadataValue(SupremeItem.getInstance(), 0.0)).asDouble();
     }
 
