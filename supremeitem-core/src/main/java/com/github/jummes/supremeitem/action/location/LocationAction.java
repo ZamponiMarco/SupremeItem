@@ -2,7 +2,9 @@ package com.github.jummes.supremeitem.action.location;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.supremeitem.action.Action;
+import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.source.Source;
+import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import org.bukkit.Location;
 
@@ -14,8 +16,18 @@ public abstract class LocationAction extends Action {
     }
 
     protected Location getLocation(Target target, Source source) {
+        return getLocation(target, source, false);
+    }
+
+    protected Location getLocation(Target target, Source source, boolean eyes) {
         if (this.target) {
+            if (eyes && target instanceof EntityTarget) {
+                return ((EntityTarget) target).getTarget().getEyeLocation();
+            }
             return target.getLocation();
+        }
+        if (eyes && source instanceof EntitySource) {
+            return source.getCaster().getEyeLocation();
         }
         return source.getLocation();
     }

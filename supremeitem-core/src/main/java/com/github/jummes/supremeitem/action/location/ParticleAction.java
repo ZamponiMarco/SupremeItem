@@ -123,10 +123,7 @@ public class ParticleAction extends LocationAction {
         int count = this.count.getRealValue(target, source).intValue();
         double offset = this.offset.getRealValue(target, source);
         double speed = this.speed.getRealValue(target, source);
-        Location l = getLocation(target, source);
-        if (target instanceof EntityTarget || source instanceof EntitySource) {
-            l.add(0, 0.8, 0);
-        }
+        Location l = getLocation(target, source, true).clone();
         World world = l.getWorld();
         if (world != null) {
             world.spawnParticle(type, l, count, offset, offset, offset, speed, data == null ? null : data.buildData(), force);
