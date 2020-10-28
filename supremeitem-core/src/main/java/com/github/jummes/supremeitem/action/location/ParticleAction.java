@@ -8,7 +8,9 @@ import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.libs.model.wrapper.ItemStackWrapper;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.Action;
+import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.source.Source;
+import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.value.NumericValue;
 import lombok.AllArgsConstructor;
@@ -122,6 +124,9 @@ public class ParticleAction extends LocationAction {
         double offset = this.offset.getRealValue(target, source);
         double speed = this.speed.getRealValue(target, source);
         Location l = getLocation(target, source);
+        if (target instanceof EntityTarget || source instanceof EntitySource) {
+            l.add(0, 0.8, 0);
+        }
         World world = l.getWorld();
         if (world != null) {
             world.spawnParticle(type, l, count, offset, offset, offset, speed, data == null ? null : data.buildData(), force);

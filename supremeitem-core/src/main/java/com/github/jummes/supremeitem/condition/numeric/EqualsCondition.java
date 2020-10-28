@@ -45,7 +45,7 @@ public class EqualsCondition extends NumericCondition {
 
     @Override
     public boolean testCondition(Target target, Source source) {
-        return operandOne.getRealValue(target, source) == operandTwo.getRealValue(target, source);
+        return operandOne.getRealValue(target, source).equals(operandTwo.getRealValue(target, source));
     }
 
     @Override
