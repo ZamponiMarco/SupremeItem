@@ -4,7 +4,7 @@ import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.supremeitem.placeholder.Placeholder;
 import org.bukkit.Material;
 
-@Enumerable.Parent(classArray = {BlockMaterialPlaceholder.class})
+@Enumerable.Parent(classArray = {BlockMaterialPlaceholder.class, MaterialFromStringPlaceholder.class})
 public abstract class MaterialPlaceholder extends Placeholder<Material> {
     public MaterialPlaceholder(boolean target) {
         super(target);

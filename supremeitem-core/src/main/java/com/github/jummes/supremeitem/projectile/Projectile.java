@@ -41,12 +41,15 @@ public class Projectile {
                     projectile = entity.spawnEntity(l);
                     projectile.setMetadata("projectile", new FixedMetadataValue(SupremeItem.getInstance(),
                             true));
+                    projectile.setGravity(false);
                 }
+
                 if (l.getBlock().getType().isBlock() && !l.getBlock().getType().equals(Material.AIR)
                         && l.getBlock().getType().isSolid()) {
                     onBlockHitActions.forEach(Action -> Action.executeAction(new LocationTarget(l), source));
                     remove();
                 }
+
                 List<LivingEntity> entities = l.getWorld().getNearbyEntities(l, hitBoxSize, hitBoxSize, hitBoxSize).stream().
                         filter(entity -> entity instanceof LivingEntity
                                 && (!projectilePresent || !entity.equals(projectile))
@@ -59,9 +62,12 @@ public class Projectile {
                 } else if (counter > maxDistance) {
                     remove();
                 }
+
+                onProjectileTickActions.forEach(action -> action.executeAction(new LocationTarget(l), source));
+
                 if (projectilePresent)
                     projectile.setVelocity(initialDirection);
-                onProjectileTickActions.forEach(action -> action.executeAction(new LocationTarget(l), source));
+
                 l.add(initialDirection);
                 if (gravity > 0) {
                     double newYSpeed = initialDirection.getY() - gravity * .05;

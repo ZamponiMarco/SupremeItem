@@ -9,6 +9,7 @@ import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
+import com.github.jummes.supremeitem.value.MaterialValue;
 import com.google.common.collect.Sets;
 import lombok.Setter;
 import org.apache.commons.lang.WordUtils;
@@ -29,16 +30,17 @@ public class SetBlockAction extends LocationAction {
     private static final String MATERIAL_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2ZmOTgxN2Q3NjdkMmVkZTcxODFhMDU3YWEyNmYwOGY3ZWNmNDY1MWRlYzk3ZGU1YjU0ZWVkZTFkZDJiNDJjNyJ9fX0";
     private static final String EXCLUDED_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWZkMjQwMDAwMmFkOWZiYmJkMDA2Njk0MWViNWIxYTM4NGFiOWIwZTQ4YTE3OGVlOTZlNGQxMjlhNTIwODY1NCJ9fX0=";
 
-    @Serializable(headTexture = MATERIAL_HEAD, stringValue = true, description = "gui.action.set-block.material", fromListMapper = "materialListMapper", fromList = "materialList")
-    private Material material;
+    @Serializable(headTexture = MATERIAL_HEAD, stringValue = true, description = "gui.action.set-block.material",
+            additionalDescription = {"gui.additional-tooltips.value"})
+    private MaterialValue material;
     @Serializable(headTexture = EXCLUDED_HEAD, description = "gui.action.set-block.excluded-materials")
     private Set<Material> excludedMaterials;
 
     public SetBlockAction() {
-        this(TARGET_DEFAULT, Material.STONE, Sets.newHashSet(Material.AIR));
+        this(TARGET_DEFAULT, new MaterialValue(Material.STONE), Sets.newHashSet(Material.AIR));
     }
 
-    public SetBlockAction(boolean target, Material material, Set<Material> excludedMaterials) {
+    public SetBlockAction(boolean target, MaterialValue material, Set<Material> excludedMaterials) {
         super(target);
         this.material = material;
         this.excludedMaterials = excludedMaterials;
@@ -46,8 +48,13 @@ public class SetBlockAction extends LocationAction {
 
     public static SetBlockAction deserialize(Map<String, Object> map) {
         boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        Material material = Material.getMaterial((String) map.get("material"));
         Set<Material> excludedMaterials = ((List<String>) map.get("excludedMaterials")).stream().map(Material::valueOf).collect(Collectors.toSet());
+        MaterialValue material;
+        try {
+            material = (MaterialValue) map.get("material");
+        } catch (ClassCastException e) {
+            material = new MaterialValue(Material.getMaterial((String) map.get("material")));
+        }
         return new SetBlockAction(target, material, excludedMaterials);
     }
 
@@ -63,7 +70,7 @@ public class SetBlockAction extends LocationAction {
     public Map<String, Object> serialize() {
         Map<String, Object> map = new HashMap<>();
         map.put("==", getClass().getName());
-        map.put("material", material.name());
+        map.put("material", material);
         map.put("excludedMaterials", excludedMaterials.stream().map(Material::name).collect(Collectors.toList()));
         return map;
     }
@@ -89,14 +96,14 @@ public class SetBlockAction extends LocationAction {
             return ActionResult.FAILURE;
         }
 
-        location.getBlock().setType(material);
+        location.getBlock().setType(material.getRealValue(target, source));
         return ActionResult.SUCCESS;
     }
 
     @Override
     public ItemStack getGUIItem() {
         return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue(MATERIAL_HEAD),
-                "&6&lSet Block: &c" + WordUtils.capitalize(material.name()), Libs.getLocale().getList("gui.action.description"));
+                "&6&lSet Block: &c" + WordUtils.capitalize(material.getName()), Libs.getLocale().getList("gui.action.description"));
     }
 
     @Override

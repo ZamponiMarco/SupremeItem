@@ -52,7 +52,7 @@ public class StringEqualsCondition extends StringCondition {
 
     @Override
     public String getName() {
-        return String.format("&c%s &6&l= &c%s", operandOne.getName(), operandTwo.getName());
+        return String.format("&c" + operandOne.getName() + "&6&l%s&c" + operandTwo.getName(), negate ? " ≠ " : " = ");
     }
 
     @Override

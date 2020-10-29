@@ -20,6 +20,7 @@ import com.github.jummes.supremeitem.placeholder.Placeholder;
 import com.github.jummes.supremeitem.savedplaceholder.SavedPlaceholder;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.github.jummes.supremeitem.skill.Skill;
+import com.github.jummes.supremeitem.value.MaterialValue;
 import com.github.jummes.supremeitem.value.NumericValue;
 import com.github.jummes.supremeitem.value.StringValue;
 import com.github.jummes.supremeitem.value.Value;
@@ -60,6 +61,7 @@ public class SupremeItem extends JavaPlugin {
         ConfigurationSerialization.registerClass(NumericValue.class,
                 "com.github.jummes.supremeitem.placeholder.numeric.NumericValue");
         ConfigurationSerialization.registerClass(StringValue.class);
+        ConfigurationSerialization.registerClass(MaterialValue.class);
 
         ConfigurationSerialization.registerClass(SavedPlaceholder.class);
 
