@@ -11,6 +11,7 @@ import org.bukkit.entity.LivingEntity;
 import java.util.Map;
 
 @Enumerable.Child
+// TODO tooltips
 public class TeleportAction extends LocationAction {
 
     public TeleportAction(boolean target) {
@@ -53,6 +54,6 @@ public class TeleportAction extends LocationAction {
 
     @Override
     public Action clone() {
-        return null;
+        return new TeleportAction(target);
     }
 }

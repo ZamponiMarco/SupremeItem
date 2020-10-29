@@ -8,6 +8,8 @@ import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.source.LocationSource;
 import com.github.jummes.supremeitem.action.source.Source;
+import com.github.jummes.supremeitem.action.targeter.EntityTarget;
+import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.entity.Entity;
 import com.github.jummes.supremeitem.entity.NoEntity;
@@ -154,7 +156,16 @@ public class ProjectileAction extends MetaAction {
         } else if (source instanceof LocationSource) {
             l = source.getLocation();
         }
+
         if (l != null) {
+            if (!source.getLocation().equals(target.getLocation())) {
+                if (target instanceof LocationTarget) {
+                    l.setDirection(target.getLocation().clone().toVector().subtract(l.toVector()).normalize());
+                } else if (target instanceof EntityTarget) {
+                    l.setDirection(((EntityTarget) target).getTarget().getEyeLocation().clone().toVector().subtract(l.
+                            toVector()).normalize());
+                }
+            }
             new Projectile(source, l, gravity.getRealValue(target, source), initialSpeed.getRealValue(target, source),
                     onEntityHitActions, onBlockHitActions, onProjectileTickActions,
                     this.entity, this.hitBoxSize.getRealValue(target, source), maxDistance.getRealValue(target, source),
