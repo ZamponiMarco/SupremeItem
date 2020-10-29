@@ -4,6 +4,9 @@ import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.libs.util.ItemUtils;
+import com.github.jummes.supremeitem.action.source.Source;
+import com.github.jummes.supremeitem.action.targeter.Target;
+import com.github.jummes.supremeitem.value.MaterialValue;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,33 +23,30 @@ public class FallingBlockEntity extends Entity {
 
     private static final String MATERIAL_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTMzOThhYjNjYjY5NmIzNDQzMGJlOTQ0YjE0YWZiZDIyN2ZkODdlOTkwMjZiY2ZjOGI3Mzg3YTg2MWJkZSJ9fX0=";
 
-    @Serializable(headTexture = MATERIAL_HEAD, stringValue = true, description = "gui.entity.falling-block.material", fromListMapper = "materialListMapper", fromList = "materialList")
-    private Material material;
+    @Serializable(headTexture = MATERIAL_HEAD, description = "gui.entity.falling-block.material")
+    private MaterialValue material;
 
-    public FallingBlockEntity(Material material) {
+    public FallingBlockEntity(MaterialValue material) {
         this.material = material;
     }
 
     public FallingBlockEntity() {
-        this(Material.RED_SAND);
+        this(new MaterialValue(Material.RED_SAND));
     }
 
     public static FallingBlockEntity deserialize(Map<String, Object> map) {
-        Material material = Material.valueOf((String) map.getOrDefault("material", "RED_SAND"));
+        MaterialValue material;
+        try {
+            material = (MaterialValue) map.getOrDefault("material", new MaterialValue(Material.RED_SAND));
+        } catch (ClassCastException e) {
+            material = new MaterialValue(Material.valueOf((String) map.getOrDefault("material", "RED_SAND")));
+        }
         return new FallingBlockEntity(material);
     }
 
-    public static List<Object> materialList(ModelPath<?> path) {
-        return ItemUtils.getMaterialList().stream().filter(m -> ((Material) m).isBlock()).collect(Collectors.toList());
-    }
-
-    public static Function<Object, ItemStack> materialListMapper() {
-        return ItemUtils.getMaterialMapper();
-    }
-
     @Override
-    public org.bukkit.entity.Entity spawnEntity(Location l) {
-        return l.getWorld().spawnFallingBlock(l, Bukkit.createBlockData(material));
+    public org.bukkit.entity.Entity spawnEntity(Location l, Target target, Source source) {
+        return l.getWorld().spawnFallingBlock(l, Bukkit.createBlockData(material.getRealValue(target, source)));
     }
 
     @Override

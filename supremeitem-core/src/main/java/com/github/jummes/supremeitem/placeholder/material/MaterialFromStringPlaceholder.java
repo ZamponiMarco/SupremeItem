@@ -35,6 +35,7 @@ public class MaterialFromStringPlaceholder extends MaterialPlaceholder {
     @Override
     public Material computePlaceholder(Target target, Source source) {
         try {
+            System.out.println(name.getRealValue(target, source));
             return Material.valueOf(name.getRealValue(target, source));
         } catch (IllegalArgumentException e) {
             return Material.STONE;

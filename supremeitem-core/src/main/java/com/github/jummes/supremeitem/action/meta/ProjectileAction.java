@@ -166,7 +166,7 @@ public class ProjectileAction extends MetaAction {
                             toVector()).normalize());
                 }
             }
-            new Projectile(source, l, gravity.getRealValue(target, source), initialSpeed.getRealValue(target, source),
+            new Projectile(target, source, l, gravity.getRealValue(target, source), initialSpeed.getRealValue(target, source),
                     onEntityHitActions, onBlockHitActions, onProjectileTickActions,
                     this.entity, this.hitBoxSize.getRealValue(target, source), maxDistance.getRealValue(target, source),
                     projectileSpread.getRealValue(target, source));

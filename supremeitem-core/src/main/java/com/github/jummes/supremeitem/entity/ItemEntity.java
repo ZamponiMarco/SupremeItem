@@ -3,6 +3,8 @@ package com.github.jummes.supremeitem.entity;
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.model.wrapper.ItemStackWrapper;
+import com.github.jummes.supremeitem.action.source.Source;
+import com.github.jummes.supremeitem.action.targeter.Target;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,7 +36,7 @@ public class ItemEntity extends Entity {
     }
 
     @Override
-    public org.bukkit.entity.Entity spawnEntity(Location l) {
+    public org.bukkit.entity.Entity spawnEntity(Location l, Target target, Source source) {
         Item item = l.getWorld().dropItem(l, this.item.getWrapped());
         item.setVelocity(new Vector());
         item.setGravity(false);

@@ -4,6 +4,8 @@ import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.libs.util.ItemUtils;
+import com.github.jummes.supremeitem.action.source.Source;
+import com.github.jummes.supremeitem.action.targeter.Target;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -53,7 +55,7 @@ public class GenericEntity extends Entity {
     }
 
     @Override
-    public org.bukkit.entity.Entity spawnEntity(Location l) {
+    public org.bukkit.entity.Entity spawnEntity(Location l, Target target, Source source) {
         return l.getWorld().spawn(l, type.getEntityClass());
     }
 

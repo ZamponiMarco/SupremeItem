@@ -6,6 +6,7 @@ import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.LocationTarget;
+import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.entity.NoEntity;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 
 public class Projectile {
 
-    public Projectile(Source source, Location l, double gravity, double initialSpeed, List<Action> onEntityHitActions,
+    public Projectile(Target target, Source source, Location l, double gravity, double initialSpeed, List<Action> onEntityHitActions,
                       List<Action> onBlockHitActions, List<Action> onProjectileTickActions,
                       com.github.jummes.supremeitem.entity.Entity entity, double hitBoxSize, double maxDistance,
                       double projectileSpread) {
@@ -31,14 +32,14 @@ public class Projectile {
         initialDirection.rotateAroundZ((Math.random() - 0.5) * spread);
         BukkitRunnable runnable = new BukkitRunnable() {
 
-            private final boolean projectilePresent = !(entity instanceof NoEntity);
-            private Entity projectile;
             private int counter = 0;
+            private final Entity projectile = entity.spawnEntity(l, target, source);
+            private final boolean projectilePresent = projectile != null;
 
             @Override
             public void run() {
-                if (projectilePresent && projectile == null) {
-                    projectile = entity.spawnEntity(l);
+
+                if (projectilePresent) {
                     projectile.setMetadata("projectile", new FixedMetadataValue(SupremeItem.getInstance(),
                             true));
                     projectile.setGravity(false);

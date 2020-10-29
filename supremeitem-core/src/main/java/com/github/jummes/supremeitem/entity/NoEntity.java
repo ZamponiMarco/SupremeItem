@@ -1,6 +1,8 @@
 package com.github.jummes.supremeitem.entity;
 
 import com.github.jummes.libs.annotation.Enumerable;
+import com.github.jummes.supremeitem.action.source.Source;
+import com.github.jummes.supremeitem.action.targeter.Target;
 import org.bukkit.Location;
 
 import java.util.Map;
@@ -13,7 +15,7 @@ public class NoEntity extends Entity {
     }
 
     @Override
-    public org.bukkit.entity.Entity spawnEntity(Location l) {
+    public org.bukkit.entity.Entity spawnEntity(Location l, Target target, Source source) {
         return null;
     }
 
