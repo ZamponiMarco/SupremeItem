@@ -23,6 +23,8 @@ public class SavedPlaceholder implements Model {
     @Serializable(headTexture = PLACEHOLDER_HEAD, description = "gui.saved-placeholder.placeholder")
     private Placeholder placeholder;
 
+    // TODO Customization
+
     public SavedPlaceholder() {
         this("placeholder" + counter, new MaxHealthPlaceholder());
     }

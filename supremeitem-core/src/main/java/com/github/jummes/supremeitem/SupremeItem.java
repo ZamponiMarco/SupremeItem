@@ -9,9 +9,11 @@ import com.github.jummes.supremeitem.command.*;
 import com.github.jummes.supremeitem.condition.Condition;
 import com.github.jummes.supremeitem.entity.Entity;
 import com.github.jummes.supremeitem.entity.selector.EntitySelector;
+import com.github.jummes.supremeitem.event.PlayerJumpEvent;
 import com.github.jummes.supremeitem.hook.WorldGuardHook;
 import com.github.jummes.supremeitem.item.Item;
 import com.github.jummes.supremeitem.listener.PlayerItemListener;
+import com.github.jummes.supremeitem.listener.ProjectileListener;
 import com.github.jummes.supremeitem.manager.*;
 import com.github.jummes.supremeitem.math.Vector;
 import com.github.jummes.supremeitem.placeholder.Placeholder;
@@ -142,5 +144,7 @@ public class SupremeItem extends JavaPlugin {
 
     private void setUpListeners() {
         getServer().getPluginManager().registerEvents(new PlayerItemListener(), this);
+        getServer().getPluginManager().registerEvents(new ProjectileListener(), this);
+        PlayerJumpEvent.register(this);
     }
 }

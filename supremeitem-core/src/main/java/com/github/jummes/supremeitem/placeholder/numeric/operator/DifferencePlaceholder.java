@@ -48,8 +48,8 @@ public class DifferencePlaceholder extends NumberOperatorPlaceholder {
 
     @Override
     public Double computePlaceholder(Target target, Source source) {
-        return BigDecimal.valueOf(operandOne.getRealValue(target, source) -
-                operandTwo.getRealValue(target, source)).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        return operandOne.getRealValue(target, source) -
+                operandTwo.getRealValue(target, source);
     }
 
     @Override

@@ -9,8 +9,6 @@ import com.github.jummes.supremeitem.value.NumericValue;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Map;
 
 @Setter
@@ -48,8 +46,8 @@ public class SumPlaceholder extends NumberOperatorPlaceholder {
 
     @Override
     public Double computePlaceholder(Target target, Source source) {
-        return BigDecimal.valueOf(operandOne.getRealValue(target, source) +
-                operandTwo.getRealValue(target, source)).setScale(2, RoundingMode.HALF_UP).doubleValue();
+        return operandOne.getRealValue(target, source) +
+                operandTwo.getRealValue(target, source);
     }
 
     @Override

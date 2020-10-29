@@ -30,6 +30,8 @@ public class SavedSkill implements Model {
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     private List<Action> actions;
 
+    // TODO Customization
+
     public SavedSkill() {
         this("skill" + counter, Lists.newArrayList());
     }

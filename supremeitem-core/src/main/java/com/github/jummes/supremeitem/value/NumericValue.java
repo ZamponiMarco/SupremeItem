@@ -9,6 +9,8 @@ import com.github.jummes.libs.gui.setting.DoubleFieldChangeInventoryHolder;
 import com.github.jummes.libs.gui.setting.change.FieldChangeInformation;
 import com.github.jummes.libs.model.Model;
 import com.github.jummes.libs.model.ModelPath;
+import com.github.jummes.supremeitem.action.source.Source;
+import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.placeholder.numeric.HealthPlaceholder;
 import com.github.jummes.supremeitem.placeholder.numeric.NumericPlaceholder;
 import lombok.Getter;
@@ -18,6 +20,8 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -54,6 +58,11 @@ public class NumericValue extends Value<Double, NumericPlaceholder> {
             placeholderValue = (NumericPlaceholder) map.get("placeholderValue");
         }
         return new NumericValue(objectValue, value, placeholderValue);
+    }
+
+    public Double getRealValue(Target target, Source source) {
+        return objectValue ? value : BigDecimal.valueOf(placeholderValue.computePlaceholder(target, source)).
+                setScale(2, RoundingMode.HALF_UP).doubleValue();
     }
 
     @Override

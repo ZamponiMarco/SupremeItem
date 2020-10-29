@@ -51,8 +51,8 @@ public class MoveLocationTargetAction extends LocationAction {
 
     @Override
     protected ActionResult execute(Target target, Source source) {
-        if (actions.stream().anyMatch(action -> action.executeAction(new LocationTarget(getLocation(target, source).add(
-                vector.computeVector(target, source))), source).equals(ActionResult.CANCELLED))) {
+        if (actions.stream().anyMatch(action -> action.executeAction(new LocationTarget(getLocation(target, source).
+                clone().add(vector.computeVector(target, source))), source).equals(ActionResult.CANCELLED))) {
             return ActionResult.CANCELLED;
         }
         return ActionResult.SUCCESS;
