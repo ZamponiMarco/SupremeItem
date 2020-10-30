@@ -1,11 +1,13 @@
 package com.github.jummes.supremeitem.database;
 
 import com.github.jummes.libs.database.Database;
+import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.util.CompressUtils;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.util.FileUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,10 +58,7 @@ public class CompressedYamlDatabase<T extends NamedModel> extends Database<T> {
         List<T> list = new ArrayList<>();
 
         if (yamlConfiguration.isList(this.name)) {
-            list.addAll((Collection<? extends T>) this.yamlConfiguration.getList(this.name));
-            list.forEach(this::saveObject);
-            yamlConfiguration.set(this.name, null);
-            yamlConfiguration.save(dataFile);
+            handleOldConfig(list);
         }
 
         yamlConfiguration.getKeys(false).forEach(key -> {
@@ -72,6 +71,22 @@ public class CompressedYamlDatabase<T extends NamedModel> extends Database<T> {
                 }
         );
         return list;
+    }
+
+    private void handleOldConfig(List<T> list) throws IOException {
+        File backupFolder = new File(SupremeItem.getInstance().getDataFolder(), "backup");
+        if (!backupFolder.exists()) {
+            backupFolder.mkdir();
+        }
+        File backupFile = new File(backupFolder, dataFile.getName());
+        if (!backupFile.exists()) {
+            backupFile.createNewFile();
+        }
+        FileUtil.copy(dataFile, backupFile);
+        list.addAll((Collection<? extends T>) this.yamlConfiguration.getList(this.name));
+        list.forEach(this::saveObject);
+        yamlConfiguration.set(this.name, null);
+        yamlConfiguration.save(dataFile);
     }
 
     @SneakyThrows
