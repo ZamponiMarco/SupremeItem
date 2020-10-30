@@ -5,18 +5,23 @@ import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.model.Model;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.Action;
+import com.github.jummes.supremeitem.database.NamedModel;
+import com.github.jummes.supremeitem.util.CompressUtils;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Getter
 @Setter
-public class SavedSkill implements Model {
+public class SavedSkill extends NamedModel {
 
     private static final List<Action> ACTIONS_DEFAULT = Lists.newArrayList();
 
@@ -24,8 +29,6 @@ public class SavedSkill implements Model {
 
     private static int counter = 1;
 
-    @Serializable(headTexture = HEAD, description = "gui.saved-skill.name")
-    private String name;
     @Serializable(headTexture = HEAD, description = "gui.saved-skill.actions")
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     private List<Action> actions;
@@ -37,8 +40,8 @@ public class SavedSkill implements Model {
     }
 
     public SavedSkill(String name, List<Action> actions) {
+        super(name);
         counter++;
-        this.name = name;
         this.actions = actions;
     }
 
@@ -48,7 +51,6 @@ public class SavedSkill implements Model {
         return new SavedSkill(name, actions);
     }
 
-    @Override
     public ItemStack getGUIItem() {
         return ItemUtils.getNamedItem(new ItemStack(Material.STONE), "&6&lName: &c" + name,
                 Libs.getLocale().getList("gui.saved-skill.description"));

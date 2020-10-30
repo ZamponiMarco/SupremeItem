@@ -2,11 +2,13 @@ package com.github.jummes.supremeitem;
 
 import com.github.jummes.libs.command.PluginCommandExecutor;
 import com.github.jummes.libs.core.Libs;
+import com.github.jummes.libs.database.factory.DatabaseFactory;
 import com.github.jummes.libs.localization.PluginLocale;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.location.ParticleAction;
 import com.github.jummes.supremeitem.command.*;
 import com.github.jummes.supremeitem.condition.Condition;
+import com.github.jummes.supremeitem.database.CompressedYamlDatabase;
 import com.github.jummes.supremeitem.entity.Entity;
 import com.github.jummes.supremeitem.entity.selector.EntitySelector;
 import com.github.jummes.supremeitem.event.PlayerJumpEvent;
@@ -92,6 +94,7 @@ public class SupremeItem extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        DatabaseFactory.getMap().put("comp", CompressedYamlDatabase.class);
         setUpFolder();
         setUpData();
         setUpHooks();
@@ -125,7 +128,7 @@ public class SupremeItem extends JavaPlugin {
         Libs.initializeLibrary(this, locale);
         itemManager = new ItemManager(Item.class, "yaml", this);
         cooldownManager = new CooldownManager();
-        savedSkillManager = new SavedSkillManager(SavedSkill.class, "yaml", this);
+        savedSkillManager = new SavedSkillManager(SavedSkill.class, "comp", this);
         timerManager = new TimerManager();
         savedPlaceholderManager = new SavedPlaceholderManager(SavedPlaceholder.class, "yaml", this);
     }
