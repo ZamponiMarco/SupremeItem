@@ -5,12 +5,14 @@ import com.github.jummes.supremeitem.util.CompressUtils;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Collection;
+import java.util.List;
 
 public class CompressedYamlDatabase<T extends NamedModel> extends Database<T> {
 
@@ -55,7 +57,9 @@ public class CompressedYamlDatabase<T extends NamedModel> extends Database<T> {
 
         if (yamlConfiguration.isList(this.name)) {
             list.addAll((Collection<? extends T>) this.yamlConfiguration.getList(this.name));
+            list.forEach(this::saveObject);
             yamlConfiguration.set(this.name, null);
+            yamlConfiguration.save(dataFile);
         }
 
         yamlConfiguration.getKeys(false).forEach(key -> {
@@ -67,16 +71,19 @@ public class CompressedYamlDatabase<T extends NamedModel> extends Database<T> {
                     }
                 }
         );
-        list.forEach(this::saveObject);
-        yamlConfiguration.save(dataFile);
         return list;
     }
 
     @SneakyThrows
     @Override
     public void saveObject(@NonNull T t) {
-        yamlConfiguration.set(t.name, new String(Base64.getEncoder().encode(CompressUtils.compress(t.toSerializedString().getBytes()))));
+        if (!t.getName().equals(t.getOldName())) {
+            yamlConfiguration.set(t.getOldName(), null);
+        }
+        yamlConfiguration.set(t.getName(), new String(Base64.getEncoder().encode(CompressUtils.compress(t.toSerializedString().getBytes()))));
         yamlConfiguration.save(dataFile);
+
+        t.setOldName(t.getName());
     }
 
     @SneakyThrows

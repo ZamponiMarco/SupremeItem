@@ -126,11 +126,11 @@ public class SupremeItem extends JavaPlugin {
     private void setUpData() {
         PluginLocale locale = new PluginLocale(this, Lists.newArrayList("en-US"), "en-US");
         Libs.initializeLibrary(this, locale);
-        itemManager = new ItemManager(Item.class, "yaml", this);
+        itemManager = new ItemManager(Item.class, "comp", this);
         cooldownManager = new CooldownManager();
         savedSkillManager = new SavedSkillManager(SavedSkill.class, "comp", this);
         timerManager = new TimerManager();
-        savedPlaceholderManager = new SavedPlaceholderManager(SavedPlaceholder.class, "yaml", this);
+        savedPlaceholderManager = new SavedPlaceholderManager(SavedPlaceholder.class, "comp", this);
     }
 
     private void setUpHooks() {

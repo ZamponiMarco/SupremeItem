@@ -6,6 +6,8 @@ messages:
     item-received: "&aYou received the item"
     player-item-received: "&a$player received the item"
 gui:
+  name:
+    - "&7&oThe name of the model."
   item:
     description:
       - "&6&lLeft click &eto modify."
@@ -24,8 +26,6 @@ gui:
     consumable:
       - "&7&oWhether the item should be consumed when"
       - "&7&oused or not."
-    name:
-      - "&7&oThe name of the item."
   action:
     description:
       - "&6&lLeft click &eto modify."

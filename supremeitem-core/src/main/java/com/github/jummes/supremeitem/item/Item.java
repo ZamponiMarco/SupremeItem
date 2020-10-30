@@ -11,6 +11,7 @@ import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.libs.model.wrapper.ItemStackWrapper;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.libs.util.MessageUtils;
+import com.github.jummes.supremeitem.database.NamedModel;
 import com.github.jummes.supremeitem.skill.Skill;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -27,11 +28,10 @@ import java.util.*;
 @Getter
 @Setter
 @CustomClickable(customCollectionClickConsumer = "defaultClickConsumer")
-public class Item implements Model {
+public class Item extends NamedModel {
 
     private static final boolean CONSUMABLE_DEFAULT = false;
 
-    private static final String NAME_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTdlZDY2ZjVhNzAyMDlkODIxMTY3ZDE1NmZkYmMwY2EzYmYxMWFkNTRlZDVkODZlNzVjMjY1ZjdlNTAyOWVjMSJ9fX0=";
     private static final String SKILL_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmJiMTI1NmViOWY2NjdjMDVmYjIxZTAyN2FhMWQ1MzU1OGJkYTc0ZTI0MGU0ZmE5ZTEzN2Q4NTFjNDE2ZmU5OCJ9fX0=";
     private static final String CONSUMABLE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTg0YTY4ZmQ3YjYyOGQzMDk2NjdkYjdhNTU4NTViNTRhYmMyM2YzNTk1YmJlNDMyMTYyMTFiZTVmZTU3MDE0In19fQ==";
 
@@ -39,8 +39,6 @@ public class Item implements Model {
 
     @Serializable(stringValue = true)
     private UUID id;
-    @Serializable(headTexture = NAME_HEAD, description = "gui.item.name")
-    private String name;
     @Serializable(description = "gui.item.item", displayItem = "getUsableItem")
     private ItemStackWrapper item;
     @Serializable(headTexture = SKILL_HEAD, description = "gui.item.skill-set")
@@ -55,9 +53,9 @@ public class Item implements Model {
     }
 
     public Item(UUID id, String name, ItemStackWrapper item, Set<Skill> skillSet, boolean consumable) {
+        super(name);
         counter++;
         this.id = id;
-        this.name = name;
         this.item = item;
         this.skillSet = skillSet;
         this.consumable = consumable;
