@@ -2,8 +2,6 @@ package com.github.jummes.supremeitem.action.meta;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
-import com.github.jummes.libs.core.Libs;
-import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
@@ -83,12 +81,6 @@ public class RepeatUntilAction extends MetaAction {
     }
 
     @Override
-    public ItemStack getGUIItem() {
-        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTIzMjI5ZjZlNjA2ZDkxYjdlNjdhMmJjZjNlMmEzMzMzYmE2MTNiNmQ2NDA5MTk5YjcxNjljMDYzODliMCJ9fX0"),
-                String.format("&6&lRepeat Until: %s", condition.getName()), Libs.getLocale().getList("gui.action.description"));
-    }
-
-    @Override
     public Action clone() {
         return new RepeatUntilAction(TARGET_DEFAULT, actions.stream().map(Action::clone).collect(Collectors.toList()),
                 condition.clone(), timer);
@@ -97,5 +89,10 @@ public class RepeatUntilAction extends MetaAction {
     @Override
     public ItemStack targetItem() {
         return null;
+    }
+
+    @Override
+    public String getName() {
+        return String.format("&6&lRepeat Until: %s", condition.getName());
     }
 }

@@ -17,15 +17,16 @@ import java.util.List;
 import java.util.Map;
 
 @Enumerable.Child
-// TODO tooltips
+@Enumerable.Displayable(name = "&c&lBlock Entity Event", description = "gui.action.block-event.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==")
 public class BlockEventAction extends EntityAction {
 
-    private static final String AMOUNT_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdkYzNlMjlhMDkyM2U1MmVjZWU2YjRjOWQ1MzNhNzllNzRiYjZiZWQ1NDFiNDk1YTEzYWJkMzU5NjI3NjUzIn19fQ==";
+    private static final String BLOCK_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ";
+    private static final String TICKS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZlOGNmZjc1ZjdkNDMzMjYwYWYxZWNiMmY3NzNiNGJjMzgxZDk1MWRlNGUyZWI2NjE0MjM3NzlhNTkwZTcyYiJ9fX0=";
 
     private static final List<String> EVENTS_LIST = Lists.newArrayList("toolbar-slot-change", "jump");
-    @Serializable(headTexture = AMOUNT_HEAD, fromList = "getEventsList", description = "gui.action.consume-item.amount", additionalDescription = {"gui.additional-tooltips.value"})
+    @Serializable(headTexture = BLOCK_HEAD, fromList = "getEventsList", description = "gui.action.block-event.blocked-event")
     private String blockedEvent;
-    @Serializable(headTexture = AMOUNT_HEAD, description = "gui.action.consume-item.amount", additionalDescription = {"gui.additional-tooltips.value"})
+    @Serializable(headTexture = TICKS_HEAD, description = "gui.action.block-event.ticks", additionalDescription = {"gui.additional-tooltips.value"})
     private NumericValue ticks;
 
     public BlockEventAction(boolean target, String blockedEvent, NumericValue ticks) {
@@ -68,5 +69,10 @@ public class BlockEventAction extends EntityAction {
     @Override
     public Action clone() {
         return null;
+    }
+
+    @Override
+    public String getName() {
+        return String.format("&6&lBlock Event: &c%s", blockedEvent);
     }
 }

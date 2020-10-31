@@ -2,7 +2,6 @@ package com.github.jummes.supremeitem.action.meta;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
-import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.SupremeItem;
@@ -68,12 +67,6 @@ public class SkillAction extends MetaAction {
     }
 
     @Override
-    public ItemStack getGUIItem() {
-        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjM1NGM4YmE3NDIwNzlhZWQ1YWNmYmYwN2M0MjhiNDA2YmMwOTJkYjhhYmM2ZjE3ZjcwNTkwOTliMDQ5NTliZCJ9fX0="),
-                "&6&lSkill name: &c" + skillName, Libs.getLocale().getList("gui.action.description"));
-    }
-
-    @Override
     public Action clone() {
         return new SkillAction(TARGET_DEFAULT, skillName);
     }
@@ -81,5 +74,10 @@ public class SkillAction extends MetaAction {
     @Override
     public ItemStack targetItem() {
         return null;
+    }
+
+    @Override
+    public String getName() {
+        return "&6&lSkill name: &c" + skillName;
     }
 }

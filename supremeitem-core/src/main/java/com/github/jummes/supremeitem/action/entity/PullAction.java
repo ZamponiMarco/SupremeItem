@@ -2,8 +2,6 @@ package com.github.jummes.supremeitem.action.entity;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
-import com.github.jummes.libs.core.Libs;
-import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.source.LocationSource;
@@ -13,7 +11,6 @@ import com.github.jummes.supremeitem.value.NumericValue;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import java.util.Map;
@@ -85,13 +82,12 @@ public class PullAction extends EntityAction {
     }
 
     @Override
-    public ItemStack getGUIItem() {
-        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGMzMDFhMTdjOTU1ODA3ZDg5ZjljNzJhMTkyMDdkMTM5M2I4YzU4YzRlNmU0MjBmNzE0ZjY5NmE4N2ZkZCJ9fX0="),
-                "&6&lPull", Libs.getLocale().getList("gui.action.description"));
+    public Action clone() {
+        return new PullAction(target, force.clone());
     }
 
     @Override
-    public Action clone() {
-        return new PullAction(target, force.clone());
+    public String getName() {
+        return "&6&lPull";
     }
 }

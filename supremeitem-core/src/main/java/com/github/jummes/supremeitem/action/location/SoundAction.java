@@ -122,14 +122,13 @@ public class SoundAction extends LocationAction {
     }
 
     @Override
-    public ItemStack getGUIItem() {
-        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue(TYPE_HEAD),
-                "&6&lSound: &c" + WordUtils.capitalize(type.toString()), Libs.getLocale().getList("gui.action.description"));
+    public Action clone() {
+        return new SoundAction(target, type, category, pitch.clone(), volume.clone());
     }
 
     @Override
-    public Action clone() {
-        return new SoundAction(target, type, category, pitch.clone(), volume.clone());
+    public String getName() {
+        return "&6&lSound: &c" + WordUtils.capitalize(type.toString());
     }
 
 }

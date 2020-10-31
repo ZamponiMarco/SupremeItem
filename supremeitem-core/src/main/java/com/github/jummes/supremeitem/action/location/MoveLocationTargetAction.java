@@ -2,8 +2,6 @@ package com.github.jummes.supremeitem.action.location;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
-import com.github.jummes.libs.core.Libs;
-import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.LocationTarget;
@@ -12,7 +10,6 @@ import com.github.jummes.supremeitem.math.Vector;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Map;
@@ -59,13 +56,12 @@ public class MoveLocationTargetAction extends LocationAction {
     }
 
     @Override
-    public ItemStack getGUIItem() {
-        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue(VECTOR_HEAD),
-                "&6&lMove Location: &c" + vector.toString(), Libs.getLocale().getList("gui.action.description"));
+    public Action clone() {
+        return new MoveLocationTargetAction(target, actions.stream().map(Action::clone).collect(Collectors.toList()), vector.clone());
     }
 
     @Override
-    public Action clone() {
-        return new MoveLocationTargetAction(target, actions.stream().map(Action::clone).collect(Collectors.toList()), vector.clone());
+    public String getName() {
+        return "&6&lMove Location: &c" + vector.toString();
     }
 }

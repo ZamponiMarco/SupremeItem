@@ -285,9 +285,20 @@ gui:
         - "&7&ofrom the original location."
     set-fire:
       description:
-        - "&7&oSet and action that sets an entity on fire."
+        - "&7&oSet an action that sets an entity on fire."
       ticks:
         - "&7&oThe amount of ticks the fire will last."
+    block-event:
+      description:
+        - "&7&oSet an action that blocks a type of event"
+        - "&7&ofor an entity for a certain number of ticks."
+      blocked-event:
+        - "&7&oThe event to block."
+      ticks:
+        - "&7&oThe number of ticks to block the event for."
+    teleport:
+      description:
+        - "&7&oSet a teleport action."
   skill:
     description:
       - "&6&lLeft click &eto modify."
@@ -395,8 +406,6 @@ gui:
     description:
       - "&6&lLeft click &eto modify."
       - "&6&lRight click &eto delete."
-    name:
-      - "&7&oThe name of the skill."
     actions:
       - "&7&oThe group of actions to execute."
   placeholder:
@@ -618,11 +627,6 @@ gui:
     description:
       - "&6&lLeft click &eto modify."
       - "&6&lRight click &eto delete."
-    name:
-      - "&7&oThe name of the placeholder."
-      - "&7&oTo use it inside a string just"
-      - "&7&otype &c%name&7&o, assuming this saved"
-      - "&7&oplaceholder name is &cname&7&o."
     placeholder:
       - "&7&oThe referenced placeholder."
   vector:

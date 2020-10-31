@@ -2,7 +2,6 @@ package com.github.jummes.supremeitem.action.entity;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
-import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.Action;
@@ -128,15 +127,14 @@ public class EffectAction extends EntityAction {
     }
 
     @Override
-    public ItemStack getGUIItem() {
-        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue(TYPE_HEAD),
-                "&6&lEffect: &c" + WordUtils.capitalize(type.toString()), Libs.getLocale().getList("gui.action.description"));
-    }
-
-    @Override
     public Action clone() {
         return new EffectAction(target, PotionEffectType.getByName(type.getName()), duration.clone(), level.clone(),
                 particles, ambient, icon);
+    }
+
+    @Override
+    public String getName() {
+        return "&6&lEffect: &c" + WordUtils.capitalize(type.toString());
     }
 
 }

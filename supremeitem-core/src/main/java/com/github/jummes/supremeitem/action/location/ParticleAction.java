@@ -8,9 +8,7 @@ import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.libs.model.wrapper.ItemStackWrapper;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.Action;
-import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.source.Source;
-import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.value.NumericValue;
 import lombok.AllArgsConstructor;
@@ -133,14 +131,13 @@ public class ParticleAction extends LocationAction {
     }
 
     @Override
-    public ItemStack getGUIItem() {
-        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue(TYPE_HEAD),
-                "&6&lParticle: &c" + WordUtils.capitalize(type.toString()), Libs.getLocale().getList("gui.action.description"));
+    public Action clone() {
+        return new ParticleAction(target, type, count.clone(), offset.clone(), speed.clone(), force, data == null ? null : data.clone());
     }
 
     @Override
-    public Action clone() {
-        return new ParticleAction(target, type, count.clone(), offset.clone(), speed.clone(), force, data == null ? null : data.clone());
+    public String getName() {
+        return "&6&lParticle: &c" + WordUtils.capitalize(type.toString());
     }
 
     public ItemStack getDataObject() {

@@ -9,6 +9,7 @@ import com.github.jummes.libs.gui.model.ModelObjectInventoryHolder;
 import com.github.jummes.libs.gui.model.RemoveConfirmationInventoryHolder;
 import com.github.jummes.libs.model.Model;
 import com.github.jummes.libs.model.ModelPath;
+import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.entity.EntityAction;
 import com.github.jummes.supremeitem.action.location.LocationAction;
@@ -20,7 +21,6 @@ import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.value.NumericValue;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang.reflect.FieldUtils;
-import org.bukkit.Material;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -99,7 +99,8 @@ public abstract class Action implements Model, Cloneable {
 
     @Override
     public ItemStack getGUIItem() {
-        return new ItemStack(Material.PAPER);
+        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue(getClass().getAnnotation(Enumerable.Displayable.class).headTexture()),
+                getName(), Libs.getLocale().getList("gui.action.description"));
     }
 
     @Override
@@ -108,6 +109,8 @@ public abstract class Action implements Model, Cloneable {
     public ItemStack targetItem() {
         return Libs.getWrapper().skullFromValue(TARGET_HEAD);
     }
+
+    public abstract String getName();
 
     public enum ActionResult {
         /**

@@ -2,8 +2,6 @@ package com.github.jummes.supremeitem.action.entity;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
-import com.github.jummes.libs.core.Libs;
-import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.source.LocationSource;
@@ -13,7 +11,6 @@ import com.github.jummes.supremeitem.value.NumericValue;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import java.util.Map;
@@ -102,13 +99,12 @@ public class PushAction extends EntityAction {
     }
 
     @Override
-    public ItemStack getGUIItem() {
-        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjU0ZmFiYjE2NjRiOGI0ZDhkYjI4ODk0NzZjNmZlZGRiYjQ1MDVlYmE0Mjg3OGM2NTNhNWQ3OTNmNzE5YjE2In19fQ="),
-                "&6&lPush", Libs.getLocale().getList("gui.action.description"));
+    public Action clone() {
+        return new PushAction(target, horizontalVelocity.clone(), verticalVelocity.clone());
     }
 
     @Override
-    public Action clone() {
-        return new PushAction(target, horizontalVelocity.clone(), verticalVelocity.clone());
+    public String getName() {
+        return "&6&lPush";
     }
 }

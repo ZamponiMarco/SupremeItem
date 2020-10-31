@@ -108,4 +108,9 @@ public class TimerAction extends MetaAction {
     public ItemStack targetItem() {
         return null;
     }
+
+    @Override
+    public String getName() {
+        return "&6&lInterval: &c" + timer + " &6&lRepetitions: &c" + repetitions;
+    }
 }

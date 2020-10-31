@@ -94,4 +94,9 @@ public class DelayedAction extends MetaAction {
     public ItemStack targetItem() {
         return null;
     }
+
+    @Override
+    public String getName() {
+        return "&6&lDelay: &c" + delay.getName();
+    }
 }

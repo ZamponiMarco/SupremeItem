@@ -2,7 +2,6 @@ package com.github.jummes.supremeitem.action.location;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
-import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.SupremeItem;
@@ -101,13 +100,12 @@ public class SetBlockAction extends LocationAction {
     }
 
     @Override
-    public ItemStack getGUIItem() {
-        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue(MATERIAL_HEAD),
-                "&6&lSet Block: &c" + WordUtils.capitalize(material.getName()), Libs.getLocale().getList("gui.action.description"));
+    public Action clone() {
+        return new SetBlockAction(target, material, new HashSet<>(excludedMaterials));
     }
 
     @Override
-    public Action clone() {
-        return new SetBlockAction(target, material, new HashSet<>(excludedMaterials));
+    public String getName() {
+        return "&6&lSet Block: &c" + WordUtils.capitalize(material.getName());
     }
 }
