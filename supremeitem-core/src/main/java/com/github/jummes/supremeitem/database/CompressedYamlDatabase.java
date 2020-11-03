@@ -20,14 +20,15 @@ public class CompressedYamlDatabase<T extends NamedModel> extends Database<T> {
 
     private static final String FILE_SUFFIX = ".yml";
 
-    // TODO Name conflicts
-
     private String name;
     private File dataFile;
     private YamlConfiguration yamlConfiguration;
 
+    private List<String> usedNames;
+
     public CompressedYamlDatabase(@NonNull Class<T> classObject, @NonNull JavaPlugin plugin) {
         super(classObject, plugin);
+        this.usedNames = new ArrayList<>();
     }
 
     @Override
@@ -94,13 +95,25 @@ public class CompressedYamlDatabase<T extends NamedModel> extends Database<T> {
     @SneakyThrows
     @Override
     public void saveObject(@NonNull T t) {
+        validateName(t);
         if (!t.getName().equals(t.getOldName())) {
             yamlConfiguration.set(t.getOldName(), null);
+            usedNames.remove(t.getOldName());
         }
         yamlConfiguration.set(t.getName(), new String(Base64.getEncoder().encode(CompressUtils.compress(t.toSerializedString().getBytes()))));
         yamlConfiguration.save(dataFile);
 
+        usedNames.add(t.getName());
         t.setOldName(t.getName());
+    }
+
+    private void validateName(@NonNull T t) {
+        String newName;
+        while (usedNames.contains(t.getName())) {
+            newName = t.getName() + "-copy";
+            t.setName(newName);
+            t.setOldName(newName);
+        }
     }
 
     @SneakyThrows
