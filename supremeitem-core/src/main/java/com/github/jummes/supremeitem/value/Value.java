@@ -1,9 +1,7 @@
 package com.github.jummes.supremeitem.value;
 
 import com.github.jummes.libs.annotation.Serializable;
-import com.github.jummes.libs.gui.FieldInventoryHolderFactory;
 import com.github.jummes.libs.gui.PluginInventoryHolder;
-import com.github.jummes.libs.gui.model.ModelObjectInventoryHolder;
 import com.github.jummes.libs.gui.model.create.ModelCreateInventoryHolderFactory;
 import com.github.jummes.libs.model.Model;
 import com.github.jummes.libs.model.ModelPath;

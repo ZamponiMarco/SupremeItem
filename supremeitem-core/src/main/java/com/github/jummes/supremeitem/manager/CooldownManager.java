@@ -18,8 +18,8 @@ import java.util.*;
 
 public class CooldownManager {
 
-    private Map<LivingEntity, List<CooldownInfo>> cooldowns;
-    private Map<Player, Integer> cooldownMessagesMap;
+    private final Map<LivingEntity, List<CooldownInfo>> cooldowns;
+    private final Map<Player, Integer> cooldownMessagesMap;
 
     public CooldownManager() {
         cooldowns = new HashMap<>();
@@ -75,22 +75,20 @@ public class CooldownManager {
 
                 int progress = (int) Math.floor((info.getRemainingCooldown() / (double) maxCooldown) * 30);
 
-                StringBuilder sb = new StringBuilder();
-                sb.append("&a");
-                sb.append(repeat(30 - progress, "|"));
-                sb.append("&c");
-                sb.append(repeat(progress, "|"));
-
+                String sb = "&a" +
+                        repeat(30 - progress) +
+                        "&c" +
+                        repeat(progress);
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                         new ComponentBuilder(
-                                MessageUtils.color(MessageUtils.color(String.format("&2Cooldown &6[%s&6]", sb.toString()))))
+                                MessageUtils.color(MessageUtils.color(String.format("&2Cooldown &6[%s&6]", sb))))
                                 .create());
             }
         };
     }
 
-    private String repeat(int count, String with) {
-        return new String(new char[count]).replace("\0", with);
+    private String repeat(int count) {
+        return new String(new char[count]).replace("\0", "|");
     }
 
     public CooldownInfo getCooldownInfo(LivingEntity e, UUID id) {

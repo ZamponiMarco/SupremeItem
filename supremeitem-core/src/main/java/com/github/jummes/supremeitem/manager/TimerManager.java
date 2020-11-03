@@ -21,7 +21,7 @@ import java.util.*;
 
 public class TimerManager {
 
-    private Map<Player, Set<TimerInfo>> timers;
+    private final Map<Player, Set<TimerInfo>> timers;
 
     public TimerManager() {
         timers = new HashMap<>();
@@ -76,10 +76,8 @@ public class TimerManager {
         }
         if (!timers.get(player).contains(new TimerInfo(id, 0))) {
             timers.get(player).add(new TimerInfo(id, Bukkit.getScheduler().runTaskTimer(SupremeItem.getInstance(),
-                    () -> {
-                        timerSkill.getOnWearerActions().forEach(action -> action.executeAction(new EntityTarget(player),
-                                new EntitySource(player)));
-                    }, 0, timerSkill.getTimer()).getTaskId()));
+                    () -> timerSkill.getOnWearerActions().forEach(action -> action.executeAction(new EntityTarget(player),
+                            new EntitySource(player))), 0, timerSkill.getTimer()).getTaskId()));
         }
     }
 

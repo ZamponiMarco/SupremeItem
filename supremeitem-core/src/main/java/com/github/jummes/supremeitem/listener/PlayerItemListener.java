@@ -10,6 +10,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -25,7 +26,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PlayerItemListener implements Listener {
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onPlayerChangeSlot(PlayerItemHeldEvent e) {
         if (e.getPlayer().getMetadata("toolbar-slot-change").stream().anyMatch(metadataValue ->
                 Objects.equals(metadataValue.getOwningPlugin(), SupremeItem.getInstance()))) {
@@ -33,7 +34,7 @@ public class PlayerItemListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onPlayerJump(PlayerJumpEvent e) {
         if (e.getPlayer().getMetadata("jump").stream().anyMatch(metadataValue ->
                 Objects.equals(metadataValue.getOwningPlugin(), SupremeItem.getInstance()))) {
@@ -41,11 +42,10 @@ public class PlayerItemListener implements Listener {
         }
     }
 
-    @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
         if (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.LEFT_CLICK_AIR)) {
             Player p = e.getPlayer();
-            if (e.getHand().equals(EquipmentSlot.HAND)) {
+            if (Objects.equals(e.getHand(), EquipmentSlot.HAND)) {
                 ItemStack mainItem = p.getEquipment().getItemInMainHand();
                 if (!Libs.getWrapper().getTagItem(mainItem, "supreme-item").equals("")) {
                     executeInteractSkill(e, mainItem);
@@ -59,7 +59,7 @@ public class PlayerItemListener implements Listener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerDamage(EntityDamageByEntityEvent e) {
         boolean cancelled = false;
         if (e.getEntity() instanceof LivingEntity) {
@@ -79,16 +79,20 @@ public class PlayerItemListener implements Listener {
             } else {
                 e.getEntity().removeMetadata("siattack", SupremeItem.getInstance());
             }
-            e.setCancelled(cancelled);
+            if (cancelled) {
+                e.setCancelled(true);
+            }
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerSneak(PlayerToggleSneakEvent e) {
         Player player = e.getPlayer();
         if (e.isSneaking()) {
             boolean cancelled = executeSneakSkill(player);
-            e.setCancelled(cancelled);
+            if (cancelled) {
+                e.setCancelled(true);
+            }
         }
     }
 
@@ -118,32 +122,19 @@ public class PlayerItemListener implements Listener {
      *
      * @param e    The event
      * @param item The item bound to the skill
-     * @return true if the event has to be cancelled, false otherwise
      */
-    private boolean executeInteractSkill(PlayerInteractEvent e, ItemStack item) {
-        AtomicBoolean cancelled = new AtomicBoolean(false);
+    private void executeInteractSkill(PlayerInteractEvent e, ItemStack item) {
         UUID id = UUID.fromString(Libs.getWrapper().getTagItem(item, "supreme-item"));
         Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);
         if (supremeItem != null) {
             if (e.getAction().equals(Action.RIGHT_CLICK_AIR)) {
                 supremeItem.getSkillSet().stream().filter(skill -> skill instanceof RightClickSkill).findFirst().
-                        ifPresent(skill -> {
-                            if (((RightClickSkill) skill).executeSkill(e.getPlayer(), id, item).
-                                    equals(Skill.SkillResult.CANCELLED)) {
-                                cancelled.set(true);
-                            }
-                        });
+                        ifPresent(skill -> ((RightClickSkill) skill).executeSkill(e.getPlayer(), id, item));
             } else {
                 supremeItem.getSkillSet().stream().filter(skill -> skill instanceof LeftClickSkill).findFirst().
-                        ifPresent(skill -> {
-                            if (((LeftClickSkill) skill).executeSkill(e.getPlayer(), id, item).
-                                    equals(Skill.SkillResult.CANCELLED)) {
-                                cancelled.set(true);
-                            }
-                        });
+                        ifPresent(skill -> ((LeftClickSkill) skill).executeSkill(e.getPlayer(), id, item));
             }
         }
-        return cancelled.get();
     }
 
     /**

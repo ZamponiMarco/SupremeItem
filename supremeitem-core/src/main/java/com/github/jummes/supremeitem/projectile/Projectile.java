@@ -7,7 +7,6 @@ import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
-import com.github.jummes.supremeitem.entity.NoEntity;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Entity;
@@ -32,9 +31,9 @@ public class Projectile {
         initialDirection.rotateAroundZ((Math.random() - 0.5) * spread);
         BukkitRunnable runnable = new BukkitRunnable() {
 
-            private int counter = 0;
             private final Entity projectile = entity.spawnEntity(l, target, source);
             private final boolean projectilePresent = projectile != null;
+            private int counter = 0;
 
             @Override
             public void run() {

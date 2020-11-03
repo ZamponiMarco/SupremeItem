@@ -3,13 +3,10 @@ package com.github.jummes.supremeitem.condition.bool;
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.GUINameable;
 import com.github.jummes.libs.annotation.Serializable;
-import com.github.jummes.libs.core.Libs;
-import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.condition.Condition;
 import com.google.common.collect.Lists;
-import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Map;

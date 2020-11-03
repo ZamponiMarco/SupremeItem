@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 public class SavedSkillManager extends ModelManager<SavedSkill> {
 
-    private List<SavedSkill> skills;
+    private final List<SavedSkill> skills;
 
     public SavedSkillManager(Class<SavedSkill> classObject, String databaseType, JavaPlugin plugin) {
         super(classObject, databaseType, plugin);

@@ -10,8 +10,6 @@ import com.github.jummes.supremeitem.value.NumericValue;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.Map;
 
 @GUINameable(GUIName = "toString")

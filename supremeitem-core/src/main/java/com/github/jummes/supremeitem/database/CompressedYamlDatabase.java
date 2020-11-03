@@ -20,6 +20,8 @@ public class CompressedYamlDatabase<T extends NamedModel> extends Database<T> {
 
     private static final String FILE_SUFFIX = ".yml";
 
+    // TODO Name conflicts
+
     private String name;
     private File dataFile;
     private YamlConfiguration yamlConfiguration;
@@ -59,17 +61,17 @@ public class CompressedYamlDatabase<T extends NamedModel> extends Database<T> {
 
         if (yamlConfiguration.isList(this.name)) {
             handleOldConfig(list);
-        }
-
-        yamlConfiguration.getKeys(false).forEach(key -> {
-                    String string = yamlConfiguration.getString(key);
-                    T obj = (T) NamedModel.fromSerializedString(new String(CompressUtils.
-                            decompress(Base64.getDecoder().decode(string))));
-                    if (obj != null) {
-                        list.add(obj);
+        } else {
+            yamlConfiguration.getKeys(false).forEach(key -> {
+                        String string = yamlConfiguration.getString(key);
+                        T obj = (T) NamedModel.fromSerializedString(new String(CompressUtils.
+                                decompress(Base64.getDecoder().decode(string))));
+                        if (obj != null) {
+                            list.add(obj);
+                        }
                     }
-                }
-        );
+            );
+        }
         return list;
     }
 
