@@ -406,6 +406,8 @@ gui:
     description:
       - "&6&lLeft click &eto modify."
       - "&6&lRight click &eto delete."
+      - "&6&lDrag &eand &6&ldrop &ean item"
+      - "&eto set it as the GUI item."
     actions:
       - "&7&oThe group of actions to execute."
   placeholder:
@@ -627,6 +629,8 @@ gui:
     description:
       - "&6&lLeft click &eto modify."
       - "&6&lRight click &eto delete."
+      - "&6&lDrag &eand &6&ldrop &ean item"
+      - "&eto set it as the GUI item."
     placeholder:
       - "&7&oThe referenced placeholder."
   vector:

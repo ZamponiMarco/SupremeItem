@@ -42,6 +42,7 @@ public class PlayerItemListener implements Listener {
         }
     }
 
+    @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
         if (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.LEFT_CLICK_AIR)) {
             Player p = e.getPlayer();
