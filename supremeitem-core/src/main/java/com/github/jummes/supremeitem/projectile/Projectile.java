@@ -46,7 +46,7 @@ public class Projectile {
 
                 if (l.getBlock().getType().isBlock() && !l.getBlock().getType().equals(Material.AIR)
                         && l.getBlock().getType().isSolid()) {
-                    onBlockHitActions.forEach(Action -> Action.executeAction(new LocationTarget(l), source));
+                    onBlockHitActions.forEach(Action -> Action.execute(new LocationTarget(l), source));
                     remove();
                 }
 
@@ -57,13 +57,13 @@ public class Projectile {
                         map(entity -> (LivingEntity) entity).collect(Collectors.toList());
                 if (!entities.isEmpty()) {
                     entities.forEach(entity -> onEntityHitActions.forEach(Action -> Action.
-                            executeAction(new EntityTarget(entity), source)));
+                            execute(new EntityTarget(entity), source)));
                     remove();
                 } else if (counter > maxDistance) {
                     remove();
                 }
 
-                onProjectileTickActions.forEach(action -> action.executeAction(new LocationTarget(l), source));
+                onProjectileTickActions.forEach(action -> action.execute(new LocationTarget(l), source));
 
                 if (projectilePresent)
                     projectile.setVelocity(initialDirection);

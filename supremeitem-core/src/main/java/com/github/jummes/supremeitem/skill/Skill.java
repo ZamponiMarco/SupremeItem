@@ -55,7 +55,7 @@ public abstract class Skill implements Model {
     }
 
     protected boolean executeCasterActions(LivingEntity e, List<Action> actions) {
-        return actions.stream().anyMatch(action -> action.executeAction(new EntityTarget(e),
+        return actions.stream().anyMatch(action -> action.execute(new EntityTarget(e),
                 new EntitySource(e)).equals(Action.ActionResult.CANCELLED));
     }
 
@@ -64,7 +64,7 @@ public abstract class Skill implements Model {
         if (result != null) {
             Location l = result.getHitPosition().toLocation(e.getWorld());
             return onRayCastPointActions.stream().anyMatch(action ->
-                    action.executeAction(new LocationTarget(l),
+                    action.execute(new LocationTarget(l),
                             new EntitySource(e)).equals(Action.ActionResult.CANCELLED));
         }
         return false;

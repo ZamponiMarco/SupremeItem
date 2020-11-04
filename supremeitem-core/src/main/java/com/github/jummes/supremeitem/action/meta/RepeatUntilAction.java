@@ -75,7 +75,7 @@ public class RepeatUntilAction extends MetaAction {
                     return;
                 }
 
-                actions.forEach(action -> action.executeAction(target, source));
+                actions.forEach(action -> action.execute(target, source));
             }
         };
     }

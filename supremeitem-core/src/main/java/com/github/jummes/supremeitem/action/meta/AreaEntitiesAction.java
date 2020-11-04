@@ -93,7 +93,7 @@ public class AreaEntitiesAction extends MetaAction {
             if (world != null) {
                 l.getWorld().getNearbyEntities(l, maxDistance, maxDistance, maxDistance).stream().
                         filter(entity -> entity instanceof LivingEntity && select.test((LivingEntity) entity)).
-                        forEach(entity -> actions.forEach(action -> action.executeAction(
+                        forEach(entity -> actions.forEach(action -> action.execute(
                                 new EntityTarget((LivingEntity) entity),
                                 castFromLocation ? new LocationSource(finalL, caster) : source)));
             } else {

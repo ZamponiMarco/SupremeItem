@@ -60,10 +60,10 @@ public class HitEntitySkill extends Skill {
         if (currentCooldown == 0) {
             consumeIfConsumable(id, item);
             cancelled = onDamagedActions.stream().anyMatch(action ->
-                    action.executeAction(new EntityTarget(damaged), new EntitySource(damager)).
+                    action.execute(new EntityTarget(damaged), new EntitySource(damager)).
                             equals(Action.ActionResult.CANCELLED)) ||
                     onDamagerActions.stream().anyMatch(action ->
-                            action.executeAction(new EntityTarget(damager), new EntitySource(damager)).
+                            action.execute(new EntityTarget(damager), new EntitySource(damager)).
                                     equals(Action.ActionResult.CANCELLED));
             cooldown(damager, id, cooldown, cooldownMessage);
         } else {

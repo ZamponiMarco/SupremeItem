@@ -80,7 +80,7 @@ public class TimerAction extends MetaAction {
                 if (counter >= repetitions) {
                     this.cancel();
                 }
-                actions.forEach(action -> action.executeAction(target, source));
+                actions.forEach(action -> action.execute(target, source));
                 counter++;
             }
         };

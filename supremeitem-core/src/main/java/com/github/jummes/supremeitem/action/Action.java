@@ -57,11 +57,7 @@ public abstract class Action implements Model, Cloneable {
      * @param source The source of the action.
      * @return The ActionResult that describes how the action went.
      */
-    public ActionResult executeAction(Target target, Source source) {
-        return execute(target, source);
-    }
-
-    protected abstract ActionResult execute(Target target, Source source);
+    public abstract ActionResult execute(Target target, Source source);
 
     public void getCustomConsumer(JavaPlugin plugin, PluginInventoryHolder parent, ModelPath<?> path, Field field,
                                   InventoryClickEvent e) throws IllegalAccessException {
@@ -100,8 +96,8 @@ public abstract class Action implements Model, Cloneable {
 
     @Override
     public ItemStack getGUIItem() {
-        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue(getClass().getAnnotation(Enumerable.Displayable.class).headTexture()),
-                getName(), Libs.getLocale().getList("gui.action.description"));
+        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue(getClass().getAnnotation(Enumerable.Displayable.class).
+                headTexture()), getName(), Libs.getLocale().getList("gui.action.description"));
     }
 
     @Override
@@ -122,6 +118,9 @@ public abstract class Action implements Model, Cloneable {
          * An action that has been cancelled.
          */
         CANCELLED,
+        /**
+         * An action that failed.
+         */
         FAILURE
     }
 }
