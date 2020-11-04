@@ -63,7 +63,7 @@ public class DamageEntitySkill extends Skill {
      */
     public SkillResult executeSkill(LivingEntity damaged, LivingEntity damager, UUID id, ItemStack item) {
         boolean cancelled = false;
-        int currentCooldown = SupremeItem.getInstance().getCooldownManager().getCooldown(damaged, id);
+        int currentCooldown = SupremeItem.getInstance().getCooldownManager().getCooldown(damaged, id, getClass());
         if (currentCooldown == 0) {
             consumeIfConsumable(id, item);
             cancelled = onDamagedActions.stream().anyMatch(action ->
@@ -76,7 +76,7 @@ public class DamageEntitySkill extends Skill {
         } else {
             if (damaged instanceof Player) {
                 SupremeItem.getInstance().getCooldownManager().switchCooldownContext((Player) damaged, id,
-                        this.cooldown, cooldownMessage);
+                        this.cooldown, getClass(), cooldownMessage);
             }
         }
         return cancelled ? SkillResult.CANCELLED : SkillResult.SUCCESS;

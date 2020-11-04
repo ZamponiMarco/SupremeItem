@@ -1,4 +1,4 @@
-package com.github.jummes.supremeitem.action.entity;
+package com.github.jummes.supremeitem.action.variable;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
@@ -14,7 +14,7 @@ import java.util.Map;
 
 @Enumerable.Child
 @Enumerable.Displayable(name = "&c&lSet Numeric Variable", description = "gui.action.numeric-variable.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjVjNGQyNGFmZmRkNDgxMDI2MjAzNjE1MjdkMjE1NmUxOGMyMjNiYWU1MTg5YWM0Mzk4MTU2NDNmM2NmZjlkIn19fQ==")
-public class SetNumericVariableAction extends EntityAction {
+public class SetNumericVariableAction extends VariableAction {
 
     private static final String NAME_DEFAULT = "var";
     private static final NumericValue VALUE_DEFAULT = new NumericValue(10);

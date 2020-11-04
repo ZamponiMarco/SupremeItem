@@ -2,6 +2,8 @@ package com.github.jummes.supremeitem.manager;
 
 import com.github.jummes.libs.util.MessageUtils;
 import com.github.jummes.supremeitem.SupremeItem;
+import com.github.jummes.supremeitem.skill.RightClickSkill;
+import com.github.jummes.supremeitem.skill.Skill;
 import com.google.common.collect.Lists;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -49,8 +51,8 @@ public class CooldownManager {
         }
     }
 
-    public void switchCooldownContext(Player p, UUID id, int maxCooldown, boolean showMessage) {
-        switchCooldownContext(p, getCooldownInfo(p, id), maxCooldown, showMessage);
+    public void switchCooldownContext(Player p, UUID id, int maxCooldown, Class<? extends Skill> skill, boolean showMessage) {
+        switchCooldownContext(p, getCooldownInfo(p, id, skill), maxCooldown, showMessage);
     }
 
     private void switchCooldownContext(Player p, CooldownInfo info, int maxCooldown, boolean showMessage) {
@@ -91,16 +93,16 @@ public class CooldownManager {
         return new String(new char[count]).replace("\0", "|");
     }
 
-    public CooldownInfo getCooldownInfo(LivingEntity e, UUID id) {
+    public CooldownInfo getCooldownInfo(LivingEntity e, UUID id, Class<? extends Skill> skill) {
         if (cooldowns.containsKey(e)) {
-            return cooldowns.get(e).stream().filter(info -> info.getItemId().equals(id)).findFirst().
-                    orElse(new CooldownInfo(id, 0));
+            return cooldowns.get(e).stream().filter(info -> info.getItemId().equals(id) && info.getSkill().equals(skill)).
+                    findFirst().orElse(new CooldownInfo(id, 0, RightClickSkill.class));
         }
-        return new CooldownInfo(id, 0);
+        return new CooldownInfo(id, 0, RightClickSkill.class);
     }
 
-    public int getCooldown(LivingEntity e, UUID id) {
-        CooldownInfo info = getCooldownInfo(e, id);
+    public int getCooldown(LivingEntity e, UUID id, Class<? extends Skill> skill) {
+        CooldownInfo info = getCooldownInfo(e, id, skill);
         return info.getRemainingCooldown();
     }
 
@@ -112,6 +114,8 @@ public class CooldownManager {
         @EqualsAndHashCode.Include
         private UUID itemId;
         private int remainingCooldown;
+        @EqualsAndHashCode.Include
+        private Class<? extends Skill> skill;
     }
 
 }

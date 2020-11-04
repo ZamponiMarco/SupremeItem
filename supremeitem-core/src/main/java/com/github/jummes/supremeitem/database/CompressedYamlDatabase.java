@@ -87,7 +87,10 @@ public class CompressedYamlDatabase<T extends NamedModel> extends Database<T> {
         }
         FileUtil.copy(dataFile, backupFile);
         list.addAll((Collection<? extends T>) this.yamlConfiguration.getList(this.name));
-        list.forEach(this::saveObject);
+        list.forEach(t -> {
+            validateDeserializedName(t);
+            saveObject(t);
+        });
         yamlConfiguration.set(this.name, null);
         yamlConfiguration.save(dataFile);
     }
@@ -95,7 +98,6 @@ public class CompressedYamlDatabase<T extends NamedModel> extends Database<T> {
     @SneakyThrows
     @Override
     public void saveObject(@NonNull T t) {
-        validateName(t);
         if (!t.getName().equals(t.getOldName())) {
             yamlConfiguration.set(t.getOldName(), null);
             usedNames.remove(t.getOldName());
@@ -107,7 +109,7 @@ public class CompressedYamlDatabase<T extends NamedModel> extends Database<T> {
         t.setOldName(t.getName());
     }
 
-    private void validateName(@NonNull T t) {
+    private void validateDeserializedName(@NonNull T t) {
         String newName;
         while (usedNames.contains(t.getName())) {
             newName = t.getName() + "-copy";

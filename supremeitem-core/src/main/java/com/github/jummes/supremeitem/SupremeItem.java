@@ -6,6 +6,9 @@ import com.github.jummes.libs.database.factory.DatabaseFactory;
 import com.github.jummes.libs.localization.PluginLocale;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.location.ParticleAction;
+import com.github.jummes.supremeitem.action.variable.SetNumericVariableAction;
+import com.github.jummes.supremeitem.action.variable.SetStringVariableAction;
+import com.github.jummes.supremeitem.action.variable.VariableAction;
 import com.github.jummes.supremeitem.command.*;
 import com.github.jummes.supremeitem.condition.Condition;
 import com.github.jummes.supremeitem.database.CompressedYamlDatabase;
@@ -47,6 +50,12 @@ public class SupremeItem extends JavaPlugin {
 
         ConfigurationSerialization.registerClass(Skill.class);
 
+        ConfigurationSerialization.registerClass(Action.class);
+        ConfigurationSerialization.registerClass(VariableAction.class);
+        ConfigurationSerialization.registerClass(SetStringVariableAction.class,
+                "com.github.jummes.supremeitem.action.entity.SetStringVariableAction");
+        ConfigurationSerialization.registerClass(SetNumericVariableAction.class,
+                "com.github.jummes.supremeitem.action.entity.SetNumericVariableAction");
         ConfigurationSerialization.registerClass(Action.class);
 
         ConfigurationSerialization.registerClass(Entity.class);

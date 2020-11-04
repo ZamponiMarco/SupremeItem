@@ -18,6 +18,7 @@ import com.github.jummes.supremeitem.action.meta.MetaAction;
 import com.github.jummes.supremeitem.action.meta.TimerAction;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
+import com.github.jummes.supremeitem.action.variable.VariableAction;
 import com.github.jummes.supremeitem.value.NumericValue;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang.reflect.FieldUtils;
@@ -31,7 +32,7 @@ import java.util.Collection;
 
 @CustomClickable(customCollectionClickConsumer = "getCustomConsumer")
 @Enumerable.Parent(classArray = {EntityAction.class,
-        LocationAction.class, MetaAction.class})
+        LocationAction.class, MetaAction.class, VariableAction.class})
 public abstract class Action implements Model, Cloneable {
 
     protected static final boolean TARGET_DEFAULT = true;

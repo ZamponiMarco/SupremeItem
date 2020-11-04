@@ -53,7 +53,7 @@ public class EntitySneakSkill extends Skill {
 
     public SkillResult executeSkill(LivingEntity e, UUID id, ItemStack item) {
         boolean cancelled = false;
-        int currentCooldown = SupremeItem.getInstance().getCooldownManager().getCooldown(e, id);
+        int currentCooldown = SupremeItem.getInstance().getCooldownManager().getCooldown(e, id, getClass());
         if (currentCooldown == 0) {
             consumeIfConsumable(id, item);
             cancelled = executeCasterActions(e, onEntityActions);
@@ -61,7 +61,7 @@ public class EntitySneakSkill extends Skill {
         } else {
             if (e instanceof Player) {
                 SupremeItem.getInstance().getCooldownManager().switchCooldownContext((Player) e, id,
-                        this.cooldown, cooldownMessage);
+                        this.cooldown, getClass(), cooldownMessage);
             }
         }
         return cancelled ? SkillResult.CANCELLED : SkillResult.SUCCESS;

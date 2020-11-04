@@ -42,7 +42,7 @@ public abstract class Skill implements Model {
     protected void cooldown(LivingEntity e, UUID id, int cooldown, boolean cooldownMessage) {
         if (cooldown > 0) {
             SupremeItem.getInstance().getCooldownManager().addCooldown(e,
-                    new CooldownManager.CooldownInfo(id, cooldown), cooldownMessage);
+                    new CooldownManager.CooldownInfo(id, cooldown, getClass()), cooldownMessage);
         }
     }
 
