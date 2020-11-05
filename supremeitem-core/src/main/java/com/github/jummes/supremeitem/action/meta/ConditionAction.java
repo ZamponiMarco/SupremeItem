@@ -49,7 +49,7 @@ public class ConditionAction extends MetaAction {
     }
 
     @Override
-    protected ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source) {
         if (condition.checkCondition(target, source)) {
             if (actions.stream().anyMatch(action -> action.execute(target, source).equals(ActionResult.CANCELLED))) {
                 return ActionResult.CANCELLED;

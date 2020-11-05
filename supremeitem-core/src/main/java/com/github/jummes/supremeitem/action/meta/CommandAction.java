@@ -46,7 +46,7 @@ public class CommandAction extends MetaAction {
     }
 
     @Override
-    protected ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source) {
         Bukkit.dispatchCommand(Bukkit.getConsoleSender(), SupremeItem.getInstance().
                 getSavedPlaceholderManager().computePlaceholders(command.getRealValue(target, source), source, target));
         return ActionResult.SUCCESS;

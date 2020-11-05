@@ -80,7 +80,7 @@ public class AreaEntitiesAction extends MetaAction {
     }
 
     @Override
-    protected ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source) {
         Location l = target.getLocation();
 
         LivingEntity caster = source.getCaster();

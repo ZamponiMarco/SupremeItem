@@ -71,7 +71,7 @@ public class TimerAction extends MetaAction {
     }
 
     @Override
-    protected ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source) {
         BukkitRunnable runnable = new BukkitRunnable() {
             private int counter = 1;
 

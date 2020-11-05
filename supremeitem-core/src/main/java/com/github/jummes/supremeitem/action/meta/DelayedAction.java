@@ -68,7 +68,7 @@ public class DelayedAction extends MetaAction {
     }
 
     @Override
-    protected ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source) {
         Bukkit.getScheduler().runTaskLater(SupremeItem.getInstance(), () ->
                 actions.forEach(action -> action.execute(target, source)), delay.getRealValue(target, source).longValue());
         return ActionResult.SUCCESS;

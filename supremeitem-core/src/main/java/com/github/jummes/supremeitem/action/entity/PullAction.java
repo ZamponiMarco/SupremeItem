@@ -49,7 +49,7 @@ public class PullAction extends EntityAction {
     }
 
     @Override
-    protected ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source) {
         Vector difference = null;
         LivingEntity entityTarget = getEntity(target, source);
         LivingEntity entitySource = source.getCaster();

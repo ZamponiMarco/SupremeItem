@@ -28,7 +28,7 @@ public class TeleportAction extends LocationAction {
     }
 
     @Override
-    protected ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source) {
 
         LivingEntity entity = getEntity(target, source);
 

@@ -46,7 +46,7 @@ public class SetStringVariableAction extends VariableAction {
     }
 
     @Override
-    protected ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source) {
         LivingEntity e = getEntity(target, source);
 
         if (e == null) {

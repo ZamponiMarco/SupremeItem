@@ -61,7 +61,7 @@ public class RepeatUntilAction extends MetaAction {
     }
 
     @Override
-    protected ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source) {
         getRunnable(target, source).runTaskTimer(SupremeItem.getInstance(), 0, timer);
         return ActionResult.SUCCESS;
     }

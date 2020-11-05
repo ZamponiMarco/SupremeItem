@@ -25,7 +25,7 @@ public class CancelEventAction extends MetaAction {
     }
 
     @Override
-    protected ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source) {
         return ActionResult.CANCELLED;
     }
 

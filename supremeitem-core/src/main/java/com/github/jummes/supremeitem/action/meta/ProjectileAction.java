@@ -139,7 +139,7 @@ public class ProjectileAction extends MetaAction {
     }
 
     @Override
-    protected ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source) {
         Location l = null;
         if (source instanceof EntitySource) {
             EntitySource entitySource = (EntitySource) source;
