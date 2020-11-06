@@ -8,7 +8,7 @@ import com.github.jummes.supremeitem.placeholder.numeric.operator.NumberOperator
 
 @Enumerable.Parent(classArray = {HealthPlaceholder.class, MaxHealthPlaceholder.class,
         HungerPlaceholder.class, NumericVariablePlaceholder.class, NumberOperatorPlaceholder.class,
-        LocationPlaceholder.class, NumericBlockPlaceholder.class})
+        LocationPlaceholder.class, NumericBlockPlaceholder.class, SavedNumericPlaceholder.class})
 public abstract class NumericPlaceholder extends Placeholder<Double> {
     public NumericPlaceholder(boolean target) {
         super(target);

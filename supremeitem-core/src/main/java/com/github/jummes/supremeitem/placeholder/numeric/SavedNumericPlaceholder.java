@@ -27,6 +27,7 @@ public class SavedNumericPlaceholder extends NumericPlaceholder {
 
     public SavedNumericPlaceholder(boolean target, String placeholderName) {
         super(target);
+        this.placeholderName = placeholderName;
     }
 
     public SavedNumericPlaceholder() {
@@ -35,7 +36,7 @@ public class SavedNumericPlaceholder extends NumericPlaceholder {
 
     public static SavedNumericPlaceholder deserialize(Map<String, Object> map) {
         boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        String placeholderName = (String) map.get("placeholderName");
+        String placeholderName = (String) map.getOrDefault("placeholderName", "");
         return new SavedNumericPlaceholder(target, placeholderName);
     }
 
@@ -64,11 +65,11 @@ public class SavedNumericPlaceholder extends NumericPlaceholder {
 
     @Override
     public String getName() {
-        return null;
+        return String.format("%s %s", target ? "Target" : "Source", placeholderName);
     }
 
     @Override
     public NumericPlaceholder clone() {
-        return null;
+        return new SavedNumericPlaceholder(target, placeholderName);
     }
 }

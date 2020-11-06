@@ -38,7 +38,7 @@ public class SavedPlaceholder extends NamedModel {
     private ItemStackWrapper item;
 
     public SavedPlaceholder() {
-        this(nextAvailableName(), new MaxHealthPlaceholder(), new ItemStackWrapper());
+        this(nextAvailableName(), new MaxHealthPlaceholder(), new ItemStackWrapper(), true);
     }
 
     public SavedPlaceholder(String name, Placeholder placeholder, ItemStackWrapper item) {
