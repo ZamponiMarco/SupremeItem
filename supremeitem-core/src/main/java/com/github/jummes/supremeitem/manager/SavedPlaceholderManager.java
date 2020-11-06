@@ -4,10 +4,12 @@ import com.github.jummes.libs.model.ModelManager;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.savedplaceholder.SavedPlaceholder;
+import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 
+@Getter
 public class SavedPlaceholderManager extends ModelManager<SavedPlaceholder> {
 
     List<SavedPlaceholder> placeholders;

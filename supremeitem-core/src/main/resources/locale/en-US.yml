@@ -446,6 +446,12 @@ gui:
           - "&7&oSet a variable placeholder."
         name:
           - "&7&oThe name used to retrieve the variable value."
+      saved-placeholder:
+        description:
+          - "&7&oSet a placeholder that gets the values from"
+          - "&7&oa saved placeholder."
+        name:
+          - "&7&oThe name of the saved placeholder."
       operator:
         description:
           - "&7&oSet a numeric operator placeholder."
