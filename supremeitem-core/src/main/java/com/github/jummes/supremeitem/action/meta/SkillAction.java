@@ -9,12 +9,11 @@ import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
+import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -53,7 +52,8 @@ public class SkillAction extends MetaAction {
     public static Function<Object, ItemStack> skillsMapper() {
         return obj -> {
             String skill = (String) obj;
-            return ItemUtils.getNamedItem(new ItemStack(Material.STONE), skill, new ArrayList<>());
+            return ItemUtils.getNamedItem(SupremeItem.getInstance().getSavedSkillManager().getByName(skill).getItem().
+                    getWrapped().clone(), "&6&l" + skill, Lists.newArrayList());
         };
     }
 

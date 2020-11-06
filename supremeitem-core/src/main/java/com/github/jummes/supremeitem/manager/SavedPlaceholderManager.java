@@ -17,6 +17,11 @@ public class SavedPlaceholderManager extends ModelManager<SavedPlaceholder> {
         this.placeholders = database.loadObjects();
     }
 
+    public SavedPlaceholder getByName(String name) {
+        return placeholders.stream().filter(savedPlaceholder -> savedPlaceholder.getName().equals(name)).findFirst().
+                orElse(null);
+    }
+
     public String computePlaceholders(String input, Source source, Target target) {
         return placeholders.stream().reduce(input, (string, placeholder) -> string.replaceAll(
                 "%" + placeholder.getName(), placeholder.getPlaceholder().computePlaceholder(target, source).

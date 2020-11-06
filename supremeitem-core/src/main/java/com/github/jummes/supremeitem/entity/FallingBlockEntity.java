@@ -17,7 +17,8 @@ public class FallingBlockEntity extends Entity {
 
     private static final String MATERIAL_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTMzOThhYjNjYjY5NmIzNDQzMGJlOTQ0YjE0YWZiZDIyN2ZkODdlOTkwMjZiY2ZjOGI3Mzg3YTg2MWJkZSJ9fX0=";
 
-    @Serializable(headTexture = MATERIAL_HEAD, description = "gui.entity.falling-block.material")
+    @Serializable(headTexture = MATERIAL_HEAD, description = "gui.entity.falling-block.material",
+            additionalDescription = {"gui.additional-tooltips.value"})
     private MaterialValue material;
 
     public FallingBlockEntity(MaterialValue material) {

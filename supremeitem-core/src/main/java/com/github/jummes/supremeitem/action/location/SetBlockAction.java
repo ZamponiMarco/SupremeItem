@@ -26,9 +26,14 @@ import java.util.stream.Collectors;
 @Enumerable.Displayable(name = "&c&lSet block", description = "gui.action.set-block.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2ZmOTgxN2Q3NjdkMmVkZTcxODFhMDU3YWEyNmYwOGY3ZWNmNDY1MWRlYzk3ZGU1YjU0ZWVkZTFkZDJiNDJjNyJ9fX0=")
 public class SetBlockAction extends LocationAction {
 
+    private static final boolean ALLOW_MATERIALS_DEFAULT = false;
+
     private static final String MATERIAL_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2ZmOTgxN2Q3NjdkMmVkZTcxODFhMDU3YWEyNmYwOGY3ZWNmNDY1MWRlYzk3ZGU1YjU0ZWVkZTFkZDJiNDJjNyJ9fX0";
     private static final String EXCLUDED_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWZkMjQwMDAwMmFkOWZiYmJkMDA2Njk0MWViNWIxYTM4NGFiOWIwZTQ4YTE3OGVlOTZlNGQxMjlhNTIwODY1NCJ9fX0=";
-
+    private static final String ALLOW_MATERIALS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2U2MTdiZWQ4ZTk3ZDQwODc5OTNlYzBjODk4Zjg3NzJjNDUyYjk5ZDhiNGI5YTQ1ZTNlYzQzNDkzMDQwOWVlOSJ9fX0";
+    @Serializable(headTexture = ALLOW_MATERIALS_HEAD, description = "gui.action.set-block.allow-materials")
+    @Serializable.Optional(defaultValue = "NEGATE_DEFAULT")
+    protected boolean allowMaterials;
     @Serializable(headTexture = MATERIAL_HEAD, stringValue = true, description = "gui.action.set-block.material",
             additionalDescription = {"gui.additional-tooltips.value"})
     private MaterialValue material;
@@ -36,25 +41,27 @@ public class SetBlockAction extends LocationAction {
     private Set<Material> excludedMaterials;
 
     public SetBlockAction() {
-        this(TARGET_DEFAULT, new MaterialValue(Material.STONE), Sets.newHashSet(Material.AIR));
+        this(TARGET_DEFAULT, new MaterialValue(Material.STONE), Sets.newHashSet(Material.AIR), ALLOW_MATERIALS_DEFAULT);
     }
 
-    public SetBlockAction(boolean target, MaterialValue material, Set<Material> excludedMaterials) {
+    public SetBlockAction(boolean target, MaterialValue material, Set<Material> excludedMaterials, boolean negate) {
         super(target);
         this.material = material;
         this.excludedMaterials = excludedMaterials;
+        this.allowMaterials = negate;
     }
 
     public static SetBlockAction deserialize(Map<String, Object> map) {
         boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
         Set<Material> excludedMaterials = ((List<String>) map.get("excludedMaterials")).stream().map(Material::valueOf).collect(Collectors.toSet());
+        boolean negate = (boolean) map.getOrDefault("allowMaterials", ALLOW_MATERIALS_DEFAULT);
         MaterialValue material;
         try {
             material = (MaterialValue) map.get("material");
         } catch (ClassCastException e) {
             material = new MaterialValue(Material.getMaterial((String) map.get("material")));
         }
-        return new SetBlockAction(target, material, excludedMaterials);
+        return new SetBlockAction(target, material, excludedMaterials, negate);
     }
 
     public static List<Object> materialList(ModelPath<?> path) {
@@ -71,6 +78,7 @@ public class SetBlockAction extends LocationAction {
         map.put("==", getClass().getName());
         map.put("material", material);
         map.put("excludedMaterials", excludedMaterials.stream().map(Material::name).collect(Collectors.toList()));
+        map.put("allowMaterials", allowMaterials);
         return map;
     }
 
@@ -91,7 +99,7 @@ public class SetBlockAction extends LocationAction {
             return ActionResult.FAILURE;
         }
 
-        if (excludedMaterials.contains(location.getBlock().getType())) {
+        if (allowMaterials ^ excludedMaterials.contains(location.getBlock().getType())) {
             return ActionResult.FAILURE;
         }
 
@@ -101,7 +109,7 @@ public class SetBlockAction extends LocationAction {
 
     @Override
     public Action clone() {
-        return new SetBlockAction(target, material, new HashSet<>(excludedMaterials));
+        return new SetBlockAction(target, material, new HashSet<>(excludedMaterials), allowMaterials);
     }
 
     @Override

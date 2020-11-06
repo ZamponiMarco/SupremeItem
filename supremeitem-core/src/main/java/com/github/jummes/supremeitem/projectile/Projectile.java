@@ -16,6 +16,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Projectile {
@@ -53,7 +54,8 @@ public class Projectile {
                 List<LivingEntity> entities = l.getWorld().getNearbyEntities(l, hitBoxSize, hitBoxSize, hitBoxSize).stream().
                         filter(entity -> entity instanceof LivingEntity
                                 && (!projectilePresent || !entity.equals(projectile))
-                                && (source instanceof EntitySource && !entity.equals(source.getCaster()))).
+                                && (source instanceof EntitySource && !entity.equals(source.getCaster()))
+                                && !isProjectile(entity)).
                         map(entity -> (LivingEntity) entity).collect(Collectors.toList());
                 if (!entities.isEmpty()) {
                     entities.forEach(entity -> onEntityHitActions.forEach(Action -> Action.
@@ -84,5 +86,10 @@ public class Projectile {
             }
         };
         runnable.runTaskTimer(SupremeItem.getInstance(), 0, 1);
+    }
+
+    public static boolean isProjectile(Entity entity) {
+        return entity.getMetadata("projectile").stream().anyMatch(value ->
+                Objects.equals(value.getOwningPlugin(), SupremeItem.getInstance()));
     }
 }

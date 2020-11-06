@@ -275,6 +275,10 @@ gui:
       excluded-materials:
         - "&7&oThe set of materials which won't be"
         - "&7&ochanged by this action."
+      allow-materials:
+        - "&7&oIf true the excluded materials list becomes"
+        - "&7&oa whitelist, so only materials in that set"
+        - "&7&owill be  changed by this action."
     move-location:
       description:
         - "&7&oMove the target location."
@@ -372,7 +376,7 @@ gui:
         - "&6&oTarget: &ewearer entity."
       timer:
         - "&7&oThe interval of time between skill executions."
-    sneak-skill:
+    entity-sneak:
       description:
         - "&7&oSet a skill to be triggered when a player"
         - "&7&oenters sneaking mode."

@@ -10,6 +10,7 @@ import com.github.jummes.libs.model.Model;
 import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.libs.model.wrapper.ItemStackWrapper;
 import com.github.jummes.libs.util.ItemUtils;
+import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.database.NamedModel;
 import com.google.common.collect.Lists;
@@ -43,14 +44,27 @@ public class SavedSkill extends NamedModel {
     private ItemStackWrapper item;
 
     public SavedSkill() {
-        this("skill" + counter, Lists.newArrayList(), new ItemStackWrapper());
+        this(nextAvailableName(), Lists.newArrayList(), new ItemStackWrapper(), true);
     }
 
     public SavedSkill(String name, List<Action> actions, ItemStackWrapper item) {
-        super(name);
+        this(name, actions, item, true);
         counter++;
+    }
+
+    protected SavedSkill(String name, List<Action> actions, ItemStackWrapper item, boolean increasedCounter) {
+        super(name);
         this.actions = actions;
         this.item = item;
+    }
+
+    private static String nextAvailableName() {
+        String name;
+        do {
+            name = "skill" + counter;
+            counter++;
+        } while (SupremeItem.getInstance().getSavedSkillManager().getByName(name) != null);
+        return name;
     }
 
     public static SavedSkill deserialize(Map<String, Object> map) {

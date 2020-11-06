@@ -10,6 +10,7 @@ import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.libs.model.wrapper.ItemStackWrapper;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.libs.util.MessageUtils;
+import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.database.NamedModel;
 import com.github.jummes.supremeitem.skill.Skill;
 import com.google.common.collect.Lists;
@@ -47,17 +48,31 @@ public class Item extends NamedModel {
     private boolean consumable;
 
     public Item() {
-        this(UUID.randomUUID(), "item" + counter, new ItemStackWrapper(true),
-                Sets.newHashSet(), CONSUMABLE_DEFAULT);
+        this(UUID.randomUUID(), nextAvailableName(), new ItemStackWrapper(true),
+                Sets.newHashSet(), CONSUMABLE_DEFAULT, true);
     }
 
     public Item(UUID id, String name, ItemStackWrapper item, Set<Skill> skillSet, boolean consumable) {
-        super(name);
+        this(id, name, item, skillSet, consumable, true);
         counter++;
+    }
+
+    protected Item(UUID id, String name, ItemStackWrapper item, Set<Skill> skillSet, boolean consumable,
+                   boolean increaseCounter) {
+        super(name);
         this.id = id;
         this.item = item;
         this.skillSet = skillSet;
         this.consumable = consumable;
+    }
+
+    private static String nextAvailableName() {
+        String name;
+        do {
+            name = "item" + counter;
+            counter++;
+        } while (SupremeItem.getInstance().getItemManager().getByName(name) != null);
+        return name;
     }
 
     public static Item deserialize(Map<String, Object> map) {

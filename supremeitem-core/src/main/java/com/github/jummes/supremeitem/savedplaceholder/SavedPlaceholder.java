@@ -10,6 +10,7 @@ import com.github.jummes.libs.model.Model;
 import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.libs.model.wrapper.ItemStackWrapper;
 import com.github.jummes.libs.util.ItemUtils;
+import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.database.NamedModel;
 import com.github.jummes.supremeitem.placeholder.Placeholder;
 import com.github.jummes.supremeitem.placeholder.numeric.MaxHealthPlaceholder;
@@ -37,14 +38,27 @@ public class SavedPlaceholder extends NamedModel {
     private ItemStackWrapper item;
 
     public SavedPlaceholder() {
-        this("placeholder" + counter, new MaxHealthPlaceholder(), new ItemStackWrapper());
+        this(nextAvailableName(), new MaxHealthPlaceholder(), new ItemStackWrapper());
     }
 
     public SavedPlaceholder(String name, Placeholder placeholder, ItemStackWrapper item) {
-        super(name);
+        this(name, placeholder, item, true);
         counter++;
+    }
+
+    protected SavedPlaceholder(String name, Placeholder placeholder, ItemStackWrapper item, boolean increasedCounter) {
+        super(name);
         this.placeholder = placeholder;
         this.item = item;
+    }
+
+    private static String nextAvailableName() {
+        String name;
+        do {
+            name = "placeholder" + counter;
+            counter++;
+        } while (SupremeItem.getInstance().getSavedPlaceholderManager().getByName(name) != null);
+        return name;
     }
 
     public static SavedPlaceholder deserialize(Map<String, Object> map) {
