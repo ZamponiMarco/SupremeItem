@@ -302,7 +302,17 @@ gui:
         - "&7&oThe number of ticks to block the event for."
     teleport:
       description:
-        - "&7&oSet a teleport action."
+        - "&7&oSet a teleport action which teleports"
+        - "&7&oa source to the target location or"
+        - "&7&oviceversa."
+    relative-teleport:
+      description:
+        - "&7&oSet a teleport action which teleports"
+        - "&7&othe source or the target to a location"
+        - "&7&odefined by relative coordinates."
+      coordinates:
+        - "&7&oThe vector that defines the relative"
+        - "&7&ocoordinates."
   skill:
     description:
       - "&6&lLeft click &eto modify."
