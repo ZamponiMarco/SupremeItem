@@ -1,6 +1,7 @@
 package com.github.jummes.supremeitem.value;
 
 import com.github.jummes.libs.annotation.CustomClickable;
+import com.github.jummes.libs.annotation.GUINameable;
 import com.github.jummes.libs.gui.PluginInventoryHolder;
 import com.github.jummes.libs.gui.model.ModelObjectInventoryHolder;
 import com.github.jummes.libs.gui.setting.FromListFieldChangeInventoryHolder;
@@ -24,6 +25,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
+@GUINameable(GUIName = "getName")
 @Getter
 @CustomClickable(customFieldClickConsumer = "getCustomClickConsumer")
 public class MaterialValue extends Value<Material, MaterialPlaceholder> {

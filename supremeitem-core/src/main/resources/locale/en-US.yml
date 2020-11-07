@@ -673,4 +673,7 @@ gui:
       - "&6&lMiddle click &eto switch (const/placeholder)"
     recreate:
       - "&6&lLeft click &eto modify."
+      - "&6&lRight click &eto recreate."
+    delete:
+      - "&6&lLeft click &eto modify."
       - "&6&lRight click &eto delete."

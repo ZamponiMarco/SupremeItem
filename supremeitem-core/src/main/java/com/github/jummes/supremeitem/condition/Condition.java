@@ -45,7 +45,7 @@ public abstract class Condition implements Model, Cloneable {
 
     public ItemStack getGUIItem() {
         return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue(getClass().getAnnotation(Enumerable.Displayable.class).headTexture()),
-                getName(), Libs.getLocale().getList("gui.additional-tooltips.recreate"));
+                getName(), Libs.getLocale().getList("gui.additional-tooltips.delete"));
     }
 
 }
