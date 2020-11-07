@@ -32,18 +32,22 @@ public class Projectile {
         initialDirection.rotateAroundZ((Math.random() - 0.5) * spread);
         BukkitRunnable runnable = new BukkitRunnable() {
 
-            private final Entity projectile = entity.spawnEntity(l, target, source);
+            private final Entity projectile = getEntity();
             private final boolean projectilePresent = projectile != null;
             private int counter = 0;
 
-            @Override
-            public void run() {
-
-                if (projectilePresent) {
+            public Entity getEntity() {
+                Entity projectile = entity.spawnEntity(l, target, source);
+                if (projectile != null) {
                     projectile.setMetadata("projectile", new FixedMetadataValue(SupremeItem.getInstance(),
                             true));
                     projectile.setGravity(false);
                 }
+                return projectile;
+            }
+
+            @Override
+            public void run() {
 
                 if (l.getBlock().getType().isBlock() && !l.getBlock().getType().equals(Material.AIR)
                         && l.getBlock().getType().isSolid()) {
@@ -53,7 +57,7 @@ public class Projectile {
 
                 List<LivingEntity> entities = l.getWorld().getNearbyEntities(l, hitBoxSize, hitBoxSize, hitBoxSize).stream().
                         filter(entity -> entity instanceof LivingEntity
-                                && (!projectilePresent || !entity.equals(projectile))
+                                && (!Objects.equals(projectile, entity))
                                 && (source instanceof EntitySource && !entity.equals(source.getCaster()))
                                 && !isProjectile(entity)).
                         map(entity -> (LivingEntity) entity).collect(Collectors.toList());

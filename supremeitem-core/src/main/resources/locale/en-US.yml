@@ -584,11 +584,17 @@ gui:
     material:
       block:
         description:
-          - "&7&oSet a placeholder that returns the material."
+          - "&7&oSet a placeholder that returns the material"
           - "&7&oof a block."
         placeholder:
           - "&7&oThe block placeholder that represents"
           - "&7&othe block to inspect."
+      from-string:
+        description:
+          - "&7&oSet a placeholder that returns the material"
+          - "&7&ofrom a string."
+        name:
+          - "&7&oThe name of the material."
   condition:
     description:
       - "&6&lLeft click &eto modify."
