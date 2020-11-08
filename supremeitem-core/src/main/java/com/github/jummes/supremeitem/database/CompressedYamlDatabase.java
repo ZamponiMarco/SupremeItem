@@ -11,6 +11,7 @@ import org.bukkit.util.FileUtil;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
@@ -66,7 +67,7 @@ public class CompressedYamlDatabase<T extends NamedModel> extends Database<T> {
             yamlConfiguration.getKeys(false).forEach(key -> {
                         String string = yamlConfiguration.getString(key);
                         T obj = (T) NamedModel.fromSerializedString(new String(CompressUtils.
-                                decompress(Base64.getDecoder().decode(string))));
+                                decompress(Base64.getDecoder().decode(string)), Charset.defaultCharset()));
                         if (obj != null) {
                             list.add(obj);
                         }
@@ -102,7 +103,8 @@ public class CompressedYamlDatabase<T extends NamedModel> extends Database<T> {
             yamlConfiguration.set(t.getOldName(), null);
             usedNames.remove(t.getOldName());
         }
-        yamlConfiguration.set(t.getName(), new String(Base64.getEncoder().encode(CompressUtils.compress(t.toSerializedString().getBytes()))));
+        yamlConfiguration.set(t.getName(), new String(Base64.getEncoder().encode(CompressUtils.
+                compress(t.toSerializedString().getBytes())), Charset.defaultCharset()));
         yamlConfiguration.save(dataFile);
 
         usedNames.add(t.getName());

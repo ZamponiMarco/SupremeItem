@@ -279,6 +279,21 @@ gui:
         - "&7&oIf true the excluded materials list becomes"
         - "&7&oa whitelist, so only materials in that set"
         - "&7&owill be  changed by this action."
+    fake-block:
+      description:
+        - "&7&oSet a fake block in target location."
+      material:
+        - "&7&oThe material of the block."
+      excluded-materials:
+        - "&7&oThe set of materials which won't be"
+        - "&7&ochanged by this action."
+      allow-materials:
+        - "&7&oIf true the excluded materials list becomes"
+        - "&7&oa whitelist, so only materials in that set"
+        - "&7&owill be  changed by this action."
+      ticks:
+        - "&7&oThe number of ticks which the fake block"
+        - "&7&owill last."
     move-location:
       description:
         - "&7&oMove the target location."
