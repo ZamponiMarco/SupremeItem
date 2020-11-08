@@ -9,6 +9,7 @@ import com.github.jummes.supremeitem.action.location.ParticleAction;
 import com.github.jummes.supremeitem.action.variable.SetNumericVariableAction;
 import com.github.jummes.supremeitem.action.variable.SetStringVariableAction;
 import com.github.jummes.supremeitem.action.variable.VariableAction;
+import com.github.jummes.supremeitem.area.Area;
 import com.github.jummes.supremeitem.command.*;
 import com.github.jummes.supremeitem.condition.Condition;
 import com.github.jummes.supremeitem.database.CompressedYamlDatabase;
@@ -81,6 +82,8 @@ public class SupremeItem extends JavaPlugin {
         ConfigurationSerialization.registerClass(ParticleAction.BlockDataData.class);
         ConfigurationSerialization.registerClass(ParticleAction.DustOptionsData.class);
         ConfigurationSerialization.registerClass(ParticleAction.ItemStackData.class);
+
+        ConfigurationSerialization.registerClass(Area.class);
     }
 
     /*

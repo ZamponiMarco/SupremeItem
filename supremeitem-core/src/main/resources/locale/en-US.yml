@@ -313,6 +313,14 @@ gui:
       coordinates:
         - "&7&oThe vector that defines the relative"
         - "&7&ocoordinates."
+    area-blocks:
+      description:
+        - "&7&oSet an action that executes a list of"
+        - "&7&oactions in all the blocks inside an area."
+      actions:
+        - "&7&oThe actions to execute."
+      area:
+        - "&7&oThe area of the blocks."
   skill:
     description:
       - "&6&lLeft click &eto modify."
@@ -677,3 +685,12 @@ gui:
     delete:
       - "&6&lLeft click &eto modify."
       - "&6&lRight click &eto delete."
+  area:
+    spheric:
+      description:
+        - "&7&oSet a spheric area."
+      range:
+        - "&7&oThe range of the sphere."
+      borders:
+        - "&7&oWhether or not only borders"
+        - "&7&oshould be included in the area."
