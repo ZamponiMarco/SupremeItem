@@ -13,12 +13,14 @@ import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.entity.EntityAction;
 import com.github.jummes.supremeitem.action.location.LocationAction;
+import com.github.jummes.supremeitem.action.meta.ConditionAction;
 import com.github.jummes.supremeitem.action.meta.DelayedAction;
 import com.github.jummes.supremeitem.action.meta.MetaAction;
 import com.github.jummes.supremeitem.action.meta.TimerAction;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.action.variable.VariableAction;
+import com.github.jummes.supremeitem.condition.numeric.LessThanCondition;
 import com.github.jummes.supremeitem.value.NumericValue;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang.reflect.FieldUtils;
@@ -73,7 +75,12 @@ public abstract class Action implements Model, Cloneable {
             actions.add(clone());
             path.saveModel();
             e.getWhoClicked().openInventory(parent.getInventory());
-        } else if (e.getClick().equals(ClickType.NUMBER_KEY) && e.getHotbarButton() == 0) {
+        }
+        wrapActions(parent, path, e, actions);
+    }
+
+    protected void wrapActions(PluginInventoryHolder parent, ModelPath<?> path, InventoryClickEvent e, Collection<Action> actions) {
+        if (e.getClick().equals(ClickType.NUMBER_KEY) && e.getHotbarButton() == 0) {
             actions.remove(this);
             path.addModel(this);
             path.deleteModel();
@@ -89,6 +96,15 @@ public abstract class Action implements Model, Cloneable {
             path.popModel();
             onRemoval();
             actions.add(new TimerAction(TARGET_DEFAULT, 5, 10, Lists.newArrayList(this)));
+            path.saveModel();
+            e.getWhoClicked().openInventory(parent.getInventory());
+        } else if (e.getClick().equals(ClickType.NUMBER_KEY) && e.getHotbarButton() == 2) {
+            actions.remove(this);
+            path.addModel(this);
+            path.deleteModel();
+            path.popModel();
+            onRemoval();
+            actions.add(new ConditionAction(TARGET_DEFAULT, Lists.newArrayList(this), new LessThanCondition()));
             path.saveModel();
             e.getWhoClicked().openInventory(parent.getInventory());
         }

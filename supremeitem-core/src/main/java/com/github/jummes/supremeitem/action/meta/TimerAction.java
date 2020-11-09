@@ -31,6 +31,8 @@ import java.util.stream.Collectors;
 @CustomClickable(customCollectionClickConsumer = "getCustomConsumer")
 public class TimerAction extends MetaAction {
 
+    private static final int NUMBER_KEY = 1;
+
     private static final int TIMER_DEFAULT = 5;
     private static final int REPETITIONS_DEFAULT = 10;
 
@@ -90,13 +92,13 @@ public class TimerAction extends MetaAction {
 
     public void getCustomConsumer(JavaPlugin plugin, PluginInventoryHolder parent, ModelPath<?> path, Field field,
                                   InventoryClickEvent e) throws IllegalAccessException {
-        getExtractConsumer(plugin, parent, path, field, e, this.actions);
+        getExtractConsumer(plugin, parent, path, field, e, this.actions, NUMBER_KEY);
     }
 
     @Override
     public ItemStack getGUIItem() {
-        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGJjYjIzMGE0MTBlOTNiN2Q0YjVjMjg5NjMxZDYxNGI5MDQ1Mzg0M2Q2ZWQwM2RhZjVlNDAxNWEyZmUxZjU2YiJ9fX0="),
-                "&6&lInterval: &c" + timer + " &6&lRepetitions: &c" + repetitions, Libs.getLocale().getList("gui.action.timer.item-description"));
+        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue(getClass().
+                getAnnotation(Enumerable.Displayable.class).headTexture()), getName(), modifiedLore(NUMBER_KEY));
     }
 
     @Override

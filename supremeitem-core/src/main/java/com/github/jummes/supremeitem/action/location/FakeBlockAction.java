@@ -46,6 +46,7 @@ public class FakeBlockAction extends LocationAction {
     private Set<Material> excludedMaterials;
     @Serializable(headTexture = TICKS_HEAD, description = "gui.action.fake-block.ticks",
             additionalDescription = {"gui.additional-tooltips.value"})
+    @Serializable.Number(minValue = 0, scale = 1)
     private NumericValue ticks;
 
     public FakeBlockAction() {

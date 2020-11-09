@@ -1,10 +1,12 @@
 package com.github.jummes.supremeitem.action.meta;
 
 import com.github.jummes.libs.annotation.Enumerable;
+import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.gui.PluginInventoryHolder;
 import com.github.jummes.libs.gui.model.ModelObjectInventoryHolder;
 import com.github.jummes.libs.gui.model.RemoveConfirmationInventoryHolder;
 import com.github.jummes.libs.model.ModelPath;
+import com.github.jummes.libs.util.MessageUtils;
 import com.github.jummes.supremeitem.action.Action;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang.reflect.FieldUtils;
@@ -29,7 +31,7 @@ public abstract class MetaAction extends Action {
     }
 
     protected void getExtractConsumer(JavaPlugin plugin, PluginInventoryHolder parent, ModelPath<?> path, Field field,
-                                      InventoryClickEvent e, List<Action> actions) throws IllegalAccessException {
+                                      InventoryClickEvent e, List<Action> actions, int numberKey) throws IllegalAccessException {
         Collection<Action> superActions = ((Collection<Action>) FieldUtils.readField(field,
                 path.getLast() != null ? path.getLast() : path.getModelManager(), true));
         if (e.getClick().equals(ClickType.LEFT)) {
@@ -39,20 +41,26 @@ public abstract class MetaAction extends Action {
             e.getWhoClicked().openInventory(new RemoveConfirmationInventoryHolder(plugin, parent, path, this,
                     field).getInventory());
         } else if (e.getClick().equals(ClickType.MIDDLE)) {
-            actions.add(clone());
+            superActions.add(clone());
             path.saveModel();
             e.getWhoClicked().openInventory(parent.getInventory());
-        } else if (e.getClick().equals(ClickType.NUMBER_KEY) && (e.getHotbarButton() == 0)) {
+        } else if (e.getClick().equals(ClickType.NUMBER_KEY) && (e.getHotbarButton() == numberKey)) {
             superActions.remove(this);
             path.addModel(this);
             path.deleteModel();
             path.popModel();
             onRemoval();
-            if (e.getHotbarButton() == 0) {
-                superActions.addAll(actions);
-                path.saveModel();
-            }
+            superActions.addAll(actions);
+            path.saveModel();
             e.getWhoClicked().openInventory(parent.getInventory());
+            return;
         }
+        wrapActions(parent, path, e, superActions);
+    }
+
+    protected List<String> modifiedLore(int i) {
+        List<String> lore = Libs.getLocale().getList("gui.action.description");
+        lore.set(i + 3, MessageUtils.color(String.format("&6&lPress %d &eto unwrap actions.", i + 1)));
+        return lore;
     }
 }

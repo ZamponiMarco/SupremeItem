@@ -8,8 +8,16 @@ import org.bukkit.Location;
 
 import java.util.List;
 
-@Enumerable.Parent(classArray = {SphericArea.class})
+@Enumerable.Parent(classArray = {SphericArea.class, CylindricArea.class})
 public abstract class Area implements Model {
+
+    protected static double lengthSq(double x, double y, double z) {
+        return (x * x) + (y * y) + (z * z);
+    }
+
+    protected static double lengthSq(double x, double z) {
+        return (x * x) + (z * z);
+    }
 
     public abstract List<Location> getBlocks(Location center, Target target, Source source);
 

@@ -29,6 +29,8 @@ public class DamageAction extends EntityAction {
     @Serializable.Optional(defaultValue = "AMOUNT_DEFAULT")
     private NumericValue amount;
 
+    // TODO boolean absoluteDamage
+
     public DamageAction() {
         this(TARGET_DEFAULT, AMOUNT_DEFAULT.clone());
     }

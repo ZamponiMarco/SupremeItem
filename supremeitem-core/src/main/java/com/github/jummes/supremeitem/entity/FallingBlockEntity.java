@@ -8,6 +8,7 @@ import com.github.jummes.supremeitem.value.MaterialValue;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.FallingBlock;
 
 import java.util.Map;
 
@@ -41,7 +42,10 @@ public class FallingBlockEntity extends Entity {
 
     @Override
     public org.bukkit.entity.Entity spawnEntity(Location l, Target target, Source source) {
-        return l.getWorld().spawnFallingBlock(l, Bukkit.createBlockData(material.getRealValue(target, source)));
+        FallingBlock entity = l.getWorld().spawnFallingBlock(l, Bukkit.createBlockData(material.
+                getRealValue(target, source)));
+        entity.setDropItem(false);
+        return entity;
     }
 
     @Override

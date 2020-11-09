@@ -32,6 +32,8 @@ import java.util.stream.Collectors;
 @CustomClickable(customCollectionClickConsumer = "getCustomConsumer")
 public class DelayedAction extends MetaAction {
 
+    private static final int NUMBER_KEY = 0;
+
     private static final NumericValue DELAY_DEFAULT = new NumericValue(10);
 
     private static final String ACTIONS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODIxNmVlNDA1OTNjMDk4MWVkMjhmNWJkNjc0ODc5NzgxYzQyNWNlMDg0MWI2ODc0ODFjNGY3MTE4YmI1YzNiMSJ9fX0=";
@@ -76,8 +78,8 @@ public class DelayedAction extends MetaAction {
 
     @Override
     public ItemStack getGUIItem() {
-        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZlOGNmZjc1ZjdkNDMzMjYwYWYxZWNiMmY3NzNiNGJjMzgxZDk1MWRlNGUyZWI2NjE0MjM3NzlhNTkwZTcyYiJ9fX0="),
-                "&6&lDelay: &c" + delay.getName(), Libs.getLocale().getList("gui.action.delayed.item-description"));
+        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue(getClass().
+                getAnnotation(Enumerable.Displayable.class).headTexture()), getName(), modifiedLore(NUMBER_KEY));
     }
 
     @Override
@@ -87,7 +89,7 @@ public class DelayedAction extends MetaAction {
 
     public void getCustomConsumer(JavaPlugin plugin, PluginInventoryHolder parent, ModelPath<?> path, Field field,
                                   InventoryClickEvent e) throws IllegalAccessException {
-        getExtractConsumer(plugin, parent, path, field, e, this.actions);
+        getExtractConsumer(plugin, parent, path, field, e, this.actions, NUMBER_KEY);
     }
 
     @Override

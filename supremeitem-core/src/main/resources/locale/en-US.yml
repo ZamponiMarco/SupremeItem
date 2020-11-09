@@ -31,8 +31,9 @@ gui:
       - "&6&lLeft click &eto modify."
       - "&6&lRight click &eto delete."
       - "&6&lMiddle click &eto clone."
-      - "&6&lPress 1 &eto delay the action."
-      - "&6&lPress 2 &eto repeat the action."
+      - "&6&lPress 1 &eto wrap in a DelayedAction."
+      - "&6&lPress 2 &eto wrap in a TimerAction."
+      - "&6&lPress 3 &eto wrap in a ConditionAction."
     target:
       - "&7&oWhether the action should be executed"
       - "&7&oon the skill target or the skill source."
@@ -144,10 +145,6 @@ gui:
         - "&6&oIf true, Source: &elocation of caster entity."
         - "&6&oIf false, Source: &ecaster entity."
     delayed:
-      item-description:
-        - "&6&lLeft click &eto modify."
-        - "&6&lRight click &eto delete."
-        - "&6&lPress 1 &eto unwrap actions."
       description:
         - "&7&oSet a group of actions that will be executed"
         - "&7&oafter a set delay of time."
@@ -200,10 +197,6 @@ gui:
       name:
         - "&7&oThe name of the skill to use."
     timer:
-      item-description:
-        - "&6&lLeft click &eto modify."
-        - "&6&lRight click &eto delete."
-        - "&6&lPress 1 &eto unwrap actions."
       description:
         - "&7&oSet the repetition of a group of actions."
       timer:
@@ -241,8 +234,6 @@ gui:
       condition:
         - "&7&oThe condition that has to be met"
         - "&7&oto execute the actions."
-        - "&6&lLeft click &eto modify."
-        - "&6&lRight click &eto delete."
     repeat-until:
       description:
         - "&7&oSet the execution of actions"

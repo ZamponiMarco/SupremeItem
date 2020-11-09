@@ -85,7 +85,7 @@ public class BlockEventAction extends EntityAction {
 
     @Override
     public Action clone() {
-        return null;
+        return new BlockEventAction(target, blockedEvent, ticks.clone());
     }
 
     @Override

@@ -39,10 +39,6 @@ public class SphericArea extends Area {
         return new SphericArea(range, onlyBorders);
     }
 
-    private static double lengthSq(double x, double y, double z) {
-        return (x * x) + (y * y) + (z * z);
-    }
-
     /**
      * Method implementation provided by WorldEdit library
      * <p>
@@ -84,7 +80,7 @@ public class SphericArea extends Area {
                             }
                             break forY;
                         }
-                        break forZ;
+                        break;
                     }
 
                     if (onlyBorders) {
