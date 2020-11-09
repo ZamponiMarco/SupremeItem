@@ -128,7 +128,8 @@ public class SupremeItem extends JavaPlugin {
         if (!Objects.equals(getConfig().getString("version"), CONFIG_VERSION)) {
             getLogger().info("config.yml has changed. Old config is stored inside config-"
                     + getConfig().getString("version") + ".yml");
-            File outputFile = new File(getDataFolder(), "config-" + getConfig().getString("version") + ".yml");
+            File outputFile = new File(getDataFolder(), "backup" + File.pathSeparator +
+                    "config-" + getConfig().getString("version") + ".yml");
             FileUtil.copy(configFile, outputFile);
             configFile.delete();
             saveDefaultConfig();

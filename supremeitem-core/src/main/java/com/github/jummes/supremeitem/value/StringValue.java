@@ -8,6 +8,7 @@ import com.github.jummes.libs.gui.setting.StringFieldChangeInventoryHolder;
 import com.github.jummes.libs.gui.setting.change.FieldChangeInformation;
 import com.github.jummes.libs.model.Model;
 import com.github.jummes.libs.model.ModelPath;
+import com.github.jummes.libs.util.MessageUtils;
 import com.github.jummes.supremeitem.placeholder.string.StringPlaceholder;
 import com.github.jummes.supremeitem.placeholder.string.WorldNamePlaceholder;
 import lombok.Getter;
@@ -46,7 +47,7 @@ public class StringValue extends Value<String, StringPlaceholder> {
         String value = "example";
         StringPlaceholder placeholderValue = new WorldNamePlaceholder();
         if (objectValue) {
-            value = (String) map.get("value");
+            value = MessageUtils.getColoredString((String) map.get("value"));
         } else {
             placeholderValue = (StringPlaceholder) map.get("placeholderValue");
         }
