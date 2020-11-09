@@ -20,35 +20,40 @@ import java.util.Map;
 @Setter
 public class DamageAction extends EntityAction {
 
+    private static final boolean ABSOLUTE_DEFAULT = false;
     private static final NumericValue AMOUNT_DEFAULT = new NumericValue(1);
 
     private static final String AMOUNT_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdkYzNlMjlhMDkyM2U1MmVjZWU2YjRjOWQ1MzNhNzllNzRiYjZiZWQ1NDFiNDk1YTEzYWJkMzU5NjI3NjUzIn19fQ==";
+    private static final String ABSOLUTE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTBkZmM4YTM1NjNiZjk5NmY1YzFiNzRiMGIwMTViMmNjZWIyZDA0Zjk0YmJjZGFmYjIyOTlkOGE1OTc5ZmFjMSJ9fX0=";
 
     @Serializable(headTexture = AMOUNT_HEAD, description = "gui.action.damage.amount", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(minValue = 0)
     @Serializable.Optional(defaultValue = "AMOUNT_DEFAULT")
     private NumericValue amount;
-
-    // TODO boolean absoluteDamage
+    @Serializable(headTexture = AMOUNT_HEAD, description = "gui.action.damage.absolute")
+    @Serializable.Optional(defaultValue = "ABSOLUTE_DEFAULT")
+    private boolean absolute;
 
     public DamageAction() {
-        this(TARGET_DEFAULT, AMOUNT_DEFAULT.clone());
+        this(TARGET_DEFAULT, AMOUNT_DEFAULT.clone(), ABSOLUTE_DEFAULT);
     }
 
-    public DamageAction(boolean target, NumericValue amount) {
+    public DamageAction(boolean target, NumericValue amount, boolean absolute) {
         super(target);
         this.amount = amount;
+        this.absolute = absolute;
     }
 
     public static DamageAction deserialize(Map<String, Object> map) {
         boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
+        boolean absolute = (boolean) map.getOrDefault("absolute", ABSOLUTE_DEFAULT);
         NumericValue amount;
         try {
             amount = (NumericValue) map.getOrDefault("amount", AMOUNT_DEFAULT.clone());
         } catch (ClassCastException e) {
             amount = new NumericValue(((Number) map.getOrDefault("amount", AMOUNT_DEFAULT.getValue())));
         }
-        return new DamageAction(target, amount);
+        return new DamageAction(target, amount, absolute);
     }
 
     @Override
@@ -60,13 +65,18 @@ public class DamageAction extends EntityAction {
         }
 
         e.setMetadata("siattack", new FixedMetadataValue(SupremeItem.getInstance(), true));
-        e.damage(amount.getRealValue(target, source), source.getCaster());
+        if (!absolute) {
+            e.damage(amount.getRealValue(target, source), source.getCaster());
+        } else {
+            e.setHealth(e.getHealth() - amount.getRealValue(target, source));
+            e.damage(0);
+        }
         return ActionResult.SUCCESS;
     }
 
     @Override
     public Action clone() {
-        return new DamageAction(target, amount.clone());
+        return new DamageAction(target, amount.clone(), absolute);
     }
 
     @Override

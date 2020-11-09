@@ -41,6 +41,9 @@ gui:
       amount:
         - "&7&oThe amount of damage to deal to"
         - "&7&othe target."
+      absolute:
+        - "&7&oIf true the damage dealt will not be"
+        - "&7&omitigated by armor or effects."
     effect:
       description:
         - "&7&oSet the potion effect to apply to the"
