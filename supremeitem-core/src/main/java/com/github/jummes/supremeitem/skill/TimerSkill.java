@@ -6,7 +6,6 @@ import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.Action;
 import com.google.common.collect.Lists;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 
@@ -14,7 +13,6 @@ import java.util.List;
 import java.util.Map;
 
 @Getter
-@AllArgsConstructor
 @Enumerable.Child
 @Enumerable.Displayable(name = "&c&lTimer skill", description = "gui.skill.timer.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZlOGNmZjc1ZjdkNDMzMjYwYWYxZWNiMmY3NzNiNGJjMzgxZDk1MWRlNGUyZWI2NjE0MjM3NzlhNTkwZTcyYiJ9fX0=")
 public class TimerSkill extends Skill {
@@ -35,13 +33,20 @@ public class TimerSkill extends Skill {
 
 
     public TimerSkill() {
-        this(Lists.newArrayList(), TIMER_DEFAULT);
+        this(CONSUMABLE_DEFAULT, Lists.newArrayList(), TIMER_DEFAULT);
+    }
+
+    public TimerSkill(boolean consumable, List<Action> onWearerActions, int timer) {
+        super(consumable);
+        this.onWearerActions = onWearerActions;
+        this.timer = timer;
     }
 
     public static TimerSkill deserialize(Map<String, Object> map) {
+        boolean consumable = (boolean) map.getOrDefault("consumable", CONSUMABLE_DEFAULT);
         List<Action> onWearerActions = (List<Action>) map.getOrDefault("onWearerActions", Lists.newArrayList());
         int timer = (int) map.getOrDefault("timer", TIMER_DEFAULT);
-        return new TimerSkill(onWearerActions, timer);
+        return new TimerSkill(consumable, onWearerActions, timer);
     }
 
     @Override

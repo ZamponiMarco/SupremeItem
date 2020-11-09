@@ -4,14 +4,11 @@ import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.util.ItemUtils;
-import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
 import com.google.common.collect.Lists;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -20,10 +17,9 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @Enumerable.Child
 @Enumerable.Displayable(name = "&c&lLeft click skill", description = "gui.skill.left-click.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWYxMzNlOTE5MTlkYjBhY2VmZGMyNzJkNjdmZDg3YjRiZTg4ZGM0NGE5NTg5NTg4MjQ0NzRlMjFlMDZkNTNlNiJ9fX0=")
-public class LeftClickSkill extends Skill {
+public class LeftClickSkill extends CooldownSkill {
 
     private static final int RAY_CAST_DISTANCE_DEFAULT = 30;
 
@@ -35,11 +31,6 @@ public class LeftClickSkill extends Skill {
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     protected List<Action> onCasterActions;
 
-    @Serializable(headTexture = COOLDOWN_HEAD, description = "gui.skill.cooldown")
-    @Serializable.Number(minValue = 0)
-    @Serializable.Optional(defaultValue = "COOLDOWN_DEFAULT")
-    protected int cooldown;
-
     @Serializable(headTexture = RAY_CAST_HEAD, description = "gui.skill.left-click.ray-cast-actions")
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     protected List<Action> onRayCastPointActions;
@@ -49,42 +40,39 @@ public class LeftClickSkill extends Skill {
     @Serializable.Optional(defaultValue = "RAY_CAST_DISTANCE_DEFAULT")
     protected int onRayCastMaxDistance;
 
-    @Serializable(headTexture = COOLDOWN_MESSAGE_HEAD, description = "gui.skill.cooldown-message")
-    @Serializable.Optional(defaultValue = "COOLDOWN_MESSAGE_DEFAULT")
-    protected boolean cooldownMessage;
-
     public LeftClickSkill() {
-        this(Lists.newArrayList(), COOLDOWN_DEFAULT, Lists.newArrayList(), RAY_CAST_DISTANCE_DEFAULT, COOLDOWN_MESSAGE_DEFAULT);
+        this(CONSUMABLE_DEFAULT, COOLDOWN_DEFAULT, COOLDOWN_MESSAGE_DEFAULT, Lists.newArrayList(), Lists.newArrayList(), RAY_CAST_DISTANCE_DEFAULT);
+    }
+
+    public LeftClickSkill(boolean consumable, int cooldown, boolean cooldownMessage, List<Action> onCasterActions, List<Action> onRayCastPointActions, int onRayCastMaxDistance) {
+        super(consumable, cooldown, cooldownMessage);
+        this.onCasterActions = onCasterActions;
+        this.onRayCastPointActions = onRayCastPointActions;
+        this.onRayCastMaxDistance = onRayCastMaxDistance;
     }
 
     public static LeftClickSkill deserialize(Map<String, Object> map) {
+        boolean consumable = (boolean) map.getOrDefault("consumable", CONSUMABLE_DEFAULT);
         List<Action> onCasterActions = (List<Action>) map.getOrDefault("onCasterActions", Lists.newArrayList());
         int cooldown = (int) map.getOrDefault("cooldown", COOLDOWN_DEFAULT);
         List<Action> onRayCastPointActions = (List<Action>) map.getOrDefault("onRayCastPointActions", Lists.newArrayList());
         int onRayCastMaxDistance = (int) map.getOrDefault("onRayCastMaxDistance", RAY_CAST_DISTANCE_DEFAULT);
         boolean cooldownMessage = (boolean) map.getOrDefault("cooldownMessage", COOLDOWN_MESSAGE_DEFAULT);
-        return new LeftClickSkill(onCasterActions, cooldown, onRayCastPointActions, onRayCastMaxDistance, cooldownMessage);
+        return new LeftClickSkill(consumable, cooldown, cooldownMessage, onCasterActions, onRayCastPointActions, onRayCastMaxDistance);
     }
 
     public SkillResult executeSkill(LivingEntity e, UUID id, ItemStack item) {
-        boolean cancelled = false;
-        int currentCooldown = SupremeItem.getInstance().getCooldownManager().getCooldown(e, id, getClass());
-        if (currentCooldown == 0) {
-            consumeIfConsumable(id, item);
-            cancelled = executeCasterActions(e, onCasterActions) || executeRayCastActions(e, onRayCastMaxDistance, onRayCastPointActions);
-            cooldown(e, id, cooldown, cooldownMessage);
-        } else {
-            if (e instanceof Player) {
-                SupremeItem.getInstance().getCooldownManager().switchCooldownContext((Player) e, id,
-                        this.cooldown, getClass(), cooldownMessage);
-            }
-        }
-        return cancelled ? SkillResult.CANCELLED : SkillResult.SUCCESS;
+        return getSkillResult(id, item, e);
     }
 
     @Override
     public ItemStack getGUIItem() {
         return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWYxMzNlOTE5MTlkYjBhY2VmZGMyNzJkNjdmZDg3YjRiZTg4ZGM0NGE5NTg5NTg4MjQ0NzRlMjFlMDZkNTNlNiJ9fX0"),
                 "&cLeft click &6&lskill", Libs.getLocale().getList("gui.skill.description"));
+    }
+
+    @Override
+    protected boolean executeExactSkill(LivingEntity... e) {
+        return executeCasterActions(e[0], onCasterActions) || executeRayCastActions(e[0], onRayCastMaxDistance, onRayCastPointActions);
     }
 }

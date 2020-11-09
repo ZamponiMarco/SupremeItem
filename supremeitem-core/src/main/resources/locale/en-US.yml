@@ -23,9 +23,6 @@ gui:
     skill-set:
       - "&7&oThe set of skills that the item can"
       - "&7&oexecute."
-    consumable:
-      - "&7&oWhether the item should be consumed when"
-      - "&7&oused or not."
   action:
     description:
       - "&6&lLeft click &eto modify."
@@ -336,6 +333,9 @@ gui:
     cooldown-message:
       - "&7&oWhether the cooldown message should be"
       - "&7&odisplayed to the player."
+    consumable:
+      - "&7&oWhether the item should be consumed when"
+      - "&7&othe skill is used or not."
     hit-entity:
       description:
         - "&7&oSet a skill to be triggered when an entity hits"

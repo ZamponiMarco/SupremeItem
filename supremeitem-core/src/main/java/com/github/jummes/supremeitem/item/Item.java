@@ -30,10 +30,7 @@ import java.util.*;
 @CustomClickable(customCollectionClickConsumer = "defaultClickConsumer")
 public class Item extends NamedModel {
 
-    private static final boolean CONSUMABLE_DEFAULT = false;
-
     private static final String SKILL_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmJiMTI1NmViOWY2NjdjMDVmYjIxZTAyN2FhMWQ1MzU1OGJkYTc0ZTI0MGU0ZmE5ZTEzN2Q4NTFjNDE2ZmU5OCJ9fX0=";
-    private static final String CONSUMABLE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTg0YTY4ZmQ3YjYyOGQzMDk2NjdkYjdhNTU4NTViNTRhYmMyM2YzNTk1YmJlNDMyMTYyMTFiZTVmZTU3MDE0In19fQ==";
 
     private static int counter = 1;
 
@@ -43,27 +40,22 @@ public class Item extends NamedModel {
     private ItemStackWrapper item;
     @Serializable(headTexture = SKILL_HEAD, description = "gui.item.skill-set")
     private Set<Skill> skillSet;
-    @Serializable(headTexture = CONSUMABLE_HEAD, description = "gui.item.consumable")
-    @Serializable.Optional(defaultValue = "CONSUMABLE_DEFAULT")
-    private boolean consumable;
 
     public Item() {
         this(UUID.randomUUID(), nextAvailableName(), new ItemStackWrapper(true),
-                Sets.newHashSet(), CONSUMABLE_DEFAULT, true);
+                Sets.newHashSet(), true);
     }
 
-    public Item(UUID id, String name, ItemStackWrapper item, Set<Skill> skillSet, boolean consumable) {
-        this(id, name, item, skillSet, consumable, true);
+    public Item(UUID id, String name, ItemStackWrapper item, Set<Skill> skillSet) {
+        this(id, name, item, skillSet, true);
         counter++;
     }
 
-    protected Item(UUID id, String name, ItemStackWrapper item, Set<Skill> skillSet, boolean consumable,
-                   boolean increaseCounter) {
+    protected Item(UUID id, String name, ItemStackWrapper item, Set<Skill> skillSet, boolean increaseCounter) {
         super(name);
         this.id = id;
         this.item = item;
         this.skillSet = skillSet;
-        this.consumable = consumable;
     }
 
     private static String nextAvailableName() {
@@ -80,8 +72,7 @@ public class Item extends NamedModel {
         String name = (String) map.get("name");
         ItemStackWrapper item = (ItemStackWrapper) map.get("item");
         Set<Skill> skillSet = new HashSet<>((List<Skill>) map.get("skillSet"));
-        boolean consumable = (boolean) map.getOrDefault("consumable", CONSUMABLE_DEFAULT);
-        return new Item(id, name, item, skillSet, consumable);
+        return new Item(id, name, item, skillSet);
     }
 
     public ItemStack getUsableItem() {
@@ -98,9 +89,6 @@ public class Item extends NamedModel {
         map.put("name", name);
         map.put("item", item);
         map.put("skillSet", new ArrayList<>(skillSet));
-        if (consumable != CONSUMABLE_DEFAULT) {
-            map.put("consumable", consumable);
-        }
         return map;
     }
 
