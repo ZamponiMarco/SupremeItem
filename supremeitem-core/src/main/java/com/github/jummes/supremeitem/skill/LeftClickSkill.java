@@ -5,15 +5,14 @@ import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.Action;
+import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -74,5 +73,13 @@ public class LeftClickSkill extends CooldownSkill {
     @Override
     protected boolean executeExactSkill(LivingEntity... e) {
         return executeCasterActions(e[0], onCasterActions) || executeRayCastActions(e[0], onRayCastMaxDistance, onRayCastPointActions);
+    }
+
+    @Override
+    public Set<SavedSkill> getUsedSavedSkills() {
+        Set<SavedSkill> skills = new HashSet<>();
+        SavedSkill.addSkillsFromActionsList(skills, onRayCastPointActions);
+        SavedSkill.addSkillsFromActionsList(skills, onCasterActions);
+        return skills;
     }
 }

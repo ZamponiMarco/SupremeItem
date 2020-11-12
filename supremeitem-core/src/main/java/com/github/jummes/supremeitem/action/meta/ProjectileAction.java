@@ -12,6 +12,7 @@ import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.entity.Entity;
 import com.github.jummes.supremeitem.entity.NoEntity;
 import com.github.jummes.supremeitem.projectile.Projectile;
+import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.github.jummes.supremeitem.value.NumericValue;
 import com.google.common.collect.Lists;
 import lombok.Getter;
@@ -21,8 +22,10 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.MainHand;
 import org.bukkit.util.Vector;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
@@ -201,5 +204,14 @@ public class ProjectileAction extends MetaAction {
     @Override
     public String getName() {
         return "&6&lProjectile";
+    }
+
+    @Override
+    public Set<SavedSkill> getUsedSavedSkills() {
+        Set<SavedSkill> skills = new HashSet<>();
+        SavedSkill.addSkillsFromActionsList(skills, onProjectileTickActions);
+        SavedSkill.addSkillsFromActionsList(skills, onEntityHitActions);
+        SavedSkill.addSkillsFromActionsList(skills, onBlockHitActions);
+        return skills;
     }
 }

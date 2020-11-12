@@ -21,6 +21,7 @@ import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.action.variable.VariableAction;
 import com.github.jummes.supremeitem.condition.numeric.LessThanCondition;
+import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.github.jummes.supremeitem.value.NumericValue;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang.reflect.FieldUtils;
@@ -31,6 +32,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @CustomClickable(customCollectionClickConsumer = "getCustomConsumer")
 @Enumerable.Parent(classArray = {EntityAction.class,
@@ -125,6 +128,10 @@ public abstract class Action implements Model, Cloneable {
 
     public abstract String getName();
 
+    public Set<SavedSkill> getUsedSavedSkills() {
+        return new HashSet<>();
+    }
+
     public enum ActionResult {
         /**
          * An action concluded with success.
@@ -139,4 +146,6 @@ public abstract class Action implements Model, Cloneable {
          */
         FAILURE
     }
+
+    ;
 }

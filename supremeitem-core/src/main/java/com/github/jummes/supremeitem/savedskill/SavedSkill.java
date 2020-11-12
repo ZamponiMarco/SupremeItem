@@ -25,6 +25,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -72,6 +73,16 @@ public class SavedSkill extends NamedModel {
         List<Action> actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
         ItemStackWrapper item = (ItemStackWrapper) map.getOrDefault("item", new ItemStackWrapper());
         return new SavedSkill(name, actions, item);
+    }
+
+    public static void addSkillsFromActionsList(Set<SavedSkill> skills, List<Action> actions) {
+        skills.addAll(actions.stream().reduce(Lists.newArrayList(), (list, action) -> {
+            list.addAll(action.getUsedSavedSkills());
+            return list;
+        }, (list1, list2) -> {
+            list1.addAll(list2);
+            return list1;
+        }));
     }
 
     public ItemStack getGUIItem() {

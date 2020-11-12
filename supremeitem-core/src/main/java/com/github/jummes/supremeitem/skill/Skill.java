@@ -4,10 +4,12 @@ import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.model.Model;
 import com.github.jummes.supremeitem.action.Action;
+import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.google.common.collect.Lists;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Enumerable.Parent(classArray = {CooldownSkill.class, LeftClickSkill.class, RightClickSkill.class, HitEntitySkill.class,
@@ -42,6 +44,8 @@ public abstract class Skill implements Model {
             item.setAmount(--amount);
         }
     }
+
+    public abstract Set<SavedSkill> getUsedSavedSkills();
 
     public enum SkillResult {
         SUCCESS,

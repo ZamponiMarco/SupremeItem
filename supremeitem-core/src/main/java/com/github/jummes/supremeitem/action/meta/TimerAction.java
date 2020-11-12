@@ -11,6 +11,7 @@ import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
+import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,8 +21,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.lang.reflect.Field;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
@@ -114,5 +117,12 @@ public class TimerAction extends MetaAction {
     @Override
     public String getName() {
         return "&6&lInterval: &c" + timer + " &6&lRepetitions: &c" + repetitions;
+    }
+
+    @Override
+    public Set<SavedSkill> getUsedSavedSkills() {
+        Set<SavedSkill> skills = new HashSet<>();
+        SavedSkill.addSkillsFromActionsList(skills, actions);
+        return skills;
     }
 }

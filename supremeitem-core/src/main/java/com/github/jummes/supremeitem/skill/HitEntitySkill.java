@@ -7,14 +7,13 @@ import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
+import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Enumerable.Child
@@ -68,5 +67,13 @@ public class HitEntitySkill extends CooldownSkill {
                 onDamagerActions.stream().anyMatch(action ->
                         action.execute(new EntityTarget(e[0]), new EntitySource(e[0])).
                                 equals(Action.ActionResult.CANCELLED));
+    }
+
+    @Override
+    public Set<SavedSkill> getUsedSavedSkills() {
+        Set<SavedSkill> skills = new HashSet<>();
+        SavedSkill.addSkillsFromActionsList(skills, onDamagedActions);
+        SavedSkill.addSkillsFromActionsList(skills, onDamagerActions);
+        return skills;
     }
 }

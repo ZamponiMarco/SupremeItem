@@ -8,14 +8,17 @@ import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.condition.Condition;
 import com.github.jummes.supremeitem.condition.bool.BooleanCondition;
+import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
@@ -94,5 +97,12 @@ public class RepeatUntilAction extends MetaAction {
     @Override
     public String getName() {
         return String.format("&6&lRepeat Until: %s", condition.getName());
+    }
+
+    @Override
+    public Set<SavedSkill> getUsedSavedSkills() {
+        Set<SavedSkill> skills = new HashSet<>();
+        SavedSkill.addSkillsFromActionsList(skills, actions);
+        return skills;
     }
 }

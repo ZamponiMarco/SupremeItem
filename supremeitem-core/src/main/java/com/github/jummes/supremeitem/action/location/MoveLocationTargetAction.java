@@ -7,12 +7,15 @@ import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.math.Vector;
+import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Setter
@@ -63,5 +66,12 @@ public class MoveLocationTargetAction extends LocationAction {
     @Override
     public String getName() {
         return "&6&lMove Location: &c" + vector.toString();
+    }
+
+    @Override
+    public Set<SavedSkill> getUsedSavedSkills() {
+        Set<SavedSkill> skills = new HashSet<>();
+        SavedSkill.addSkillsFromActionsList(skills, actions);
+        return skills;
     }
 }

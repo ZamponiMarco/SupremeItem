@@ -8,13 +8,16 @@ import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.area.Area;
 import com.github.jummes.supremeitem.area.SphericArea;
+import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -69,5 +72,12 @@ public class AreaBlocksAction extends MetaAction {
     @Override
     public String getName() {
         return "&6&lBlocks in area: &c" + area.getName();
+    }
+
+    @Override
+    public Set<SavedSkill> getUsedSavedSkills() {
+        Set<SavedSkill> skills = new HashSet<>();
+        SavedSkill.addSkillsFromActionsList(skills, actions);
+        return skills;
     }
 }
