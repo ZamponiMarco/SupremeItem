@@ -193,6 +193,9 @@ gui:
         - "&7&oor from the eyes (centered)."
       spread:
         - "&7&oThe spread of the projectile in gradiant angles."
+      turn-speed:
+        - "&7&oThe turn speed of the projectile. The bigger this"
+        - "&7&ois the faster the projectile will turn."
     skill:
       description:
         - "&7&oSet the use of a previously saved skill."
