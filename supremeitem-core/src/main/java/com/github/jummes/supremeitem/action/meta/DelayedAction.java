@@ -1,12 +1,7 @@
 package com.github.jummes.supremeitem.action.meta;
 
-import com.github.jummes.libs.annotation.CustomClickable;
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
-import com.github.jummes.libs.core.Libs;
-import com.github.jummes.libs.gui.PluginInventoryHolder;
-import com.github.jummes.libs.model.ModelPath;
-import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
@@ -17,11 +12,8 @@ import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import java.lang.reflect.Field;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -32,11 +24,7 @@ import java.util.stream.Collectors;
 @Setter
 @Enumerable.Child
 @Enumerable.Displayable(name = "&c&lDelayed Action", description = "gui.action.delayed.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZlOGNmZjc1ZjdkNDMzMjYwYWYxZWNiMmY3NzNiNGJjMzgxZDk1MWRlNGUyZWI2NjE0MjM3NzlhNTkwZTcyYiJ9fX0=")
-@CustomClickable(customCollectionClickConsumer = "getCustomConsumer")
-public class DelayedAction extends MetaAction {
-
-    private static final int NUMBER_KEY = 0;
-
+public class DelayedAction extends WrapperAction {
     private static final NumericValue DELAY_DEFAULT = new NumericValue(10);
 
     private static final String ACTIONS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODIxNmVlNDA1OTNjMDk4MWVkMjhmNWJkNjc0ODc5NzgxYzQyNWNlMDg0MWI2ODc0ODFjNGY3MTE4YmI1YzNiMSJ9fX0=";
@@ -80,19 +68,8 @@ public class DelayedAction extends MetaAction {
     }
 
     @Override
-    public ItemStack getGUIItem() {
-        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue(getClass().
-                getAnnotation(Enumerable.Displayable.class).headTexture()), getName(), modifiedLore(NUMBER_KEY));
-    }
-
-    @Override
     public Action clone() {
         return new DelayedAction(TARGET_DEFAULT, actions.stream().map(Action::clone).collect(Collectors.toList()), delay.clone());
-    }
-
-    public void getCustomConsumer(JavaPlugin plugin, PluginInventoryHolder parent, ModelPath<?> path, Field field,
-                                  InventoryClickEvent e) throws IllegalAccessException {
-        getExtractConsumer(plugin, parent, path, field, e, this.actions, NUMBER_KEY);
     }
 
     @Override
@@ -111,4 +88,10 @@ public class DelayedAction extends MetaAction {
         SavedSkill.addSkillsFromActionsList(skills, actions);
         return skills;
     }
+
+    @Override
+    public List<Action> getWrappedActions() {
+        return actions;
+    }
+
 }

@@ -56,7 +56,7 @@ public class HitEntitySkill extends CooldownSkill {
     @Override
     public ItemStack getGUIItem() {
         return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTBkZmM4YTM1NjNiZjk5NmY1YzFiNzRiMGIwMTViMmNjZWIyZDA0Zjk0YmJjZGFmYjIyOTlkOGE1OTc5ZmFjMSJ9fX0"),
-                "&cHit entity &6&lskill", Libs.getLocale().getList("gui.skill.description"));
+                "&cHit entity &6&lskill", Libs.getLocale().getList("gui.additional-tooltips.delete"));
     }
 
     @Override

@@ -50,7 +50,7 @@ public class EntitySneakSkill extends CooldownSkill {
     @Override
     public ItemStack getGUIItem() {
         return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTQyMzI5YTljNDEwNDA4NDE5N2JkNjg4NjE1ODUzOTg0ZDM3ZTE3YzJkZDIzZTNlNDEyZGQ0MmQ3OGI5OGViIn19fQ"),
-                "&cEntity Sneak &6&lskill", Libs.getLocale().getList("gui.skill.description"));
+                "&cEntity Sneak &6&lskill", Libs.getLocale().getList("gui.additional-tooltips.delete"));
     }
 
     @Override

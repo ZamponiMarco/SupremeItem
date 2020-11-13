@@ -1,24 +1,12 @@
 package com.github.jummes.supremeitem.action.meta;
 
 import com.github.jummes.libs.annotation.Enumerable;
-import com.github.jummes.libs.core.Libs;
-import com.github.jummes.libs.gui.PluginInventoryHolder;
-import com.github.jummes.libs.gui.model.ModelObjectInventoryHolder;
-import com.github.jummes.libs.gui.model.RemoveConfirmationInventoryHolder;
-import com.github.jummes.libs.model.ModelPath;
-import com.github.jummes.libs.util.MessageUtils;
 import com.github.jummes.supremeitem.action.Action;
 import com.google.common.collect.Lists;
-import org.apache.commons.lang.reflect.FieldUtils;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import java.lang.reflect.Field;
-import java.util.Collection;
 import java.util.List;
 
-@Enumerable.Parent(classArray = {DelayedAction.class, ProjectileAction.class, AreaEntitiesAction.class,
+@Enumerable.Parent(classArray = {WrapperAction.class, DelayedAction.class, ProjectileAction.class, AreaEntitiesAction.class,
         SkillAction.class, TimerAction.class, CancelEventAction.class, ConditionAction.class, CommandAction.class,
         RepeatUntilAction.class, AreaBlocksAction.class, HomingProjectileAction.class})
 @Enumerable.Displayable(name = "&9&lAction &6» &cMeta", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjgzODRjYjFiYmEyNWE1NzE5YjQyOTkyMzFhNWI1NDEzZTQzYjU3MDk5YzMyNzk5ZTczYTUxMTM2OTE3YWY4MyJ9fX0=")
@@ -28,39 +16,5 @@ public abstract class MetaAction extends Action {
 
     public MetaAction(boolean target) {
         super(target);
-    }
-
-    protected void getExtractConsumer(JavaPlugin plugin, PluginInventoryHolder parent, ModelPath<?> path, Field field,
-                                      InventoryClickEvent e, List<Action> actions, int numberKey) throws IllegalAccessException {
-        Collection<Action> superActions = ((Collection<Action>) FieldUtils.readField(field,
-                path.getLast() != null ? path.getLast() : path.getModelManager(), true));
-        if (e.getClick().equals(ClickType.LEFT)) {
-            path.addModel(this);
-            e.getWhoClicked().openInventory(new ModelObjectInventoryHolder(plugin, parent, path).getInventory());
-        } else if (e.getClick().equals(ClickType.RIGHT)) {
-            e.getWhoClicked().openInventory(new RemoveConfirmationInventoryHolder(plugin, parent, path, this,
-                    field).getInventory());
-        } else if (e.getClick().equals(ClickType.MIDDLE)) {
-            superActions.add(clone());
-            path.saveModel();
-            e.getWhoClicked().openInventory(parent.getInventory());
-        } else if (e.getClick().equals(ClickType.NUMBER_KEY) && (e.getHotbarButton() == numberKey)) {
-            superActions.remove(this);
-            path.addModel(this);
-            path.deleteModel();
-            path.popModel();
-            onRemoval();
-            superActions.addAll(actions);
-            path.saveModel();
-            e.getWhoClicked().openInventory(parent.getInventory());
-            return;
-        }
-        wrapActions(parent, path, e, superActions);
-    }
-
-    protected List<String> modifiedLore(int i) {
-        List<String> lore = Libs.getLocale().getList("gui.action.description");
-        lore.set(i + 3, MessageUtils.color(String.format("&6&lPress %d &eto unwrap actions.", i + 1)));
-        return lore;
     }
 }

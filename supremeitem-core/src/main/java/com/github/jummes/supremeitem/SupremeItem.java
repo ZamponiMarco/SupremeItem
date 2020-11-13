@@ -3,6 +3,7 @@ package com.github.jummes.supremeitem;
 import com.github.jummes.libs.command.PluginCommandExecutor;
 import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.database.factory.DatabaseFactory;
+import com.github.jummes.libs.gui.FieldInventoryHolderFactory;
 import com.github.jummes.libs.localization.PluginLocale;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.location.ParticleAction;
@@ -16,6 +17,7 @@ import com.github.jummes.supremeitem.database.CompressedYamlDatabase;
 import com.github.jummes.supremeitem.entity.Entity;
 import com.github.jummes.supremeitem.entity.selector.EntitySelector;
 import com.github.jummes.supremeitem.event.PlayerJumpEvent;
+import com.github.jummes.supremeitem.gui.ActionCollectionInventoryHolder;
 import com.github.jummes.supremeitem.hook.WorldGuardHook;
 import com.github.jummes.supremeitem.item.Item;
 import com.github.jummes.supremeitem.listener.PlayerItemListener;
@@ -112,6 +114,8 @@ public class SupremeItem extends JavaPlugin {
         setUpHooks();
         setUpCommands();
         setUpListeners();
+
+        FieldInventoryHolderFactory.collectionGUIMap.put(Action.class, ActionCollectionInventoryHolder.class);
     }
 
     private void setUpFolder() {

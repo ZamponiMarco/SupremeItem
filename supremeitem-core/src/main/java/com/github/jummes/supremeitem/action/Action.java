@@ -1,41 +1,23 @@
 package com.github.jummes.supremeitem.action;
 
-import com.github.jummes.libs.annotation.CustomClickable;
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.core.Libs;
-import com.github.jummes.libs.gui.PluginInventoryHolder;
-import com.github.jummes.libs.gui.model.ModelObjectInventoryHolder;
-import com.github.jummes.libs.gui.model.RemoveConfirmationInventoryHolder;
 import com.github.jummes.libs.model.Model;
-import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.entity.EntityAction;
 import com.github.jummes.supremeitem.action.location.LocationAction;
-import com.github.jummes.supremeitem.action.meta.ConditionAction;
-import com.github.jummes.supremeitem.action.meta.DelayedAction;
 import com.github.jummes.supremeitem.action.meta.MetaAction;
-import com.github.jummes.supremeitem.action.meta.TimerAction;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.action.variable.VariableAction;
-import com.github.jummes.supremeitem.condition.numeric.LessThanCondition;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
-import com.github.jummes.supremeitem.value.NumericValue;
-import com.google.common.collect.Lists;
-import org.apache.commons.lang.reflect.FieldUtils;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import java.lang.reflect.Field;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-@CustomClickable(customCollectionClickConsumer = "getCustomConsumer")
 @Enumerable.Parent(classArray = {EntityAction.class,
         LocationAction.class, MetaAction.class, VariableAction.class})
 public abstract class Action implements Model, Cloneable {
@@ -63,55 +45,6 @@ public abstract class Action implements Model, Cloneable {
      * @return The ActionResult that describes how the action went.
      */
     public abstract ActionResult execute(Target target, Source source);
-
-    public void getCustomConsumer(JavaPlugin plugin, PluginInventoryHolder parent, ModelPath<?> path, Field field,
-                                  InventoryClickEvent e) throws IllegalAccessException {
-        Collection<Action> actions = ((Collection<Action>) FieldUtils.readField(field,
-                path.getLast() != null ? path.getLast() : path.getModelManager(), true));
-        if (e.getClick().equals(ClickType.LEFT)) {
-            path.addModel(this);
-            e.getWhoClicked().openInventory(new ModelObjectInventoryHolder(plugin, parent, path).getInventory());
-        } else if (e.getClick().equals(ClickType.RIGHT)) {
-            e.getWhoClicked().openInventory(new RemoveConfirmationInventoryHolder(plugin, parent, path, this,
-                    field).getInventory());
-        } else if (e.getClick().equals(ClickType.MIDDLE)) {
-            actions.add(clone());
-            path.saveModel();
-            e.getWhoClicked().openInventory(parent.getInventory());
-        }
-        wrapActions(parent, path, e, actions);
-    }
-
-    protected void wrapActions(PluginInventoryHolder parent, ModelPath<?> path, InventoryClickEvent e, Collection<Action> actions) {
-        if (e.getClick().equals(ClickType.NUMBER_KEY) && e.getHotbarButton() == 0) {
-            actions.remove(this);
-            path.addModel(this);
-            path.deleteModel();
-            path.popModel();
-            onRemoval();
-            actions.add(new DelayedAction(TARGET_DEFAULT, Lists.newArrayList(this), new NumericValue(10)));
-            path.saveModel();
-            e.getWhoClicked().openInventory(parent.getInventory());
-        } else if (e.getClick().equals(ClickType.NUMBER_KEY) && e.getHotbarButton() == 1) {
-            actions.remove(this);
-            path.addModel(this);
-            path.deleteModel();
-            path.popModel();
-            onRemoval();
-            actions.add(new TimerAction(TARGET_DEFAULT, 5, 10, Lists.newArrayList(this)));
-            path.saveModel();
-            e.getWhoClicked().openInventory(parent.getInventory());
-        } else if (e.getClick().equals(ClickType.NUMBER_KEY) && e.getHotbarButton() == 2) {
-            actions.remove(this);
-            path.addModel(this);
-            path.deleteModel();
-            path.popModel();
-            onRemoval();
-            actions.add(new ConditionAction(TARGET_DEFAULT, Lists.newArrayList(this), new LessThanCondition()));
-            path.saveModel();
-            e.getWhoClicked().openInventory(parent.getInventory());
-        }
-    }
 
     @Override
     public ItemStack getGUIItem() {
@@ -146,6 +79,4 @@ public abstract class Action implements Model, Cloneable {
          */
         FAILURE
     }
-
-    ;
 }

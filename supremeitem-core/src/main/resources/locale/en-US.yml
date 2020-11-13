@@ -25,12 +25,14 @@ gui:
       - "&7&oexecute."
   action:
     description:
-      - "&6&lLeft click &eto modify."
-      - "&6&lRight click &eto delete."
-      - "&6&lMiddle click &eto clone."
-      - "&6&lPress 1 &eto wrap in a DelayedAction."
-      - "&6&lPress 2 &eto wrap in a TimerAction."
-      - "&6&lPress 3 &eto wrap in a ConditionAction."
+      - "&6&l- Left click &eto modify."
+      - "&6&l- Right click &eto delete."
+      - "&6&l- Middle click &eto clone."
+      - "&6&l- Press 1 &eto wrap in a DelayedAction."
+      - "&6&l- Press 2 &eto wrap in a TimerAction."
+      - "&6&l- Press 3 &eto wrap in a ConditionAction."
+      - "&6&l- Press Q &eto select/deselect this action."
+      - "&6&l- Press Ctrl+Q &eto select/deselect all actions."
     target:
       - "&7&oWhether the action should be executed"
       - "&7&oon the skill target or the skill source."
@@ -328,9 +330,6 @@ gui:
       area:
         - "&7&oThe area of the blocks."
   skill:
-    description:
-      - "&6&lLeft click &eto modify."
-      - "&6&lRight click &eto delete."
     cooldown:
       - "&7&oThe cooldown between skill executions."
     cooldown-message:
@@ -435,9 +434,9 @@ gui:
           - "&7&obe avoided or not."
   saved-skill:
     description:
-      - "&6&lLeft click &eto modify."
-      - "&6&lRight click &eto delete."
-      - "&6&lDrag &eand &6&ldrop &ean item"
+      - "&6&l- Left click &eto modify."
+      - "&6&l- Right click &eto delete."
+      - "&6&l- Drag &eand &6&ldrop &ean item"
       - "&eto set it as the GUI item."
     actions:
       - "&7&oThe group of actions to execute."
@@ -598,6 +597,17 @@ gui:
             - "&7&othe first element in this collection will be"
             - "&7&oprinted where the first occurrence of &c%s &7&o is"
             - "&7&oinside the string and so on."
+        number-format:
+          description:
+            - "&7&oSet a placeholder that formats the number given by"
+            - "&7&oa numeric placeholder into a new specified format."
+          placeholder:
+            - "&7&oThe numeric placeholder to format."
+          format:
+            - "&7&oThe number format to apply. The default format '0'"
+            - "&7&otransforms the decimal numbers into integers. For"
+            - "&7&ofurther information about the number formats search"
+            - "&7&ofor DecimalFormat specifications in Java language."
     material:
       block:
         description:
@@ -670,9 +680,9 @@ gui:
           - "&7&otwo given strings are equal."
   saved-placeholder:
     description:
-      - "&6&lLeft click &eto modify."
-      - "&6&lRight click &eto delete."
-      - "&6&lDrag &eand &6&ldrop &ean item"
+      - "&6&l- Left click &eto modify."
+      - "&6&l- Right click &eto delete."
+      - "&6&l- Drag &eand &6&ldrop &ean item"
       - "&eto set it as the GUI item."
     placeholder:
       - "&7&oThe referenced placeholder."
@@ -685,15 +695,15 @@ gui:
       - "&7&oThe movement in the z axis."
   additional-tooltips:
     value:
-      - "&6&lLeft click &eto modify."
-      - "&6&lRight click &eto recreate."
-      - "&6&lMiddle click &eto switch (const/placeholder)"
+      - "&6&l- Left click &eto modify."
+      - "&6&l- Right click &eto recreate."
+      - "&6&l- Middle click &eto switch (const/placeholder)"
     recreate:
-      - "&6&lLeft click &eto modify."
-      - "&6&lRight click &eto recreate."
+      - "&6&l- Left click &eto modify."
+      - "&6&l- Right click &eto recreate."
     delete:
-      - "&6&lLeft click &eto modify."
-      - "&6&lRight click &eto delete."
+      - "&6&l- Left click &eto modify."
+      - "&6&l- Right click &eto delete."
   area:
     spheric:
       description:
