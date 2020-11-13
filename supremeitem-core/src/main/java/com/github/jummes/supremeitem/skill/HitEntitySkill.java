@@ -2,8 +2,6 @@ package com.github.jummes.supremeitem.skill;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
-import com.github.jummes.libs.core.Libs;
-import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
@@ -54,12 +52,6 @@ public class HitEntitySkill extends CooldownSkill {
     }
 
     @Override
-    public ItemStack getGUIItem() {
-        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTBkZmM4YTM1NjNiZjk5NmY1YzFiNzRiMGIwMTViMmNjZWIyZDA0Zjk0YmJjZGFmYjIyOTlkOGE1OTc5ZmFjMSJ9fX0"),
-                "&cHit entity &6&lskill", Libs.getLocale().getList("gui.additional-tooltips.delete"));
-    }
-
-    @Override
     protected boolean executeExactSkill(LivingEntity... e) {
         return onDamagedActions.stream().anyMatch(action ->
                 action.execute(new EntityTarget(e[1]), new EntitySource(e[0])).
@@ -67,6 +59,11 @@ public class HitEntitySkill extends CooldownSkill {
                 onDamagerActions.stream().anyMatch(action ->
                         action.execute(new EntityTarget(e[0]), new EntitySource(e[0])).
                                 equals(Action.ActionResult.CANCELLED));
+    }
+
+    @Override
+    public String getName() {
+        return "&cHit entity &6&lskill";
     }
 
     @Override

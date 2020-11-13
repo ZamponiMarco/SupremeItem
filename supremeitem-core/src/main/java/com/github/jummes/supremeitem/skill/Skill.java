@@ -2,7 +2,9 @@ package com.github.jummes.supremeitem.skill;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
+import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.model.Model;
+import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.google.common.collect.Lists;
@@ -44,6 +46,14 @@ public abstract class Skill implements Model {
             item.setAmount(--amount);
         }
     }
+
+    @Override
+    public ItemStack getGUIItem() {
+        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue(getClass().getAnnotation(Enumerable.Displayable.class).headTexture()),
+                getName(), Libs.getLocale().getList("gui.additional-tooltips.delete"));
+    }
+
+    public abstract String getName();
 
     public abstract Set<SavedSkill> getUsedSavedSkills();
 

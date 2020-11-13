@@ -2,8 +2,6 @@ package com.github.jummes.supremeitem.skill;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
-import com.github.jummes.libs.core.Libs;
-import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.google.common.collect.Lists;
@@ -60,12 +58,6 @@ public class RightClickSkill extends CooldownSkill {
         return new RightClickSkill(consumable, cooldown, cooldownMessage, onCasterActions, onRayCastPointActions, onRayCastMaxDistance);
     }
 
-    @Override
-    public ItemStack getGUIItem() {
-        return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTNmYzUyMjY0ZDhhZDllNjU0ZjQxNWJlZjAxYTIzOTQ3ZWRiY2NjY2Y2NDkzNzMyODliZWE0ZDE0OTU0MWY3MCJ9fX0"),
-                "&cRight click &6&lskill", Libs.getLocale().getList("gui.additional-tooltips.delete"));
-    }
-
     public SkillResult executeSkill(LivingEntity e, UUID id, ItemStack item) {
         return getSkillResult(id, item, e);
     }
@@ -73,6 +65,11 @@ public class RightClickSkill extends CooldownSkill {
     @Override
     protected boolean executeExactSkill(LivingEntity... e) {
         return executeCasterActions(e[0], onCasterActions) || executeRayCastActions(e[0], onRayCastMaxDistance, onRayCastPointActions);
+    }
+
+    @Override
+    public String getName() {
+        return "&cRight click &6&lskill";
     }
 
     @Override
