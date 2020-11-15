@@ -332,6 +332,15 @@ gui:
         - "&7&oThe actions to execute."
       area:
         - "&7&oThe area of the blocks."
+    explosion:
+      description:
+        - "&7&oSet an action that produces an explosion."
+      power:
+        - "&7&oThe power of the explosion."
+      fire:
+        - "&7&oWhether the explosion leaves fire or not."
+      break-blocks:
+        - "&7&oWhether the explosion destroys blocks or not."
   skill:
     cooldown:
       - "&7&oThe cooldown between skill executions."
