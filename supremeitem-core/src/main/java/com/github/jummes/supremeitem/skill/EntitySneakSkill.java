@@ -5,9 +5,11 @@ import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -25,20 +27,26 @@ public class EntitySneakSkill extends CooldownSkill {
     private List<Action> onEntityActions;
 
     public EntitySneakSkill() {
-        this(CONSUMABLE_DEFAULT, COOLDOWN_DEFAULT, COOLDOWN_MESSAGE_DEFAULT, Lists.newArrayList());
+        this(CONSUMABLE_DEFAULT, Sets.newHashSet(EquipmentSlot.values()), COOLDOWN_DEFAULT, COOLDOWN_MESSAGE_DEFAULT, Lists.newArrayList());
     }
 
-    public EntitySneakSkill(boolean consumable, int cooldown, boolean cooldownMessage, List<Action> onEntityActions) {
-        super(consumable, cooldown, cooldownMessage);
+    public EntitySneakSkill(boolean consumable, Set<EquipmentSlot> allowedSlots, int cooldown, boolean cooldownMessage,
+                            List<Action> onEntityActions) {
+        super(consumable, allowedSlots, cooldown, cooldownMessage);
         this.onEntityActions = onEntityActions;
     }
 
-    public static EntitySneakSkill deserialize(Map<String, Object> map) {
-        boolean consumable = (boolean) map.getOrDefault("consumable", CONSUMABLE_DEFAULT);
-        List<Action> onEntityActions = (List<Action>) map.getOrDefault("onEntityActions", Lists.newArrayList());
-        int cooldown = (int) map.getOrDefault("cooldown", COOLDOWN_DEFAULT);
-        boolean cooldownMessage = (boolean) map.getOrDefault("cooldownMessage", COOLDOWN_MESSAGE_DEFAULT);
-        return new EntitySneakSkill(consumable, cooldown, cooldownMessage, onEntityActions);
+    public EntitySneakSkill(Map<String, Object> map) {
+        super(map);
+        onEntityActions = (List<Action>) map.getOrDefault("onEntityActions", Lists.newArrayList());
+    }
+
+
+    @Override
+    public Map<String, Object> serialize() {
+        Map<String, Object> map = super.serialize();
+        map.put("onEntityActions", onEntityActions);
+        return map;
     }
 
     public SkillResult executeSkill(LivingEntity e, UUID id, ItemStack item) {

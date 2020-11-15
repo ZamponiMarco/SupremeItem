@@ -20,9 +20,11 @@ import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.IntStream;
 
 public class PlayerItemListener implements Listener {
 
@@ -42,24 +44,24 @@ public class PlayerItemListener implements Listener {
         }
     }
 
+    /**
+     * Right and left click skill
+     *
+     * @param e
+     */
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
         if (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.LEFT_CLICK_AIR)) {
             Player p = e.getPlayer();
-            if (Objects.equals(e.getHand(), EquipmentSlot.HAND)) {
-                ItemStack mainItem = p.getEquipment().getItemInMainHand();
-                if (!Libs.getWrapper().getTagItem(mainItem, "supreme-item").equals("")) {
-                    executeInteractSkill(e, mainItem);
-                }
-            } else {
-                ItemStack offItem = p.getEquipment().getItemInOffHand();
-                if (!Libs.getWrapper().getTagItem(offItem, "supreme-item").equals("")) {
-                    executeInteractSkill(e, offItem);
-                }
-            }
+            executeInteractSkill(e);
         }
     }
 
+    /**
+     * DamageEntity and HitEntity skills
+     *
+     * @param e
+     */
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerDamage(EntityDamageByEntityEvent e) {
         boolean cancelled = false;
@@ -86,6 +88,11 @@ public class PlayerItemListener implements Listener {
         }
     }
 
+    /**
+     * EntitySneakSkill
+     *
+     * @param e
+     */
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerSneak(PlayerToggleSneakEvent e) {
         Player player = e.getPlayer();
@@ -99,20 +106,19 @@ public class PlayerItemListener implements Listener {
 
     private boolean executeSneakSkill(Player player) {
         AtomicBoolean toReturn = new AtomicBoolean(false);
-        Utils.getEntityItems(player).forEach(item -> {
-            try {
-                UUID id = UUID.fromString(Libs.getWrapper().getTagItem(item, "supreme-item"));
-                Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);
-                if (supremeItem != null) {
-                    supremeItem.getSkillSet().stream().filter(skill -> skill instanceof EntitySneakSkill).findFirst().
-                            ifPresent(skill -> {
-                                if (((EntitySneakSkill) skill).executeSkill(player, id, item).
-                                        equals(DamageEntitySkill.SkillResult.CANCELLED)) {
-                                    toReturn.set(true);
-                                }
-                            });
-                }
-            } catch (IllegalArgumentException ignored) {
+        List<ItemStack> items = Utils.getEntityItems(player);
+        IntStream.range(0, items.size()).filter(i -> Item.isSupremeItem(items.get(i))).forEach(i -> {
+            UUID id = UUID.fromString(Libs.getWrapper().getTagItem(items.get(i), "supreme-item"));
+            Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);
+            if (supremeItem != null) {
+                supremeItem.getSkillSet().stream().filter(skill -> skill instanceof EntitySneakSkill &&
+                        skill.getAllowedSlots().contains(EquipmentSlot.values()[i])).findFirst().
+                        ifPresent(skill -> {
+                            if (((EntitySneakSkill) skill).executeSkill(player, id, items.get(i)).
+                                    equals(Skill.SkillResult.CANCELLED)) {
+                                toReturn.set(true);
+                            }
+                        });
             }
         });
         return toReturn.get();
@@ -121,19 +127,28 @@ public class PlayerItemListener implements Listener {
     /**
      * Execute interact skill
      *
-     * @param e    The event
-     * @param item The item bound to the skill
+     * @param e The event
      */
-    private void executeInteractSkill(PlayerInteractEvent e, ItemStack item) {
+    private void executeInteractSkill(PlayerInteractEvent e) {
+        Player p = e.getPlayer();
+        Action action = e.getAction();
+        List<ItemStack> items = Utils.getEntityItems(p);
+        IntStream.range(0, items.size()).filter(i -> Item.isSupremeItem(items.get(i))).forEach(i ->
+                executeItemInteractSkill(p, action, items.get(i), EquipmentSlot.values()[i]));
+    }
+
+    private void executeItemInteractSkill(Player p, Action action, ItemStack item, EquipmentSlot slot) {
         UUID id = UUID.fromString(Libs.getWrapper().getTagItem(item, "supreme-item"));
         Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);
         if (supremeItem != null) {
-            if (e.getAction().equals(Action.RIGHT_CLICK_AIR)) {
-                supremeItem.getSkillSet().stream().filter(skill -> skill instanceof RightClickSkill).findFirst().
-                        ifPresent(skill -> ((RightClickSkill) skill).executeSkill(e.getPlayer(), id, item));
+            if (action.equals(Action.RIGHT_CLICK_AIR)) {
+                supremeItem.getSkillSet().stream().filter(skill -> skill instanceof RightClickSkill && skill.
+                        getAllowedSlots().contains(slot)).findFirst().
+                        ifPresent(skill -> ((RightClickSkill) skill).executeSkill(p, id, item));
             } else {
-                supremeItem.getSkillSet().stream().filter(skill -> skill instanceof LeftClickSkill).findFirst().
-                        ifPresent(skill -> ((LeftClickSkill) skill).executeSkill(e.getPlayer(), id, item));
+                supremeItem.getSkillSet().stream().filter(skill -> skill instanceof LeftClickSkill && skill.
+                        getAllowedSlots().contains(slot)).findFirst().
+                        ifPresent(skill -> ((LeftClickSkill) skill).executeSkill(p, id, item));
             }
         }
     }
@@ -147,20 +162,19 @@ public class PlayerItemListener implements Listener {
      */
     private boolean executeDamageEntitySkill(LivingEntity damager, LivingEntity damaged) {
         AtomicBoolean toReturn = new AtomicBoolean(false);
-        Utils.getEntityItems(damaged).forEach(item -> {
-            try {
-                UUID id = UUID.fromString(Libs.getWrapper().getTagItem(item, "supreme-item"));
-                Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);
-                if (supremeItem != null) {
-                    supremeItem.getSkillSet().stream().filter(skill -> skill instanceof DamageEntitySkill).findFirst().
-                            ifPresent(skill -> {
-                                if (((DamageEntitySkill) skill).executeSkill(damaged, damager, id, item).
-                                        equals(DamageEntitySkill.SkillResult.CANCELLED)) {
-                                    toReturn.set(true);
-                                }
-                            });
-                }
-            } catch (IllegalArgumentException ignored) {
+        List<ItemStack> items = Utils.getEntityItems(damaged);
+        IntStream.range(0, items.size()).filter(i -> Item.isSupremeItem(items.get(i))).forEach(i -> {
+            UUID id = UUID.fromString(Libs.getWrapper().getTagItem(items.get(i), "supreme-item"));
+            Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);
+            if (supremeItem != null) {
+                supremeItem.getSkillSet().stream().filter(skill -> skill instanceof DamageEntitySkill &&
+                        skill.getAllowedSlots().contains(EquipmentSlot.values()[i])).findFirst().
+                        ifPresent(skill -> {
+                            if (((DamageEntitySkill) skill).executeSkill(damaged, damager, id, items.get(i)).
+                                    equals(Skill.SkillResult.CANCELLED)) {
+                                toReturn.set(true);
+                            }
+                        });
             }
         });
         return toReturn.get();
@@ -175,20 +189,19 @@ public class PlayerItemListener implements Listener {
      */
     private boolean executeHitEntitySkill(LivingEntity damager, LivingEntity damaged) {
         AtomicBoolean toReturn = new AtomicBoolean(false);
-        Utils.getEntityItems(damager, false).forEach(item -> {
-            try {
-                UUID id = UUID.fromString(Libs.getWrapper().getTagItem(item, "supreme-item"));
-                Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);
-                if (supremeItem != null) {
-                    supremeItem.getSkillSet().stream().filter(skill -> skill instanceof HitEntitySkill).findFirst().
-                            ifPresent(skill -> {
-                                if (((HitEntitySkill) skill).executeSkill(damager, damaged, id, item).
-                                        equals(Skill.SkillResult.CANCELLED)) {
-                                    toReturn.set(true);
-                                }
-                            });
-                }
-            } catch (IllegalArgumentException ignored) {
+        List<ItemStack> items = Utils.getEntityItems(damaged);
+        IntStream.range(0, items.size()).filter(i -> Item.isSupremeItem(items.get(i))).forEach(i -> {
+            UUID id = UUID.fromString(Libs.getWrapper().getTagItem(items.get(i), "supreme-item"));
+            Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);
+            if (supremeItem != null) {
+                supremeItem.getSkillSet().stream().filter(skill -> skill instanceof HitEntitySkill &&
+                        skill.getAllowedSlots().contains(EquipmentSlot.values()[i])).findFirst().
+                        ifPresent(skill -> {
+                            if (((HitEntitySkill) skill).executeSkill(damaged, damager, id, items.get(i)).
+                                    equals(Skill.SkillResult.CANCELLED)) {
+                                toReturn.set(true);
+                            }
+                        });
             }
         });
         return toReturn.get();

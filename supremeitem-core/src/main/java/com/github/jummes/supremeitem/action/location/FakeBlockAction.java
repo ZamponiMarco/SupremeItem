@@ -65,7 +65,8 @@ public class FakeBlockAction extends LocationAction {
 
     public static FakeBlockAction deserialize(Map<String, Object> map) {
         boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        Set<Material> excludedMaterials = ((List<String>) map.get("excludedMaterials")).stream().map(Material::valueOf).collect(Collectors.toSet());
+        Set<Material> excludedMaterials = ((List<String>) map.get("excludedMaterials")).stream().map(Material::valueOf).
+                collect(Collectors.toSet());
         boolean negate = (boolean) map.getOrDefault("allowMaterials", ALLOW_MATERIALS_DEFAULT);
         MaterialValue material = (MaterialValue) map.get("material");
         NumericValue ticks = (NumericValue) map.get("ticks");

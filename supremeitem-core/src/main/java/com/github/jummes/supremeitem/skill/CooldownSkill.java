@@ -10,10 +10,13 @@ import com.github.jummes.supremeitem.manager.CooldownManager;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.RayTraceResult;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 public abstract class CooldownSkill extends Skill {
@@ -33,10 +36,24 @@ public abstract class CooldownSkill extends Skill {
     @Serializable.Optional(defaultValue = "COOLDOWN_MESSAGE_DEFAULT")
     protected boolean cooldownMessage;
 
-    public CooldownSkill(boolean consumable, int cooldown, boolean cooldownMessage) {
-        super(consumable);
+    public CooldownSkill(boolean consumable, Set<EquipmentSlot> allowedSlots, int cooldown, boolean cooldownMessage) {
+        super(consumable, allowedSlots);
         this.cooldown = cooldown;
         this.cooldownMessage = cooldownMessage;
+    }
+
+    public CooldownSkill(Map<String, Object> map) {
+        super(map);
+        this.cooldown = (int) map.getOrDefault("cooldown", COOLDOWN_DEFAULT);
+        this.cooldownMessage = (boolean) map.getOrDefault("cooldownMessage", COOLDOWN_MESSAGE_DEFAULT);
+    }
+
+    @Override
+    public Map<String, Object> serialize() {
+        Map<String, Object> map = super.serialize();
+        map.put("cooldown", cooldown);
+        map.put("cooldownMessage", cooldownMessage);
+        return map;
     }
 
     protected SkillResult getSkillResult(UUID id, ItemStack item, LivingEntity... e) {

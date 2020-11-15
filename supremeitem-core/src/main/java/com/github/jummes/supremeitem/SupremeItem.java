@@ -108,14 +108,12 @@ public class SupremeItem extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        DatabaseFactory.getMap().put("comp", CompressedYamlDatabase.class);
         setUpFolder();
+        setUpLibrary();
         setUpData();
         setUpHooks();
         setUpCommands();
         setUpListeners();
-
-        FieldInventoryHolderFactory.collectionGUIMap.put(Action.class, ActionCollectionInventoryHolder.class);
     }
 
     private void setUpFolder() {
@@ -140,9 +138,14 @@ public class SupremeItem extends JavaPlugin {
         }
     }
 
-    private void setUpData() {
+    private void setUpLibrary() {
+        DatabaseFactory.getMap().put("comp", CompressedYamlDatabase.class);
+        FieldInventoryHolderFactory.collectionGUIMap.put(Action.class, ActionCollectionInventoryHolder.class);
         PluginLocale locale = new PluginLocale(this, Lists.newArrayList("en-US"), "en-US");
         Libs.initializeLibrary(this, locale);
+    }
+
+    private void setUpData() {
         itemManager = new ItemManager(Item.class, "comp", this);
         cooldownManager = new CooldownManager();
         savedSkillManager = new SavedSkillManager(SavedSkill.class, "comp", this);
@@ -161,7 +164,6 @@ public class SupremeItem extends JavaPlugin {
         ex.registerCommand("get", ItemGetCommand.class);
         ex.registerCommand("give", ItemGiveCommand.class);
         ex.registerCommand("placeholder", PlaceholderListCommand.class);
-        ex.registerCommand("test", TestCommand.class);
         getCommand("si").setExecutor(ex);
     }
 

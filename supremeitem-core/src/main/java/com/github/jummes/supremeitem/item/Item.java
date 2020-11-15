@@ -76,6 +76,10 @@ public class Item extends NamedModel {
         return new Item(id, name, item, skillSet);
     }
 
+    public static boolean isSupremeItem(ItemStack i) {
+        return !Libs.getWrapper().getTagItem(i, "supreme-item").equals("");
+    }
+
     public ItemStack getUsableItem() {
         ItemStack item = this.item.getWrapped().clone();
         item.setAmount(1);

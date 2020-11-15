@@ -6,25 +6,22 @@ import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
-import java.util.Objects;
 
 public class Utils {
     public static List<ItemStack> getEntityItems(LivingEntity e) {
-        return getEntityItems(e, true);
-    }
-
-    public static List<ItemStack> getEntityItems(LivingEntity e, boolean offHandIncluded) {
         EntityEquipment equipment = e.getEquipment();
         if (equipment == null) {
             return Lists.newArrayList();
         }
 
-        List<ItemStack> list = Lists.newArrayList(equipment.getArmorContents());
-        list.add(e.getEquipment().getItemInMainHand());
-        if (offHandIncluded) {
-            list.add(e.getEquipment().getItemInOffHand());
-        }
-        list.removeIf(Objects::isNull);
+        List<ItemStack> list = Lists.newArrayList();
+        list.add(equipment.getItemInMainHand());
+        list.add(equipment.getItemInOffHand());
+        list.add(equipment.getBoots());
+        list.add(equipment.getLeggings());
+        list.add(equipment.getChestplate());
+        list.add(equipment.getHelmet());
+
         return list;
     }
 }

@@ -7,8 +7,10 @@ import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import lombok.Getter;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -29,22 +31,29 @@ public class HitEntitySkill extends CooldownSkill {
     protected List<Action> onDamagedActions;
 
     public HitEntitySkill() {
-        this(CONSUMABLE_DEFAULT, COOLDOWN_DEFAULT, COOLDOWN_MESSAGE_DEFAULT, Lists.newArrayList(), Lists.newArrayList());
+        this(CONSUMABLE_DEFAULT, Sets.newHashSet(EquipmentSlot.values()), COOLDOWN_DEFAULT, COOLDOWN_MESSAGE_DEFAULT, Lists.newArrayList(), Lists.newArrayList());
     }
 
-    public HitEntitySkill(boolean consumable, int cooldown, boolean cooldownMessage, List<Action> onDamagerActions, List<Action> onDamagedActions) {
-        super(consumable, cooldown, cooldownMessage);
+    public HitEntitySkill(boolean consumable, Set<EquipmentSlot> allowedSlots, int cooldown, boolean cooldownMessage,
+                          List<Action> onDamagerActions, List<Action> onDamagedActions) {
+        super(consumable, allowedSlots, cooldown, cooldownMessage);
         this.onDamagerActions = onDamagerActions;
         this.onDamagedActions = onDamagedActions;
     }
 
-    public static HitEntitySkill deserialize(Map<String, Object> map) {
-        boolean consumable = (boolean) map.getOrDefault("consumable", CONSUMABLE_DEFAULT);
-        List<Action> onDamagerActions = (List<Action>) map.getOrDefault("onDamagerActions", Lists.newArrayList());
-        List<Action> onDamagedActions = (List<Action>) map.getOrDefault("onDamagedActions", Lists.newArrayList());
-        int cooldown = (int) map.getOrDefault("cooldown", COOLDOWN_DEFAULT);
-        boolean cooldownMessage = (boolean) map.getOrDefault("cooldownMessage", COOLDOWN_MESSAGE_DEFAULT);
-        return new HitEntitySkill(consumable, cooldown, cooldownMessage, onDamagerActions, onDamagedActions);
+    public HitEntitySkill(Map<String, Object> map) {
+        super(map);
+        this.onDamagerActions = (List<Action>) map.getOrDefault("onDamagerActions", Lists.newArrayList());
+        this.onDamagedActions = (List<Action>) map.getOrDefault("onDamagedActions", Lists.newArrayList());
+    }
+
+
+    @Override
+    public Map<String, Object> serialize() {
+        Map<String, Object> map = super.serialize();
+        map.put("onDamagerActions", onDamagerActions);
+        map.put("onDamagedActions", onDamagedActions);
+        return map;
     }
 
     public SkillResult executeSkill(LivingEntity damager, LivingEntity damaged, UUID id, ItemStack item) {

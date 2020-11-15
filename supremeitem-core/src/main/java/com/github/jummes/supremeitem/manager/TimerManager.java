@@ -14,9 +14,11 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 
 public class TimerManager {
@@ -29,8 +31,9 @@ public class TimerManager {
             Set<Player> set = new HashSet<>(Bukkit.getOnlinePlayers());
             set.addAll(timers.keySet());
             set.forEach(player -> {
-                Utils.getEntityItems(player).stream().filter(armor -> !Libs.getWrapper().getTagItem(armor, "supreme-item").
-                        equals("")).forEach(armor -> addNewTimers(player, armor));
+                List<ItemStack> items = Utils.getEntityItems(player);
+                IntStream.range(0, items.size()).filter(i -> Item.isSupremeItem(items.get(i))).forEach(i ->
+                        addNewTimers(player, items.get(i), EquipmentSlot.values()[i]));
                 removeTimers(player);
             });
         }, 0, 5);
@@ -56,14 +59,14 @@ public class TimerManager {
         }
     }
 
-    public void addNewTimers(Player player, ItemStack armor) {
+    public void addNewTimers(Player player, ItemStack armor, EquipmentSlot slot) {
         if (armor != null) {
             UUID id = UUID.fromString(Libs.getWrapper().getTagItem(armor, "supreme-item"));
             Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);
             if (supremeItem != null) {
                 TimerSkill timerSkill = (TimerSkill) supremeItem.getSkillSet().stream().filter(skill ->
                         skill instanceof TimerSkill).findFirst().orElse(null);
-                if (timerSkill != null) {
+                if (timerSkill != null && timerSkill.getAllowedSlots().contains(slot)) {
                     startTimerTask(player, id, timerSkill);
                 }
             }

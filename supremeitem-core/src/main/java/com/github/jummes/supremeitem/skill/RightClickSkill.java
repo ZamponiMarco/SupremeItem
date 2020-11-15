@@ -5,9 +5,11 @@ import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -38,24 +40,32 @@ public class RightClickSkill extends CooldownSkill {
     protected int onRayCastMaxDistance;
 
     public RightClickSkill() {
-        this(CONSUMABLE_DEFAULT, COOLDOWN_DEFAULT, COOLDOWN_MESSAGE_DEFAULT, Lists.newArrayList(), Lists.newArrayList(), RAY_CAST_DISTANCE_DEFAULT);
+        this(CONSUMABLE_DEFAULT, Sets.newHashSet(EquipmentSlot.values()), COOLDOWN_DEFAULT, COOLDOWN_MESSAGE_DEFAULT, Lists.newArrayList(),
+                Lists.newArrayList(), RAY_CAST_DISTANCE_DEFAULT);
     }
 
-    public RightClickSkill(boolean consumable, int cooldown, boolean cooldownMessage, List<Action> onCasterActions, List<Action> onRayCastPointActions, int onRayCastMaxDistance) {
-        super(consumable, cooldown, cooldownMessage);
+    public RightClickSkill(boolean consumable, Set<EquipmentSlot> allowedSlots, int cooldown, boolean cooldownMessage,
+                           List<Action> onCasterActions, List<Action> onRayCastPointActions, int onRayCastMaxDistance) {
+        super(consumable, allowedSlots, cooldown, cooldownMessage);
         this.onCasterActions = onCasterActions;
         this.onRayCastPointActions = onRayCastPointActions;
         this.onRayCastMaxDistance = onRayCastMaxDistance;
     }
 
-    public static RightClickSkill deserialize(Map<String, Object> map) {
-        boolean consumable = (boolean) map.getOrDefault("consumable", CONSUMABLE_DEFAULT);
-        List<Action> onCasterActions = (List<Action>) map.getOrDefault("onCasterActions", Lists.newArrayList());
-        int cooldown = (int) map.getOrDefault("cooldown", COOLDOWN_DEFAULT);
-        List<Action> onRayCastPointActions = (List<Action>) map.getOrDefault("onRayCastPointActions", Lists.newArrayList());
-        int onRayCastMaxDistance = (int) map.getOrDefault("onRayCastMaxDistance", RAY_CAST_DISTANCE_DEFAULT);
-        boolean cooldownMessage = (boolean) map.getOrDefault("cooldownMessage", COOLDOWN_MESSAGE_DEFAULT);
-        return new RightClickSkill(consumable, cooldown, cooldownMessage, onCasterActions, onRayCastPointActions, onRayCastMaxDistance);
+    public RightClickSkill(Map<String, Object> map) {
+        super(map);
+        onCasterActions = (List<Action>) map.getOrDefault("onCasterActions", Lists.newArrayList());
+        onRayCastPointActions = (List<Action>) map.getOrDefault("onRayCastPointActions", Lists.newArrayList());
+        onRayCastMaxDistance = (int) map.getOrDefault("onRayCastMaxDistance", RAY_CAST_DISTANCE_DEFAULT);
+    }
+
+    @Override
+    public Map<String, Object> serialize() {
+        Map<String, Object> map = super.serialize();
+        map.put("onCasterActions", onCasterActions);
+        map.put("onRayCastPointActions", onRayCastPointActions);
+        map.put("onRayCastMaxDistance", onRayCastMaxDistance);
+        return map;
     }
 
     public SkillResult executeSkill(LivingEntity e, UUID id, ItemStack item) {

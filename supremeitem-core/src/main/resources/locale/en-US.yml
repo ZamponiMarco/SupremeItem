@@ -341,6 +341,9 @@ gui:
     consumable:
       - "&7&oWhether the item should be consumed when"
       - "&7&othe skill is used or not."
+    slots:
+      - "&7&oThe list of inventory slots where the skill"
+      - "&7&owill be triggered."
     hit-entity:
       description:
         - "&7&oSet a skill to be triggered when an entity hits"

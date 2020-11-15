@@ -8,26 +8,51 @@ import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
+import lombok.Getter;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
+@Getter
 @Enumerable.Parent(classArray = {CooldownSkill.class, LeftClickSkill.class, RightClickSkill.class, HitEntitySkill.class,
         TimerSkill.class, DamageEntitySkill.class, EntitySneakSkill.class})
 public abstract class Skill implements Model {
 
     protected static final List<Action> ACTIONS_DEFAULT = Lists.newArrayList();
     protected static final boolean CONSUMABLE_DEFAULT = false;
+    protected static final Set<EquipmentSlot> DEFAULT_SLOTS = Sets.newHashSet(EquipmentSlot.values());
     protected static final String CONSUMABLE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTg0YTY4ZmQ3YjYyOGQzMDk2NjdkYjdhNTU4NTViNTRhYmMyM2YzNTk1YmJlNDMyMTYyMTFiZTVmZTU3MDE0In19fQ==";
+    private static final String SLOTS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGQ5YjY4OTE1YjE0NzJkODllNWUzYTliYTZjOTM1YWFlNjAzZDEyYzE0NTRmMzgyMjgyNWY0M2RmZThhMmNhYyJ9fX0=";
 
     @Serializable(headTexture = CONSUMABLE_HEAD, description = "gui.skill.consumable")
     @Serializable.Optional(defaultValue = "CONSUMABLE_DEFAULT")
     protected boolean consumable;
+    @Serializable(headTexture = SLOTS_HEAD, description = "gui.skill.slots")
+    protected Set<EquipmentSlot> allowedSlots;
 
-    public Skill(boolean consumable) {
+    public Skill(boolean consumable, Set<EquipmentSlot> allowedSlots) {
         this.consumable = consumable;
+        this.allowedSlots = allowedSlots;
+    }
+
+    public Skill(Map<String, Object> map) {
+        this.consumable = (boolean) map.getOrDefault("consumable", CONSUMABLE_DEFAULT);
+        this.allowedSlots = ((List<String>) map.getOrDefault("allowedSlots",
+                Arrays.stream(EquipmentSlot.values()).map(EquipmentSlot::name).collect(Collectors.toList()))).
+                stream().map(EquipmentSlot::valueOf).collect(Collectors.toSet());
+    }
+
+    @Override
+    public Map<String, Object> serialize() {
+        Map<String, Object> map = new LinkedHashMap<>();
+        if (consumable != CONSUMABLE_DEFAULT)
+            map.put("consumable", consumable);
+        if (!allowedSlots.equals(DEFAULT_SLOTS))
+            map.put("allowedSlots", allowedSlots.stream().map(EquipmentSlot::name).collect(Collectors.toList()));
+        return map;
     }
 
     @Override

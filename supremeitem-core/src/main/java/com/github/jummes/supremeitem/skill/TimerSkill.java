@@ -5,7 +5,9 @@ import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import lombok.Getter;
+import org.bukkit.inventory.EquipmentSlot;
 
 import java.util.HashSet;
 import java.util.List;
@@ -33,20 +35,28 @@ public class TimerSkill extends Skill {
 
 
     public TimerSkill() {
-        this(CONSUMABLE_DEFAULT, Lists.newArrayList(), TIMER_DEFAULT);
+        this(CONSUMABLE_DEFAULT, Sets.newHashSet(EquipmentSlot.values()), Lists.newArrayList(), TIMER_DEFAULT);
     }
 
-    public TimerSkill(boolean consumable, List<Action> onWearerActions, int timer) {
-        super(consumable);
+    public TimerSkill(boolean consumable, Set<EquipmentSlot> allowedSlots, List<Action> onWearerActions, int timer) {
+        super(consumable, allowedSlots);
         this.onWearerActions = onWearerActions;
         this.timer = timer;
     }
 
-    public static TimerSkill deserialize(Map<String, Object> map) {
-        boolean consumable = (boolean) map.getOrDefault("consumable", CONSUMABLE_DEFAULT);
-        List<Action> onWearerActions = (List<Action>) map.getOrDefault("onWearerActions", Lists.newArrayList());
-        int timer = (int) map.getOrDefault("timer", TIMER_DEFAULT);
-        return new TimerSkill(consumable, onWearerActions, timer);
+    public TimerSkill(Map<String, Object> map) {
+        super(map);
+        this.onWearerActions = (List<Action>) map.getOrDefault("onWearerActions", Lists.newArrayList());
+        this.timer = (int) map.getOrDefault("timer", TIMER_DEFAULT);
+    }
+
+
+    @Override
+    public Map<String, Object> serialize() {
+        Map<String, Object> map = super.serialize();
+        map.put("onWearerActions", onWearerActions);
+        map.put("timer", timer);
+        return map;
     }
 
     @Override
