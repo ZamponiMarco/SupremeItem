@@ -112,7 +112,6 @@ public class HomingProjectileAction extends AbstractProjectileAction {
             }
         } else if (source instanceof LocationSource) {
             l = source.getLocation();
-            System.out.println(l);
         }
 
         if (l != null) {

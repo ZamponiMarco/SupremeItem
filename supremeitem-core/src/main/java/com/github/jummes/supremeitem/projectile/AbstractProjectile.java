@@ -2,7 +2,6 @@ package com.github.jummes.supremeitem.projectile;
 
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
-import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.LocationTarget;
@@ -79,8 +78,8 @@ public abstract class AbstractProjectile {
 
                 List<LivingEntity> hitEntities = getHitEntities();
                 if (!hitEntities.isEmpty()) {
-                    hitEntities.forEach(entity -> onEntityHitActions.forEach(Action -> Action.
-                            execute(new EntityTarget(entity), source)));
+                    hitEntities.forEach(livingEntity -> onEntityHitActions.forEach(action -> action.
+                            execute(new EntityTarget(livingEntity), source)));
                     remove();
                 }
 
@@ -128,10 +127,9 @@ public abstract class AbstractProjectile {
 
     private List<LivingEntity> getHitEntities() {
         return location.getWorld().getNearbyEntities(location, hitBoxSize, hitBoxSize, hitBoxSize).stream().
-                filter(entity -> entity instanceof LivingEntity
-                        && (!Objects.equals(this.entity, entity))
-                        && (source instanceof EntitySource && !entity.equals(source.getCaster()))
-                        && !isProjectile(entity)).
+                filter(livingEntity -> livingEntity instanceof LivingEntity
+                        && !livingEntity.equals(source.getCaster())
+                        && !isProjectile(livingEntity)).
                 map(entity -> (LivingEntity) entity).collect(Collectors.toList());
     }
 }
