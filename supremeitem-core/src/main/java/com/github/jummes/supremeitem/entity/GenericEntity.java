@@ -38,9 +38,9 @@ public class GenericEntity extends Entity {
         this(EntityType.ARROW);
     }
 
-    public static GenericEntity deserialize(Map<String, Object> map) {
-        EntityType type = EntityType.valueOf((String) map.get("type"));
-        return new GenericEntity(type);
+    public GenericEntity(Map<String, Object> map) {
+        super(map);
+        this.type = EntityType.valueOf((String) map.get("type"));
     }
 
     public static List<Object> getSpawnableEntities(ModelPath path) {

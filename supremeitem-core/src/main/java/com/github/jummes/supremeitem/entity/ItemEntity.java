@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.util.Vector;
 
@@ -30,9 +31,9 @@ public class ItemEntity extends Entity {
         this(new ItemStackWrapper());
     }
 
-    public static ItemEntity deserialize(Map<String, Object> map) {
-        ItemStackWrapper item = (ItemStackWrapper) map.get("item");
-        return new ItemEntity(item);
+    public ItemEntity(Map<String, Object> map) {
+        super(map);
+        this.item = (ItemStackWrapper) map.get("item");
     }
 
     @Override
@@ -47,5 +48,10 @@ public class ItemEntity extends Entity {
     @Override
     public Entity clone() {
         return new ItemEntity(new ItemStackWrapper(item.getWrapped().clone(), true));
+    }
+
+    @Override
+    public EntityType getType() {
+        return EntityType.DROPPED_ITEM;
     }
 }

@@ -8,6 +8,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryPickupItemEvent;
 
@@ -42,6 +43,13 @@ public class ProjectileListener implements Listener {
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
         if (Projectile.isProjectile(e.getDamager())) {
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onFallDamage(EntityDamageEvent e) {
+        if (Projectile.isProjectile(e.getEntity())) {
             e.setCancelled(true);
         }
     }

@@ -8,6 +8,7 @@ import com.github.jummes.supremeitem.value.MaterialValue;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.FallingBlock;
 
 import java.util.Map;
@@ -22,22 +23,18 @@ public class FallingBlockEntity extends Entity {
             additionalDescription = {"gui.additional-tooltips.value"})
     private MaterialValue material;
 
-    public FallingBlockEntity(MaterialValue material) {
-        this.material = material;
-    }
 
     public FallingBlockEntity() {
         this(new MaterialValue(Material.RED_SAND));
     }
 
-    public static FallingBlockEntity deserialize(Map<String, Object> map) {
-        MaterialValue material;
-        try {
-            material = (MaterialValue) map.getOrDefault("material", new MaterialValue(Material.RED_SAND));
-        } catch (ClassCastException e) {
-            material = new MaterialValue(Material.valueOf((String) map.getOrDefault("material", "RED_SAND")));
-        }
-        return new FallingBlockEntity(material);
+    public FallingBlockEntity(MaterialValue material) {
+        this.material = material;
+    }
+
+    public FallingBlockEntity(Map<String, Object> map) {
+        super(map);
+        this.material = (MaterialValue) map.getOrDefault("material", new MaterialValue(Material.RED_SAND));
     }
 
     @Override
@@ -51,5 +48,10 @@ public class FallingBlockEntity extends Entity {
     @Override
     public Entity clone() {
         return new FallingBlockEntity(material);
+    }
+
+    @Override
+    public EntityType getType() {
+        return EntityType.FALLING_BLOCK;
     }
 }
