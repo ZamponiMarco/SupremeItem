@@ -7,6 +7,7 @@ import com.github.jummes.libs.model.Model;
 import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.libs.model.wrapper.ItemStackWrapper;
 import com.github.jummes.libs.util.ItemUtils;
+import com.github.jummes.libs.util.MapperUtils;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
@@ -247,11 +248,11 @@ public class ParticleAction extends LocationAction {
         }
 
         public static List<Object> materialList(ModelPath<?> path) {
-            return ItemUtils.getMaterialList();
+            return MapperUtils.getMaterialList();
         }
 
         public static Function<Object, ItemStack> materialListMapper() {
-            return ItemUtils.getMaterialMapper();
+            return MapperUtils.getMaterialMapper();
         }
 
         @Override
@@ -286,11 +287,11 @@ public class ParticleAction extends LocationAction {
         }
 
         public static List<Object> materialList(ModelPath<?> path) {
-            return ItemUtils.getMaterialList().stream().filter(m -> ((Material) m).isBlock()).collect(Collectors.toList());
+            return MapperUtils.getMaterialList().stream().filter(m -> ((Material) m).isBlock()).collect(Collectors.toList());
         }
 
         public static Function<Object, ItemStack> materialListMapper() {
-            return ItemUtils.getMaterialMapper();
+            return MapperUtils.getMaterialMapper();
         }
 
         @Override
