@@ -189,7 +189,7 @@ public class PlayerItemListener implements Listener {
      */
     private boolean executeHitEntitySkill(LivingEntity damager, LivingEntity damaged) {
         AtomicBoolean toReturn = new AtomicBoolean(false);
-        List<ItemStack> items = Utils.getEntityItems(damaged);
+        List<ItemStack> items = Utils.getEntityItems(damager);
         IntStream.range(0, items.size()).filter(i -> Item.isSupremeItem(items.get(i))).forEach(i -> {
             UUID id = UUID.fromString(Libs.getWrapper().getTagItem(items.get(i), "supreme-item"));
             Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);
@@ -197,7 +197,7 @@ public class PlayerItemListener implements Listener {
                 supremeItem.getSkillSet().stream().filter(skill -> skill instanceof HitEntitySkill &&
                         skill.getAllowedSlots().contains(EquipmentSlot.values()[i])).findFirst().
                         ifPresent(skill -> {
-                            if (((HitEntitySkill) skill).executeSkill(damaged, damager, id, items.get(i)).
+                            if (((HitEntitySkill) skill).executeSkill(damager, damaged, id, items.get(i)).
                                     equals(Skill.SkillResult.CANCELLED)) {
                                 toReturn.set(true);
                             }
