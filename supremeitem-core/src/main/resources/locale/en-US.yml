@@ -146,6 +146,12 @@ gui:
         - "&7&oChanges the dynamics of some skills (like pull/push)."
         - "&6&oIf true, Source: &elocation of caster entity."
         - "&6&oIf false, Source: &ecaster entity."
+      sorter:
+        - "&7&oThe sorter used to sort the entities, this will be used"
+        - "&7&owhen the count number is different from 0."
+      count:
+        - "&7&oThe maximum number of targeted entities. If 0 there is"
+        - "&7&ono maximum limit."
     delayed:
       description:
         - "&7&oSet a group of actions that will be executed"
@@ -447,6 +453,20 @@ gui:
         deny:
           - "&7&oWhether entities selected by this selector should"
           - "&7&obe avoided or not."
+    sorter:
+      proximity:
+        description:
+          - "&7&oSet a proximity sorter, that sorts enemies based"
+          - "&7&oon their distance."
+        target:
+          - "&7&oWhether the distance should be calculated from the"
+          - "&7&osource or from the target location."
+        inverse:
+          - "&7&oWhether the order should be inverted. If true farthest"
+          - "&7&oentities will come first."
+      random:
+        description:
+          - "&7&oSet a random sorter."
   saved-skill:
     description:
       - "&6&l- Left click &eto modify."

@@ -10,7 +10,6 @@
         <version>0.1.15</version>
     </parent>
     <artifactId>supremeitem-core</artifactId>
-    <version>${project.parent.version}</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
