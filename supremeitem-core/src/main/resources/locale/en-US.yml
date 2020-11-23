@@ -447,12 +447,20 @@ gui:
       material:
         - "&7&oThe block material."
     selector:
+      deny:
+        - "&7&oWhether entities selected by this selector should"
+        - "&7&obe avoided or not."
       source:
         description:
           - "&7&oSet a selector that filters the source of a skill."
-        deny:
-          - "&7&oWhether entities selected by this selector should"
-          - "&7&obe avoided or not."
+      fov:
+        description:
+          - "&7&oSet a selector that filters the entities inside an entity"
+          - "&7&ofield of view."
+        target:
+          - "&7&oWhether the considered field of view is the source or the"
+          - "&7&otarget one."
+        fov:
     sorter:
       proximity:
         description:

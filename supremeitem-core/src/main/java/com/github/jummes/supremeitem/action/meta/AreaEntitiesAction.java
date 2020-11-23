@@ -103,7 +103,7 @@ public class AreaEntitiesAction extends MetaAction {
         LivingEntity caster = source.getCaster();
         if (l != null) {
             double maxDistance = this.maxDistance.getRealValue(target, source);
-            Predicate<LivingEntity> select = selectors.stream().map(selector -> selector.getFilter(source)).
+            Predicate<LivingEntity> select = selectors.stream().map(selector -> selector.getFilter(source, target)).
                     reduce(e -> true, Predicate::and);
             Location finalL = l;
             World world = l.getWorld();
