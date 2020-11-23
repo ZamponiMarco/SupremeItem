@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+@Enumerable.Child
 @Enumerable.Displayable(name = "&6&lProximity Sorter", description = "gui.entity.sorter.proximity.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWE1Mzc2MjIxNGFkOTljMmM1OWYzMGI0YTJhYTI5YTU4NTE2NjNhZDdkZmE4NTZlOGRhNzI1MjFhYWJhNjc4In19fQ==")
 public class ProximitySorter extends EntitySorter {
 

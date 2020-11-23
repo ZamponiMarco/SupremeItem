@@ -41,7 +41,7 @@ public class AreaEntitiesAction extends MetaAction {
     private static final String MAX_DISTANCE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWQ2YjEyOTNkYjcyOWQwMTBmNTM0Y2UxMzYxYmJjNTVhZTVhOGM4ZjgzYTE5NDdhZmU3YTg2NzMyZWZjMiJ9fX0=";
     private static final String SELECTOR_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjM4ZDI3NTk1NjlkNTE1ZDI0NTRkNGE3ODkxYTk0Y2M2M2RkZmU3MmQwM2JmZGY3NmYxZDQyNzdkNTkwIn19fQ==";
     private static final String CAST_LOCATION_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmQzYjJlM2U5OTU0ZjgyMmI0M2ZlNWY5MTUwOTllMGE2Y2FhYTgxZjc5MTIyMmI1ODAzZDQxNDVhODUxNzAifX19";
-    private static final String SORTER_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTBhMTllMjNkMjFmMmRiMDYzY2M1NWU5OWFlODc0ZGM4YjIzYmU3NzliZTM0ZTUyZTdjN2I5YTI1In19fQ==";
+    private static final String SORTER_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmE2ZDUxYzIyYzg5NTgyODVjMDBhYWFmOTNiNjIxYzE1YmUxMGFhMDQ4MzhhZmUxZDg5Y2Q5YzM2MDMxNDRkZiJ9fX0=";
     private static final String COUNT_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdkYzNlMjlhMDkyM2U1MmVjZWU2YjRjOWQ1MzNhNzllNzRiYjZiZWQ1NDFiNDk1YTEzYWJkMzU5NjI3NjUzIn19fQ==";
 
     @Serializable(headTexture = ACTIONS_HEAD, description = "gui.action.area-entities.actions")
@@ -50,28 +50,30 @@ public class AreaEntitiesAction extends MetaAction {
 
     @Serializable(headTexture = MAX_DISTANCE_HEAD, description = "gui.action.area-entities.max-distance",
             additionalDescription = {"gui.additional-tooltips.value"})
-    @Serializable.Number(minValue = 0, scale = 1)
+    @Serializable.Number(minValue = 0)
     @Serializable.Optional(defaultValue = "MAX_DISTANCE_DEFAULT")
     private NumericValue maxDistance;
 
     @Serializable(headTexture = SELECTOR_HEAD, description = "gui.action.area-entities.selectors")
     private List<EntitySelector> selectors;
 
+
+    @Serializable(headTexture = COUNT_HEAD, description = "gui.action.area-entities.count")
+    @Serializable.Number(minValue = 0, scale = 1)
+    private NumericValue count;
+
+    @Serializable(headTexture = SORTER_HEAD, description = "gui.action.area-entities.sorter",
+            additionalDescription = {"gui.additional-tooltips.recreate"})
+    private EntitySorter sorter;
+
     @Serializable(headTexture = CAST_LOCATION_HEAD, description = "gui.action.area-entities.cast-from-location")
     @Serializable.Optional(defaultValue = "CAST_LOCATION_DEFAULT")
     private boolean castFromLocation;
 
-    @Serializable(headTexture = CAST_LOCATION_HEAD, description = "gui.action.area-entities.sorter",
-            additionalDescription = {"gui.additional-tooltips.recreate"})
-    private EntitySorter sorter;
-
-    @Serializable(headTexture = CAST_LOCATION_HEAD, description = "gui.action.area-entities.count")
-    @Serializable.Number(minValue = 0, scale = 1)
-    private NumericValue count;
-
     public AreaEntitiesAction() {
-        this(TARGET_DEFAULT, Lists.newArrayList(), MAX_DISTANCE_DEFAULT.clone(), Lists.newArrayList(new SourceSelector()),
-                CAST_LOCATION_DEFAULT, SORTER_DEFAULT.clone(), COUNT_DEFAULT.clone());
+        this(TARGET_DEFAULT, Lists.newArrayList(), MAX_DISTANCE_DEFAULT.clone(), Lists.
+                        newArrayList(new SourceSelector(true)), CAST_LOCATION_DEFAULT, SORTER_DEFAULT.clone(),
+                COUNT_DEFAULT.clone());
     }
 
     public AreaEntitiesAction(boolean target, List<Action> actions, NumericValue maxDistance,
@@ -105,7 +107,6 @@ public class AreaEntitiesAction extends MetaAction {
             double maxDistance = this.maxDistance.getRealValue(target, source);
             Predicate<LivingEntity> select = selectors.stream().map(selector -> selector.getFilter(source, target)).
                     reduce(e -> true, Predicate::and);
-            Location finalL = l;
             World world = l.getWorld();
             if (world != null) {
                 List<Entity> entities = new ArrayList<>(l.getWorld().getNearbyEntities(l, maxDistance, maxDistance,
@@ -116,9 +117,9 @@ public class AreaEntitiesAction extends MetaAction {
                     sorter.sortCollection(entities, target, source);
                     entityStream = entityStream.limit(realCount);
                 }
-                entityStream.limit(count.getRealValue(target, source).intValue()).map(entity -> (LivingEntity) entity).
+                entityStream.map(entity -> (LivingEntity) entity).
                         forEach(entity -> actions.forEach(action -> action.execute(new EntityTarget(entity),
-                                castFromLocation ? new LocationSource(finalL, caster) : source)));
+                                castFromLocation ? new LocationSource(l, caster) : source)));
             } else {
                 return ActionResult.FAILURE;
             }

@@ -28,11 +28,11 @@ gui:
       - "&6&l- Left click &eto modify."
       - "&6&l- Right click &eto delete."
       - "&6&l- Middle click &eto clone."
-      - "&6&l- Press 1 &eto wrap in a DelayedAction."
-      - "&6&l- Press 2 &eto wrap in a TimerAction."
-      - "&6&l- Press 3 &eto wrap in a ConditionAction."
-      - "&6&l- Press Q &eto select/deselect this action."
-      - "&6&l- Press Ctrl+Q &eto select/deselect all actions."
+      - "&6&l- [1] &eto wrap in a DelayedAction."
+      - "&6&l- [2] &eto wrap in a TimerAction."
+      - "&6&l- [3] &eto wrap in a ConditionAction."
+      - "&6&l- [Q] &eto select/deselect this action."
+      - "&6&l- [Ctrl+Q] &eto select/deselect all actions."
     target:
       - "&7&oWhether the action should be executed"
       - "&7&oon the skill target or the skill source."
@@ -131,27 +131,31 @@ gui:
     area-entities:
       description:
         - "&7&oSet a group of actions that will be applied"
-        - "&7&oto all entities in a range around the target location."
+        - "&7&oto all entities in a range around the"
+        - "&7&otarget location."
       actions:
         - "&7&oThe group of actions to apply."
         - "&6&oSource: &eSee castFromLocation."
         - "&6&oTarget: &eEntities in range."
       max-distance:
-        - "&7&oThe max distance of the entities from the target location."
+        - "&7&oThe max distance of the entities from"
+        - "&7&othe target location."
       selectors:
         - "&7&oA list of entity selectors to filter them."
       cast-from-location:
-        - "&7&oWhether the source of group of actions should be"
-        - "&7&othe target location or the entity who casted the skill."
+        - "&7&oWhether the source of group of actions"
+        - "&7&o should be the target location or the"
+        - "&7&oentity who casted the skill."
         - "&7&oChanges the dynamics of some skills (like pull/push)."
         - "&6&oIf true, Source: &elocation of caster entity."
         - "&6&oIf false, Source: &ecaster entity."
       sorter:
-        - "&7&oThe sorter used to sort the entities, this will be used"
-        - "&7&owhen the count number is different from 0."
+        - "&7&oThe sorter used to sort the entities,"
+        - "&7&othis will be used when the count number"
+        - "&7&ois different from 0."
       count:
-        - "&7&oThe maximum number of targeted entities. If 0 there is"
-        - "&7&ono maximum limit."
+        - "&7&oThe maximum number of targeted entities."
+        - "&7&oIf it is 0 there is no maximum limit."
     delayed:
       description:
         - "&7&oSet a group of actions that will be executed"
@@ -448,19 +452,21 @@ gui:
         - "&7&oThe block material."
     selector:
       deny:
-        - "&7&oWhether entities selected by this selector should"
-        - "&7&obe avoided or not."
+        - "&7&oWhether entities selected by this"
+        - "&7&oselector should be avoided or not."
       source:
         description:
           - "&7&oSet a selector that filters the source of a skill."
       fov:
         description:
-          - "&7&oSet a selector that filters the entities inside an entity"
-          - "&7&ofield of view."
+          - "&7&oSet a selector that filters the"
+          - "&7&oentities inside an entity field of view."
         target:
-          - "&7&oWhether the considered field of view is the source or the"
-          - "&7&otarget one."
+          - "&7&oWhether the considered field of view"
+          - "&7&ois the source or the target one."
         fov:
+          - "&7&oThe wideness of the angle of the field"
+          - "&7&oof view in degree."
     sorter:
       proximity:
         description:
