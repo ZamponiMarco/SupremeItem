@@ -54,7 +54,6 @@ public abstract class AbstractProjectile {
 
         this.projectilePresent = this.entity != null;
         this.counter = 0;
-        this.initialDirection = getInitialDirection();
     }
 
     public static boolean isProjectile(Entity entity) {
@@ -67,6 +66,7 @@ public abstract class AbstractProjectile {
     protected abstract void updateLocationAndDirection();
 
     public void run() {
+        this.initialDirection = getInitialDirection();
         projectileTask = new BukkitRunnable() {
             @Override
             public void run() {

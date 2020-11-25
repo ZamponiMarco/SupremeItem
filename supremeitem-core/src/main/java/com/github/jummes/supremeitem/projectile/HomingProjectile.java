@@ -12,9 +12,9 @@ import java.util.List;
 
 public class HomingProjectile extends AbstractProjectile {
 
-    double turnSpeed;
-    private int projectileSpread;
-    private LivingEntity entityTarget;
+    protected double turnSpeed;
+    protected int projectileSpread;
+    protected LivingEntity entityTarget;
 
     public HomingProjectile(Target target, Source source, Location location, double gravity, double initialSpeed,
                             List<Action> onEntityHitActions, List<Action> onBlockHitActions,
@@ -29,7 +29,7 @@ public class HomingProjectile extends AbstractProjectile {
 
     @Override
     protected Vector getInitialDirection() {
-        Vector initialDirection = location.getDirection().multiply(initialSpeed).multiply(.05);
+        Vector initialDirection = location.clone().getDirection().multiply(initialSpeed).multiply(.05);
         double spread = Math.toRadians(projectileSpread);
         initialDirection.rotateAroundX((Math.random() - 0.5) * spread);
         initialDirection.rotateAroundY((Math.random() - 0.5) * spread);

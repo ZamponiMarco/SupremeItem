@@ -351,6 +351,15 @@ gui:
         - "&7&oWhether the explosion leaves fire or not."
       break-blocks:
         - "&7&oWhether the explosion destroys blocks or not."
+    money:
+      description:
+        - "&7&oSet an action that gives or takes money from"
+        - "&7&oa player."
+      money:
+        - "&7&oThe amount of money."
+      give:
+        - "&7&oWhether the money should be given to or taken"
+        - "&7&ofrom the player."
   skill:
     cooldown:
       - "&7&oThe cooldown between skill executions."
@@ -506,6 +515,9 @@ gui:
       hunger:
         description:
           - "&7&oSet a hunger placeholder. (only players)"
+      balance:
+        description:
+          - "&7&oSet a balance placeholder. (only players)"
       variable:
         description:
           - "&7&oSet a variable placeholder."
