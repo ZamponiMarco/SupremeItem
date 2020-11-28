@@ -16,8 +16,10 @@ import com.github.jummes.supremeitem.condition.Condition;
 import com.github.jummes.supremeitem.database.CompressedYamlDatabase;
 import com.github.jummes.supremeitem.entity.Entity;
 import com.github.jummes.supremeitem.entity.selector.EntitySelector;
+import com.github.jummes.supremeitem.entity.sorter.EntitySorter;
 import com.github.jummes.supremeitem.event.PlayerJumpEvent;
 import com.github.jummes.supremeitem.gui.ActionCollectionInventoryHolder;
+import com.github.jummes.supremeitem.hook.VaultHook;
 import com.github.jummes.supremeitem.hook.WorldGuardHook;
 import com.github.jummes.supremeitem.item.Item;
 import com.github.jummes.supremeitem.listener.PlayerItemListener;
@@ -86,6 +88,8 @@ public class SupremeItem extends JavaPlugin {
         ConfigurationSerialization.registerClass(ParticleAction.ItemStackData.class);
 
         ConfigurationSerialization.registerClass(Area.class);
+
+        ConfigurationSerialization.registerClass(EntitySorter.class);
     }
 
     /*
@@ -101,6 +105,7 @@ public class SupremeItem extends JavaPlugin {
      * Hooks
      */
     private WorldGuardHook worldGuardHook;
+    private VaultHook vaultHook;
 
     public static SupremeItem getInstance() {
         return getPlugin(SupremeItem.class);
@@ -155,6 +160,7 @@ public class SupremeItem extends JavaPlugin {
 
     private void setUpHooks() {
         worldGuardHook = new WorldGuardHook();
+        vaultHook = new VaultHook();
     }
 
     private void setUpCommands() {

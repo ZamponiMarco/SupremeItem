@@ -3,7 +3,7 @@ package com.github.jummes.supremeitem.action.location;
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.model.ModelPath;
-import com.github.jummes.libs.util.ItemUtils;
+import com.github.jummes.libs.util.MapperUtils;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
@@ -75,11 +75,11 @@ public class FakeBlockAction extends LocationAction {
     }
 
     public static List<Object> materialList(ModelPath<?> path) {
-        return ItemUtils.getMaterialList().stream().filter(m -> ((Material) m).isBlock()).collect(Collectors.toList());
+        return MapperUtils.getMaterialList().stream().filter(m -> ((Material) m).isBlock()).collect(Collectors.toList());
     }
 
     public static Function<Object, ItemStack> materialListMapper() {
-        return ItemUtils.getMaterialMapper();
+        return MapperUtils.getMaterialMapper();
     }
 
     @Override

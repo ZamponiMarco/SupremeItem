@@ -5,6 +5,7 @@ main: com.github.jummes.supremeitem.SupremeItem
 api-version: 1.13
 softdepend:
   - WorldGuard
+  - Vault
 commands:
   si:
 permissions:

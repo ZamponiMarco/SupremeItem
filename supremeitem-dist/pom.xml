@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.github.jummes</groupId>
         <artifactId>supremeitem</artifactId>
-        <version>0.1.15-dev2</version>
+        <version>0.1.16-dev1</version>
     </parent>
     <artifactId>supremeitem-dist</artifactId>
     <url>http://maven.apache.org</url>
@@ -40,7 +40,7 @@
                             <relocations>
                                 <relocation>
                                     <pattern>com.github.jummes.libs</pattern>
-                                    <shadedPattern>${groupId}.${project.parent.artifactId}.libs</shadedPattern>
+                                    <shadedPattern>${project.groupId}.${project.parent.artifactId}.libs</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>

@@ -8,7 +8,7 @@ import com.github.jummes.libs.gui.setting.FromListFieldChangeInventoryHolder;
 import com.github.jummes.libs.gui.setting.change.FieldChangeInformation;
 import com.github.jummes.libs.model.Model;
 import com.github.jummes.libs.model.ModelPath;
-import com.github.jummes.libs.util.ItemUtils;
+import com.github.jummes.libs.util.MapperUtils;
 import com.github.jummes.supremeitem.placeholder.material.BlockMaterialPlaceholder;
 import com.github.jummes.supremeitem.placeholder.material.MaterialPlaceholder;
 import com.google.common.collect.Lists;
@@ -87,7 +87,7 @@ public class MaterialValue extends Value<Material, MaterialPlaceholder> {
             if (objectValue) {
                 path.addModel(this);
                 return new FromListFieldChangeInventoryHolder(plugin, parent, path, new FieldChangeInformation(valueField),
-                        1, Lists.newArrayList(Material.values()), ItemUtils.getMaterialMapper());
+                        1, Lists.newArrayList(Material.values()), MapperUtils.getMaterialMapper());
             } else {
                 path.addModel(placeholderValue);
                 return new ModelObjectInventoryHolder(plugin, parent, path);
