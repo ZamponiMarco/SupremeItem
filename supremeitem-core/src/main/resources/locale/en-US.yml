@@ -591,6 +591,12 @@ gui:
         z:
           description:
             - "&7&oSet a block z placeholder."
+      mob:
+        description:
+          - "&7&oSet a SupremeMob related placeholder."
+        level:
+          description:
+            - "&7&oSet a mob level placeholder."
     boolean:
       player:
         description:

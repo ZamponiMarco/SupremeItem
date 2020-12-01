@@ -11,7 +11,7 @@ import org.bukkit.entity.LivingEntity;
 import java.util.Map;
 
 @Enumerable.Child
-@Enumerable.Displayable(name = "Mob level")
+@Enumerable.Displayable(name = "&c&lMob Level Placeholder", description = "gui.placeholder.double.mob.level", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjUwNTU2YTg0MTY0MDY5ZGYzYjg5NTkzOWQwYWI1MDhmZmE4ZTE0MDQ3MTA2OTM4YjU1OWY1ODg5ZTViZmJlNCJ9fX0=")
 public class MobLevelPlaceholder extends MobNumericPlaceholder {
 
     public MobLevelPlaceholder() {
