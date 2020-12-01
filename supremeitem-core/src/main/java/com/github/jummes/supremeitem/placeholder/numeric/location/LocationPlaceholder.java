@@ -2,8 +2,6 @@ package com.github.jummes.supremeitem.placeholder.numeric.location;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.supremeitem.action.source.Source;
-import com.github.jummes.supremeitem.action.targeter.EntityTarget;
-import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.placeholder.numeric.NumericPlaceholder;
 import org.bukkit.Location;
@@ -19,11 +17,7 @@ public abstract class LocationPlaceholder extends NumericPlaceholder {
 
     public Location getLocation(Target target, Source source) {
         if (this.target) {
-            if (target instanceof LocationTarget) {
-                return ((LocationTarget) target).getTarget();
-            } else if (target instanceof EntityTarget) {
-                return ((EntityTarget) target).getTarget().getLocation();
-            }
+            return target.getLocation();
         }
         return source.getLocation();
     }

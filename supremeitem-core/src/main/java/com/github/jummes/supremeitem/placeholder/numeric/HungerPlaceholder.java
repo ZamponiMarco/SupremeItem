@@ -2,8 +2,8 @@ package com.github.jummes.supremeitem.placeholder.numeric;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.supremeitem.action.source.Source;
-import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.util.Map;
@@ -32,16 +32,12 @@ public class HungerPlaceholder extends NumericPlaceholder {
 
     @Override
     public Double computePlaceholder(Target target, Source source) {
-        if (this.target) {
-            if (target instanceof EntityTarget && ((EntityTarget) target).getTarget() instanceof Player) {
-                return (double) ((Player) ((EntityTarget) target).getTarget()).getFoodLevel();
-            }
+        LivingEntity entity = getEntity(target, source);
+        if (!(entity instanceof Player)) {
             return Double.NaN;
         }
-        if (source.getCaster() instanceof Player) {
-            return (double) ((Player) source.getCaster()).getFoodLevel();
-        }
-        return Double.NaN;
+
+        return (double) ((Player) entity).getFoodLevel();
     }
 
     @Override

@@ -26,7 +26,7 @@ public abstract class WrapperAction extends MetaAction {
     protected List<String> modifiedLore() {
         List<String> lore = Libs.getLocale().getList("gui.action.description");
         int i = WRAPPERS_MAP.get(getClass());
-        lore.set(i + 3, MessageUtils.color(String.format("&6&l- Press %d &eto unwrap actions.", i + 1)));
+        lore.set(i + 3, MessageUtils.color(String.format("&6&l- [%d] &eto unwrap actions.", i + 1)));
         return lore;
     }
 

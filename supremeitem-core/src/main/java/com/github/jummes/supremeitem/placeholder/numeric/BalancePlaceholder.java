@@ -1,6 +1,7 @@
 package com.github.jummes.supremeitem.placeholder.numeric;
 
 import com.github.jummes.libs.annotation.Enumerable;
+import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
@@ -26,7 +27,7 @@ public class BalancePlaceholder extends NumericPlaceholder {
         return new BalancePlaceholder(target);
     }
 
-    public static boolean vaultEnabled() {
+    public static boolean vaultEnabled(ModelPath path) {
         return SupremeItem.getInstance().getVaultHook().isEnabled();
     }
 

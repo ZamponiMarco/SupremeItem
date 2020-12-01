@@ -2,6 +2,7 @@ package com.github.jummes.supremeitem.action.entity;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
+import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
@@ -47,7 +48,7 @@ public class MoneyAction extends EntityAction {
         return new MoneyAction(target, money, give);
     }
 
-    public static boolean vaultEnabled() {
+    public static boolean vaultEnabled(ModelPath path) {
         return SupremeItem.getInstance().getVaultHook().isEnabled();
     }
 

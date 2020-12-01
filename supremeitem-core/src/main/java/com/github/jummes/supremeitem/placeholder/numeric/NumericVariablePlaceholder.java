@@ -4,7 +4,6 @@ import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.source.Source;
-import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.metadata.FixedMetadataValue;
@@ -46,19 +45,14 @@ public class NumericVariablePlaceholder extends NumericPlaceholder {
 
     @Override
     public Double computePlaceholder(Target target, Source source) {
-        LivingEntity entity = null;
-        if (this.target && (target instanceof EntityTarget)) {
-            entity = ((EntityTarget) target).getTarget();
-        } else if (!this.target) {
-            entity = source.getCaster();
-        }
-
+        LivingEntity entity = getEntity(target, source);
         if (entity == null) {
             return 0.0;
         }
 
         return entity.getMetadata(name).stream().filter(m -> Objects.equals(m.getOwningPlugin(),
-                SupremeItem.getInstance())).findFirst().orElse(new FixedMetadataValue(SupremeItem.getInstance(), 0.0)).asDouble();
+                SupremeItem.getInstance())).findFirst().orElse(new FixedMetadataValue(SupremeItem.getInstance(),
+                0.0)).asDouble();
     }
 
     @Override

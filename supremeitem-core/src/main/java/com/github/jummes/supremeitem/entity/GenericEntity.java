@@ -4,6 +4,7 @@ import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.libs.util.ItemUtils;
+import com.github.jummes.libs.util.MapperUtils;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.google.common.collect.Lists;
@@ -15,7 +16,6 @@ import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -48,10 +48,7 @@ public class GenericEntity extends Entity {
     }
 
     public static Function<Object, ItemStack> spawnableEntitiesMapper() {
-        return obj -> {
-            EntityType type = (EntityType) obj;
-            return ItemUtils.getNamedItem(new ItemStack(Material.BAT_SPAWN_EGG), type.name(), new ArrayList<>());
-        };
+        return MapperUtils.getEntityTypeMapper();
     }
 
     @Override

@@ -2,10 +2,10 @@ package com.github.jummes.supremeitem.placeholder.numeric;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.supremeitem.action.source.Source;
-import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.entity.LivingEntity;
 
 import java.util.Map;
 
@@ -33,15 +33,13 @@ public class MaxHealthPlaceholder extends NumericPlaceholder {
 
     @Override
     public Double computePlaceholder(Target target, Source source) {
+        LivingEntity entity = getEntity(target, source);
         AttributeInstance maxHealth = null;
-        if (this.target) {
-            if (target instanceof EntityTarget) {
-                maxHealth = ((EntityTarget) target).getTarget().getAttribute(Attribute.GENERIC_MAX_HEALTH);
-            }
-        } else {
-            maxHealth = source.getCaster().getAttribute(Attribute.GENERIC_MAX_HEALTH);
+        if (entity == null) {
+            return Double.NaN;
         }
 
+        maxHealth = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
         if (maxHealth != null) {
             return maxHealth.getValue();
         }

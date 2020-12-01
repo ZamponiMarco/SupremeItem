@@ -117,7 +117,8 @@ public class FakeBlockAction extends LocationAction {
 
         int ticks = this.ticks.getRealValue(target, source).intValue();
         Material type = location.getBlock().getType();
-        List<Player> players = location.getWorld().getNearbyEntities(location, Bukkit.getViewDistance() * 16, 50, Bukkit.getViewDistance() * 16,
+        List<Player> players = location.getWorld().getNearbyEntities(location, Bukkit.getViewDistance() << 4, 50,
+                Bukkit.getViewDistance() << 4,
                 entity -> entity instanceof Player).stream().map(entity -> (Player) entity).collect(Collectors.toList());
         players.forEach(
                 player -> player.sendBlockChange(location,

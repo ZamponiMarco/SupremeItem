@@ -104,7 +104,7 @@ public abstract class Value<S, T extends Placeholder<S>> implements Model, Clone
     }
 
     public String getName() {
-        return objectValue ? String.valueOf(value) : placeholderValue.getName();
+        return objectValue ? "&c" + value : placeholderValue.getName();
     }
 
 }
