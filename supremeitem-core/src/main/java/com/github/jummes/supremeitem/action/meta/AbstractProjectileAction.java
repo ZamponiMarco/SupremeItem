@@ -48,7 +48,7 @@ public abstract class AbstractProjectileAction extends MetaAction {
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     protected List<Action> onProjectileTickActions;
 
-    @Serializable(headTexture = ENTITY_HEAD, description = "gui.action.projectile.entity")
+    @Serializable(headTexture = ENTITY_HEAD, description = "gui.action.projectile.entity", additionalDescription = {"gui.additional-tooltips.recreate"})
     protected Entity entity;
 
     @Serializable(headTexture = HIT_BOX_HEAD, description = "gui.action.projectile.hit-box", additionalDescription = {"gui.additional-tooltips.value"})

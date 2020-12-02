@@ -398,7 +398,7 @@ gui:
         - "&6&oTarget: &edamaged entity."
     left-click:
       description:
-        - "&7&oSet a skill to be triggered when an entity right"
+        - "&7&oSet a skill to be triggered when an entity left"
         - "&7&oclicks air with a supreme item in hand."
       caster-actions:
         - "&7&oThe actions to execute on the caster."
@@ -413,7 +413,7 @@ gui:
         - "&6&oTarget: &eraycast result location."
     right-click:
       description:
-        - "&7&oSet a skill to be triggered when an entity left"
+        - "&7&oSet a skill to be triggered when an entity right"
         - "&7&oclicks air with a supreme item in hand."
       caster-actions:
         - "&7&oThe actions to execute on the caster."
