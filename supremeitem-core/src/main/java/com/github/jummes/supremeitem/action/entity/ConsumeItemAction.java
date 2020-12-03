@@ -31,7 +31,7 @@ public class ConsumeItemAction extends EntityAction {
 
     private static final String AMOUNT_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdkYzNlMjlhMDkyM2U1MmVjZWU2YjRjOWQ1MzNhNzllNzRiYjZiZWQ1NDFiNDk1YTEzYWJkMzU5NjI3NjUzIn19fQ==";
 
-    @Serializable(displayItem = "getFlatItem", description = "gui.action.consume-item.item")
+    @Serializable(displayItem = "getFlatItem", description = "gui.action.consume-item.item", additionalDescription = {"gui.additional-tooltips.item"})
     private ItemStackWrapper item;
 
     @Serializable(headTexture = AMOUNT_HEAD, description = "gui.action.consume-item.amount", additionalDescription = {"gui.additional-tooltips.value"})

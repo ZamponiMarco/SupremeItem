@@ -20,7 +20,8 @@ public class PossessItemPlaceholder extends BooleanPlaceholder {
 
     private static final String AMOUNT_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdkYzNlMjlhMDkyM2U1MmVjZWU2YjRjOWQ1MzNhNzllNzRiYjZiZWQ1NDFiNDk1YTEzYWJkMzU5NjI3NjUzIn19fQ==";
 
-    @Serializable(displayItem = "getFlatItem", description = "gui.placeholder.boolean.possess-item.item")
+    @Serializable(displayItem = "getFlatItem", description = "gui.placeholder.boolean.possess-item.item",
+            additionalDescription = {"gui.additional-tooltips.item"})
     private ItemStackWrapper item;
     @Serializable(headTexture = AMOUNT_HEAD, description = "gui.placeholder.boolean.possess-item.amount")
     @Serializable.Number(minValue = 1)

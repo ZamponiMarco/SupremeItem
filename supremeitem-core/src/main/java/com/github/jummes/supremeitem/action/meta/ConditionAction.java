@@ -5,8 +5,8 @@ import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
+import com.github.jummes.supremeitem.condition.AlwaysTrueCondition;
 import com.github.jummes.supremeitem.condition.Condition;
-import com.github.jummes.supremeitem.condition.bool.BooleanCondition;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.google.common.collect.Lists;
 import lombok.Getter;
@@ -37,7 +37,7 @@ public class ConditionAction extends WrapperAction {
     private Condition condition;
 
     public ConditionAction() {
-        this(TARGET_DEFAULT, Lists.newArrayList(), new BooleanCondition());
+        this(TARGET_DEFAULT, Lists.newArrayList(), new AlwaysTrueCondition());
     }
 
     public ConditionAction(boolean target, List<Action> actions, Condition condition) {
@@ -48,7 +48,7 @@ public class ConditionAction extends WrapperAction {
 
     public static ConditionAction deserialize(Map<String, Object> map) {
         List<Action> actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
-        Condition condition = (Condition) map.get("condition");
+        Condition condition = (Condition) map.getOrDefault("condition", new AlwaysTrueCondition());
         return new ConditionAction(TARGET_DEFAULT, actions, condition);
     }
 

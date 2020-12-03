@@ -13,7 +13,7 @@ import com.github.jummes.supremeitem.condition.numeric.NumericCondition;
 import com.github.jummes.supremeitem.condition.string.StringCondition;
 import org.bukkit.inventory.ItemStack;
 
-@Enumerable.Parent(classArray = {NumericCondition.class, TrueFalseCondition.class, StringCondition.class})
+@Enumerable.Parent(classArray = {NumericCondition.class, TrueFalseCondition.class, StringCondition.class, AlwaysTrueCondition.class})
 @GUINameable(GUIName = "getName")
 public abstract class Condition implements Model, Cloneable {
 
