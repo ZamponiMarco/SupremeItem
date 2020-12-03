@@ -360,6 +360,11 @@ gui:
       give:
         - "&7&oWhether the money should be given to or taken"
         - "&7&ofrom the player."
+    spawn:
+      description:
+        - "&7&oSet an action that spawns an entity."
+      entity:
+        - "&7&oThe entity to spawn."
   skill:
     cooldown:
       - "&7&oThe cooldown between skill executions."
@@ -459,6 +464,13 @@ gui:
         - "&7&oSet a falling block entity."
       material:
         - "&7&oThe block material."
+    supreme:
+      description:
+        - "&7&oSet a SupremeMob entity."
+      mob:
+        - "&7&oThe SupremeMob to spawn."
+      level:
+        - "&7&oThe level of the mob."
     selector:
       deny:
         - "&7&oWhether entities selected by this"
