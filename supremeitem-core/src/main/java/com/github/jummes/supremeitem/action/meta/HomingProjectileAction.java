@@ -20,10 +20,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.MainHand;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter
@@ -74,8 +71,12 @@ public class HomingProjectileAction extends AbstractProjectileAction {
 
     public static HomingProjectileAction deserialize(Map<String, Object> map) {
         List<Action> onEntityHitActions = (List<Action>) map.getOrDefault("onEntityHitActions", Lists.newArrayList());
+        onEntityHitActions.removeIf(Objects::isNull);
         List<Action> onBlockHitActions = (List<Action>) map.getOrDefault("onBlockHitActions", Lists.newArrayList());
+        onBlockHitActions.removeIf(Objects::isNull);
         List<Action> onProjectileTickActions = (List<Action>) map.getOrDefault("onProjectileTickActions", Lists.newArrayList());
+        onProjectileTickActions.removeIf(Objects::isNull);
+
         Entity entity = (Entity) map.getOrDefault("entity", new NoEntity());
         boolean shootFromHand = (boolean) map.getOrDefault("shootFromHand", SHOOT_FROM_HAND_DEFAULT);
         NumericValue initialSpeed = (NumericValue) map.getOrDefault("initialSpeed", INITIAL_DEFAULT.clone());

@@ -12,10 +12,7 @@ import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Setter
@@ -45,6 +42,7 @@ public class MoveLocationTargetAction extends LocationAction {
     public static MoveLocationTargetAction deserialize(Map<String, Object> map) {
         boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
         List<Action> actions = (List<Action>) map.get("actions");
+        actions.removeIf(Objects::isNull);
         Vector vector = (Vector) map.get("vector");
         return new MoveLocationTargetAction(target, actions, vector);
     }

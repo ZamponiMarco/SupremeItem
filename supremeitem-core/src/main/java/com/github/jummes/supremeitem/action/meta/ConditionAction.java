@@ -13,10 +13,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter
@@ -48,6 +45,7 @@ public class ConditionAction extends WrapperAction {
 
     public static ConditionAction deserialize(Map<String, Object> map) {
         List<Action> actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
+        actions.removeIf(Objects::isNull);
         Condition condition = (Condition) map.getOrDefault("condition", new AlwaysTrueCondition());
         return new ConditionAction(TARGET_DEFAULT, actions, condition);
     }

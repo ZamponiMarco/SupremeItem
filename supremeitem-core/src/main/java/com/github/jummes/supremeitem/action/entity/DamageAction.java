@@ -47,12 +47,7 @@ public class DamageAction extends EntityAction {
     public static DamageAction deserialize(Map<String, Object> map) {
         boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
         boolean absolute = (boolean) map.getOrDefault("absolute", ABSOLUTE_DEFAULT);
-        NumericValue amount;
-        try {
-            amount = (NumericValue) map.getOrDefault("amount", AMOUNT_DEFAULT.clone());
-        } catch (ClassCastException e) {
-            amount = new NumericValue(((Number) map.getOrDefault("amount", AMOUNT_DEFAULT.getValue())));
-        }
+        NumericValue amount = (NumericValue) map.getOrDefault("amount", AMOUNT_DEFAULT.clone());
         return new DamageAction(target, amount, absolute);
     }
 

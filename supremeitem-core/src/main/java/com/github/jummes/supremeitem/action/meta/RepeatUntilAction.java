@@ -15,10 +15,7 @@ import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter
@@ -58,6 +55,7 @@ public class RepeatUntilAction extends MetaAction {
 
     public static RepeatUntilAction deserialize(Map<String, Object> map) {
         List<Action> actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
+        actions.removeIf(Objects::isNull);
         Condition condition = (Condition) map.getOrDefault("condition", new BooleanCondition());
         int timer = (int) map.getOrDefault("timer", TIMER_DEFAULT);
         return new RepeatUntilAction(TARGET_DEFAULT, actions, condition, timer);

@@ -14,10 +14,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -46,6 +43,7 @@ public class AreaBlocksAction extends MetaAction {
     public static AreaBlocksAction deserialize(Map<String, Object> map) {
         boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
         List<Action> actions = (List<Action>) map.get("actions");
+        actions.removeIf(Objects::isNull);
         Area area = (Area) map.get("area");
         return new AreaBlocksAction(target, actions, area);
     }

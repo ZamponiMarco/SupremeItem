@@ -66,6 +66,8 @@ public class CompressedYamlDatabase<T extends NamedModel> extends Database<T> {
         } else {
             yamlConfiguration.getKeys(false).forEach(key -> {
                         String string = yamlConfiguration.getString(key);
+                        System.out.println(new String(CompressUtils.
+                                decompress(Base64.getDecoder().decode(string)), Charset.defaultCharset()));
                         T obj = (T) NamedModel.fromSerializedString(new String(CompressUtils.
                                 decompress(Base64.getDecoder().decode(string)), Charset.defaultCharset()));
                         if (obj != null) {

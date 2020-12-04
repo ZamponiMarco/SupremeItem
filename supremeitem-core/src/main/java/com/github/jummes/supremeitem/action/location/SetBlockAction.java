@@ -53,7 +53,9 @@ public class SetBlockAction extends LocationAction {
 
     public static SetBlockAction deserialize(Map<String, Object> map) {
         boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        Set<Material> excludedMaterials = ((List<String>) map.get("excludedMaterials")).stream().map(Material::valueOf).collect(Collectors.toSet());
+        Set<Material> excludedMaterials = ((List<String>) map.get("excludedMaterials")).stream().map(Material::valueOf).
+                collect(Collectors.toSet());
+        excludedMaterials.removeIf(Objects::isNull);
         boolean negate = (boolean) map.getOrDefault("allowMaterials", ALLOW_MATERIALS_DEFAULT);
         MaterialValue material;
         try {

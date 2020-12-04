@@ -89,15 +89,8 @@ public class EffectAction extends EntityAction {
         boolean particles = (boolean) map.getOrDefault("particles", PARTICLES_DEFAULT);
         boolean ambient = (boolean) map.getOrDefault("ambient", AMBIENT_DEFAULT);
         boolean icon = (boolean) map.getOrDefault("icon", ICON_DEFAULT);
-        NumericValue duration;
-        NumericValue level;
-        try {
-            duration = (NumericValue) map.getOrDefault("duration", DURATION_DEFAULT.clone());
-            level = (NumericValue) map.getOrDefault("level", LEVEL_DEFAULT.clone());
-        } catch (ClassCastException e) {
-            duration = new NumericValue(((Number) map.getOrDefault("duration", DURATION_DEFAULT.getValue())));
-            level = new NumericValue(((Number) map.getOrDefault("level", LEVEL_DEFAULT.getValue())));
-        }
+        NumericValue duration = (NumericValue) map.getOrDefault("duration", DURATION_DEFAULT.clone());
+        NumericValue level = (NumericValue) map.getOrDefault("level", LEVEL_DEFAULT.clone());
         return new EffectAction(target, type, duration, level, particles, ambient, icon);
     }
 

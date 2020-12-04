@@ -14,10 +14,7 @@ import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter
@@ -51,12 +48,8 @@ public class DelayedAction extends WrapperAction {
 
     public static DelayedAction deserialize(Map<String, Object> map) {
         List<Action> actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
-        NumericValue delay;
-        try {
-            delay = (NumericValue) map.getOrDefault("delay", DELAY_DEFAULT.clone());
-        } catch (ClassCastException e) {
-            delay = new NumericValue(((Number) map.getOrDefault("delay", DELAY_DEFAULT.getValue())));
-        }
+        actions.removeIf(Objects::isNull);
+        NumericValue delay = (NumericValue) map.getOrDefault("delay", DELAY_DEFAULT.clone());
         return new DelayedAction(TARGET_DEFAULT, actions, delay);
     }
 

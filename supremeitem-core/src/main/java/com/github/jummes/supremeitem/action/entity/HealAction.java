@@ -40,12 +40,7 @@ public class HealAction extends EntityAction {
 
     public static HealAction deserialize(Map<String, Object> map) {
         boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        NumericValue amount;
-        try {
-            amount = (NumericValue) map.getOrDefault("amount", AMOUNT_DEFAULT.clone());
-        } catch (ClassCastException e) {
-            amount = new NumericValue(((Number) map.getOrDefault("amount", AMOUNT_DEFAULT.getValue())));
-        }
+        NumericValue amount = (NumericValue) map.getOrDefault("amount", AMOUNT_DEFAULT.clone());
         return new HealAction(target, amount);
     }
 

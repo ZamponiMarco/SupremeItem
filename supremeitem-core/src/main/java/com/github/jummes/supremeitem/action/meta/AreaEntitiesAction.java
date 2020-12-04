@@ -90,7 +90,10 @@ public class AreaEntitiesAction extends MetaAction {
     public static AreaEntitiesAction deserialize(Map<String, Object> map) {
         boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
         List<Action> actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
+        actions.removeIf(Objects::isNull);
         List<EntitySelector> selectors = (List<EntitySelector>) map.getOrDefault("selectors", Lists.newArrayList());
+        selectors.removeIf(Objects::isNull);
+
         boolean castFromLocation = (boolean) map.getOrDefault("castFromLocation", CAST_LOCATION_DEFAULT);
         NumericValue maxDistance = (NumericValue) map.getOrDefault("maxDistance", MAX_DISTANCE_DEFAULT.clone());
         EntitySorter sorter = (EntitySorter) map.getOrDefault("sorter", SORTER_DEFAULT.clone());

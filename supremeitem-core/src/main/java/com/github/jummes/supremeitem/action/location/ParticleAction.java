@@ -89,18 +89,9 @@ public class ParticleAction extends LocationAction {
         boolean force = (boolean) map.getOrDefault("force", FORCE_DEFAULT);
         ParticleOptions data = (ParticleOptions) map.get("data");
 
-        NumericValue count;
-        NumericValue offset;
-        NumericValue speed;
-        try {
-            count = (NumericValue) map.getOrDefault("count", COUNT_DEFAULT.clone());
-            offset = (NumericValue) map.getOrDefault("offset", OFFSET_DEFAULT.clone());
-            speed = (NumericValue) map.getOrDefault("speed", SPEED_DEFAULT.clone());
-        } catch (ClassCastException e) {
-            count = new NumericValue(((Number) map.getOrDefault("count", COUNT_DEFAULT.getValue())));
-            offset = new NumericValue(((Number) map.getOrDefault("offset", OFFSET_DEFAULT.getValue())));
-            speed = new NumericValue(((Number) map.getOrDefault("speed", SPEED_DEFAULT.getValue())));
-        }
+        NumericValue count = (NumericValue) map.getOrDefault("count", COUNT_DEFAULT.clone());
+        NumericValue offset = (NumericValue) map.getOrDefault("offset", OFFSET_DEFAULT.clone());
+        NumericValue speed = (NumericValue) map.getOrDefault("speed", SPEED_DEFAULT.clone());
         return new ParticleAction(target, type, count, offset, speed, force, data);
     }
 

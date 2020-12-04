@@ -13,10 +13,7 @@ import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter
@@ -61,6 +58,7 @@ public class TimerAction extends WrapperAction {
         int timer = (int) map.getOrDefault("timer", TIMER_DEFAULT);
         int repetitions = (int) map.getOrDefault("repetitions", REPETITIONS_DEFAULT);
         List<Action> actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
+        actions.removeIf(Objects::isNull);
         return new TimerAction(TARGET_DEFAULT, timer, repetitions, actions);
     }
 

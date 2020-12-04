@@ -9,6 +9,8 @@ import com.github.jummes.supremeitem.value.NumericValue;
 import lombok.Setter;
 import org.bukkit.Location;
 
+import java.util.Map;
+
 @Enumerable.Child
 @Setter
 @Enumerable.Displayable(name = "&c&lExplosion", description = "gui.action.explosion.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2FmNTk3NzZmMmYwMzQxMmM3YjU5NDdhNjNhMGNmMjgzZDUxZmU2NWFjNmRmN2YyZjg4MmUwODM0NDU2NWU5In19fQ==")
@@ -41,6 +43,14 @@ public class ExplosionAction extends LocationAction {
         this.power = power;
         this.setFire = setFire;
         this.breakBlocks = breakBlocks;
+    }
+
+    public static ExplosionAction deserialize(Map<String, Object> map) {
+        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
+        NumericValue power = (NumericValue) map.getOrDefault("power", POWER_DEFAULT.clone());
+        boolean setFire = (boolean) map.getOrDefault("setFire", FIRE_DEFAULT);
+        boolean breakBlocks = (boolean) map.getOrDefault("breakBlocks", BLOCKS_DEFAULT);
+        return new ExplosionAction(target, power, setFire, breakBlocks);
     }
 
     @Override
