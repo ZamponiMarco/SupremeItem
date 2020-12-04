@@ -6,9 +6,6 @@ import com.github.jummes.libs.database.factory.DatabaseFactory;
 import com.github.jummes.libs.gui.FieldInventoryHolderFactory;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.location.ParticleAction;
-import com.github.jummes.supremeitem.action.variable.SetNumericVariableAction;
-import com.github.jummes.supremeitem.action.variable.SetStringVariableAction;
-import com.github.jummes.supremeitem.action.variable.VariableAction;
 import com.github.jummes.supremeitem.area.Area;
 import com.github.jummes.supremeitem.command.*;
 import com.github.jummes.supremeitem.condition.Condition;
@@ -58,12 +55,6 @@ public class SupremeItem extends JavaPlugin {
         ConfigurationSerialization.registerClass(Skill.class);
 
         ConfigurationSerialization.registerClass(Action.class);
-        ConfigurationSerialization.registerClass(VariableAction.class);
-        ConfigurationSerialization.registerClass(SetStringVariableAction.class,
-                "com.github.jummes.supremeitem.action.entity.SetStringVariableAction");
-        ConfigurationSerialization.registerClass(SetNumericVariableAction.class,
-                "com.github.jummes.supremeitem.action.entity.SetNumericVariableAction");
-        ConfigurationSerialization.registerClass(Action.class);
 
         ConfigurationSerialization.registerClass(Entity.class);
 
@@ -76,8 +67,7 @@ public class SupremeItem extends JavaPlugin {
         ConfigurationSerialization.registerClass(Placeholder.class);
 
         ConfigurationSerialization.registerClass(Value.class);
-        ConfigurationSerialization.registerClass(NumericValue.class,
-                "com.github.jummes.supremeitem.placeholder.numeric.NumericValue");
+        ConfigurationSerialization.registerClass(NumericValue.class);
         ConfigurationSerialization.registerClass(StringValue.class);
         ConfigurationSerialization.registerClass(MaterialValue.class);
 
