@@ -13,7 +13,7 @@ import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.database.NamedModel;
 import com.github.jummes.supremeitem.placeholder.Placeholder;
-import com.github.jummes.supremeitem.placeholder.numeric.MaxHealthPlaceholder;
+import com.github.jummes.supremeitem.placeholder.numeric.entity.MaxHealthPlaceholder;
 import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.event.inventory.ClickType;

@@ -4,8 +4,8 @@ import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
-import com.github.jummes.supremeitem.placeholder.numeric.HealthPlaceholder;
 import com.github.jummes.supremeitem.placeholder.numeric.NumericPlaceholder;
+import com.github.jummes.supremeitem.placeholder.numeric.entity.HealthPlaceholder;
 import com.github.jummes.supremeitem.placeholder.string.StringPlaceholder;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +22,7 @@ public class FormatNumerPlaceholder extends StringOperatorPlaceholder {
 
     private static final String PLACEHOLDER_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdkYzNlMjlhMDkyM2U1MmVjZWU2YjRjOWQ1MzNhNzllNzRiYjZiZWQ1NDFiNDk1YTEzYWJkMzU5NjI3NjUzIn19fQ==";
     private static final String FORMAT_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWY4ODZkOWM0MGVmN2Y1MGMyMzg4MjQ3OTJjNDFmYmZiNTRmNjY1ZjE1OWJmMWJjYjBiMjdiM2VhZDM3M2IifX19";
-    
+
     @Serializable(headTexture = PLACEHOLDER_HEAD, description = "gui.placeholder.string.operator.number-format.placeholder")
     private NumericPlaceholder placeholder;
     @Serializable(headTexture = FORMAT_HEAD, description = "gui.placeholder.string.operator.number-format.format")

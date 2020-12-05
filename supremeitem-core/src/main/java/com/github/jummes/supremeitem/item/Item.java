@@ -103,7 +103,6 @@ public class Item extends NamedModel {
         lore = lore == null ? Lists.newArrayList() : lore;
         lore.add(MessageUtils.color("&6&lName: &c" + name));
         lore.addAll(Libs.getLocale().getList("gui.item.description"));
-        lore.addAll(Libs.getLocale().getList("gui.additional-tooltips.item"));
         ItemStack itemStack = item.getWrapped().clone();
         itemStack.setAmount(1);
         return ItemUtils.getNamedItem(itemStack, item.getWrapped().getItemMeta().getDisplayName(), lore);

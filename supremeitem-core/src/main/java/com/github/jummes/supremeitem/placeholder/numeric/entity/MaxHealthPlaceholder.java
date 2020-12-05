@@ -1,8 +1,9 @@
-package com.github.jummes.supremeitem.placeholder.numeric;
+package com.github.jummes.supremeitem.placeholder.numeric.entity;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
+import com.github.jummes.supremeitem.placeholder.numeric.NumericPlaceholder;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.LivingEntity;
@@ -10,8 +11,8 @@ import org.bukkit.entity.LivingEntity;
 import java.util.Map;
 
 @Enumerable.Child
-@Enumerable.Displayable(name = "&c&lMax Health Placeholder", description = "gui.placeholder.double.max-health.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzc3OTFjY2VjMTZmYjY4ZjNjOTJlMGIwMjY0Zjk2ODBlMTI0YzM4NTlkNjY0MDM1MjRiYTViOTU3NmM5ODE4In19fQ==")
-public class MaxHealthPlaceholder extends NumericPlaceholder {
+@Enumerable.Displayable(name = "&c&lMax Health Placeholder", description = "gui.placeholder.double.entity.max-health.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzc3OTFjY2VjMTZmYjY4ZjNjOTJlMGIwMjY0Zjk2ODBlMTI0YzM4NTlkNjY0MDM1MjRiYTViOTU3NmM5ODE4In19fQ==")
+public class MaxHealthPlaceholder extends EntityNumericPlaceholder {
 
     public MaxHealthPlaceholder() {
         this(TARGET_DEFAULT);

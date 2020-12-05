@@ -1,8 +1,8 @@
 package com.github.jummes.supremeitem.placeholder.numeric.operator;
 
 import com.github.jummes.libs.annotation.Enumerable;
-import com.github.jummes.supremeitem.placeholder.numeric.HealthPlaceholder;
 import com.github.jummes.supremeitem.placeholder.numeric.NumericPlaceholder;
+import com.github.jummes.supremeitem.placeholder.numeric.entity.HealthPlaceholder;
 import com.github.jummes.supremeitem.value.NumericValue;
 import org.bukkit.inventory.ItemStack;
 

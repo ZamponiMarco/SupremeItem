@@ -24,6 +24,11 @@ import com.github.jummes.supremeitem.listener.ProjectileListener;
 import com.github.jummes.supremeitem.manager.*;
 import com.github.jummes.supremeitem.math.Vector;
 import com.github.jummes.supremeitem.placeholder.Placeholder;
+import com.github.jummes.supremeitem.placeholder.numeric.entity.HealthPlaceholder;
+import com.github.jummes.supremeitem.placeholder.numeric.entity.MaxHealthPlaceholder;
+import com.github.jummes.supremeitem.placeholder.numeric.entity.NumericVariablePlaceholder;
+import com.github.jummes.supremeitem.placeholder.numeric.entity.player.BalancePlaceholder;
+import com.github.jummes.supremeitem.placeholder.numeric.entity.player.HungerPlaceholder;
 import com.github.jummes.supremeitem.savedplaceholder.SavedPlaceholder;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.github.jummes.supremeitem.skill.Skill;
@@ -65,6 +70,16 @@ public class SupremeItem extends JavaPlugin {
         ConfigurationSerialization.registerClass(Condition.class);
 
         ConfigurationSerialization.registerClass(Placeholder.class);
+        ConfigurationSerialization.registerClass(BalancePlaceholder.class,
+                "com.github.jummes.supremeitem.placeholder.numeric.BalancePlaceholder");
+        ConfigurationSerialization.registerClass(HealthPlaceholder.class,
+                "com.github.jummes.supremeitem.placeholder.numeric.HealthPlaceholder");
+        ConfigurationSerialization.registerClass(HungerPlaceholder.class,
+                "com.github.jummes.supremeitem.placeholder.numeric.HungerPlaceholder");
+        ConfigurationSerialization.registerClass(MaxHealthPlaceholder.class,
+                "com.github.jummes.supremeitem.placeholder.numeric.MaxHealthPlaceholder");
+        ConfigurationSerialization.registerClass(NumericVariablePlaceholder.class,
+                "com.github.jummes.supremeitem.placeholder.numeric.NumericVariablePlaceholder");
 
         ConfigurationSerialization.registerClass(Value.class);
         ConfigurationSerialization.registerClass(NumericValue.class);

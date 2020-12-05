@@ -516,23 +516,6 @@ gui:
       - "&7&oWhether the placeholder should be referred"
       - "&7&oto the skill target or the skill source."
     double:
-      health:
-        description:
-          - "&7&oSet a current health placeholder."
-      max-health:
-        description:
-          - "&7&oSet a max health placeholder."
-      hunger:
-        description:
-          - "&7&oSet a hunger placeholder. (only players)"
-      balance:
-        description:
-          - "&7&oSet a balance placeholder. (only players)"
-      variable:
-        description:
-          - "&7&oSet a variable placeholder."
-        name:
-          - "&7&oThe name used to retrieve the variable value."
       saved-placeholder:
         description:
           - "&7&oSet a placeholder that gets the values from"
@@ -607,6 +590,29 @@ gui:
         level:
           description:
             - "&7&oSet a mob level placeholder."
+      entity:
+        description:
+          - "&7&oSet a numeric entity related placeholder."
+        health:
+          description:
+            - "&7&oSet a current health placeholder."
+        max-health:
+          description:
+            - "&7&oSet a max health placeholder."
+        variable:
+          description:
+            - "&7&oSet a variable placeholder."
+          name:
+            - "&7&oThe name used to retrieve the variable value."
+        player:
+          description:
+            - "&7&oSet a numeric player related placeholder."
+          hunger:
+            description:
+              - "&7&oSet a hunger placeholder. (only players)"
+          balance:
+            description:
+              - "&7&oSet a balance placeholder. (only players)"
     boolean:
       player:
         description:
