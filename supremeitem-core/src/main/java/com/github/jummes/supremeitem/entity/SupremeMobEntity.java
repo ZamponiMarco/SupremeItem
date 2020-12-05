@@ -75,7 +75,7 @@ public class SupremeMobEntity extends Entity {
 
         Mob selected = SupremeItem.getInstance().getSupremeMobHook().getByName(mob);
         if (selected != null) {
-            return selected.spawn(l, 1);
+            return selected.spawn(l, 1, source);
         }
         return null;
     }
