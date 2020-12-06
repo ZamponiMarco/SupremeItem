@@ -5,14 +5,13 @@ import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.placeholder.numeric.NumericPlaceholder;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.LivingEntity;
 
 import java.util.Map;
 
 @Enumerable.Child
 @Enumerable.Displayable(name = "&c&lMax Health Placeholder", description = "gui.placeholder.double.entity.max-health.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzc3OTFjY2VjMTZmYjY4ZjNjOTJlMGIwMjY0Zjk2ODBlMTI0YzM4NTlkNjY0MDM1MjRiYTViOTU3NmM5ODE4In19fQ==")
-public class MaxHealthPlaceholder extends EntityNumericPlaceholder {
+public class MaxHealthPlaceholder extends AttributeNumericPlaceholder {
 
     public MaxHealthPlaceholder() {
         this(TARGET_DEFAULT);
@@ -35,16 +34,11 @@ public class MaxHealthPlaceholder extends EntityNumericPlaceholder {
     @Override
     public Double computePlaceholder(Target target, Source source) {
         LivingEntity entity = getEntity(target, source);
-        AttributeInstance maxHealth = null;
         if (entity == null) {
             return Double.NaN;
         }
 
-        maxHealth = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH);
-        if (maxHealth != null) {
-            return maxHealth.getValue();
-        }
-        return Double.NaN;
+        return getAttributeValue(entity, Attribute.GENERIC_MAX_HEALTH);
     }
 
     @Override

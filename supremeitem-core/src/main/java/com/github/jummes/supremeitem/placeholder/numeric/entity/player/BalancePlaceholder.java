@@ -4,16 +4,16 @@ import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.source.Source;
-import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.placeholder.numeric.NumericPlaceholder;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 
 import java.util.Map;
 
 @Enumerable.Child
 @Enumerable.Displayable(name = "&c&lBalance Placeholder", condition = "vaultEnabled", description = "gui.placeholder.double.entity.player.balance.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWUyNWRiZTQ3NjY3ZDBjZTIzMWJhYTIyM2RlZTk1M2JiZmM5Njk2MDk3Mjc5ZDcyMzcwM2QyY2MzMzk3NjQ5ZSJ9fX0")
-public class BalancePlaceholder extends NumericPlaceholder {
+public class BalancePlaceholder extends PlayerNumericPlaceholder {
 
     public BalancePlaceholder() {
         this(TARGET_DEFAULT);
@@ -38,16 +38,12 @@ public class BalancePlaceholder extends NumericPlaceholder {
             return Double.NaN;
         }
 
-        if (this.target) {
-            if (target instanceof EntityTarget && ((EntityTarget) target).getTarget() instanceof Player) {
-                return SupremeItem.getInstance().getVaultHook().getBalance((Player) ((EntityTarget) target).getTarget());
-            }
+        LivingEntity entity = getEntity(target, source);
+        if (!(entity instanceof Player)) {
             return Double.NaN;
         }
-        if (source.getCaster() instanceof Player) {
-            return SupremeItem.getInstance().getVaultHook().getBalance((Player) ((EntityTarget) target).getTarget());
-        }
-        return Double.NaN;
+
+        return SupremeItem.getInstance().getVaultHook().getBalance((Player) entity);
     }
 
     @Override
