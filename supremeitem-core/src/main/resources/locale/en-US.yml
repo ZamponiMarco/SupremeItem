@@ -605,6 +605,12 @@ gui:
         speed:
           description:
             - "&7&oSet a movement speed placeholder."
+        knock:
+          description:
+            - "&7&oSet a knockback resistance placeholder."
+        width:
+          description:
+            - "&7&oSet a entity width placeholder."
         variable:
           description:
             - "&7&oSet a variable placeholder."
