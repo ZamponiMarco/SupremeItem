@@ -602,6 +602,9 @@ gui:
         armor:
           description:
             - "&7&oSet an armor placeholder."
+        speed:
+          description:
+            - "&7&oSet a movement speed placeholder."
         variable:
           description:
             - "&7&oSet a variable placeholder."
