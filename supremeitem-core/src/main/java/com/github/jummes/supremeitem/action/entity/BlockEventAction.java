@@ -52,15 +52,14 @@ public class BlockEventAction extends EntityAction {
         this.ticks = ticks;
     }
 
-    public BlockEventAction() {
-        this(TARGET_DEFAULT, BLOCKED_EVENT_DEFAULT, TICKS_DEFAULT.clone());
+    public BlockEventAction(Map<String, Object> map) {
+        super(map);
+        this.blockedEvent = (String) map.getOrDefault("blockedEvent", BLOCKED_EVENT_DEFAULT);
+        this.ticks = (NumericValue) map.getOrDefault("ticks", TICKS_DEFAULT.clone());
     }
 
-    public static BlockEventAction deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        String blockedEvent = (String) map.getOrDefault("blockedEvent", BLOCKED_EVENT_DEFAULT);
-        NumericValue ticks = (NumericValue) map.getOrDefault("ticks", TICKS_DEFAULT.clone());
-        return new BlockEventAction(target, blockedEvent, ticks);
+    public BlockEventAction() {
+        this(TARGET_DEFAULT, BLOCKED_EVENT_DEFAULT, TICKS_DEFAULT.clone());
     }
 
     public static List<String> getEventsList(ModelPath path) {

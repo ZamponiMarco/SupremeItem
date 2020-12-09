@@ -31,10 +31,9 @@ public class LocationBlockPlaceholder extends BlockPlaceholder {
         this.vector = vector;
     }
 
-    public static LocationBlockPlaceholder deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        Vector vector = (Vector) map.get("vector");
-        return new LocationBlockPlaceholder(target, vector);
+    public LocationBlockPlaceholder(Map<String, Object> map) {
+        super(map);
+        this.vector = (Vector) map.get("vector");
     }
 
     @Override

@@ -43,11 +43,11 @@ public class ConditionAction extends WrapperAction {
         this.condition = condition;
     }
 
-    public static ConditionAction deserialize(Map<String, Object> map) {
-        List<Action> actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
-        actions.removeIf(Objects::isNull);
-        Condition condition = (Condition) map.getOrDefault("condition", new AlwaysTrueCondition());
-        return new ConditionAction(TARGET_DEFAULT, actions, condition);
+    public ConditionAction(Map<String, Object> map) {
+        super(map);
+        this.actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
+        this.actions.removeIf(Objects::isNull);
+        this.condition = (Condition) map.getOrDefault("condition", new AlwaysTrueCondition());
     }
 
     @Override

@@ -41,9 +41,9 @@ public class SkillAction extends MetaAction {
         this.skillName = skillName;
     }
 
-    public static SkillAction deserialize(Map<String, Object> map) {
-        String skillName = (String) map.getOrDefault("skillName", "");
-        return new SkillAction(TARGET_DEFAULT, skillName);
+    public SkillAction(Map<String, Object> map) {
+        super(map);
+        this.skillName = (String) map.getOrDefault("skillName", "");
     }
 
     public static List<Object> getSkills(ModelPath<?> path) {

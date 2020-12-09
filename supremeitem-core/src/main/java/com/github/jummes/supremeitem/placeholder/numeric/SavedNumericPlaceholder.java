@@ -34,10 +34,9 @@ public class SavedNumericPlaceholder extends NumericPlaceholder {
         this(TARGET_DEFAULT, "");
     }
 
-    public static SavedNumericPlaceholder deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        String placeholderName = (String) map.getOrDefault("placeholderName", "");
-        return new SavedNumericPlaceholder(target, placeholderName);
+    public SavedNumericPlaceholder(Map<String, Object> map) {
+        super(map);
+        this.placeholderName = (String) map.getOrDefault("placeholderName", "");
     }
 
     public static List<Object> getPlaceholders(ModelPath<?> path) {

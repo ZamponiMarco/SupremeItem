@@ -20,9 +20,8 @@ public class LocationYPlaceholder extends LocationPlaceholder {
         this(TARGET_DEFAULT);
     }
 
-    public static LocationYPlaceholder deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        return new LocationYPlaceholder(target);
+    public LocationYPlaceholder(Map<String, Object> map) {
+        super(map);
     }
 
     @Override

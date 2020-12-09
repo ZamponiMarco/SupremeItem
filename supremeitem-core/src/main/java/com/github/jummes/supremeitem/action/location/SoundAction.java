@@ -67,14 +67,13 @@ public class SoundAction extends LocationAction {
         this.volume = volume;
     }
 
-    public static SoundAction deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        Sound type = Sound.valueOf((String) map.getOrDefault("type", "BLOCK_ANVIL_BREAK"));
-        SoundCategory category = SoundCategory.valueOf((String) map.getOrDefault("category", "MASTER"));
+    public SoundAction(Map<String, Object> map) {
+        super(map);
+        this.type = Sound.valueOf((String) map.getOrDefault("type", "BLOCK_ANVIL_BREAK"));
+        this.category = SoundCategory.valueOf((String) map.getOrDefault("category", "MASTER"));
 
-        NumericValue pitch = (NumericValue) map.getOrDefault("pitch", PITCH_DEFAULT.clone());
-        NumericValue volume = (NumericValue) map.getOrDefault("volume", VOLUME_DEFAULT.clone());
-        return new SoundAction(target, type, category, pitch, volume);
+        this.pitch = (NumericValue) map.getOrDefault("pitch", PITCH_DEFAULT.clone());
+        this.volume = (NumericValue) map.getOrDefault("volume", VOLUME_DEFAULT.clone());
     }
 
     public static List<Object> getSounds(ModelPath<?> path) {

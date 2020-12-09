@@ -21,9 +21,8 @@ public class MaxHealthPlaceholder extends AttributeNumericPlaceholder {
         super(target);
     }
 
-    public static MaxHealthPlaceholder deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        return new MaxHealthPlaceholder(target);
+    public MaxHealthPlaceholder(Map<String, Object> map) {
+        super(map);
     }
 
     @Override

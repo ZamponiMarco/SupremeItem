@@ -36,15 +36,9 @@ public class MessageAction extends EntityAction {
         this.message = message;
     }
 
-    public static MessageAction deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        StringValue message;
-        try {
-            message = (StringValue) map.getOrDefault("message", DEFAULT_MESSAGE.clone());
-        } catch (ClassCastException e) {
-            message = new StringValue((String) map.getOrDefault("message", DEFAULT_MESSAGE.getValue()));
-        }
-        return new MessageAction(target, message);
+    public MessageAction(Map<String, Object> map) {
+        super(map);
+        this.message = (StringValue) map.getOrDefault("message", DEFAULT_MESSAGE.clone());
     }
 
     @Override

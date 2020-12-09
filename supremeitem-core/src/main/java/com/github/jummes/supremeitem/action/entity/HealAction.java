@@ -38,10 +38,9 @@ public class HealAction extends EntityAction {
         this.amount = amount;
     }
 
-    public static HealAction deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        NumericValue amount = (NumericValue) map.getOrDefault("amount", AMOUNT_DEFAULT.clone());
-        return new HealAction(target, amount);
+    public HealAction(Map<String, Object> map) {
+        super(map);
+        this.amount = (NumericValue) map.getOrDefault("amount", AMOUNT_DEFAULT.clone());
     }
 
     @Override

@@ -9,11 +9,18 @@ import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.placeholder.numeric.NumericPlaceholder;
 import org.bukkit.entity.LivingEntity;
 
+import java.util.Map;
+
 @Enumerable.Parent(classArray = {MobLevelPlaceholder.class})
 @Enumerable.Displayable(name = "&c&lSupremeMob Placeholders", condition = "supremeMobsEnabled", description = "gui.placeholder.double.mob.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjEyYjU4Yzg0MWIzOTQ4NjNkYmNjNTRkZTFjMmFkMjY0OGFmOGYwM2U2NDg5ODhjMWY5Y2VmMGJjMjBlZTIzYyJ9fX0=")
 public abstract class MobNumericPlaceholder extends NumericPlaceholder {
+
     public MobNumericPlaceholder(boolean target) {
         super(target);
+    }
+
+    public MobNumericPlaceholder(Map<String, Object> map) {
+        super(map);
     }
 
     public static boolean supremeMobsEnabled(ModelPath path) {

@@ -3,12 +3,16 @@ package com.github.jummes.supremeitem.action.meta;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.entity.Entity;
+import com.github.jummes.supremeitem.entity.NoEntity;
 import com.github.jummes.supremeitem.value.NumericValue;
+import com.google.common.collect.Lists;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public abstract class AbstractProjectileAction extends MetaAction {
 
@@ -74,6 +78,21 @@ public abstract class AbstractProjectileAction extends MetaAction {
         this.entity = entity;
         this.hitBoxSize = hitBoxSize;
         this.maxDistance = maxDistance;
+    }
+
+    public AbstractProjectileAction(Map<String, Object> map) {
+        super(map);
+        this.onEntityHitActions = (List<Action>) map.getOrDefault("onEntityHitActions", Lists.newArrayList());
+        this.onEntityHitActions.removeIf(Objects::isNull);
+        this.onBlockHitActions = (List<Action>) map.getOrDefault("onBlockHitActions", Lists.newArrayList());
+        this.onBlockHitActions.removeIf(Objects::isNull);
+        this.onProjectileTickActions = (List<Action>) map.getOrDefault("onProjectileTickActions", Lists.newArrayList());
+        this.onProjectileTickActions.removeIf(Objects::isNull);
+        this.entity = (Entity) map.getOrDefault("entity", new NoEntity());
+        this.initialSpeed = (NumericValue) map.getOrDefault("initialSpeed", INITIAL_DEFAULT.clone());
+        this.gravity = (NumericValue) map.getOrDefault("gravity", GRAVITY_DEFAULT.clone());
+        this.hitBoxSize = (NumericValue) map.getOrDefault("hitBoxSize", HIT_BOX_SIZE_DEFAULT.clone());
+        this.maxDistance = (NumericValue) map.getOrDefault("maxDistance", MAX_DISTANCE_DEFAULT.clone());
     }
 
     @Override

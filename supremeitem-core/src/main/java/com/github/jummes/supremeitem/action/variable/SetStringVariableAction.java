@@ -38,11 +38,10 @@ public class SetStringVariableAction extends VariableAction {
         this.value = value;
     }
 
-    public static SetStringVariableAction deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        String name = (String) map.getOrDefault("name", "var");
-        StringValue value = (StringValue) map.getOrDefault("value", VALUE_DEFAULT.clone());
-        return new SetStringVariableAction(target, name, value);
+    public SetStringVariableAction(Map<String, Object> map) {
+        super(map);
+        this.name = (String) map.getOrDefault("name", "var");
+        this.value = (StringValue) map.getOrDefault("value", VALUE_DEFAULT.clone());
     }
 
     @Override

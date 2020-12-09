@@ -39,12 +39,11 @@ public class MoveLocationTargetAction extends LocationAction {
         this.vector = vector;
     }
 
-    public static MoveLocationTargetAction deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        List<Action> actions = (List<Action>) map.get("actions");
-        actions.removeIf(Objects::isNull);
-        Vector vector = (Vector) map.get("vector");
-        return new MoveLocationTargetAction(target, actions, vector);
+    public MoveLocationTargetAction(Map<String, Object> map) {
+        super(map);
+        this.actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
+        this.actions.removeIf(Objects::isNull);
+        this.vector = (Vector) map.getOrDefault("vector", new Vector());
     }
 
     @Override

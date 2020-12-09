@@ -38,18 +38,22 @@ public class SavedPlaceholder extends NamedModel {
     private ItemStackWrapper item;
 
     public SavedPlaceholder() {
-        this(nextAvailableName(), new MaxHealthPlaceholder(), new ItemStackWrapper(), true);
+        super(nextAvailableName());
+        this.placeholder = new MaxHealthPlaceholder();
+        this.item = new ItemStackWrapper();
     }
 
     public SavedPlaceholder(String name, Placeholder placeholder, ItemStackWrapper item) {
-        this(name, placeholder, item, true);
-        counter++;
-    }
-
-    protected SavedPlaceholder(String name, Placeholder placeholder, ItemStackWrapper item, boolean increasedCounter) {
         super(name);
         this.placeholder = placeholder;
         this.item = item;
+        counter++;
+    }
+
+    public SavedPlaceholder(Map<String, Object> map) {
+        super(map);
+        this.placeholder = (Placeholder) map.get("placeholder");
+        this.item = (ItemStackWrapper) map.getOrDefault("item", new ItemStackWrapper());
     }
 
     private static String nextAvailableName() {
@@ -59,13 +63,6 @@ public class SavedPlaceholder extends NamedModel {
             counter++;
         } while (SupremeItem.getInstance().getSavedPlaceholderManager().getByName(name) != null);
         return name;
-    }
-
-    public static SavedPlaceholder deserialize(Map<String, Object> map) {
-        String name = (String) map.get("name");
-        Placeholder placeholder = (Placeholder) map.get("placeholder");
-        ItemStackWrapper item = (ItemStackWrapper) map.getOrDefault("item", new ItemStackWrapper());
-        return new SavedPlaceholder(name, placeholder, item);
     }
 
     @Override

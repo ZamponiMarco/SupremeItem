@@ -28,20 +28,21 @@ public class CylindricArea extends Area {
     private boolean onlyBorders;
 
     public CylindricArea(NumericValue height, NumericValue range, boolean onlyBorders) {
+        super();
         this.height = height;
         this.range = range;
         this.onlyBorders = onlyBorders;
     }
 
-    public CylindricArea() {
-        this(new NumericValue(3), new NumericValue(3), false);
+    public CylindricArea(Map<String, Object> map) {
+        super(map);
+        this.height = (NumericValue) map.get("height");
+        this.range = (NumericValue) map.get("range");
+        this.onlyBorders = (boolean) map.get("onlyBorders");
     }
 
-    public static CylindricArea deserialize(Map<String, Object> map) {
-        NumericValue height = (NumericValue) map.get("height");
-        NumericValue range = (NumericValue) map.get("range");
-        boolean onlyBorders = (boolean) map.get("onlyBorders");
-        return new CylindricArea(height, range, onlyBorders);
+    public CylindricArea() {
+        this(new NumericValue(3), new NumericValue(3), false);
     }
 
     /**

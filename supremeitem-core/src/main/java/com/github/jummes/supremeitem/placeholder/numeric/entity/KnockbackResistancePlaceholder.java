@@ -21,9 +21,8 @@ public class KnockbackResistancePlaceholder extends AttributeNumericPlaceholder 
         super(target);
     }
 
-    public static KnockbackResistancePlaceholder deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        return new KnockbackResistancePlaceholder();
+    public KnockbackResistancePlaceholder(Map<String, Object> map) {
+        super(map);
     }
 
     @Override

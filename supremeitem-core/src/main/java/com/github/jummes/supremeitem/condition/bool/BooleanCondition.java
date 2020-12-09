@@ -30,10 +30,9 @@ public class BooleanCondition extends TrueFalseCondition {
         this.value = value;
     }
 
-    public static BooleanCondition deserialize(Map<String, Object> map) {
-        boolean negate = (boolean) map.getOrDefault("negate", NEGATE_DEFAULT);
-        BooleanPlaceholder value = (BooleanPlaceholder) map.get("value");
-        return new BooleanCondition(negate, value);
+    public BooleanCondition(Map<String, Object> map) {
+        super(map);
+        this.value = (BooleanPlaceholder) map.get("value");
     }
 
     @Override

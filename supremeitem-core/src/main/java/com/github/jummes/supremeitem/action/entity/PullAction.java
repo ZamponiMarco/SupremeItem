@@ -37,10 +37,9 @@ public class PullAction extends EntityAction {
         this.force = force;
     }
 
-    public static PullAction deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        NumericValue force = (NumericValue) map.getOrDefault("force", FORCE_DEFAULT.clone());
-        return new PullAction(target, force);
+    public PullAction(Map<String, Object> map) {
+        super(map);
+        this.force = (NumericValue) map.getOrDefault("force", FORCE_DEFAULT.clone());
     }
 
     @Override

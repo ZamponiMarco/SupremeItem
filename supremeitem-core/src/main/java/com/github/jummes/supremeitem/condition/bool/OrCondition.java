@@ -34,10 +34,9 @@ public class OrCondition extends TrueFalseCondition {
         this.conditions = conditions;
     }
 
-    public static OrCondition deserialize(Map<String, Object> map) {
-        boolean negate = (boolean) map.getOrDefault("negate", NEGATE_DEFAULT);
-        List<Condition> conditions = (List<Condition>) map.getOrDefault("conditions", Lists.newArrayList());
-        return new OrCondition(negate, conditions);
+    public OrCondition(Map<String, Object> map) {
+        super(map);
+        this.conditions = (List<Condition>) map.getOrDefault("conditions", Lists.newArrayList());
     }
 
     @Override

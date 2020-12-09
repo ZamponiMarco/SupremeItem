@@ -33,11 +33,10 @@ public class LessThanCondition extends Condition {
         this.operandTwo = operandTwo;
     }
 
-    public static LessThanCondition deserialize(Map<String, Object> map) {
-        boolean negate = (boolean) map.getOrDefault("negate", NEGATE_DEFAULT);
-        NumericValue operandOne = (NumericValue) map.get("operandOne");
-        NumericValue operandTwo = (NumericValue) map.get("operandTwo");
-        return new LessThanCondition(negate, operandOne, operandTwo);
+    public LessThanCondition(Map<String, Object> map) {
+        super(map);
+        this.operandOne = (NumericValue) map.get("operandOne");
+        this.operandTwo = (NumericValue) map.get("operandTwo");
     }
 
     @Override

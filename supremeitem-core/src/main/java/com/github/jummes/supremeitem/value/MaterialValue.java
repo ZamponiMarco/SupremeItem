@@ -45,16 +45,15 @@ public class MaterialValue extends Value<Material, MaterialPlaceholder> {
         this(false, Material.STONE, placeholder);
     }
 
-    public static MaterialValue deserialize(Map<String, Object> map) {
-        boolean objectValue = (boolean) map.getOrDefault("objectValue", OBJECT_VALUE_DEFAULT);
-        Material value = Material.STONE;
-        MaterialPlaceholder placeholderValue = new BlockMaterialPlaceholder();
-        if (objectValue) {
-            value = Material.valueOf((String) map.get("value"));
+    public MaterialValue(Map<String, Object> map) {
+        super(map);
+        this.value = Material.STONE;
+        this.placeholderValue = new BlockMaterialPlaceholder();
+        if (this.objectValue) {
+            this.value = Material.valueOf((String) map.get("value"));
         } else {
-            placeholderValue = (MaterialPlaceholder) map.get("placeholderValue");
+            this.placeholderValue = (MaterialPlaceholder) map.get("placeholderValue");
         }
-        return new MaterialValue(objectValue, value, placeholderValue);
     }
 
     @Override

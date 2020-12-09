@@ -44,11 +44,10 @@ public class DamageAction extends EntityAction {
         this.absolute = absolute;
     }
 
-    public static DamageAction deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        boolean absolute = (boolean) map.getOrDefault("absolute", ABSOLUTE_DEFAULT);
-        NumericValue amount = (NumericValue) map.getOrDefault("amount", AMOUNT_DEFAULT.clone());
-        return new DamageAction(target, amount, absolute);
+    public DamageAction(Map<String, Object> map) {
+        super(map);
+        this.absolute = (boolean) map.getOrDefault("absolute", ABSOLUTE_DEFAULT);
+        this.amount = (NumericValue) map.getOrDefault("amount", AMOUNT_DEFAULT.clone());
     }
 
     @Override

@@ -10,6 +10,7 @@ import com.google.common.collect.ImmutableBiMap;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
+import java.util.Map;
 
 public abstract class WrapperAction extends MetaAction {
 
@@ -19,6 +20,10 @@ public abstract class WrapperAction extends MetaAction {
 
     public WrapperAction(boolean target) {
         super(target);
+    }
+
+    public WrapperAction(Map<String, Object> map) {
+        super(map);
     }
 
     public abstract List<Action> getWrappedActions();

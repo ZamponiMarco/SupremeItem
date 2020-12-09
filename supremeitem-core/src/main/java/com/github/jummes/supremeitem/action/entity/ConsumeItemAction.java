@@ -50,11 +50,10 @@ public class ConsumeItemAction extends EntityAction {
         this.amount = amount;
     }
 
-    public static ConsumeItemAction deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        ItemStackWrapper item = (ItemStackWrapper) map.get("item");
-        NumericValue amount = (NumericValue) map.getOrDefault("amount", AMOUNT_DEFAULT.clone());
-        return new ConsumeItemAction(target, item, amount);
+    public ConsumeItemAction(Map<String, Object> map) {
+        super(map);
+        this.item = (ItemStackWrapper) map.get("item");
+        this.amount = (NumericValue) map.getOrDefault("amount", AMOUNT_DEFAULT.clone());
     }
 
     @Override

@@ -22,14 +22,12 @@ public class TeleportAction extends LocationAction {
         this(TARGET_DEFAULT);
     }
 
-    public static TeleportAction deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        return new TeleportAction(target);
+    public TeleportAction(Map<String, Object> map) {
+        super(map);
     }
 
     @Override
     public ActionResult execute(Target target, Source source) {
-
         LivingEntity entity = getEntity(target, source);
 
         if (entity == null) {

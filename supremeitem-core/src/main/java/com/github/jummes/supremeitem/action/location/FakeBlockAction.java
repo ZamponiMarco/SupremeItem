@@ -64,15 +64,14 @@ public class FakeBlockAction extends LocationAction {
         this.ticks = ticks;
     }
 
-    public static FakeBlockAction deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        Set<Material> excludedMaterials = ((List<String>) map.get("excludedMaterials")).stream().map(Material::valueOf).
+    public FakeBlockAction(Map<String, Object> map) {
+        super(map);
+        this.excludedMaterials = ((List<String>) map.get("excludedMaterials")).stream().map(Material::valueOf).
                 collect(Collectors.toSet());
-        excludedMaterials.removeIf(Objects::isNull);
-        boolean negate = (boolean) map.getOrDefault("allowMaterials", ALLOW_MATERIALS_DEFAULT);
-        MaterialValue material = (MaterialValue) map.get("material");
-        NumericValue ticks = (NumericValue) map.get("ticks");
-        return new FakeBlockAction(target, material, excludedMaterials, negate, ticks);
+        this.excludedMaterials.removeIf(Objects::isNull);
+        this.allowMaterials = (boolean) map.getOrDefault("allowMaterials", ALLOW_MATERIALS_DEFAULT);
+        this.material = (MaterialValue) map.get("material");
+        this.ticks = (NumericValue) map.get("ticks");
     }
 
     public static List<Object> materialList(ModelPath<?> path) {

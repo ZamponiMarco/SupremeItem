@@ -21,9 +21,8 @@ public class SpeedPlaceholder extends AttributeNumericPlaceholder {
         super(target);
     }
 
-    public static SpeedPlaceholder deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        return new SpeedPlaceholder();
+    public SpeedPlaceholder(Map<String, Object> map) {
+        super(map);
     }
 
     @Override

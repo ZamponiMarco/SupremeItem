@@ -9,7 +9,6 @@ import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.placeholder.Placeholder;
 import com.google.common.reflect.TypeToken;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.bukkit.event.inventory.ClickType;
@@ -21,7 +20,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
-@AllArgsConstructor
 @Getter
 public abstract class Value<S, T extends Placeholder<S>> implements Model, Cloneable {
 
@@ -34,6 +32,16 @@ public abstract class Value<S, T extends Placeholder<S>> implements Model, Clone
     protected S value;
     @Serializable
     protected T placeholderValue;
+
+    public Value(boolean objectValue, S value, T placeholderValue) {
+        this.objectValue = objectValue;
+        this.value = value;
+        this.placeholderValue = placeholderValue;
+    }
+
+    public Value(Map<String, Object> map) {
+        this.objectValue = (boolean) map.getOrDefault("objectValue", OBJECT_VALUE_DEFAULT);
+    }
 
     public Map<String, Object> serialize() {
         Map<String, Object> map = new LinkedHashMap<>();

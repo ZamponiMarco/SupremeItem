@@ -87,18 +87,17 @@ public class AreaEntitiesAction extends MetaAction {
         this.count = count;
     }
 
-    public static AreaEntitiesAction deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        List<Action> actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
-        actions.removeIf(Objects::isNull);
-        List<EntitySelector> selectors = (List<EntitySelector>) map.getOrDefault("selectors", Lists.newArrayList());
-        selectors.removeIf(Objects::isNull);
+    public AreaEntitiesAction(Map<String, Object> map) {
+        super(map);
+        this.actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
+        this.actions.removeIf(Objects::isNull);
+        this.selectors = (List<EntitySelector>) map.getOrDefault("selectors", Lists.newArrayList());
+        this.selectors.removeIf(Objects::isNull);
 
-        boolean castFromLocation = (boolean) map.getOrDefault("castFromLocation", CAST_LOCATION_DEFAULT);
-        NumericValue maxDistance = (NumericValue) map.getOrDefault("maxDistance", MAX_DISTANCE_DEFAULT.clone());
-        EntitySorter sorter = (EntitySorter) map.getOrDefault("sorter", SORTER_DEFAULT.clone());
-        NumericValue count = (NumericValue) map.getOrDefault("count", COUNT_DEFAULT.clone());
-        return new AreaEntitiesAction(target, actions, maxDistance, selectors, castFromLocation, sorter, count);
+        this.castFromLocation = (boolean) map.getOrDefault("castFromLocation", CAST_LOCATION_DEFAULT);
+        this.maxDistance = (NumericValue) map.getOrDefault("maxDistance", MAX_DISTANCE_DEFAULT.clone());
+        this.sorter = (EntitySorter) map.getOrDefault("sorter", SORTER_DEFAULT.clone());
+        this.count = (NumericValue) map.getOrDefault("count", COUNT_DEFAULT.clone());
     }
 
     @Override

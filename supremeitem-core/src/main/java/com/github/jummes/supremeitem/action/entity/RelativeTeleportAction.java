@@ -28,10 +28,9 @@ public class RelativeTeleportAction extends EntityAction {
         this.relativeCoordinates = relativeCoordinates;
     }
 
-    public static RelativeTeleportAction deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        Vector relativeCoordinates = (Vector) map.get("relativeCoordinates");
-        return new RelativeTeleportAction(target, relativeCoordinates);
+    public RelativeTeleportAction(Map<String, Object> map) {
+        super(map);
+        this.relativeCoordinates = (Vector) map.get("relativeCoordinates");
     }
 
     @Override

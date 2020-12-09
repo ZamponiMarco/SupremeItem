@@ -42,16 +42,15 @@ public class StringValue extends Value<String, StringPlaceholder> {
         this(false, "example", placeholder);
     }
 
-    public static StringValue deserialize(Map<String, Object> map) {
-        boolean objectValue = (boolean) map.getOrDefault("objectValue", OBJECT_VALUE_DEFAULT);
-        String value = "example";
-        StringPlaceholder placeholderValue = new WorldNamePlaceholder();
-        if (objectValue) {
-            value = MessageUtils.getColoredString((String) map.get("value"));
+    public StringValue(Map<String, Object> map) {
+        super(map);
+        this.value = "example";
+        this.placeholderValue = new WorldNamePlaceholder();
+        if (this.objectValue) {
+            this.value = MessageUtils.getColoredString((String) map.get("value"));
         } else {
-            placeholderValue = (StringPlaceholder) map.get("placeholderValue");
+            this.placeholderValue = (StringPlaceholder) map.get("placeholderValue");
         }
-        return new StringValue(objectValue, value, placeholderValue);
     }
 
     @Override

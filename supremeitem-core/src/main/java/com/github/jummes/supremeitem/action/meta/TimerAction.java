@@ -54,12 +54,12 @@ public class TimerAction extends WrapperAction {
         this.actions = actions;
     }
 
-    public static TimerAction deserialize(Map<String, Object> map) {
-        int timer = (int) map.getOrDefault("timer", TIMER_DEFAULT);
-        int repetitions = (int) map.getOrDefault("repetitions", REPETITIONS_DEFAULT);
-        List<Action> actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
-        actions.removeIf(Objects::isNull);
-        return new TimerAction(TARGET_DEFAULT, timer, repetitions, actions);
+    public TimerAction(Map<String, Object> map) {
+        super(map);
+        this.timer = (int) map.getOrDefault("timer", TIMER_DEFAULT);
+        this.repetitions = (int) map.getOrDefault("repetitions", REPETITIONS_DEFAULT);
+        this.actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
+        this.actions.removeIf(Objects::isNull);
     }
 
     @Override

@@ -21,9 +21,8 @@ public class ArmorPlaceholder extends AttributeNumericPlaceholder {
         super(target);
     }
 
-    public static ArmorPlaceholder deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        return new ArmorPlaceholder();
+    public ArmorPlaceholder(Map<String, Object> map) {
+        super(map);
     }
 
     @Override

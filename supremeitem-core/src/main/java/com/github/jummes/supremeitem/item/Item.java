@@ -43,20 +43,26 @@ public class Item extends NamedModel {
     private Set<Skill> skillSet;
 
     public Item() {
-        this(UUID.randomUUID(), nextAvailableName(), new ItemStackWrapper(true),
-                Sets.newHashSet(), true);
+        super(nextAvailableName());
+        this.id = UUID.randomUUID();
+        this.item = new ItemStackWrapper(true);
+        this.skillSet = Sets.newHashSet();
     }
 
     public Item(UUID id, String name, ItemStackWrapper item, Set<Skill> skillSet) {
-        this(id, name, item, skillSet, true);
-        counter++;
-    }
-
-    protected Item(UUID id, String name, ItemStackWrapper item, Set<Skill> skillSet, boolean increaseCounter) {
         super(name);
         this.id = id;
         this.item = item;
         this.skillSet = skillSet;
+        counter++;
+    }
+
+    public Item(Map<String, Object> map) {
+        super(map);
+        this.id = UUID.fromString((String) map.get("id"));
+        this.item = (ItemStackWrapper) map.get("item");
+        this.skillSet = new HashSet<>((List<Skill>) map.get("skillSet"));
+        counter++;
     }
 
     private static String nextAvailableName() {
@@ -66,14 +72,6 @@ public class Item extends NamedModel {
             counter++;
         } while (SupremeItem.getInstance().getItemManager().getByName(name) != null);
         return name;
-    }
-
-    public static Item deserialize(Map<String, Object> map) {
-        UUID id = UUID.fromString((String) map.get("id"));
-        String name = (String) map.get("name");
-        ItemStackWrapper item = (ItemStackWrapper) map.get("item");
-        Set<Skill> skillSet = new HashSet<>((List<Skill>) map.get("skillSet"));
-        return new Item(id, name, item, skillSet);
     }
 
     public static boolean isSupremeItem(ItemStack i) {

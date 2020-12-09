@@ -5,7 +5,6 @@ import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.model.Model;
 import com.github.jummes.libs.util.ItemUtils;
-import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.entity.EntityAction;
 import com.github.jummes.supremeitem.action.location.LocationAction;
 import com.github.jummes.supremeitem.action.meta.MetaAction;
@@ -16,6 +15,7 @@ import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @Enumerable.Parent(classArray = {EntityAction.class,
@@ -26,15 +26,16 @@ public abstract class Action implements Model, Cloneable {
 
     private static final String TARGET_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzc4N2I3YWZiNWE1OTk1Mzk3NWJiYTI0NzM3NDliNjAxZDU0ZDZmOTNjZWFjN2EwMmFjNjlhYWU3ZjliOCJ9fX0==";
 
-    protected transient SupremeItem plugin;
-
     @Serializable(displayItem = "targetItem", description = "gui.action.target")
     @Serializable.Optional(defaultValue = "TARGET_DEFAULT")
     protected boolean target;
 
     public Action(boolean target) {
-        this.plugin = SupremeItem.getInstance();
         this.target = target;
+    }
+
+    public Action(Map<String, Object> map) {
+        this.target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
     }
 
     /**

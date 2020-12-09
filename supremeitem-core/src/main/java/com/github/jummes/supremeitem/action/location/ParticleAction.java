@@ -83,16 +83,15 @@ public class ParticleAction extends LocationAction {
         this.data = data;
     }
 
-    public static ParticleAction deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        Particle type = Particle.valueOf((String) map.getOrDefault("type", "FIREWORKS_SPARK"));
-        boolean force = (boolean) map.getOrDefault("force", FORCE_DEFAULT);
-        ParticleOptions data = (ParticleOptions) map.get("data");
+    public ParticleAction(Map<String, Object> map) {
+        super(map);
+        this.type = Particle.valueOf((String) map.getOrDefault("type", "FIREWORKS_SPARK"));
+        this.force = (boolean) map.getOrDefault("force", FORCE_DEFAULT);
+        this.data = (ParticleOptions) map.get("data");
 
-        NumericValue count = (NumericValue) map.getOrDefault("count", COUNT_DEFAULT.clone());
-        NumericValue offset = (NumericValue) map.getOrDefault("offset", OFFSET_DEFAULT.clone());
-        NumericValue speed = (NumericValue) map.getOrDefault("speed", SPEED_DEFAULT.clone());
-        return new ParticleAction(target, type, count, offset, speed, force, data);
+        this.count = (NumericValue) map.getOrDefault("count", COUNT_DEFAULT.clone());
+        this.offset = (NumericValue) map.getOrDefault("offset", OFFSET_DEFAULT.clone());
+        this.speed = (NumericValue) map.getOrDefault("speed", SPEED_DEFAULT.clone());
     }
 
     public static List<Object> getParticles(ModelPath<?> path) {

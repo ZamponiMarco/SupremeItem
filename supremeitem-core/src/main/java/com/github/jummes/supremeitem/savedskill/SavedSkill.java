@@ -25,6 +25,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -45,18 +46,24 @@ public class SavedSkill extends NamedModel {
     private ItemStackWrapper item;
 
     public SavedSkill() {
-        this(nextAvailableName(), Lists.newArrayList(), new ItemStackWrapper(), true);
+        super(nextAvailableName());
+        this.actions = Lists.newArrayList();
+        this.item = new ItemStackWrapper();
     }
 
     public SavedSkill(String name, List<Action> actions, ItemStackWrapper item) {
-        this(name, actions, item, true);
-        counter++;
-    }
-
-    protected SavedSkill(String name, List<Action> actions, ItemStackWrapper item, boolean increasedCounter) {
         super(name);
         this.actions = actions;
         this.item = item;
+        counter++;
+    }
+
+    public SavedSkill(Map<String, Object> map) {
+        super(map);
+        this.actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
+        this.actions.removeIf(Objects::isNull);
+        this.item = (ItemStackWrapper) map.getOrDefault("item", new ItemStackWrapper());
+        counter++;
     }
 
     private static String nextAvailableName() {
@@ -66,13 +73,6 @@ public class SavedSkill extends NamedModel {
             counter++;
         } while (SupremeItem.getInstance().getSavedSkillManager().getByName(name) != null);
         return name;
-    }
-
-    public static SavedSkill deserialize(Map<String, Object> map) {
-        String name = (String) map.get("name");
-        List<Action> actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
-        ItemStackWrapper item = (ItemStackWrapper) map.getOrDefault("item", new ItemStackWrapper());
-        return new SavedSkill(name, actions, item);
     }
 
     public static void addSkillsFromActionsList(Set<SavedSkill> skills, List<Action> actions) {

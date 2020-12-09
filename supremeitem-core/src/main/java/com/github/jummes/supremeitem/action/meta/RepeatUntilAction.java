@@ -53,12 +53,12 @@ public class RepeatUntilAction extends MetaAction {
         this.timer = timer;
     }
 
-    public static RepeatUntilAction deserialize(Map<String, Object> map) {
-        List<Action> actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
-        actions.removeIf(Objects::isNull);
-        Condition condition = (Condition) map.getOrDefault("condition", new BooleanCondition());
-        int timer = (int) map.getOrDefault("timer", TIMER_DEFAULT);
-        return new RepeatUntilAction(TARGET_DEFAULT, actions, condition, timer);
+    public RepeatUntilAction(Map<String, Object> map) {
+        super(map);
+        this.actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
+        this.actions.removeIf(Objects::isNull);
+        this.condition = (Condition) map.getOrDefault("condition", new BooleanCondition());
+        this.timer = (int) map.getOrDefault("timer", TIMER_DEFAULT);
     }
 
     @Override

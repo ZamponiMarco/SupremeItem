@@ -28,10 +28,9 @@ public class SpawnEntityAction extends LocationAction {
         this.entity = entity;
     }
 
-    public static SpawnEntityAction deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        Entity entity = (Entity) map.getOrDefault("entity", new GenericEntity());
-        return new SpawnEntityAction(target, entity);
+    public SpawnEntityAction(Map<String, Object> map) {
+        super(map);
+        this.entity = (Entity) map.getOrDefault("entity", new GenericEntity());
     }
 
     @Override

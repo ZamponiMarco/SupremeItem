@@ -13,6 +13,8 @@ import com.github.jummes.supremeitem.condition.numeric.NumericCondition;
 import com.github.jummes.supremeitem.condition.string.StringCondition;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Map;
+
 @Enumerable.Parent(classArray = {NumericCondition.class, TrueFalseCondition.class, StringCondition.class, AlwaysTrueCondition.class})
 @GUINameable(GUIName = "getName")
 public abstract class Condition implements Model, Cloneable {
@@ -27,6 +29,10 @@ public abstract class Condition implements Model, Cloneable {
 
     public Condition(boolean negate) {
         this.negate = negate;
+    }
+
+    public Condition(Map<String, Object> map) {
+        this.negate = (boolean) map.getOrDefault("negate", NEGATE_DEFAULT);
     }
 
     public boolean checkCondition(Target target, Source source) {

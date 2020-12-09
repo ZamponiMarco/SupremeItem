@@ -41,11 +41,10 @@ public class MoneyAction extends EntityAction {
         this.give = give;
     }
 
-    public static MoneyAction deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        NumericValue money = (NumericValue) map.getOrDefault("money", MONEY_DEFAULT);
-        boolean give = (boolean) map.getOrDefault("give", GIVE_DEFAULT);
-        return new MoneyAction(target, money, give);
+    public MoneyAction(Map<String, Object> map) {
+        super(map);
+        this.money = (NumericValue) map.getOrDefault("money", MONEY_DEFAULT);
+        this.give = (boolean) map.getOrDefault("give", GIVE_DEFAULT);
     }
 
     public static boolean vaultEnabled(ModelPath path) {

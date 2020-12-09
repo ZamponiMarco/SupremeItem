@@ -45,12 +45,11 @@ public class ExplosionAction extends LocationAction {
         this.breakBlocks = breakBlocks;
     }
 
-    public static ExplosionAction deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        NumericValue power = (NumericValue) map.getOrDefault("power", POWER_DEFAULT.clone());
-        boolean setFire = (boolean) map.getOrDefault("setFire", FIRE_DEFAULT);
-        boolean breakBlocks = (boolean) map.getOrDefault("breakBlocks", BLOCKS_DEFAULT);
-        return new ExplosionAction(target, power, setFire, breakBlocks);
+    public ExplosionAction(Map<String, Object> map) {
+        super(map);
+        this.power = (NumericValue) map.getOrDefault("power", POWER_DEFAULT.clone());
+        this.setFire = (boolean) map.getOrDefault("setFire", FIRE_DEFAULT);
+        this.breakBlocks = (boolean) map.getOrDefault("breakBlocks", BLOCKS_DEFAULT);
     }
 
     @Override

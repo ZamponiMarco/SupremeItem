@@ -82,16 +82,15 @@ public class EffectAction extends EntityAction {
         this.icon = icon;
     }
 
-    public static EffectAction deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        PotionEffectType type = PotionEffectType.getByName(((String) map.getOrDefault("type", "INCREASE_DAMAGE"))
+    public EffectAction(Map<String, Object> map) {
+        super(map);
+        this.type = PotionEffectType.getByName(((String) map.getOrDefault("type", "INCREASE_DAMAGE"))
                 .replaceAll("[\\[\\]\\d, ]|PotionEffectType", ""));
-        boolean particles = (boolean) map.getOrDefault("particles", PARTICLES_DEFAULT);
-        boolean ambient = (boolean) map.getOrDefault("ambient", AMBIENT_DEFAULT);
-        boolean icon = (boolean) map.getOrDefault("icon", ICON_DEFAULT);
-        NumericValue duration = (NumericValue) map.getOrDefault("duration", DURATION_DEFAULT.clone());
-        NumericValue level = (NumericValue) map.getOrDefault("level", LEVEL_DEFAULT.clone());
-        return new EffectAction(target, type, duration, level, particles, ambient, icon);
+        this.particles = (boolean) map.getOrDefault("particles", PARTICLES_DEFAULT);
+        this.ambient = (boolean) map.getOrDefault("ambient", AMBIENT_DEFAULT);
+        this.icon = (boolean) map.getOrDefault("icon", ICON_DEFAULT);
+        this.duration = (NumericValue) map.getOrDefault("duration", DURATION_DEFAULT.clone());
+        this.level = (NumericValue) map.getOrDefault("level", LEVEL_DEFAULT.clone());
     }
 
     public static List<Object> getPotionEffects(ModelPath<?> path) {

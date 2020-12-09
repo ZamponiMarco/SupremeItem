@@ -35,14 +35,9 @@ public class CommandAction extends MetaAction {
         this.command = command;
     }
 
-    public static CommandAction deserialize(Map<String, Object> map) {
-        StringValue command;
-        try {
-            command = (StringValue) map.getOrDefault("command", COMMAND_DEFAULT.clone());
-        } catch (ClassCastException e) {
-            command = new StringValue((String) map.getOrDefault("command", COMMAND_DEFAULT.getValue()));
-        }
-        return new CommandAction(TARGET_DEFAULT, command);
+    public CommandAction(Map<String, Object> map) {
+        super(map);
+        this.command = (StringValue) map.getOrDefault("command", COMMAND_DEFAULT.clone());
     }
 
     @Override

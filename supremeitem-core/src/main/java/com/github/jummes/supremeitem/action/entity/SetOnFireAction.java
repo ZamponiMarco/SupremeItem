@@ -29,14 +29,13 @@ public class SetOnFireAction extends EntityAction {
         this.ticks = ticks;
     }
 
-    public SetOnFireAction() {
-        this(TARGET_DEFAULT, new NumericValue());
+    public SetOnFireAction(Map<String, Object> map) {
+        super(map);
+        this.ticks = (NumericValue) map.get("ticks");
     }
 
-    public static SetOnFireAction deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        NumericValue ticks = (NumericValue) map.get("ticks");
-        return new SetOnFireAction(target, ticks);
+    public SetOnFireAction() {
+        this(TARGET_DEFAULT, new NumericValue());
     }
 
     @Override

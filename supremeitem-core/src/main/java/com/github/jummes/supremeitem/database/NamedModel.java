@@ -8,6 +8,8 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import java.util.Map;
+
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -22,6 +24,10 @@ public abstract class NamedModel implements Model {
     public NamedModel(String name) {
         this.name = name;
         this.oldName = name;
+    }
+
+    public NamedModel(Map<String, Object> map) {
+        this((String) map.get("name"));
     }
 
     @SneakyThrows

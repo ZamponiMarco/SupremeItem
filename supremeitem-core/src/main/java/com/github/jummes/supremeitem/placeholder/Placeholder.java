@@ -14,6 +14,8 @@ import com.github.jummes.supremeitem.placeholder.numeric.NumericPlaceholder;
 import com.github.jummes.supremeitem.placeholder.string.StringPlaceholder;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Map;
+
 @Enumerable.Parent(classArray = {NumericPlaceholder.class, BooleanPlaceholder.class, StringPlaceholder.class,
         BlockPlaceholder.class, MaterialPlaceholder.class})
 public abstract class Placeholder<S> implements Model, Cloneable {
@@ -26,6 +28,10 @@ public abstract class Placeholder<S> implements Model, Cloneable {
 
     public Placeholder(boolean target) {
         this.target = target;
+    }
+
+    public Placeholder(Map<String, Object> map) {
+        this.target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
     }
 
     public abstract S computePlaceholder(Target target, Source source);

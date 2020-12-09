@@ -43,11 +43,10 @@ public class Vector implements Model, Cloneable {
         this.z = z;
     }
 
-    public static Vector deserialize(Map<String, Object> map) {
-        NumericValue x = (NumericValue) map.getOrDefault("x", DEFAULT.clone());
-        NumericValue y = (NumericValue) map.getOrDefault("y", DEFAULT.clone());
-        NumericValue z = (NumericValue) map.getOrDefault("z", DEFAULT.clone());
-        return new Vector(x, y, z);
+    public Vector(Map<String, Object> map) {
+        this.x = (NumericValue) map.getOrDefault("x", DEFAULT.clone());
+        this.y = (NumericValue) map.getOrDefault("y", DEFAULT.clone());
+        this.z = (NumericValue) map.getOrDefault("z", DEFAULT.clone());
     }
 
     public org.bukkit.util.Vector computeVector(Target target, Source source) {

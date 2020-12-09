@@ -51,19 +51,13 @@ public class SetBlockAction extends LocationAction {
         this.allowMaterials = negate;
     }
 
-    public static SetBlockAction deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        Set<Material> excludedMaterials = ((List<String>) map.get("excludedMaterials")).stream().map(Material::valueOf).
+    public SetBlockAction(Map<String, Object> map) {
+        super(map);
+        this.excludedMaterials = ((List<String>) map.get("excludedMaterials")).stream().map(Material::valueOf).
                 collect(Collectors.toSet());
-        excludedMaterials.removeIf(Objects::isNull);
-        boolean negate = (boolean) map.getOrDefault("allowMaterials", ALLOW_MATERIALS_DEFAULT);
-        MaterialValue material;
-        try {
-            material = (MaterialValue) map.get("material");
-        } catch (ClassCastException e) {
-            material = new MaterialValue(Material.getMaterial((String) map.get("material")));
-        }
-        return new SetBlockAction(target, material, excludedMaterials, negate);
+        this.excludedMaterials.removeIf(Objects::isNull);
+        this.allowMaterials = (boolean) map.getOrDefault("allowMaterials", ALLOW_MATERIALS_DEFAULT);
+        this.material = (MaterialValue) map.get("material");
     }
 
     public static List<Object> materialList(ModelPath<?> path) {

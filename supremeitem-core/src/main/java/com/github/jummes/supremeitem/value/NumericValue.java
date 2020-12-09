@@ -47,6 +47,17 @@ public class NumericValue extends Value<Double, NumericPlaceholder> {
         this(false, 10.0, placeholder);
     }
 
+    public NumericValue(Map<String, Object> map) {
+        super(map);
+        this.value = 10.0;
+        this.placeholderValue = new HealthPlaceholder();
+        if (this.objectValue) {
+            this.value = (double) map.getOrDefault("value", 10.0);
+        } else {
+            this.placeholderValue = (NumericPlaceholder) map.get("placeholderValue");
+        }
+    }
+
     public static NumericValue deserialize(Map<String, Object> map) {
         boolean objectValue = (boolean) map.getOrDefault("objectValue", OBJECT_VALUE_DEFAULT);
         objectValue = (boolean) map.getOrDefault("doubleValue", objectValue);

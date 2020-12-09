@@ -28,21 +28,21 @@ public class StringEqualsCondition extends StringCondition {
     @Serializable(headTexture = TWO_HEAD, description = "gui.condition.operand-two", additionalDescription = {"gui.additional-tooltips.value"})
     private StringValue operandTwo;
 
+
+    public StringEqualsCondition() {
+        this(NEGATE_DEFAULT, new StringValue(new PlayerNamePlaceholder()), new StringValue("Example"));
+    }
+    
     public StringEqualsCondition(boolean negate, StringValue operandOne, StringValue operandTwo) {
         super(negate);
         this.operandOne = operandOne;
         this.operandTwo = operandTwo;
     }
 
-    public StringEqualsCondition() {
-        this(NEGATE_DEFAULT, new StringValue(new PlayerNamePlaceholder()), new StringValue("Example"));
-    }
-
-    public static StringEqualsCondition deserialize(Map<String, Object> map) {
-        boolean negate = (boolean) map.getOrDefault("negate", NEGATE_DEFAULT);
-        StringValue operandOne = (StringValue) map.get("operandOne");
-        StringValue operandTwo = (StringValue) map.get("operandTwo");
-        return new StringEqualsCondition(negate, operandOne, operandTwo);
+    public StringEqualsCondition(Map<String, Object> map) {
+        super(map);
+        this.operandOne = (StringValue) map.get("operandOne");
+        this.operandTwo = (StringValue) map.get("operandTwo");
     }
 
     @Override

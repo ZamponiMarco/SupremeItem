@@ -46,11 +46,11 @@ public class DelayedAction extends WrapperAction {
         this.delay = delay;
     }
 
-    public static DelayedAction deserialize(Map<String, Object> map) {
-        List<Action> actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
-        actions.removeIf(Objects::isNull);
-        NumericValue delay = (NumericValue) map.getOrDefault("delay", DELAY_DEFAULT.clone());
-        return new DelayedAction(TARGET_DEFAULT, actions, delay);
+    public DelayedAction(Map<String, Object> map) {
+        super(map);
+        this.actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
+        this.actions.removeIf(Objects::isNull);
+        this.delay = (NumericValue) map.getOrDefault("delay", DELAY_DEFAULT.clone());
     }
 
     @Override

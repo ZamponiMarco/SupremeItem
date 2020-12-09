@@ -34,10 +34,9 @@ public class AndCondition extends TrueFalseCondition {
         this.conditions = conditions;
     }
 
-    public static AndCondition deserialize(Map<String, Object> map) {
-        boolean negate = (boolean) map.getOrDefault("negate", NEGATE_DEFAULT);
-        List<Condition> conditions = (List<Condition>) map.getOrDefault("conditions", Lists.newArrayList());
-        return new AndCondition(negate, conditions);
+    public AndCondition(Map<String, Object> map) {
+        super(map);
+        this.conditions = (List<Condition>) map.getOrDefault("conditions", Lists.newArrayList());
     }
 
     @Override

@@ -20,8 +20,8 @@ public class CancelEventAction extends MetaAction {
         super(target);
     }
 
-    public static CancelEventAction deserialize(Map<String, Object> map) {
-        return new CancelEventAction();
+    public CancelEventAction(Map<String, Object> map) {
+        super(map);
     }
 
     @Override

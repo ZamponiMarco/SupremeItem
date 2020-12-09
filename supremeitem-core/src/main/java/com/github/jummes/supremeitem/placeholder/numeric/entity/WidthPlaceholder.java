@@ -20,9 +20,8 @@ public class WidthPlaceholder extends AttributeNumericPlaceholder {
         super(target);
     }
 
-    public static WidthPlaceholder deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        return new WidthPlaceholder();
+    public WidthPlaceholder(Map<String, Object> map) {
+        super(map);
     }
 
     @Override

@@ -20,9 +20,8 @@ public class HealthPlaceholder extends EntityNumericPlaceholder {
         super(target);
     }
 
-    public static HealthPlaceholder deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        return new HealthPlaceholder(target);
+    public HealthPlaceholder(Map<String, Object> map) {
+        super(map);
     }
 
     @Override

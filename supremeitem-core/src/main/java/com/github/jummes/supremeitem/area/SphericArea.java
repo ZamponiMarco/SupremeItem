@@ -29,14 +29,15 @@ public class SphericArea extends Area {
     }
 
     public SphericArea(NumericValue range, boolean onlyBorders) {
+        super();
         this.range = range;
         this.onlyBorders = onlyBorders;
     }
 
-    public static SphericArea deserialize(Map<String, Object> map) {
-        NumericValue range = (NumericValue) map.get("range");
-        boolean onlyBorders = (boolean) map.getOrDefault("onlyBorders", false);
-        return new SphericArea(range, onlyBorders);
+    public SphericArea(Map<String, Object> map) {
+        super(map);
+        this.range = (NumericValue) map.get("range");
+        this.onlyBorders = (boolean) map.getOrDefault("onlyBorders", false);
     }
 
     /**

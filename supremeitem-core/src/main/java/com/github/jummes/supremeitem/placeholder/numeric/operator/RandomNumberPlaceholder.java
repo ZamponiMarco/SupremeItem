@@ -43,12 +43,11 @@ public class RandomNumberPlaceholder extends NumberOperatorPlaceholder {
         this.isNatural = isNatural;
     }
 
-    public static RandomNumberPlaceholder deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        NumericValue min = (NumericValue) map.getOrDefault("min", MIN_DEFAULT.clone());
-        NumericValue max = (NumericValue) map.getOrDefault("max", MAX_DEFAULT.clone());
-        boolean isNatural = (boolean) map.getOrDefault("isNatural", IS_NATURAL_DEFAULT);
-        return new RandomNumberPlaceholder(target, min, max, isNatural);
+    public RandomNumberPlaceholder(Map<String, Object> map) {
+        super(map);
+        this.min = (NumericValue) map.getOrDefault("min", MIN_DEFAULT.clone());
+        this.max = (NumericValue) map.getOrDefault("max", MAX_DEFAULT.clone());
+        this.isNatural = (boolean) map.getOrDefault("isNatural", IS_NATURAL_DEFAULT);
     }
 
     @Override

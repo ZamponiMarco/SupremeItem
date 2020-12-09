@@ -33,10 +33,9 @@ public class NumericVariablePlaceholder extends EntityNumericPlaceholder {
         this.name = name;
     }
 
-    public static NumericVariablePlaceholder deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        String name = (String) map.getOrDefault("name", NAME_DEFAULT);
-        return new NumericVariablePlaceholder(target, name);
+    public NumericVariablePlaceholder(Map<String, Object> map) {
+        super(map);
+        this.name = (String) map.getOrDefault("name", NAME_DEFAULT);
     }
 
     @Override

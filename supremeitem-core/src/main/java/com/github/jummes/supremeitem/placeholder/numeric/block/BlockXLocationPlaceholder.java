@@ -20,9 +20,8 @@ public class BlockXLocationPlaceholder extends NumericBlockPlaceholder {
         super(target, placeholder);
     }
 
-    public static BlockXLocationPlaceholder deserialize(Map<String, Object> map) {
-        BlockPlaceholder placeholder = (BlockPlaceholder) map.get("placeholder");
-        return new BlockXLocationPlaceholder(TARGET_DEFAULT, placeholder);
+    public BlockXLocationPlaceholder(Map<String, Object> map) {
+        super(map);
     }
 
     @Override

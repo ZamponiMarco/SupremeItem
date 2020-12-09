@@ -5,6 +5,7 @@ import com.github.jummes.supremeitem.action.Action;
 import com.google.common.collect.Lists;
 
 import java.util.List;
+import java.util.Map;
 
 @Enumerable.Parent(classArray = {WrapperAction.class, AbstractProjectileAction.class, DelayedAction.class,
         ProjectileAction.class, AreaEntitiesAction.class, SkillAction.class, TimerAction.class, CancelEventAction.class,
@@ -16,5 +17,9 @@ public abstract class MetaAction extends Action {
 
     public MetaAction(boolean target) {
         super(target);
+    }
+
+    public MetaAction(Map<String, Object> map) {
+        super(map);
     }
 }

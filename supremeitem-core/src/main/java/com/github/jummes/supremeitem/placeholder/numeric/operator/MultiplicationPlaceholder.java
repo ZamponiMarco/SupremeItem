@@ -32,11 +32,10 @@ public class MultiplicationPlaceholder extends NumberOperatorPlaceholder {
         this.operandTwo = operandTwo;
     }
 
-    public static MultiplicationPlaceholder deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        NumericValue operandOne = (NumericValue) map.getOrDefault("operandOne", OPERAND_ONE_DEFAULT.clone());
-        NumericValue operandTwo = (NumericValue) map.getOrDefault("operandTwo", OPERAND_TWO_DEFAULT.clone());
-        return new MultiplicationPlaceholder(target, operandOne, operandTwo);
+    public MultiplicationPlaceholder(Map<String, Object> map) {
+        super(map);
+        this.operandOne = (NumericValue) map.getOrDefault("operandOne", OPERAND_ONE_DEFAULT.clone());
+        this.operandTwo = (NumericValue) map.getOrDefault("operandTwo", OPERAND_TWO_DEFAULT.clone());
     }
 
     @Override

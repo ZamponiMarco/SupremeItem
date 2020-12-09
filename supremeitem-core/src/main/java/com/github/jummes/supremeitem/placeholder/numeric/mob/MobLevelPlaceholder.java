@@ -22,9 +22,8 @@ public class MobLevelPlaceholder extends MobNumericPlaceholder {
         super(target);
     }
 
-    public static MobLevelPlaceholder deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        return new MobLevelPlaceholder(target);
+    public MobLevelPlaceholder(Map<String, Object> map) {
+        super(map);
     }
 
     @Override

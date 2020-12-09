@@ -18,9 +18,8 @@ public class AlwaysTrueCondition extends Condition {
         super(negate);
     }
 
-    public static AlwaysTrueCondition deserialize(Map<String, Object> map) {
-        boolean negate = (boolean) map.getOrDefault("negate", NEGATE_DEFAULT);
-        return new AlwaysTrueCondition(negate);
+    public AlwaysTrueCondition(Map<String, Object> map) {
+        super(map);
     }
 
     @Override

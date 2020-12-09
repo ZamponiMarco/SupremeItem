@@ -6,6 +6,8 @@ import com.github.jummes.supremeitem.placeholder.numeric.entity.HealthPlaceholde
 import com.github.jummes.supremeitem.value.NumericValue;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.Map;
+
 @Enumerable.Parent(classArray = {RandomNumberPlaceholder.class, SumPlaceholder.class, DifferencePlaceholder.class,
         MultiplicationPlaceholder.class, DivisionPlaceholder.class})
 @Enumerable.Displayable(name = "&c&lNumeric Operator Placeholders", description = "gui.placeholder.double.operator.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzhlZTlmZDhjMGM2ZDI5Njc1YTNhZGZkOTRjNzIzZjZkMzA2YjJhNTk4NGU2NWRiNDY3N2JhNmFjNGY5MDIwIn19fQ==")
@@ -19,6 +21,10 @@ public abstract class NumberOperatorPlaceholder extends NumericPlaceholder {
 
     public NumberOperatorPlaceholder(boolean target) {
         super(target);
+    }
+
+    public NumberOperatorPlaceholder(Map<String, Object> map) {
+        super(map);
     }
 
     @Override

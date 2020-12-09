@@ -33,11 +33,10 @@ public class EqualsCondition extends NumericCondition {
         this.operandTwo = operandTwo;
     }
 
-    public static EqualsCondition deserialize(Map<String, Object> map) {
-        boolean negate = (boolean) map.getOrDefault("negate", NEGATE_DEFAULT);
-        NumericValue operandOne = (NumericValue) map.get("operandOne");
-        NumericValue operandTwo = (NumericValue) map.get("operandTwo");
-        return new EqualsCondition(negate, operandOne, operandTwo);
+    public EqualsCondition(Map<String, Object> map) {
+        super(map);
+        this.operandOne = (NumericValue) map.get("operandOne");
+        this.operandTwo = (NumericValue) map.get("operandTwo");
     }
 
     @Override

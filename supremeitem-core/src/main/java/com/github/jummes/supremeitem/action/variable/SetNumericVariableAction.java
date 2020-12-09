@@ -39,11 +39,10 @@ public class SetNumericVariableAction extends VariableAction {
         this.value = value;
     }
 
-    public static SetNumericVariableAction deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        String name = (String) map.getOrDefault("name", "var");
-        NumericValue value = (NumericValue) map.getOrDefault("value", VALUE_DEFAULT.clone());
-        return new SetNumericVariableAction(target, name, value);
+    public SetNumericVariableAction(Map<String, Object> map) {
+        super(map);
+        this.name = (String) map.getOrDefault("name", "var");
+        this.value = (NumericValue) map.getOrDefault("value", VALUE_DEFAULT.clone());
     }
 
     @Override

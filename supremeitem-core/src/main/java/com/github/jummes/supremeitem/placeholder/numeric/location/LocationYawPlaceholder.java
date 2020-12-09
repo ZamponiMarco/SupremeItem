@@ -20,9 +20,8 @@ public class LocationYawPlaceholder extends LocationPlaceholder {
         this(TARGET_DEFAULT);
     }
 
-    public static LocationYawPlaceholder deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        return new LocationYawPlaceholder(target);
+    public LocationYawPlaceholder(Map<String, Object> map) {
+        super(map);
     }
 
     @Override

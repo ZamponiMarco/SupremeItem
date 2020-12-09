@@ -20,7 +20,10 @@ import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.inventory.MainHand;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
@@ -59,23 +62,10 @@ public class ProjectileAction extends AbstractProjectileAction {
         this.projectileSpread = projectileSpread;
     }
 
-    public static ProjectileAction deserialize(Map<String, Object> map) {
-        List<Action> onEntityHitActions = (List<Action>) map.getOrDefault("onEntityHitActions", Lists.newArrayList());
-        onEntityHitActions.removeIf(Objects::isNull);
-        List<Action> onBlockHitActions = (List<Action>) map.getOrDefault("onBlockHitActions", Lists.newArrayList());
-        onBlockHitActions.removeIf(Objects::isNull);
-        List<Action> onProjectileTickActions = (List<Action>) map.getOrDefault("onProjectileTickActions", Lists.newArrayList());
-        onProjectileTickActions.removeIf(Objects::isNull);
-
-        Entity entity = (Entity) map.getOrDefault("entity", new NoEntity());
-        boolean shootFromHand = (boolean) map.getOrDefault("shootFromHand", SHOOT_FROM_HAND_DEFAULT);
-        NumericValue initialSpeed = (NumericValue) map.getOrDefault("initialSpeed", INITIAL_DEFAULT.clone());
-        NumericValue gravity = (NumericValue) map.getOrDefault("gravity", GRAVITY_DEFAULT.clone());
-        NumericValue hitBoxSize = (NumericValue) map.getOrDefault("hitBoxSize", HIT_BOX_SIZE_DEFAULT.clone());
-        NumericValue maxDistance = (NumericValue) map.getOrDefault("maxDistance", MAX_DISTANCE_DEFAULT.clone());
-        NumericValue projectileSpread = (NumericValue) map.getOrDefault("projectileSpread", PROJECTILE_SPREAD_DEFAULT.clone());
-        return new ProjectileAction(TARGET_DEFAULT, initialSpeed, gravity, onEntityHitActions, onBlockHitActions,
-                onProjectileTickActions, entity, hitBoxSize, maxDistance, shootFromHand, projectileSpread);
+    public ProjectileAction(Map<String, Object> map) {
+        super(map);
+        this.shootFromHand = (boolean) map.getOrDefault("shootFromHand", SHOOT_FROM_HAND_DEFAULT);
+        this.projectileSpread = (NumericValue) map.getOrDefault("projectileSpread", PROJECTILE_SPREAD_DEFAULT.clone());
     }
 
     @Override
