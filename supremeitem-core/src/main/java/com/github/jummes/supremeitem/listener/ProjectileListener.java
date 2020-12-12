@@ -19,6 +19,7 @@ public class ProjectileListener implements Listener {
         Entity entity = e.getEntity();
         if (Projectile.isProjectile(entity)) {
             e.getDrops().clear();
+            e.setDroppedExp(0);
         }
     }
 
@@ -42,7 +43,7 @@ public class ProjectileListener implements Listener {
 
     @EventHandler
     public void onDamage(EntityDamageByEntityEvent e) {
-        if (Projectile.isProjectile(e.getDamager())) {
+        if (Projectile.isProjectile(e.getDamager()) || Projectile.isProjectile(e.getEntity())) {
             e.setCancelled(true);
         }
     }
