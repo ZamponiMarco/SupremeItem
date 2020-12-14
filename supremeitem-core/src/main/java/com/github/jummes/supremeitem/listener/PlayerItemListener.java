@@ -96,15 +96,13 @@ public class PlayerItemListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerSneak(PlayerToggleSneakEvent e) {
         Player player = e.getPlayer();
-        if (e.isSneaking()) {
-            boolean cancelled = executeSneakSkill(player);
-            if (cancelled) {
-                e.setCancelled(true);
-            }
+        boolean cancelled = executeSneakSkill(player, e.isSneaking());
+        if (cancelled) {
+            e.setCancelled(true);
         }
     }
 
-    private boolean executeSneakSkill(Player player) {
+    private boolean executeSneakSkill(Player player, boolean activated) {
         AtomicBoolean toReturn = new AtomicBoolean(false);
         List<ItemStack> items = Utils.getEntityItems(player);
         IntStream.range(0, items.size()).filter(i -> Item.isSupremeItem(items.get(i))).forEach(i -> {
@@ -112,6 +110,7 @@ public class PlayerItemListener implements Listener {
             Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);
             if (supremeItem != null) {
                 supremeItem.getSkillSet().stream().filter(skill -> skill instanceof EntitySneakSkill &&
+                        activated == ((EntitySneakSkill) skill).isOnActivateSneak() &&
                         skill.getAllowedSlots().contains(EquipmentSlot.values()[i])).findFirst().
                         ifPresent(skill -> {
                             if (((EntitySneakSkill) skill).executeSkill(player, id, items.get(i)).

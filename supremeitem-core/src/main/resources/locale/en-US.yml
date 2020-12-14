@@ -375,6 +375,10 @@ gui:
     slots:
       - "&7&oThe list of inventory slots where the skill"
       - "&7&owill be triggered."
+    caster-actions:
+      - "&7&oThe actions to execute on the caster."
+      - "&6&oSource: &ecaster entity."
+      - "&6&oTarget: &ecaster entity."
     hit-entity:
       description:
         - "&7&oSet a skill to be triggered when an entity hits"
@@ -403,10 +407,6 @@ gui:
       description:
         - "&7&oSet a skill to be triggered when an entity left"
         - "&7&oclicks air with a supreme item in hand."
-      caster-actions:
-        - "&7&oThe actions to execute on the caster."
-        - "&6&oSource: &ecaster entity."
-        - "&6&oTarget: &ecaster entity."
       ray-cast-actions:
         - "&7&oThe actions to execute in the location hit by a ray"
         - "&7&ocast from the caster."
@@ -418,10 +418,6 @@ gui:
       description:
         - "&7&oSet a skill to be triggered when an entity right"
         - "&7&oclicks air with a supreme item in hand."
-      caster-actions:
-        - "&7&oThe actions to execute on the caster."
-        - "&6&oSource: &ecaster entity."
-        - "&6&oTarget: &ecaster entity."
       ray-cast-actions:
         - "&7&oThe actions to execute in the location hit by a ray"
         - "&7&ocast from the caster."
@@ -443,6 +439,9 @@ gui:
       description:
         - "&7&oSet a skill to be triggered when a player"
         - "&7&oenters sneaking mode."
+      activate:
+        - "&7&oWhether the skill should be triggered when"
+        - "&7&othe sneak mode is activated or not."
   entity:
     no-entity:
       description:

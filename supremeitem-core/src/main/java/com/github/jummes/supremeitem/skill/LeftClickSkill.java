@@ -26,7 +26,7 @@ public class LeftClickSkill extends CooldownSkill {
     private static final String RAY_CAST_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzc4N2I3YWZiNWE1OTk1Mzk3NWJiYTI0NzM3NDliNjAxZDU0ZDZmOTNjZWFjN2EwMmFjNjlhYWU3ZjliOCJ9fX0=";
     private static final String DISTANCE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmFhNjg2MGQxMGQ3Yzg2ZmNjYzY1MjhkOWYyNTY0YTJmNTZkNWNmMzdlNzllZDVjNzc4NDk0MDI1MTVkNzc1MSJ9fX0=";
 
-    @Serializable(headTexture = CASTER_HEAD, description = "gui.skill.left-click.caster-actions")
+    @Serializable(headTexture = CASTER_HEAD, description = "gui.skill.caster-actions")
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     protected List<Action> onCasterActions;
 
