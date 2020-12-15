@@ -19,8 +19,8 @@ import java.util.*;
 @Setter
 @EqualsAndHashCode(callSuper = true)
 @Enumerable.Child
-@Enumerable.Displayable(name = "&c&lOn Entity Sneak", description = "gui.skill.entity-sneak.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTQyMzI5YTljNDEwNDA4NDE5N2JkNjg4NjE1ODUzOTg0ZDM3ZTE3YzJkZDIzZTNlNDEyZGQ0MmQ3OGI5OGViIn19fQ")
-public class EntitySneakSkill extends CooldownSkill {
+@Enumerable.Displayable(name = "&c&lOn Entity Sprint", description = "gui.skill.entity-sprint.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzJhN2RjYmY3ZWNhNmI2ZjYzODY1OTFkMjM3OTkxY2ExYjg4OGE0ZjBjNzUzZmY5YTMyMDJjZjBlOTIyMjllMyJ9fX0=")
+public class EntitySprintSkill extends CooldownSkill {
 
     private static final String CASTER_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjY4YjQzMTE1MmU4MmFmNWRlZjg4ZjkxYmI2MWM2MjNiM2I3YWMzYWJlODJkMjc2ZmFkMzQ3Nzc2NDBmOTU5MCJ9fX0=";
     private static final String ACTIVATION_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmE4OTc4Y2NiZjU3NmY0NDZlMjFjNTFkM2U4MGZjN2Y4NTY2ZWI3MjY1Y2M0M2M0YWQ3MWNmYjc4YzE2NTI1NyJ9fX0=";
@@ -32,19 +32,19 @@ public class EntitySneakSkill extends CooldownSkill {
     @Serializable(headTexture = ACTIVATION_HEAD, description = "gui.skill.activate")
     private boolean onActivateSneak;
 
-    public EntitySneakSkill() {
+    public EntitySprintSkill() {
         this(CONSUMABLE_DEFAULT, Sets.newHashSet(EquipmentSlot.values()), COOLDOWN_DEFAULT, COOLDOWN_MESSAGE_DEFAULT, Lists.newArrayList(),
                 true);
     }
 
-    public EntitySneakSkill(boolean consumable, Set<EquipmentSlot> allowedSlots, int cooldown, boolean cooldownMessage,
-                            List<Action> onEntityActions, boolean onActivateSneak) {
+    public EntitySprintSkill(boolean consumable, Set<EquipmentSlot> allowedSlots, int cooldown, boolean cooldownMessage,
+                             List<Action> onEntityActions, boolean onActivateSneak) {
         super(consumable, allowedSlots, cooldown, cooldownMessage);
         this.onEntityActions = onEntityActions;
         this.onActivateSneak = onActivateSneak;
     }
 
-    public EntitySneakSkill(Map<String, Object> map) {
+    public EntitySprintSkill(Map<String, Object> map) {
         super(map);
         onEntityActions = (List<Action>) map.getOrDefault("onEntityActions", Lists.newArrayList());
         onActivateSneak = (boolean) map.getOrDefault("onActivateSneak", true);
@@ -70,7 +70,7 @@ public class EntitySneakSkill extends CooldownSkill {
 
     @Override
     public String getName() {
-        return String.format("&cEntity %s Sneak &6&lskill", onActivateSneak ? "Activate" : "Deactivate");
+        return String.format("&cEntity %s Sprint &6&lskill", onActivateSneak ? "Activate" : "Deactivate");
     }
 
     @Override

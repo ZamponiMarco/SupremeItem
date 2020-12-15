@@ -17,6 +17,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
+import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
@@ -44,11 +45,6 @@ public class PlayerItemListener implements Listener {
         }
     }
 
-    /**
-     * Right and left click skill
-     *
-     * @param e
-     */
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
         if (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.LEFT_CLICK_AIR)) {
@@ -57,11 +53,6 @@ public class PlayerItemListener implements Listener {
         }
     }
 
-    /**
-     * DamageEntity and HitEntity skills
-     *
-     * @param e
-     */
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerDamage(EntityDamageByEntityEvent e) {
         boolean cancelled = false;
@@ -88,11 +79,6 @@ public class PlayerItemListener implements Listener {
         }
     }
 
-    /**
-     * EntitySneakSkill
-     *
-     * @param e
-     */
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerSneak(PlayerToggleSneakEvent e) {
         Player player = e.getPlayer();
@@ -101,6 +87,17 @@ public class PlayerItemListener implements Listener {
             e.setCancelled(true);
         }
     }
+
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    public void onPlayerSprint(PlayerToggleSprintEvent e) {
+        Player player = e.getPlayer();
+        boolean cancelled = executeSprintSkill(player, e.isSprinting());
+        if (cancelled) {
+            e.setCancelled(true);
+        }
+    }
+
+    // Private methods
 
     private boolean executeSneakSkill(Player player, boolean activated) {
         AtomicBoolean toReturn = new AtomicBoolean(false);
@@ -114,6 +111,27 @@ public class PlayerItemListener implements Listener {
                         skill.getAllowedSlots().contains(EquipmentSlot.values()[i])).findFirst().
                         ifPresent(skill -> {
                             if (((EntitySneakSkill) skill).executeSkill(player, id, items.get(i)).
+                                    equals(Skill.SkillResult.CANCELLED)) {
+                                toReturn.set(true);
+                            }
+                        });
+            }
+        });
+        return toReturn.get();
+    }
+
+    private boolean executeSprintSkill(Player player, boolean activated) {
+        AtomicBoolean toReturn = new AtomicBoolean(false);
+        List<ItemStack> items = Utils.getEntityItems(player);
+        IntStream.range(0, items.size()).filter(i -> Item.isSupremeItem(items.get(i))).forEach(i -> {
+            UUID id = UUID.fromString(Libs.getWrapper().getTagItem(items.get(i), "supreme-item"));
+            Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);
+            if (supremeItem != null) {
+                supremeItem.getSkillSet().stream().filter(skill -> skill instanceof EntitySprintSkill &&
+                        activated == ((EntitySprintSkill) skill).isOnActivateSneak() &&
+                        skill.getAllowedSlots().contains(EquipmentSlot.values()[i])).findFirst().
+                        ifPresent(skill -> {
+                            if (((EntitySprintSkill) skill).executeSkill(player, id, items.get(i)).
                                     equals(Skill.SkillResult.CANCELLED)) {
                                 toReturn.set(true);
                             }

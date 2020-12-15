@@ -379,6 +379,9 @@ gui:
       - "&7&oThe actions to execute on the caster."
       - "&6&oSource: &ecaster entity."
       - "&6&oTarget: &ecaster entity."
+    activate:
+      - "&7&oWhether the skill should be triggered when"
+      - "&7&othe sneak mode is activated or not."
     hit-entity:
       description:
         - "&7&oSet a skill to be triggered when an entity hits"
@@ -439,9 +442,10 @@ gui:
       description:
         - "&7&oSet a skill to be triggered when a player"
         - "&7&oenters sneaking mode."
-      activate:
-        - "&7&oWhether the skill should be triggered when"
-        - "&7&othe sneak mode is activated or not."
+    entity-sprint:
+      description:
+        - "&7&oSet a skill to be triggered when a player"
+        - "&7&oenters sprinting mode."
   entity:
     no-entity:
       description:
