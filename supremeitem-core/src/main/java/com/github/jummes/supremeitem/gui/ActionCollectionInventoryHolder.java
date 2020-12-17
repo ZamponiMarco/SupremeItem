@@ -8,8 +8,11 @@ import com.github.jummes.libs.gui.model.RemoveConfirmationInventoryHolder;
 import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.libs.util.MessageUtils;
+import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
+import com.github.jummes.supremeitem.action.meta.SkillAction;
 import com.github.jummes.supremeitem.action.meta.WrapperAction;
+import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import lombok.SneakyThrows;
 import org.apache.commons.lang.reflect.FieldUtils;
 import org.bukkit.Bukkit;
@@ -66,6 +69,7 @@ public class ActionCollectionInventoryHolder extends ModelCollectionInventoryHol
     public ItemStack getGlintedItem(Action action) {
         List<String> lore = Libs.getLocale().getList("gui.action.description");
         lore.set(0, MessageUtils.color("&6&lApply actions &eto all selected actions:"));
+        lore.add(3 + WrapperAction.WRAPPERS_MAP.size(), MessageUtils.color("&6&l- [9] &eto wrap in a new skill"));
         return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue(SELECTED_HEAD), action.getName(), lore);
     }
 
@@ -103,12 +107,30 @@ public class ActionCollectionInventoryHolder extends ModelCollectionInventoryHol
             actions.addAll(((WrapperAction) model).getWrappedActions());
             path.saveModel();
             e.getWhoClicked().openInventory(getInventory());
-            return;
-        }
-
-        wrapActions(e, model, actions);
-
-        if (e.getClick().equals(ClickType.DROP)) {
+        } else if (e.getClick().equals(ClickType.NUMBER_KEY) && WrapperAction.WRAPPERS_MAP.containsValue(e.getHotbarButton())) {
+            wrapActions(e, model, actions);
+        } else if (e.getClick().equals(ClickType.NUMBER_KEY) && e.getHotbarButton() == 8) {
+            if (!selected.isEmpty()) {
+                if (selected.contains(model)) {
+                    SavedSkill newSkill = new SavedSkill();
+                    actions.removeAll(selected);
+                    newSkill.getActions().addAll(selected);
+                    SupremeItem.getInstance().getSavedSkillManager().getSkills().add(newSkill);
+                    SupremeItem.getInstance().getSavedSkillManager().saveModel(newSkill);
+                    selected.clear();
+                    actions.add(new SkillAction(TARGET_DEFAULT, newSkill.getName()));
+                    path.saveModel();
+                    e.getWhoClicked().openInventory(getInventory());
+                }
+            } else if (model instanceof SkillAction) {
+                SavedSkill skill = SupremeItem.getInstance().getSavedSkillManager().getByName(((SkillAction) model).getSkillName());
+                if (skill != null) {
+                    path.addModel(skill);
+                    e.getWhoClicked().openInventory(new ModelObjectInventoryHolder(SupremeItem.getInstance(),
+                            this, path).getInventory());
+                }
+            }
+        } else if (e.getClick().equals(ClickType.DROP)) {
             if (!selected.contains(model)) {
                 selected.add(model);
             } else {
@@ -129,19 +151,17 @@ public class ActionCollectionInventoryHolder extends ModelCollectionInventoryHol
 
     @SneakyThrows
     protected void wrapActions(InventoryClickEvent e, Action model, Collection<Action> superActions) {
-        if (e.getClick().equals(ClickType.NUMBER_KEY) && WrapperAction.WRAPPERS_MAP.containsValue(e.getHotbarButton())) {
-            WrapperAction wrapperAction = WrapperAction.WRAPPERS_MAP.inverse().get(e.getHotbarButton()).newInstance();
-            superActions.add(wrapperAction);
-            if (selected.contains(model)) {
-                superActions.removeAll(selected);
-                wrapperAction.getWrappedActions().addAll(selected);
-                selected.clear();
-            } else {
-                superActions.remove(model);
-                wrapperAction.getWrappedActions().add(model);
-            }
-            path.saveModel();
-            e.getWhoClicked().openInventory(getInventory());
+        WrapperAction wrapperAction = WrapperAction.WRAPPERS_MAP.inverse().get(e.getHotbarButton()).newInstance();
+        superActions.add(wrapperAction);
+        if (selected.contains(model)) {
+            superActions.removeAll(selected);
+            wrapperAction.getWrappedActions().addAll(selected);
+            selected.clear();
+        } else {
+            superActions.remove(model);
+            wrapperAction.getWrappedActions().add(model);
         }
+        path.saveModel();
+        e.getWhoClicked().openInventory(getInventory());
     }
 }

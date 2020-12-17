@@ -4,6 +4,7 @@ import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.libs.util.ItemUtils;
+import com.github.jummes.libs.util.MessageUtils;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
@@ -13,6 +14,7 @@ import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.HashSet;
 import java.util.List;
@@ -91,5 +93,16 @@ public class SkillAction extends MetaAction {
             skills.add(skill);
         }
         return skills;
+    }
+
+    @Override
+    public ItemStack getGUIItem() {
+        ItemStack item = super.getGUIItem();
+        ItemMeta meta = item.getItemMeta();
+        List<String> lore = meta.getLore();
+        lore.add(3 + WrapperAction.WRAPPERS_MAP.size(), MessageUtils.color("&6&l- [9] &eto open the skill GUI"));
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+        return item;
     }
 }

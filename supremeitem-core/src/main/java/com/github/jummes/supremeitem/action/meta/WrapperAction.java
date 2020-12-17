@@ -14,6 +14,7 @@ import java.util.Map;
 
 public abstract class WrapperAction extends MetaAction {
 
+    // From 0 to 6
     public static BiMap<Class<? extends WrapperAction>, Integer> WRAPPERS_MAP = ImmutableBiMap.
             <Class<? extends WrapperAction>, Integer>builder().put(DelayedAction.class, 0).put(TimerAction.class, 1).
             put(ConditionAction.class, 2).build();
