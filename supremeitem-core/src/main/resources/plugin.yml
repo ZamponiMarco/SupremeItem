@@ -2,7 +2,7 @@ name: SupremeItem
 author: jummes
 version: ${version}
 main: com.github.jummes.supremeitem.SupremeItem
-api-version: 1.13
+api-version: 1.14
 softdepend:
   - WorldGuard
   - Vault
