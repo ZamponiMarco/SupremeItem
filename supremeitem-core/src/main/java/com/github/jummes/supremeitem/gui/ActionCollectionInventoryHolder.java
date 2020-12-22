@@ -125,9 +125,9 @@ public class ActionCollectionInventoryHolder extends ModelCollectionInventoryHol
             } else if (model instanceof SkillAction) {
                 SavedSkill skill = SupremeItem.getInstance().getSavedSkillManager().getByName(((SkillAction) model).getSkillName());
                 if (skill != null) {
-                    path.addModel(skill);
                     e.getWhoClicked().openInventory(new ModelObjectInventoryHolder(SupremeItem.getInstance(),
-                            this, path).getInventory());
+                            this, new ModelPath<>(SupremeItem.getInstance().getSavedSkillManager(), skill)).
+                            getInventory());
                 }
             }
         } else if (e.getClick().equals(ClickType.DROP)) {
