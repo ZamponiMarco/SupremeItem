@@ -3,7 +3,6 @@ package com.github.jummes.supremeitem.skill;
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.supremeitem.action.Action;
-import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.EqualsAndHashCode;
@@ -13,7 +12,10 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -71,13 +73,6 @@ public class EntitySprintSkill extends CooldownSkill {
     @Override
     public String getName() {
         return String.format("&cEntity %s Sprint &6&lskill", onActivateSneak ? "Activate" : "Deactivate");
-    }
-
-    @Override
-    public Set<SavedSkill> getUsedSavedSkills() {
-        Set<SavedSkill> skills = new HashSet<>();
-        SavedSkill.addSkillsFromActionsList(skills, onEntityActions);
-        return skills;
     }
 
 }

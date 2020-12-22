@@ -11,12 +11,9 @@ import com.github.jummes.supremeitem.action.meta.MetaAction;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.action.variable.VariableAction;
-import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 @Enumerable.Parent(classArray = {EntityAction.class,
         LocationAction.class, MetaAction.class, VariableAction.class})
@@ -61,10 +58,6 @@ public abstract class Action implements Model, Cloneable {
     }
 
     public abstract String getName();
-
-    public Set<SavedSkill> getUsedSavedSkills() {
-        return new HashSet<>();
-    }
 
     public enum ActionResult {
         /**

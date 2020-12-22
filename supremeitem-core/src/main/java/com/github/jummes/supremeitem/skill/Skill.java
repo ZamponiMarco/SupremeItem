@@ -6,7 +6,6 @@ import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.model.Model;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.Action;
-import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.Getter;
@@ -24,6 +23,7 @@ public abstract class Skill implements Model {
     protected static final List<Action> ACTIONS_DEFAULT = Lists.newArrayList();
     protected static final boolean CONSUMABLE_DEFAULT = false;
     protected static final Set<EquipmentSlot> DEFAULT_SLOTS = Sets.newHashSet(EquipmentSlot.values());
+
     protected static final String CONSUMABLE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTg0YTY4ZmQ3YjYyOGQzMDk2NjdkYjdhNTU4NTViNTRhYmMyM2YzNTk1YmJlNDMyMTYyMTFiZTVmZTU3MDE0In19fQ==";
     private static final String SLOTS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGQ5YjY4OTE1YjE0NzJkODllNWUzYTliYTZjOTM1YWFlNjAzZDEyYzE0NTRmMzgyMjgyNWY0M2RmZThhMmNhYyJ9fX0=";
 
@@ -79,8 +79,6 @@ public abstract class Skill implements Model {
     }
 
     public abstract String getName();
-
-    public abstract Set<SavedSkill> getUsedSavedSkills();
 
     public enum SkillResult {
         SUCCESS,

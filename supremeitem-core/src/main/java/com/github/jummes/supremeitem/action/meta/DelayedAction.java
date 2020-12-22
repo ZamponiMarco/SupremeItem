@@ -6,7 +6,6 @@ import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
-import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.github.jummes.supremeitem.value.NumericValue;
 import com.google.common.collect.Lists;
 import lombok.Getter;
@@ -14,7 +13,9 @@ import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Getter
@@ -73,13 +74,6 @@ public class DelayedAction extends WrapperAction {
     @Override
     public String getName() {
         return "&6&lDelay: &c" + delay.getName();
-    }
-
-    @Override
-    public Set<SavedSkill> getUsedSavedSkills() {
-        Set<SavedSkill> skills = new HashSet<>();
-        SavedSkill.addSkillsFromActionsList(skills, actions);
-        return skills;
     }
 
     @Override

@@ -16,10 +16,8 @@ import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -84,16 +82,6 @@ public class SkillAction extends MetaAction {
     @Override
     public String getName() {
         return "&6&lSkill name: &c" + skillName;
-    }
-
-    @Override
-    public Set<SavedSkill> getUsedSavedSkills() {
-        SavedSkill skill = SupremeItem.getInstance().getSavedSkillManager().getByName(skillName);
-        Set<SavedSkill> skills = new HashSet<>();
-        if (skill != null) {
-            skills.add(skill);
-        }
-        return skills;
     }
 
     @Override

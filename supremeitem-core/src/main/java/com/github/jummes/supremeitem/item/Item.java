@@ -12,7 +12,6 @@ import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.libs.util.MessageUtils;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.database.NamedModel;
-import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.github.jummes.supremeitem.skill.Skill;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -119,15 +118,4 @@ public class Item extends NamedModel {
         }
     }
 
-    public Set<SavedSkill> getUsedSkills() {
-        Set<SavedSkill> skills = new HashSet<>();
-        skills.addAll(skillSet.stream().reduce(new HashSet<>(), (list, skill) -> {
-            list.addAll(skill.getUsedSavedSkills());
-            return list;
-        }, (list1, list2) -> {
-            list1.addAll(list2);
-            return list1;
-        }));
-        return skills;
-    }
 }

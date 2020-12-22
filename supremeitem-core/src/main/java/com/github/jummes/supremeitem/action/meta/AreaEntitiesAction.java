@@ -11,7 +11,6 @@ import com.github.jummes.supremeitem.entity.selector.EntitySelector;
 import com.github.jummes.supremeitem.entity.selector.SourceSelector;
 import com.github.jummes.supremeitem.entity.sorter.EntitySorter;
 import com.github.jummes.supremeitem.entity.sorter.ProximitySorter;
-import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.github.jummes.supremeitem.value.NumericValue;
 import com.google.common.collect.Lists;
 import lombok.Getter;
@@ -21,7 +20,10 @@ import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -141,10 +143,4 @@ public class AreaEntitiesAction extends MetaAction {
         return "&6&lMax radius: &c" + maxDistance.getName();
     }
 
-    @Override
-    public Set<SavedSkill> getUsedSavedSkills() {
-        Set<SavedSkill> skills = new HashSet<>();
-        SavedSkill.addSkillsFromActionsList(skills, actions);
-        return skills;
-    }
 }

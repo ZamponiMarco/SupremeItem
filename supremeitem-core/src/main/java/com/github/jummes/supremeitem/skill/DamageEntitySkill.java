@@ -5,14 +5,16 @@ import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
-import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 @Enumerable.Child
 @Enumerable.Displayable(name = "&c&lOn entity damage", description = "gui.skill.damage-entity.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjUyNTU5ZjJiY2VhZDk4M2Y0YjY1NjFjMmI1ZjJiNTg4ZjBkNjExNmQ0NDY2NmNlZmYxMjAyMDc5ZDI3Y2E3NCJ9fX0=")
@@ -72,11 +74,4 @@ public class DamageEntitySkill extends CooldownSkill {
         return "&cDamage Entity &6&lskill";
     }
 
-    @Override
-    public Set<SavedSkill> getUsedSavedSkills() {
-        Set<SavedSkill> skills = new HashSet<>();
-        SavedSkill.addSkillsFromActionsList(skills, onDamagedActions);
-        SavedSkill.addSkillsFromActionsList(skills, onDamagerActions);
-        return skills;
-    }
 }
