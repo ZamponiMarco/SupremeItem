@@ -97,8 +97,8 @@ public class ActionCollectionInventoryHolder extends ModelCollectionInventoryHol
             selected.clear();
             path.saveModel();
             e.getWhoClicked().openInventory(getInventory());
-        } else if (e.getClick().equals(ClickType.NUMBER_KEY) && (model instanceof WrapperAction) &&
-                e.getHotbarButton() == WrapperAction.WRAPPERS_MAP.get(model.getClass())) {
+        } else if (e.getClick().equals(ClickType.NUMBER_KEY) && WrapperAction.WRAPPERS_MAP.containsKey(model.getClass())
+                && e.getHotbarButton() == WrapperAction.WRAPPERS_MAP.get(model.getClass())) {
             actions.remove(model);
             path.addModel(model);
             path.deleteModel();
