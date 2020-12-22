@@ -14,7 +14,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.Map;
 
-@Enumerable.Displayable(name = "&c&lDamage", description = "gui.action.damage.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWVlMTE4ZWRkYWVlMGRmYjJjYmMyYzNkNTljMTNhNDFhN2Q2OGNjZTk0NWU0MjE2N2FhMWRjYjhkMDY3MDUxNyJ9fX0=")
+@Enumerable.Displayable(name = "&c&lDamage", description = "gui.action.entity.damage.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWVlMTE4ZWRkYWVlMGRmYjJjYmMyYzNkNTljMTNhNDFhN2Q2OGNjZTk0NWU0MjE2N2FhMWRjYjhkMDY3MDUxNyJ9fX0=")
 @Enumerable.Child
 @Getter
 @Setter
@@ -26,11 +26,11 @@ public class DamageAction extends EntityAction {
     private static final String AMOUNT_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdkYzNlMjlhMDkyM2U1MmVjZWU2YjRjOWQ1MzNhNzllNzRiYjZiZWQ1NDFiNDk1YTEzYWJkMzU5NjI3NjUzIn19fQ==";
     private static final String ABSOLUTE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzdlNmM0MGY2OGI3NzVmMmVmY2Q3YmQ5OTE2YjMyNzg2OWRjZjI3ZTI0Yzg1NWQwYTE4ZTA3YWMwNGZlMSJ9fX0=";
 
-    @Serializable(headTexture = AMOUNT_HEAD, description = "gui.action.damage.amount", additionalDescription = {"gui.additional-tooltips.value"})
+    @Serializable(headTexture = AMOUNT_HEAD, description = "gui.action.entity.damage.amount", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(minValue = 0)
     @Serializable.Optional(defaultValue = "AMOUNT_DEFAULT")
     private NumericValue amount;
-    @Serializable(headTexture = AMOUNT_HEAD, description = "gui.action.damage.absolute")
+    @Serializable(headTexture = AMOUNT_HEAD, description = "gui.action.entity.damage.absolute")
     @Serializable.Optional(defaultValue = "ABSOLUTE_DEFAULT")
     private boolean absolute;
 

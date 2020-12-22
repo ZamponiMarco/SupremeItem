@@ -13,7 +13,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import java.util.Map;
 
 @Enumerable.Child
-@Enumerable.Displayable(name = "&c&lSet String Variable", description = "gui.action.numeric-variable.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2RkNjM5NzhlODRlMjA5MjI4M2U5Y2QwNmU5ZWY0YmMyMjhiYjlmMjIyMmUxN2VlMzgzYjFjOWQ5N2E4YTAifX19")
+@Enumerable.Displayable(name = "&c&lSet String Variable", description = "gui.action.variable.string-variable.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2RkNjM5NzhlODRlMjA5MjI4M2U5Y2QwNmU5ZWY0YmMyMjhiYjlmMjIyMmUxN2VlMzgzYjFjOWQ5N2E4YTAifX19")
 public class SetStringVariableAction extends VariableAction {
 
     private static final String NAME_DEFAULT = "var";
@@ -22,10 +22,10 @@ public class SetStringVariableAction extends VariableAction {
     private static final String NAME_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTdlZDY2ZjVhNzAyMDlkODIxMTY3ZDE1NmZkYmMwY2EzYmYxMWFkNTRlZDVkODZlNzVjMjY1ZjdlNTAyOWVjMSJ9fX0=";
     private static final String VALUE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdkYzNlMjlhMDkyM2U1MmVjZWU2YjRjOWQ1MzNhNzllNzRiYjZiZWQ1NDFiNDk1YTEzYWJkMzU5NjI3NjUzIn19fQ==";
 
-    @Serializable(headTexture = NAME_HEAD, description = "gui.action.numeric-variable.name")
+    @Serializable(headTexture = NAME_HEAD, description = "gui.action.variable.name")
     @Serializable.Optional(defaultValue = "NAME_DEFAULT")
     private String name;
-    @Serializable(headTexture = VALUE_HEAD, description = "gui.action.numeric-variable.value", additionalDescription = {"gui.additional-tooltips.value"})
+    @Serializable(headTexture = VALUE_HEAD, description = "gui.action.variable.value", additionalDescription = {"gui.additional-tooltips.value"})
     private StringValue value;
 
     public SetStringVariableAction() {

@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Enumerable.Child
-@Enumerable.Displayable(name = "&c&lConsume Item", description = "gui.action.consume-item.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjFiYjJjM2JkNjVjZGQ4NGE4MDRlY2E5OGI3YTQ2NzM1ZjAxZTZhMWM5MTk5ZDY2NjE2NjNkYmRiNGY1YjQifX19")
+@Enumerable.Displayable(name = "&c&lConsume Item", description = "gui.action.entity.consume-item.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjFiYjJjM2JkNjVjZGQ4NGE4MDRlY2E5OGI3YTQ2NzM1ZjAxZTZhMWM5MTk5ZDY2NjE2NjNkYmRiNGY1YjQifX19")
 @Getter
 @Setter
 public class ConsumeItemAction extends EntityAction {
@@ -31,10 +31,10 @@ public class ConsumeItemAction extends EntityAction {
 
     private static final String AMOUNT_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdkYzNlMjlhMDkyM2U1MmVjZWU2YjRjOWQ1MzNhNzllNzRiYjZiZWQ1NDFiNDk1YTEzYWJkMzU5NjI3NjUzIn19fQ==";
 
-    @Serializable(displayItem = "getFlatItem", description = "gui.action.consume-item.item", additionalDescription = {"gui.additional-tooltips.item"})
+    @Serializable(displayItem = "getFlatItem", description = "gui.action.entity.consume-item.item", additionalDescription = {"gui.additional-tooltips.item"})
     private ItemStackWrapper item;
 
-    @Serializable(headTexture = AMOUNT_HEAD, description = "gui.action.consume-item.amount", additionalDescription = {"gui.additional-tooltips.value"})
+    @Serializable(headTexture = AMOUNT_HEAD, description = "gui.action.entity.consume-item.amount", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Optional(defaultValue = "AMOUNT_DEFAULT")
     @Serializable.Number(minValue = 1, scale = 1)
     private NumericValue amount;

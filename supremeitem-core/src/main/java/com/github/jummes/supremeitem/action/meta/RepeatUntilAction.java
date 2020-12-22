@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @Enumerable.Child
-@Enumerable.Displayable(name = "&c&lExecute until condition is true", description = "gui.action.repeat-until.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTIzMjI5ZjZlNjA2ZDkxYjdlNjdhMmJjZjNlMmEzMzMzYmE2MTNiNmQ2NDA5MTk5YjcxNjljMDYzODliMCJ9fX0=")
+@Enumerable.Displayable(name = "&c&lExecute until condition is true", description = "gui.action.meta.wrapper.repeat-until.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTIzMjI5ZjZlNjA2ZDkxYjdlNjdhMmJjZjNlMmEzMzMzYmE2MTNiNmQ2NDA5MTk5YjcxNjljMDYzODliMCJ9fX0=")
 public class RepeatUntilAction extends WrapperAction {
 
     private static final int TIMER_DEFAULT = 5;
@@ -31,14 +31,14 @@ public class RepeatUntilAction extends WrapperAction {
     private static final String CONDITION_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmMyNzEwNTI3MTllZjY0MDc5ZWU4YzE0OTg5NTEyMzhhNzRkYWM0YzI3Yjk1NjQwZGI2ZmJkZGMyZDZiNWI2ZSJ9fX0=";
     private static final String TIMER_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZlOGNmZjc1ZjdkNDMzMjYwYWYxZWNiMmY3NzNiNGJjMzgxZDk1MWRlNGUyZWI2NjE0MjM3NzlhNTkwZTcyYiJ9fX0=";
 
-    @Serializable(headTexture = ACTIONS_HEAD, description = "gui.action.repeat-until.actions")
+    @Serializable(headTexture = ACTIONS_HEAD, description = "gui.action.meta.wrapper.repeat-until.actions")
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     private List<Action> actions;
 
-    @Serializable(headTexture = CONDITION_HEAD, description = "gui.action.repeat-until.condition")
+    @Serializable(headTexture = CONDITION_HEAD, description = "gui.action.meta.wrapper.repeat-until.condition")
     private Condition condition;
 
-    @Serializable(headTexture = TIMER_HEAD, description = "gui.action.repeat-until.timer")
+    @Serializable(headTexture = TIMER_HEAD, description = "gui.action.meta.wrapper.repeat-until.timer")
     @Serializable.Number(minValue = 0)
     @Serializable.Optional(defaultValue = "TIMER_DEFAULT")
     private int timer;

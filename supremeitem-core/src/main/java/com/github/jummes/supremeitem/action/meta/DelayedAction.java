@@ -21,18 +21,18 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @Enumerable.Child
-@Enumerable.Displayable(name = "&c&lDelayed Action", description = "gui.action.delayed.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZlOGNmZjc1ZjdkNDMzMjYwYWYxZWNiMmY3NzNiNGJjMzgxZDk1MWRlNGUyZWI2NjE0MjM3NzlhNTkwZTcyYiJ9fX0=")
+@Enumerable.Displayable(name = "&c&lDelayed Action", description = "gui.action.meta.wrapper.delayed.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZlOGNmZjc1ZjdkNDMzMjYwYWYxZWNiMmY3NzNiNGJjMzgxZDk1MWRlNGUyZWI2NjE0MjM3NzlhNTkwZTcyYiJ9fX0=")
 public class DelayedAction extends WrapperAction {
     private static final NumericValue DELAY_DEFAULT = new NumericValue(10);
 
     private static final String ACTIONS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODIxNmVlNDA1OTNjMDk4MWVkMjhmNWJkNjc0ODc5NzgxYzQyNWNlMDg0MWI2ODc0ODFjNGY3MTE4YmI1YzNiMSJ9fX0=";
     private static final String DELAY_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZlOGNmZjc1ZjdkNDMzMjYwYWYxZWNiMmY3NzNiNGJjMzgxZDk1MWRlNGUyZWI2NjE0MjM3NzlhNTkwZTcyYiJ9fX0=";
 
-    @Serializable(headTexture = ACTIONS_HEAD, description = "gui.action.delayed.actions", additionalDescription = {"gui.additional-tooltips.value"})
+    @Serializable(headTexture = ACTIONS_HEAD, description = "gui.action.meta.wrapper.delayed.actions", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     private List<Action> actions;
 
-    @Serializable(headTexture = DELAY_HEAD, description = "gui.action.delayed.delay")
+    @Serializable(headTexture = DELAY_HEAD, description = "gui.action.meta.wrapper.delayed.delay")
     @Serializable.Number(minValue = 0, scale = 1)
     @Serializable.Optional(defaultValue = "DELAY_DEFAULT")
     private NumericValue delay;

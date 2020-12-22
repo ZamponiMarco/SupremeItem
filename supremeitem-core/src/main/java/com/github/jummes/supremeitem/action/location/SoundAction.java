@@ -27,7 +27,7 @@ import java.util.function.Function;
 
 @Getter
 @Setter
-@Enumerable.Displayable(name = "&c&lSound", description = "gui.action.sound.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWIxZTIwNDEwYmI2YzdlNjk2OGFmY2QzZWM4NTU1MjBjMzdhNDBkNTRhNTRlOGRhZmMyZTZiNmYyZjlhMTkxNSJ9fX0=")
+@Enumerable.Displayable(name = "&c&lSound", description = "gui.action.location.sound.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWIxZTIwNDEwYmI2YzdlNjk2OGFmY2QzZWM4NTU1MjBjMzdhNDBkNTRhNTRlOGRhZmMyZTZiNmYyZjlhMTkxNSJ9fX0=")
 @Enumerable.Child
 public class SoundAction extends LocationAction {
 
@@ -39,18 +39,18 @@ public class SoundAction extends LocationAction {
     private static final String PITCH_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmQzYjJlM2U5OTU0ZjgyMmI0M2ZlNWY5MTUwOTllMGE2Y2FhYTgxZjc5MTIyMmI1ODAzZDQxNDVhODUxNzAifX19";
     private static final String VOLUME_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGYyMTAwNzM3NGQ0ODBkZTFkNzg1Y2E4Njc2NDE3NTY1MGUwMDc3MzU0MDQyN2FhZWYxYzBjYzE3MGRmM2ExNCJ9fX0=";
 
-    @Serializable(headTexture = TYPE_HEAD, stringValue = true, description = "gui.action.sound.type", fromList = "getSounds", fromListMapper = "soundsMapper")
+    @Serializable(headTexture = TYPE_HEAD, stringValue = true, description = "gui.action.location.sound.type", fromList = "getSounds", fromListMapper = "soundsMapper")
     private Sound type;
 
-    @Serializable(headTexture = CATEGORY_HEAD, stringValue = true, description = "gui.action.sound.category", fromList = "getSoundCategories", fromListMapper = "soundCategoriesMapper")
+    @Serializable(headTexture = CATEGORY_HEAD, stringValue = true, description = "gui.action.location.sound.category", fromList = "getSoundCategories", fromListMapper = "soundCategoriesMapper")
     private SoundCategory category;
 
-    @Serializable(headTexture = PITCH_HEAD, description = "gui.action.sound.pitch", additionalDescription = {"gui.additional-tooltips.value"})
+    @Serializable(headTexture = PITCH_HEAD, description = "gui.action.location.sound.pitch", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(minValue = 0, maxValue = 2)
     @Serializable.Optional(defaultValue = "PITCH_DEFAULT")
     private NumericValue pitch;
 
-    @Serializable(headTexture = VOLUME_HEAD, description = "gui.action.sound.volume", additionalDescription = {"gui.additional-tooltips.value"})
+    @Serializable(headTexture = VOLUME_HEAD, description = "gui.action.location.sound.volume", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(minValue = 0)
     @Serializable.Optional(defaultValue = "VOLUME_DEFAULT")
     private NumericValue volume;

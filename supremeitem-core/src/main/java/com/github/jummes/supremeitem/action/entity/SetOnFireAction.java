@@ -15,12 +15,12 @@ import java.util.Map;
 @Getter
 @Setter
 @Enumerable.Child
-@Enumerable.Displayable(name = "&c&lSet On Fire", description = "gui.action.set-fire.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdkNTdiNWJjOWFiM2Y1M2VjOWNjMmY5NGI3MmMxMzRhY2RlODU1YTY0M2MyNWU1YTI2YzNlMGIyYTYwM2FkZCJ9fX0")
+@Enumerable.Displayable(name = "&c&lSet On Fire", description = "gui.action.entity.set-fire.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdkNTdiNWJjOWFiM2Y1M2VjOWNjMmY5NGI3MmMxMzRhY2RlODU1YTY0M2MyNWU1YTI2YzNlMGIyYTYwM2FkZCJ9fX0")
 public class SetOnFireAction extends EntityAction {
 
     private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZlOGNmZjc1ZjdkNDMzMjYwYWYxZWNiMmY3NzNiNGJjMzgxZDk1MWRlNGUyZWI2NjE0MjM3NzlhNTkwZTcyYiJ9fX0=";
 
-    @Serializable(headTexture = HEAD, description = "gui.action.set-fire.ticks", additionalDescription = {"gui.additional-tooltips.value"})
+    @Serializable(headTexture = HEAD, description = "gui.action.entity.set-fire.ticks", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(scale = 1, minValue = 0)
     private NumericValue ticks;
 

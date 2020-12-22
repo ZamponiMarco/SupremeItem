@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
 
-@Enumerable.Displayable(name = "&c&lCommand", description = "gui.action.command.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWY0YzIxZDE3YWQ2MzYzODdlYTNjNzM2YmZmNmFkZTg5NzMxN2UxMzc0Y2Q1ZDliMWMxNWU2ZTg5NTM0MzIifX19")
+@Enumerable.Displayable(name = "&c&lCommand", description = "gui.action.meta.command.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWY0YzIxZDE3YWQ2MzYzODdlYTNjNzM2YmZmNmFkZTg5NzMxN2UxMzc0Y2Q1ZDliMWMxNWU2ZTg5NTM0MzIifX19")
 @Enumerable.Child
 @Getter
 @Setter
@@ -23,7 +23,7 @@ public class CommandAction extends MetaAction {
     private static final StringValue COMMAND_DEFAULT = new StringValue("say example");
 
     private static final String COMMAND_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWY0YzIxZDE3YWQ2MzYzODdlYTNjNzM2YmZmNmFkZTg5NzMxN2UxMzc0Y2Q1ZDliMWMxNWU2ZTg5NTM0MzIifX19";
-    @Serializable(headTexture = COMMAND_HEAD, description = "gui.action.command.description", additionalDescription = {"gui.additional-tooltips.value"})
+    @Serializable(headTexture = COMMAND_HEAD, description = "gui.action.meta.command.description", additionalDescription = {"gui.additional-tooltips.value"})
     private StringValue command;
 
     public CommandAction() {

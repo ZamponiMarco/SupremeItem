@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 @Enumerable.Child
 @Setter
-@Enumerable.Displayable(name = "&c&lSet block", description = "gui.action.set-block.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2ZmOTgxN2Q3NjdkMmVkZTcxODFhMDU3YWEyNmYwOGY3ZWNmNDY1MWRlYzk3ZGU1YjU0ZWVkZTFkZDJiNDJjNyJ9fX0=")
+@Enumerable.Displayable(name = "&c&lSet block", description = "gui.action.location.set-block.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2ZmOTgxN2Q3NjdkMmVkZTcxODFhMDU3YWEyNmYwOGY3ZWNmNDY1MWRlYzk3ZGU1YjU0ZWVkZTFkZDJiNDJjNyJ9fX0=")
 public class SetBlockAction extends LocationAction {
 
     private static final boolean ALLOW_MATERIALS_DEFAULT = false;
@@ -31,13 +31,13 @@ public class SetBlockAction extends LocationAction {
     private static final String MATERIAL_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2ZmOTgxN2Q3NjdkMmVkZTcxODFhMDU3YWEyNmYwOGY3ZWNmNDY1MWRlYzk3ZGU1YjU0ZWVkZTFkZDJiNDJjNyJ9fX0";
     private static final String EXCLUDED_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWZkMjQwMDAwMmFkOWZiYmJkMDA2Njk0MWViNWIxYTM4NGFiOWIwZTQ4YTE3OGVlOTZlNGQxMjlhNTIwODY1NCJ9fX0=";
     private static final String ALLOW_MATERIALS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2U2MTdiZWQ4ZTk3ZDQwODc5OTNlYzBjODk4Zjg3NzJjNDUyYjk5ZDhiNGI5YTQ1ZTNlYzQzNDkzMDQwOWVlOSJ9fX0";
-    @Serializable(headTexture = ALLOW_MATERIALS_HEAD, description = "gui.action.set-block.allow-materials")
+    @Serializable(headTexture = ALLOW_MATERIALS_HEAD, description = "gui.action.location.set-block.allow-materials")
     @Serializable.Optional(defaultValue = "NEGATE_DEFAULT")
     protected boolean allowMaterials;
-    @Serializable(headTexture = MATERIAL_HEAD, stringValue = true, description = "gui.action.set-block.material",
+    @Serializable(headTexture = MATERIAL_HEAD, stringValue = true, description = "gui.action.location.set-block.material",
             additionalDescription = {"gui.additional-tooltips.value"})
     private MaterialValue material;
-    @Serializable(headTexture = EXCLUDED_HEAD, description = "gui.action.set-block.excluded-materials")
+    @Serializable(headTexture = EXCLUDED_HEAD, description = "gui.action.location.set-block.excluded-materials")
     private Set<Material> excludedMaterials;
 
     public SetBlockAction() {

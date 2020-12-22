@@ -24,12 +24,12 @@ import java.util.stream.Collectors;
 @Enumerable.Child
 @Getter
 @Setter
-@Enumerable.Displayable(name = "&c&lExecute a saved skill", description = "gui.action.skill.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjM1NGM4YmE3NDIwNzlhZWQ1YWNmYmYwN2M0MjhiNDA2YmMwOTJkYjhhYmM2ZjE3ZjcwNTkwOTliMDQ5NTliZCJ9fX0=")
+@Enumerable.Displayable(name = "&c&lExecute a saved skill", description = "gui.action.meta.skill.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjM1NGM4YmE3NDIwNzlhZWQ1YWNmYmYwN2M0MjhiNDA2YmMwOTJkYjhhYmM2ZjE3ZjcwNTkwOTliMDQ5NTliZCJ9fX0=")
 public class SkillAction extends MetaAction {
 
     private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTdlZDY2ZjVhNzAyMDlkODIxMTY3ZDE1NmZkYmMwY2EzYmYxMWFkNTRlZDVkODZlNzVjMjY1ZjdlNTAyOWVjMSJ9fX0=";
 
-    @Serializable(headTexture = HEAD, fromList = "getSkills", fromListMapper = "skillsMapper", description = "gui.action.skill.name")
+    @Serializable(headTexture = HEAD, fromList = "getSkills", fromListMapper = "skillsMapper", description = "gui.action.meta.skill.name")
     private String skillName;
 
     public SkillAction() {

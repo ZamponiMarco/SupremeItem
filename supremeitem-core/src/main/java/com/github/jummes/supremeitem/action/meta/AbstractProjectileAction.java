@@ -30,37 +30,37 @@ public abstract class AbstractProjectileAction extends MetaAction {
     private static final String HIT_BOX_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNjMzYzBiYjM3ZWJlMTE5M2VlNDYxODEwMzQ2MGE3ZjEyOTI3N2E4YzdmZDA4MWI2YWVkYjM0YTkyYmQ1In19fQ==";
     private static final String MAX_DISTANCE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTI0NjFiNGQ2YWIxYzE0MThlZWFiZDQ2N2Q4OTNmMGU4OWEyMWE0MjM2OTFiN2UxZjYwNWQ2Njk3ZDBhOGU1MSJ9fX0=";
 
-    @Serializable(headTexture = INITIAL_HEAD, description = "gui.action.projectile.initial-speed", additionalDescription = {"gui.additional-tooltips.value"})
+    @Serializable(headTexture = INITIAL_HEAD, description = "gui.action.meta.projectile.initial-speed", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(minValue = 0)
     @Serializable.Optional(defaultValue = "INITIAL_DEFAULT")
     protected NumericValue initialSpeed;
 
-    @Serializable(headTexture = GRAVITY_HEAD, description = "gui.action.projectile.gravity", additionalDescription = {"gui.additional-tooltips.value"})
+    @Serializable(headTexture = GRAVITY_HEAD, description = "gui.action.meta.projectile.gravity", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(minValue = 0)
     @Serializable.Optional(defaultValue = "GRAVITY_DEFAULT")
     protected NumericValue gravity;
 
-    @Serializable(headTexture = ENTITY_HIT_HEAD, description = "gui.action.projectile.entity-hit-actions")
+    @Serializable(headTexture = ENTITY_HIT_HEAD, description = "gui.action.meta.projectile.entity-hit-actions")
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     protected List<Action> onEntityHitActions;
 
-    @Serializable(headTexture = BLOCK_HIT_HEAD, description = "gui.action.projectile.block-hit-actions")
+    @Serializable(headTexture = BLOCK_HIT_HEAD, description = "gui.action.meta.projectile.block-hit-actions")
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     protected List<Action> onBlockHitActions;
 
-    @Serializable(headTexture = TICK_HEAD, description = "gui.action.projectile.projectile-tick-actions")
+    @Serializable(headTexture = TICK_HEAD, description = "gui.action.meta.projectile.projectile-tick-actions")
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     protected List<Action> onProjectileTickActions;
 
-    @Serializable(headTexture = ENTITY_HEAD, description = "gui.action.projectile.entity", additionalDescription = {"gui.additional-tooltips.recreate"})
+    @Serializable(headTexture = ENTITY_HEAD, description = "gui.action.meta.projectile.entity", additionalDescription = {"gui.additional-tooltips.recreate"})
     protected Entity entity;
 
-    @Serializable(headTexture = HIT_BOX_HEAD, description = "gui.action.projectile.hit-box", additionalDescription = {"gui.additional-tooltips.value"})
+    @Serializable(headTexture = HIT_BOX_HEAD, description = "gui.action.meta.projectile.hit-box", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(minValue = 0)
     @Serializable.Optional(defaultValue = "HIT_BOX_SIZE_DEFAULT")
     protected NumericValue hitBoxSize;
 
-    @Serializable(headTexture = MAX_DISTANCE_HEAD, description = "gui.action.projectile.max-distance", additionalDescription = {"gui.additional-tooltips.value"})
+    @Serializable(headTexture = MAX_DISTANCE_HEAD, description = "gui.action.meta.projectile.max-distance", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(minValue = 0, scale = 1)
     @Serializable.Optional(defaultValue = "MAX_DISTANCE_DEFAULT")
     protected NumericValue maxDistance;

@@ -19,15 +19,15 @@ import java.util.stream.Collectors;
 @Setter
 @Getter
 @Enumerable.Child
-@Enumerable.Displayable(name = "&c&lMove target location", description = "gui.action.move-location.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTNmYzUyMjY0ZDhhZDllNjU0ZjQxNWJlZjAxYTIzOTQ3ZWRiY2NjY2Y2NDkzNzMyODliZWE0ZDE0OTU0MWY3MCJ9fX0=")
+@Enumerable.Displayable(name = "&c&lMove target location", description = "gui.action.meta.wrapper.move-location.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTNmYzUyMjY0ZDhhZDllNjU0ZjQxNWJlZjAxYTIzOTQ3ZWRiY2NjY2Y2NDkzNzMyODliZWE0ZDE0OTU0MWY3MCJ9fX0=")
 public class MoveLocationTargetAction extends WrapperAction {
 
     private static final String ACTIONS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODIxNmVlNDA1OTNjMDk4MWVkMjhmNWJkNjc0ODc5NzgxYzQyNWNlMDg0MWI2ODc0ODFjNGY3MTE4YmI1YzNiMSJ9fX0=";
     private static final String VECTOR_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTNmYzUyMjY0ZDhhZDllNjU0ZjQxNWJlZjAxYTIzOTQ3ZWRiY2NjY2Y2NDkzNzMyODliZWE0ZDE0OTU0MWY3MCJ9fX0";
 
-    @Serializable(headTexture = ACTIONS_HEAD, description = "gui.action.move-location.actions")
+    @Serializable(headTexture = ACTIONS_HEAD, description = "gui.action.meta.wrapper.move-location.actions")
     private List<Action> actions;
-    @Serializable(headTexture = VECTOR_HEAD, description = "gui.action.move-location.vector")
+    @Serializable(headTexture = VECTOR_HEAD, description = "gui.action.meta.wrapper.move-location.vector")
     private Vector vector;
 
     public MoveLocationTargetAction() {

@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 import java.util.Map;
 
 @Enumerable.Child()
-@Enumerable.Displayable(name = "&c&lMoney", description = "gui.action.money.description", condition = "vaultEnabled", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWUyNWRiZTQ3NjY3ZDBjZTIzMWJhYTIyM2RlZTk1M2JiZmM5Njk2MDk3Mjc5ZDcyMzcwM2QyY2MzMzk3NjQ5ZSJ9fX0=")
+@Enumerable.Displayable(name = "&c&lMoney", description = "gui.action.entity.money.description", condition = "vaultEnabled", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWUyNWRiZTQ3NjY3ZDBjZTIzMWJhYTIyM2RlZTk1M2JiZmM5Njk2MDk3Mjc5ZDcyMzcwM2QyY2MzMzk3NjQ5ZSJ9fX0=")
 public class MoneyAction extends EntityAction {
 
     private static final NumericValue MONEY_DEFAULT = new NumericValue(10);
@@ -24,10 +24,10 @@ public class MoneyAction extends EntityAction {
     private static final String MONEY_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWUyNWRiZTQ3NjY3ZDBjZTIzMWJhYTIyM2RlZTk1M2JiZmM5Njk2MDk3Mjc5ZDcyMzcwM2QyY2MzMzk3NjQ5ZSJ9fX0";
     private static final String GIVE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBhN2I5NGM0ZTU4MWI2OTkxNTlkNDg4NDZlYzA5MTM5MjUwNjIzN2M4OWE5N2M5MzI0OGEwZDhhYmM5MTZkNSJ9fX0";
 
-    @Serializable(headTexture = MONEY_HEAD, description = "gui.action.money.money")
+    @Serializable(headTexture = MONEY_HEAD, description = "gui.action.entity.money.money")
     @Serializable.Optional(defaultValue = "MONEY_DEFAULT")
     private NumericValue money;
-    @Serializable(headTexture = GIVE_HEAD, description = "gui.action.money.give")
+    @Serializable(headTexture = GIVE_HEAD, description = "gui.action.entity.money.give")
     @Serializable.Optional(defaultValue = "GIVE_DEFAULT")
     private boolean give;
 

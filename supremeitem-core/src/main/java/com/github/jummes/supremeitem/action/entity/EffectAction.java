@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-@Enumerable.Displayable(name = "&c&lEffect", description = "gui.action.effect.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzJhN2RjYmY3ZWNhNmI2ZjYzODY1OTFkMjM3OTkxY2ExYjg4OGE0ZjBjNzUzZmY5YTMyMDJjZjBlOTIyMjllMyJ9fX0=")
+@Enumerable.Displayable(name = "&c&lEffect", description = "gui.action.entity.effect.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzJhN2RjYmY3ZWNhNmI2ZjYzODY1OTFkMjM3OTkxY2ExYjg4OGE0ZjBjNzUzZmY5YTMyMDJjZjBlOTIyMjllMyJ9fX0=")
 @Enumerable.Child
 @Getter
 @Setter
@@ -42,28 +42,28 @@ public class EffectAction extends EntityAction {
     private static final String AMBIENT_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWY1NzE5MmIxOTRjNjU4YWFhODg4MTY4NDhjYmNlN2M3NDk0NjZhNzkyYjhhN2UxZDNmYWZhNDFjNDRmMzQxMiJ9fX0=";
     private static final String ICON_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDU5MWYwNGJiNmQ1MjQ5MTFhZGRhNzc1YWYyNDRmODZhOTVkYjE4N2UzMWI4YTNiMTAzYWQ4MGZjNWIyMjU2MCJ9fX0=";
 
-    @Serializable(headTexture = TYPE_HEAD, stringValue = true, description = "gui.action.effect.type", fromList = "getPotionEffects", fromListMapper = "potionEffectsMapper")
+    @Serializable(headTexture = TYPE_HEAD, stringValue = true, description = "gui.action.entity.effect.type", fromList = "getPotionEffects", fromListMapper = "potionEffectsMapper")
     private PotionEffectType type;
 
-    @Serializable(headTexture = DURATION_HEAD, description = "gui.action.effect.duration", additionalDescription = {"gui.additional-tooltips.value"})
+    @Serializable(headTexture = DURATION_HEAD, description = "gui.action.entity.effect.duration", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(minValue = 0, scale = 1)
     @Serializable.Optional(defaultValue = "DURATION_DEFAULT")
     private NumericValue duration;
 
-    @Serializable(headTexture = LEVEL_HEAD, description = "gui.action.effect.level", additionalDescription = {"gui.additional-tooltips.value"})
+    @Serializable(headTexture = LEVEL_HEAD, description = "gui.action.entity.effect.level", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(minValue = 0, scale = 1)
     @Serializable.Optional(defaultValue = "LEVEL_DEFAULT")
     private NumericValue level;
 
-    @Serializable(headTexture = PARTICLE_HEAD, description = "gui.action.effect.particles")
+    @Serializable(headTexture = PARTICLE_HEAD, description = "gui.action.entity.effect.particles")
     @Serializable.Optional(defaultValue = "PARTICLES_DEFAULT")
     private boolean particles;
 
-    @Serializable(headTexture = AMBIENT_HEAD, description = "gui.action.effect.ambient")
+    @Serializable(headTexture = AMBIENT_HEAD, description = "gui.action.entity.effect.ambient")
     @Serializable.Optional(defaultValue = "AMBIENT_DEFAULT")
     private boolean ambient;
 
-    @Serializable(headTexture = ICON_HEAD, description = "gui.action.effect.icon")
+    @Serializable(headTexture = ICON_HEAD, description = "gui.action.entity.effect.icon")
     @Serializable.Optional(defaultValue = "ICON_DEFAULT")
     private boolean icon;
 

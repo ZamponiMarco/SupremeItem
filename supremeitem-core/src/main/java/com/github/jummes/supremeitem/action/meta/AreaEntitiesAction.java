@@ -31,7 +31,7 @@ import java.util.stream.Stream;
 @Getter
 @Setter
 @Enumerable.Child
-@Enumerable.Displayable(name = "&c&lApply actions to entities in Area", description = "gui.action.area-entities.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWZjZDQxNGIwNWE1MzJjNjA5YzJhYTQ4ZDZjMDYyYzI5MmQ1MzNkZmFmNGQ3MzJhYmU5YWY1NzQxNTg5ZSJ9fX0=")
+@Enumerable.Displayable(name = "&c&lApply actions to entities in Area", description = "gui.action.meta.wrapper.area-entities.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTZmYzg1NGJiODRjZjRiNzY5NzI5Nzk3M2UwMmI3OWJjMTA2OTg0NjBiNTFhNjM5YzYwZTVlNDE3NzM0ZTExIn19fQ==")
 public class AreaEntitiesAction extends WrapperAction {
 
     private static final NumericValue MAX_DISTANCE_DEFAULT = new NumericValue(3.0);
@@ -46,29 +46,29 @@ public class AreaEntitiesAction extends WrapperAction {
     private static final String SORTER_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmE2ZDUxYzIyYzg5NTgyODVjMDBhYWFmOTNiNjIxYzE1YmUxMGFhMDQ4MzhhZmUxZDg5Y2Q5YzM2MDMxNDRkZiJ9fX0=";
     private static final String COUNT_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdkYzNlMjlhMDkyM2U1MmVjZWU2YjRjOWQ1MzNhNzllNzRiYjZiZWQ1NDFiNDk1YTEzYWJkMzU5NjI3NjUzIn19fQ==";
 
-    @Serializable(headTexture = ACTIONS_HEAD, description = "gui.action.area-entities.actions")
+    @Serializable(headTexture = ACTIONS_HEAD, description = "gui.action.meta.wrapper.area-entities.actions")
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     private List<Action> actions;
 
-    @Serializable(headTexture = MAX_DISTANCE_HEAD, description = "gui.action.area-entities.max-distance",
+    @Serializable(headTexture = MAX_DISTANCE_HEAD, description = "gui.action.meta.wrapper.area-entities.max-distance",
             additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(minValue = 0)
     @Serializable.Optional(defaultValue = "MAX_DISTANCE_DEFAULT")
     private NumericValue maxDistance;
 
-    @Serializable(headTexture = SELECTOR_HEAD, description = "gui.action.area-entities.selectors")
+    @Serializable(headTexture = SELECTOR_HEAD, description = "gui.action.meta.wrapper.area-entities.selectors")
     private List<EntitySelector> selectors;
 
 
-    @Serializable(headTexture = COUNT_HEAD, description = "gui.action.area-entities.count")
+    @Serializable(headTexture = COUNT_HEAD, description = "gui.action.meta.wrapper.area-entities.count")
     @Serializable.Number(minValue = 0, scale = 1)
     private NumericValue count;
 
-    @Serializable(headTexture = SORTER_HEAD, description = "gui.action.area-entities.sorter",
+    @Serializable(headTexture = SORTER_HEAD, description = "gui.action.meta.wrapper.area-entities.sorter",
             additionalDescription = {"gui.additional-tooltips.recreate"})
     private EntitySorter sorter;
 
-    @Serializable(headTexture = CAST_LOCATION_HEAD, description = "gui.action.area-entities.cast-from-location")
+    @Serializable(headTexture = CAST_LOCATION_HEAD, description = "gui.action.meta.wrapper.area-entities.cast-from-location")
     @Serializable.Optional(defaultValue = "CAST_LOCATION_DEFAULT")
     private boolean castFromLocation;
 

@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @Setter
-@Enumerable.Displayable(name = "&c&lParticle", description = "gui.action.particle.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDQ2MWQ5ZDA2YzBiZjRhN2FmNGIxNmZkMTI4MzFlMmJlMGNmNDJlNmU1NWU5YzBkMzExYTJhODk2NWEyM2IzNCJ9fX0=")
+@Enumerable.Displayable(name = "&c&lParticle", description = "gui.action.location.particle.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDQ2MWQ5ZDA2YzBiZjRhN2FmNGIxNmZkMTI4MzFlMmJlMGNmNDJlNmU1NWU5YzBkMzExYTJhODk2NWEyM2IzNCJ9fX0=")
 @Enumerable.Child
 public class ParticleAction extends LocationAction {
 
@@ -43,29 +43,29 @@ public class ParticleAction extends LocationAction {
     private static final String SPEED_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTNmYzUyMjY0ZDhhZDllNjU0ZjQxNWJlZjAxYTIzOTQ3ZWRiY2NjY2Y2NDkzNzMyODliZWE0ZDE0OTU0MWY3MCJ9fX0=";
     private static final String FORCE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==";
 
-    @Serializable(headTexture = TYPE_HEAD, stringValue = true, description = "gui.action.particle.type", fromListMapper = "particlesMapper", fromList = "getParticles")
+    @Serializable(headTexture = TYPE_HEAD, stringValue = true, description = "gui.action.location.particle.type", fromListMapper = "particlesMapper", fromList = "getParticles")
     private Particle type;
 
-    @Serializable(headTexture = COUNT_HEAD, description = "gui.action.particle.count", additionalDescription = {"gui.additional-tooltips.value"})
+    @Serializable(headTexture = COUNT_HEAD, description = "gui.action.location.particle.count", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(minValue = 0, scale = 1)
     @Serializable.Optional(defaultValue = "COUNT_DEFAULT")
     private NumericValue count;
 
-    @Serializable(headTexture = OFFSET_HEAD, description = "gui.action.particle.offset", additionalDescription = {"gui.additional-tooltips.value"})
+    @Serializable(headTexture = OFFSET_HEAD, description = "gui.action.location.particle.offset", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(minValue = 0)
     @Serializable.Optional(defaultValue = "OFFSET_DEFAULT")
     private NumericValue offset;
 
-    @Serializable(headTexture = SPEED_HEAD, description = "gui.action.particle.speed", additionalDescription = {"gui.additional-tooltips.value"})
+    @Serializable(headTexture = SPEED_HEAD, description = "gui.action.location.particle.speed", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(minValue = 0)
     @Serializable.Optional(defaultValue = "SPEED_DEFAULT")
     private NumericValue speed;
 
-    @Serializable(headTexture = FORCE_HEAD, description = "gui.action.particle.force")
+    @Serializable(headTexture = FORCE_HEAD, description = "gui.action.location.particle.force")
     @Serializable.Optional(defaultValue = "FORCE_DEFAULT")
     private boolean force;
 
-    @Serializable(displayItem = "getDataObject", description = "gui.action.particle.data")
+    @Serializable(displayItem = "getDataObject", description = "gui.action.location.particle.data")
     private ParticleOptions data;
 
     public ParticleAction() {

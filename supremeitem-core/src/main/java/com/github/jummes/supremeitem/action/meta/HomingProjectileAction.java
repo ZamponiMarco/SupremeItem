@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 @Enumerable.Child
-@Enumerable.Displayable(name = "&c&lHoming Projectile", description = "gui.action.projectile.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjE1ZmVjNjUxOGE0MWYxNjYxMzFlNjViMTBmNDZmYjg3ZTk3YzQ5MmI0NmRiYzI1ZGUyNjM3NjcyMWZhNjRlMCJ9fX0=")
+@Enumerable.Displayable(name = "&c&lHoming Projectile", description = "gui.action.meta.projectile.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjE1ZmVjNjUxOGE0MWYxNjYxMzFlNjViMTBmNDZmYjg3ZTk3YzQ5MmI0NmRiYzI1ZGUyNjM3NjcyMWZhNjRlMCJ9fX0=")
 public class HomingProjectileAction extends AbstractProjectileAction {
 
     private static final NumericValue PROJECTILE_SPREAD_DEFAULT = new NumericValue(0);
@@ -37,16 +37,16 @@ public class HomingProjectileAction extends AbstractProjectileAction {
     private static final String SPREAD_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTAxMWU3NTE2ZGFhYzVmMjMyMGY2N2I5N2FkNTMwNGY5MDY2Zjg2NDA3YjU4YTUzMGY4MGY4ZmM5N2IzZTg2ZSJ9fX0=";
     private static final String TURN_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjNhYzUxNDc3YThkNDI3MTRjMjU2OTI1ZjQzNmYyYzRkNThhOTUyOWNlOGMxNmExZTM3ZjI2NWU1YzQ4OWEifX19";
 
-    @Serializable(headTexture = SHOOT_FROM_HAND_HEAD, description = "gui.action.projectile.shoot-hand")
+    @Serializable(headTexture = SHOOT_FROM_HAND_HEAD, description = "gui.action.meta.projectile.shoot-hand")
     @Serializable.Optional(defaultValue = "SHOOT_FROM_HAND_DEFAULT")
     private boolean shootFromHand;
 
-    @Serializable(headTexture = SPREAD_HEAD, description = "gui.action.projectile.spread", additionalDescription = {"gui.additional-tooltips.value"})
+    @Serializable(headTexture = SPREAD_HEAD, description = "gui.action.meta.projectile.spread", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(minValue = 0, maxValue = 180, scale = 1)
     @Serializable.Optional(defaultValue = "PROJECTILE_SPREAD_DEFAULT")
     private NumericValue projectileSpread;
 
-    @Serializable(headTexture = TURN_HEAD, description = "gui.action.projectile.turn-speed", additionalDescription = {"gui.additional-tooltips.value"})
+    @Serializable(headTexture = TURN_HEAD, description = "gui.action.meta.projectile.turn-speed", additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(minValue = 0, maxValue = 1)
     @Serializable.Optional(defaultValue = "TURN_SPEED_DEFAULT")
     private NumericValue turnSpeed;

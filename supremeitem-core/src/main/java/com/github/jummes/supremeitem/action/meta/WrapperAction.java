@@ -12,6 +12,9 @@ import org.bukkit.inventory.ItemStack;
 import java.util.List;
 import java.util.Map;
 
+@Enumerable.Parent(classArray = {DelayedAction.class, TimerAction.class, ConditionAction.class, AreaBlocksAction.class,
+        AreaEntitiesAction.class, MoveLocationTargetAction.class, RepeatUntilAction.class})
+@Enumerable.Displayable(name = "&9&lAction &6» &cWrapper", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTYzMzBhNGEyMmZmNTU4NzFmYzhjNjE4ZTQyMWEzNzczM2FjMWRjYWI5YzhlMWE0YmI3M2FlNjQ1YTRhNGUifX19")
 public abstract class WrapperAction extends MetaAction {
 
     // From 0 to 6
