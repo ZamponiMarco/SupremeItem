@@ -75,4 +75,9 @@ public class EntitySprintSkill extends CooldownSkill {
         return String.format("&cEntity %s Sprint &6&lskill", onActivateSneak ? "Activate" : "Deactivate");
     }
 
+    @Override
+    public void changeSkillName(String oldName, String newName) {
+        onEntityActions.forEach(action -> action.changeSkillName(oldName, newName));
+    }
+
 }

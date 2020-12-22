@@ -27,6 +27,10 @@ public class SupremeMobHook implements PluginHook {
         return api.getByName(string);
     }
 
+    public List<Mob> getMobs() {
+        return api.getMobs();
+    }
+
     @Override
     public boolean isEnabled() {
         return api != null;

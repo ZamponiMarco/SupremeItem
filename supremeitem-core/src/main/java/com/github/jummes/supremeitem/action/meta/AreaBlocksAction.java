@@ -11,7 +11,6 @@ import com.github.jummes.supremeitem.area.SphericArea;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Location;
 
 import java.util.List;
 import java.util.Map;
@@ -21,7 +20,7 @@ import java.util.Objects;
 @Setter
 @Enumerable.Child
 @Enumerable.Displayable(name = "&c&lApply actions to blocks in Area", description = "gui.action.area-blocks.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWZjZDQxNGIwNWE1MzJjNjA5YzJhYTQ4ZDZjMDYyYzI5MmQ1MzNkZmFmNGQ3MzJhYmU5YWY1NzQxNTg5ZSJ9fX0=")
-public class AreaBlocksAction extends MetaAction {
+public class AreaBlocksAction extends WrapperAction {
 
     private static final String ACTIONS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODIxNmVlNDA1OTNjMDk4MWVkMjhmNWJkNjc0ODc5NzgxYzQyNWNlMDg0MWI2ODc0ODFjNGY3MTE4YmI1YzNiMSJ9fX0=";
     private static final String SHAPE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2IyYjVkNDhlNTc1Nzc1NjNhY2EzMTczNTUxOWNiNjIyMjE5YmMwNThiMWYzNDY0OGI2N2I4ZTcxYmMwZmEifX19";
@@ -49,17 +48,15 @@ public class AreaBlocksAction extends MetaAction {
     }
 
     @Override
+    public List<Action> getWrappedActions() {
+        return actions;
+    }
+
+    @Override
     public ActionResult execute(Target target, Source source) {
         area.getBlocks(getLocation(target, source), target, source).forEach(block -> actions.forEach(action -> action.
                 execute(new LocationTarget(block), source)));
         return ActionResult.SUCCESS;
-    }
-
-    private Location getLocation(Target target, Source source) {
-        if (this.target) {
-            return target.getLocation();
-        }
-        return source.getLocation();
     }
 
     @Override
@@ -71,5 +68,4 @@ public class AreaBlocksAction extends MetaAction {
     public String getName() {
         return "&6&lBlocks in area: &c" + area.getName();
     }
-
 }

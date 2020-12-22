@@ -114,4 +114,10 @@ public class ProjectileAction extends AbstractProjectileAction {
         return "&6&lProjectile";
     }
 
+    @Override
+    public void changeSkillName(String oldName, String newName) {
+        onEntityHitActions.forEach(action -> action.changeSkillName(oldName, newName));
+        onBlockHitActions.forEach(action -> action.changeSkillName(oldName, newName));
+        onProjectileTickActions.forEach(action -> action.changeSkillName(oldName, newName));
+    }
 }

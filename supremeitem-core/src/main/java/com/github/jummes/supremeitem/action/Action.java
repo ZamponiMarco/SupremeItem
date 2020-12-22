@@ -8,9 +8,12 @@ import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.entity.EntityAction;
 import com.github.jummes.supremeitem.action.location.LocationAction;
 import com.github.jummes.supremeitem.action.meta.MetaAction;
+import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.source.Source;
+import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.action.variable.VariableAction;
+import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Map;
@@ -44,6 +47,32 @@ public abstract class Action implements Model, Cloneable {
      */
     public abstract ActionResult execute(Target target, Source source);
 
+    public ItemStack targetItem() {
+        return Libs.getWrapper().skullFromValue(TARGET_HEAD);
+    }
+
+    public abstract String getName();
+
+    protected Location getLocation(Target target, Source source) {
+        return getLocation(target, source, false);
+    }
+
+    protected Location getLocation(Target target, Source source, boolean eyes) {
+        if (this.target) {
+            if (eyes && target instanceof EntityTarget) {
+                return ((EntityTarget) target).getTarget().getEyeLocation();
+            }
+            return target.getLocation();
+        }
+        if (eyes && source instanceof EntitySource) {
+            return source.getCaster().getEyeLocation();
+        }
+        return source.getLocation();
+    }
+
+    public void changeSkillName(String oldName, String newName) {
+    }
+
     @Override
     public ItemStack getGUIItem() {
         return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue(getClass().getAnnotation(Enumerable.Displayable.class).
@@ -52,12 +81,6 @@ public abstract class Action implements Model, Cloneable {
 
     @Override
     public abstract Action clone();
-
-    public ItemStack targetItem() {
-        return Libs.getWrapper().skullFromValue(TARGET_HEAD);
-    }
-
-    public abstract String getName();
 
     public enum ActionResult {
         /**

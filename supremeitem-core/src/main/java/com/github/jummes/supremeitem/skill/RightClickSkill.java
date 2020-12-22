@@ -84,4 +84,9 @@ public class RightClickSkill extends CooldownSkill {
         return "&cRight click &6&lskill";
     }
 
+    @Override
+    public void changeSkillName(String oldName, String newName) {
+        onCasterActions.forEach(action -> action.changeSkillName(oldName, newName));
+        onRayCastPointActions.forEach(action -> action.changeSkillName(oldName, newName));
+    }
 }

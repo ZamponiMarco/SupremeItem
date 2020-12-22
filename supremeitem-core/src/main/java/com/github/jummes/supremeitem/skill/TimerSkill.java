@@ -62,4 +62,8 @@ public class TimerSkill extends Skill {
         return "&cTimer &6&lskill";
     }
 
+    @Override
+    public void changeSkillName(String oldName, String newName) {
+        onWearerActions.forEach(action -> action.changeSkillName(oldName, newName));
+    }
 }

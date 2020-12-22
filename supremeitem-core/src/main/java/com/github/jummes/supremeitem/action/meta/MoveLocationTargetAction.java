@@ -1,4 +1,4 @@
-package com.github.jummes.supremeitem.action.location;
+package com.github.jummes.supremeitem.action.meta;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @Getter
 @Enumerable.Child
 @Enumerable.Displayable(name = "&c&lMove target location", description = "gui.action.move-location.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTNmYzUyMjY0ZDhhZDllNjU0ZjQxNWJlZjAxYTIzOTQ3ZWRiY2NjY2Y2NDkzNzMyODliZWE0ZDE0OTU0MWY3MCJ9fX0=")
-public class MoveLocationTargetAction extends LocationAction {
+public class MoveLocationTargetAction extends WrapperAction {
 
     private static final String ACTIONS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODIxNmVlNDA1OTNjMDk4MWVkMjhmNWJkNjc0ODc5NzgxYzQyNWNlMDg0MWI2ODc0ODFjNGY3MTE4YmI1YzNiMSJ9fX0=";
     private static final String VECTOR_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTNmYzUyMjY0ZDhhZDllNjU0ZjQxNWJlZjAxYTIzOTQ3ZWRiY2NjY2Y2NDkzNzMyODliZWE0ZDE0OTU0MWY3MCJ9fX0";
@@ -48,6 +48,11 @@ public class MoveLocationTargetAction extends LocationAction {
     }
 
     @Override
+    public List<Action> getWrappedActions() {
+        return actions;
+    }
+
+    @Override
     public ActionResult execute(Target target, Source source) {
         if (actions.stream().anyMatch(action -> action.execute(new LocationTarget(getLocation(target, source).
                 clone().add(vector.computeVector(target, source))), source).equals(ActionResult.CANCELLED))) {
@@ -66,4 +71,8 @@ public class MoveLocationTargetAction extends LocationAction {
         return "&6&lMove Location: &c" + vector.toString();
     }
 
+    @Override
+    public void changeSkillName(String oldName, String newName) {
+        actions.forEach(action -> action.changeSkillName(oldName, newName));
+    }
 }

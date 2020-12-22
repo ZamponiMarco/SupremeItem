@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @Setter
 @Enumerable.Child
 @Enumerable.Displayable(name = "&c&lExecute until condition is true", description = "gui.action.repeat-until.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTIzMjI5ZjZlNjA2ZDkxYjdlNjdhMmJjZjNlMmEzMzMzYmE2MTNiNmQ2NDA5MTk5YjcxNjljMDYzODliMCJ9fX0=")
-public class RepeatUntilAction extends MetaAction {
+public class RepeatUntilAction extends WrapperAction {
 
     private static final int TIMER_DEFAULT = 5;
 
@@ -63,6 +63,11 @@ public class RepeatUntilAction extends MetaAction {
     }
 
     @Override
+    public List<Action> getWrappedActions() {
+        return actions;
+    }
+
+    @Override
     public ActionResult execute(Target target, Source source) {
         getRunnable(target, source).runTaskTimer(SupremeItem.getInstance(), 0, timer);
         return ActionResult.SUCCESS;
@@ -97,5 +102,4 @@ public class RepeatUntilAction extends MetaAction {
     public String getName() {
         return String.format("&6&lRepeat Until: %s", condition.getName());
     }
-
 }

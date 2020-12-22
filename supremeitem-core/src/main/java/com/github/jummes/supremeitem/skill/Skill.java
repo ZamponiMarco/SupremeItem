@@ -80,6 +80,8 @@ public abstract class Skill implements Model {
 
     public abstract String getName();
 
+    public abstract void changeSkillName(String oldName, String newName);
+
     public enum SkillResult {
         SUCCESS,
         CANCELLED,

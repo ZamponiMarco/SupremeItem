@@ -2,14 +2,16 @@ package com.github.jummes.supremeitem.manager;
 
 import com.github.jummes.libs.model.ModelManager;
 import com.github.jummes.supremeitem.item.Item;
+import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 import java.util.UUID;
 
+@Getter
 public class ItemManager extends ModelManager<Item> {
 
-    public List<Item> items;
+    private List<Item> items;
 
     public ItemManager(Class<Item> classObject, String databaseType, JavaPlugin plugin) {
         super(classObject, databaseType, plugin);

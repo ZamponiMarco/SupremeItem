@@ -74,4 +74,10 @@ public class DamageEntitySkill extends CooldownSkill {
         return "&cDamage Entity &6&lskill";
     }
 
+    @Override
+    public void changeSkillName(String oldName, String newName) {
+        onDamagedActions.forEach(action -> action.changeSkillName(oldName, newName));
+        onDamagerActions.forEach(action -> action.changeSkillName(oldName, newName));
+    }
+
 }

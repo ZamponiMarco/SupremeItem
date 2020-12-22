@@ -94,4 +94,11 @@ public class SkillAction extends MetaAction {
         item.setItemMeta(meta);
         return item;
     }
+
+    @Override
+    public void changeSkillName(String oldName, String newName) {
+        if (this.skillName.equals(oldName)) {
+            this.skillName = newName;
+        }
+    }
 }

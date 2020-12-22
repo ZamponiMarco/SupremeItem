@@ -32,7 +32,7 @@ import java.util.stream.Stream;
 @Setter
 @Enumerable.Child
 @Enumerable.Displayable(name = "&c&lApply actions to entities in Area", description = "gui.action.area-entities.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWZjZDQxNGIwNWE1MzJjNjA5YzJhYTQ4ZDZjMDYyYzI5MmQ1MzNkZmFmNGQ3MzJhYmU5YWY1NzQxNTg5ZSJ9fX0=")
-public class AreaEntitiesAction extends MetaAction {
+public class AreaEntitiesAction extends WrapperAction {
 
     private static final NumericValue MAX_DISTANCE_DEFAULT = new NumericValue(3.0);
     private static final boolean CAST_LOCATION_DEFAULT = true;
@@ -103,8 +103,13 @@ public class AreaEntitiesAction extends MetaAction {
     }
 
     @Override
+    public List<Action> getWrappedActions() {
+        return actions;
+    }
+
+    @Override
     public ActionResult execute(Target target, Source source) {
-        Location l = target.getLocation();
+        Location l = getLocation(target, source);
 
         LivingEntity caster = source.getCaster();
         if (l != null) {
@@ -142,5 +147,4 @@ public class AreaEntitiesAction extends MetaAction {
     public String getName() {
         return "&6&lMax radius: &c" + maxDistance.getName();
     }
-
 }

@@ -209,6 +209,9 @@ gui:
         - "&7&oSet the use of a previously saved skill."
       name:
         - "&7&oThe name of the skill to use."
+        - "&7&oIf the name of the used skill is changed"
+        - "&7&othis parameter will be automatically changed"
+        - "&7&otoo."
     timer:
       description:
         - "&7&oSet the repetition of a group of actions."

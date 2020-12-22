@@ -99,4 +99,12 @@ public class SavedSkill extends NamedModel {
                     field).getInventory());
         }
     }
+
+    @Override
+    public void onModify(Field field) {
+        if (field.getName().equals("name")) {
+            SupremeItem.getInstance().getItemManager().getItems().forEach(item -> item.changeSkillName(getOldName(),
+                    getName()));
+        }
+    }
 }

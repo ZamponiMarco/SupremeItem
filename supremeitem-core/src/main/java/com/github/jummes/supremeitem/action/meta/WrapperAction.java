@@ -31,8 +31,10 @@ public abstract class WrapperAction extends MetaAction {
 
     protected List<String> modifiedLore() {
         List<String> lore = Libs.getLocale().getList("gui.action.description");
-        int i = WRAPPERS_MAP.get(getClass());
-        lore.set(i + 3, MessageUtils.color(String.format("&6&l- [%d] &eto unwrap actions.", i + 1)));
+        if (WRAPPERS_MAP.containsKey(getClass())) {
+            int i = WRAPPERS_MAP.get(getClass());
+            lore.set(i + 3, MessageUtils.color(String.format("&6&l- [%d] &eto unwrap actions.", i + 1)));
+        }
         return lore;
     }
 
@@ -40,5 +42,10 @@ public abstract class WrapperAction extends MetaAction {
     public ItemStack getGUIItem() {
         return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue(getClass().
                 getAnnotation(Enumerable.Displayable.class).headTexture()), getName(), modifiedLore());
+    }
+
+    @Override
+    public void changeSkillName(String oldName, String newName) {
+        getWrappedActions().forEach(action -> action.changeSkillName(oldName, newName));
     }
 }

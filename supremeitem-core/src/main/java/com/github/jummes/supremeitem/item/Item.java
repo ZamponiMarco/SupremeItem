@@ -118,4 +118,9 @@ public class Item extends NamedModel {
         }
     }
 
+    public void changeSkillName(String oldName, String newName) {
+        skillSet.forEach(skill -> skill.changeSkillName(oldName, newName));
+        SupremeItem.getInstance().getItemManager().saveModel(this);
+    }
+
 }
