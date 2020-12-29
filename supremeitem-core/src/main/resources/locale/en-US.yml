@@ -352,6 +352,24 @@ gui:
         turn-speed:
           - "&7&oThe turn speed of the projectile. The bigger this"
           - "&7&ois the faster the projectile will turn."
+      random:
+        description:
+          - "&7&oSet a random action from a set pool of"
+          - "&7&oactions."
+        actions:
+          - "&7&oThe pool of actions from which the final"
+          - "&7&oaction will be drawn."
+        rolls:
+          - "&7&oThe number of times the random action will"
+          - "&7&obe executed."
+        action:
+          - "&7&oThe action to execute."
+        weight:
+          - "&7&oThe weight of this action inside the pool."
+        entry:
+          - "&6&l- Left click &eto modify."
+          - "&6&l- Right click &eto delete."
+          - "&6&l- Middle click &eto clone."
       skill:
         description:
           - "&7&oSet the use of a previously saved skill."

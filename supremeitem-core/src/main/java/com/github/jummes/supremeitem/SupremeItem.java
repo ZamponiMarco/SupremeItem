@@ -7,6 +7,7 @@ import com.github.jummes.libs.gui.FieldInventoryHolderFactory;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.location.ParticleAction;
 import com.github.jummes.supremeitem.action.meta.MoveLocationTargetAction;
+import com.github.jummes.supremeitem.action.meta.RandomAction;
 import com.github.jummes.supremeitem.area.Area;
 import com.github.jummes.supremeitem.command.*;
 import com.github.jummes.supremeitem.condition.Condition;
@@ -61,6 +62,7 @@ public class SupremeItem extends JavaPlugin {
         ConfigurationSerialization.registerClass(Skill.class);
 
         ConfigurationSerialization.registerClass(Action.class);
+        ConfigurationSerialization.registerClass(RandomAction.RandomActionEntry.class);
         ConfigurationSerialization.registerClass(MoveLocationTargetAction.class,
                 "com.github.jummes.supremeitem.action.location.MoveLocationTargetAction");
 
