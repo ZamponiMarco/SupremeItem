@@ -78,6 +78,13 @@ gui:
           - "&7&oWhether ambient particles are shown or not."
         icon:
           - "&7&oWhether the icon effect is shown or not."
+      give-item:
+        description:
+          - "&7&oSet an action that gives an item to a player."
+        item:
+          - "&7&oThe item to give to the player."
+        amount:
+          - "&7&oThe amount of items to give."
       heal:
         description:
           - "&7&oSet the healing to apply to the"
