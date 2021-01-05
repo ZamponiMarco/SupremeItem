@@ -136,7 +136,7 @@ public class FakeBlockAction extends LocationAction {
 
     @Override
     public Action clone() {
-        return new SetBlockAction(target, material, new HashSet<>(excludedMaterials), allowMaterials);
+        return new FakeBlockAction(target, material.clone(), new HashSet<>(excludedMaterials), allowMaterials, ticks.clone());
     }
 
     @Override
