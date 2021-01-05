@@ -14,6 +14,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
@@ -97,6 +98,15 @@ public class PlayerItemListener implements Listener {
         }
     }
 
+    @EventHandler(ignoreCancelled = true)
+    public void onPlayerShoot(EntityShootBowEvent e) {
+        LivingEntity entity = e.getEntity();
+        boolean cancelled = executeBowSkill(entity);
+        if (cancelled) {
+            e.setCancelled(true);
+        }
+    }
+
     // Private methods
 
     private boolean executeSneakSkill(Player player, boolean activated) {
@@ -132,6 +142,26 @@ public class PlayerItemListener implements Listener {
                         skill.getAllowedSlots().contains(EquipmentSlot.values()[i])).findFirst().
                         ifPresent(skill -> {
                             if (((EntitySprintSkill) skill).executeSkill(player, id, items.get(i)).
+                                    equals(Skill.SkillResult.CANCELLED)) {
+                                toReturn.set(true);
+                            }
+                        });
+            }
+        });
+        return toReturn.get();
+    }
+
+    private boolean executeBowSkill(LivingEntity entity) {
+        AtomicBoolean toReturn = new AtomicBoolean(false);
+        List<ItemStack> items = Utils.getEntityItems(entity);
+        IntStream.range(0, items.size()).filter(i -> Item.isSupremeItem(items.get(i))).forEach(i -> {
+            UUID id = UUID.fromString(Libs.getWrapper().getTagItem(items.get(i), "supreme-item"));
+            Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);
+            if (supremeItem != null) {
+                supremeItem.getSkillSet().stream().filter(skill -> skill instanceof EntityBowShootSkill &&
+                        skill.getAllowedSlots().contains(EquipmentSlot.values()[i])).findFirst().
+                        ifPresent(skill -> {
+                            if (((EntityBowShootSkill) skill).executeSkill(entity, id, items.get(i)).
                                     equals(Skill.SkillResult.CANCELLED)) {
                                 toReturn.set(true);
                             }

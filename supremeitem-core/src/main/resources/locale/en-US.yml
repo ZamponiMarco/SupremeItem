@@ -483,6 +483,10 @@ gui:
       description:
         - "&7&oSet a skill to be triggered when a player"
         - "&7&oenters sprinting mode."
+    bow-shoot:
+      description:
+        - "&7&oSet a skill to be triggered when an entity"
+        - "&7&oshoots a projectile (with bow or crossbow)."
   entity:
     no-entity:
       description:

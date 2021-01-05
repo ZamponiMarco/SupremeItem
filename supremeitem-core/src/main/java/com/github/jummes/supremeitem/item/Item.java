@@ -36,7 +36,8 @@ public class Item extends NamedModel {
 
     @Serializable(stringValue = true)
     private UUID id;
-    @Serializable(description = "gui.item.item", displayItem = "getUsableItem")
+    @Serializable(description = "gui.item.item", displayItem = "getUsableItem",
+            additionalDescription = {"gui.additional-tooltips.item"})
     private ItemStackWrapper item;
     @Serializable(headTexture = SKILL_HEAD, description = "gui.item.skill-set")
     private Set<Skill> skillSet;
