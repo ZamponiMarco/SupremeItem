@@ -402,10 +402,23 @@ gui:
         - "&7&oother places as a placeholder."
   skill:
     cooldown:
-      - "&7&oThe cooldown between skill executions."
-    cooldown-message:
-      - "&7&oWhether the cooldown message should be"
-      - "&7&odisplayed to the player."
+      cooldown:
+        - "&7&oThe cooldown between skill executions."
+      cooldown-message:
+        - "&7&oWhether the cooldown message should be"
+        - "&7&odisplayed to the player."
+      format:
+        - "&7&oThe format of the cooldown message."
+        - "&7&oEvery color code will be rendered."
+        - "&7&oTo put the bar into the format just"
+        - "&7&otype in the format &e%bar&7&o."
+      bar:
+        - "&7&oThe string that will be used as the"
+        - "&7&obar inside the cooldown message."
+      bar-count:
+        - "&7&oThe number of times the bar string"
+        - "&7&owill be repeated inside the cooldown"
+        - "&7&omessage."
     consumable:
       - "&7&oWhether the item should be consumed when"
       - "&7&othe skill is used or not."

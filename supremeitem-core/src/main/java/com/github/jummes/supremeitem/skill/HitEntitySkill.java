@@ -33,12 +33,12 @@ public class HitEntitySkill extends CooldownSkill {
     protected List<Action> onDamagedActions;
 
     public HitEntitySkill() {
-        this(CONSUMABLE_DEFAULT, Sets.newHashSet(EquipmentSlot.values()), COOLDOWN_DEFAULT, COOLDOWN_MESSAGE_DEFAULT, Lists.newArrayList(), Lists.newArrayList());
+        this(CONSUMABLE_DEFAULT, Sets.newHashSet(EquipmentSlot.values()), new CooldownOptions(), Lists.newArrayList(), Lists.newArrayList());
     }
 
-    public HitEntitySkill(boolean consumable, Set<EquipmentSlot> allowedSlots, int cooldown, boolean cooldownMessage,
+    public HitEntitySkill(boolean consumable, Set<EquipmentSlot> allowedSlots, CooldownOptions cooldownOptions,
                           List<Action> onDamagerActions, List<Action> onDamagedActions) {
-        super(consumable, allowedSlots, cooldown, cooldownMessage);
+        super(consumable, allowedSlots, cooldownOptions);
         this.onDamagerActions = onDamagerActions;
         this.onDamagedActions = onDamagedActions;
     }

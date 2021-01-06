@@ -33,6 +33,7 @@ import com.github.jummes.supremeitem.placeholder.numeric.entity.player.BalancePl
 import com.github.jummes.supremeitem.placeholder.numeric.entity.player.HungerPlaceholder;
 import com.github.jummes.supremeitem.savedplaceholder.SavedPlaceholder;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
+import com.github.jummes.supremeitem.skill.CooldownSkill;
 import com.github.jummes.supremeitem.skill.Skill;
 import com.github.jummes.supremeitem.value.MaterialValue;
 import com.github.jummes.supremeitem.value.NumericValue;
@@ -60,6 +61,7 @@ public class SupremeItem extends JavaPlugin {
         ConfigurationSerialization.registerClass(Item.class);
 
         ConfigurationSerialization.registerClass(Skill.class);
+        ConfigurationSerialization.registerClass(CooldownSkill.CooldownOptions.class);
 
         ConfigurationSerialization.registerClass(Action.class);
         ConfigurationSerialization.registerClass(RandomAction.RandomActionEntry.class);

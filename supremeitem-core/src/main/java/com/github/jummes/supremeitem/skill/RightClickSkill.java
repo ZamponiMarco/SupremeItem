@@ -42,13 +42,13 @@ public class RightClickSkill extends CooldownSkill {
     protected int onRayCastMaxDistance;
 
     public RightClickSkill() {
-        this(CONSUMABLE_DEFAULT, Sets.newHashSet(EquipmentSlot.values()), COOLDOWN_DEFAULT, COOLDOWN_MESSAGE_DEFAULT, Lists.newArrayList(),
+        this(CONSUMABLE_DEFAULT, Sets.newHashSet(EquipmentSlot.values()), new CooldownOptions(), Lists.newArrayList(),
                 Lists.newArrayList(), RAY_CAST_DISTANCE_DEFAULT);
     }
 
-    public RightClickSkill(boolean consumable, Set<EquipmentSlot> allowedSlots, int cooldown, boolean cooldownMessage,
+    public RightClickSkill(boolean consumable, Set<EquipmentSlot> allowedSlots, CooldownOptions cooldownOptions,
                            List<Action> onCasterActions, List<Action> onRayCastPointActions, int onRayCastMaxDistance) {
-        super(consumable, allowedSlots, cooldown, cooldownMessage);
+        super(consumable, allowedSlots, cooldownOptions);
         this.onCasterActions = onCasterActions;
         this.onRayCastPointActions = onRayCastPointActions;
         this.onRayCastMaxDistance = onRayCastMaxDistance;

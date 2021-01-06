@@ -2,6 +2,7 @@ package com.github.jummes.supremeitem.manager;
 
 import com.github.jummes.libs.util.MessageUtils;
 import com.github.jummes.supremeitem.SupremeItem;
+import com.github.jummes.supremeitem.skill.CooldownSkill;
 import com.github.jummes.supremeitem.skill.RightClickSkill;
 import com.github.jummes.supremeitem.skill.Skill;
 import com.google.common.collect.Lists;
@@ -43,30 +44,32 @@ public class CooldownManager {
         };
     }
 
-    public void addCooldown(LivingEntity e, CooldownInfo info, boolean showMessage) {
+    public void addCooldown(LivingEntity e, CooldownInfo info, CooldownSkill.CooldownOptions cooldownOptions) {
         cooldowns.computeIfAbsent(e, k -> Lists.newArrayList());
         cooldowns.get(e).add(info);
         if (e instanceof Player) {
-            switchCooldownContext((Player) e, info, info.getRemainingCooldown(), showMessage);
+            switchCooldownContext((Player) e, info, cooldownOptions);
         }
     }
 
-    public void switchCooldownContext(Player p, UUID id, int maxCooldown, Class<? extends Skill> skill, boolean showMessage) {
-        switchCooldownContext(p, getCooldownInfo(p, id, skill), maxCooldown, showMessage);
+    public void switchCooldownContext(Player p, UUID id, Class<? extends Skill> skill,
+                                      CooldownSkill.CooldownOptions cooldownOptions) {
+        switchCooldownContext(p, getCooldownInfo(p, id, skill), cooldownOptions);
     }
 
-    private void switchCooldownContext(Player p, CooldownInfo info, int maxCooldown, boolean showMessage) {
-        if (showMessage) {
+    private void switchCooldownContext(Player p, CooldownInfo info, CooldownSkill.CooldownOptions cooldownOptions) {
+        if (cooldownOptions.isCooldownMessage()) {
             if (cooldownMessagesMap.containsKey(p)) {
                 Bukkit.getScheduler().cancelTask(cooldownMessagesMap.get(p));
             }
-            cooldownMessagesMap.put(p, sendProgressMessage(p, info, maxCooldown).
+            cooldownMessagesMap.put(p, sendProgressMessage(p, info, cooldownOptions).
                     runTaskTimer(SupremeItem.getInstance(),
                             0, 1).getTaskId());
         }
     }
 
-    private BukkitRunnable sendProgressMessage(Player player, CooldownInfo info, int maxCooldown) {
+    private BukkitRunnable sendProgressMessage(Player player, CooldownInfo info,
+                                               CooldownSkill.CooldownOptions cooldownOptions) {
         return new BukkitRunnable() {
             @Override
             public void run() {
@@ -75,22 +78,25 @@ public class CooldownManager {
                     this.cancel();
                 }
 
-                int progress = (int) Math.floor((info.getRemainingCooldown() / (double) maxCooldown) * 30);
+                int progress = (int) Math.floor((info.getRemainingCooldown() / (double) cooldownOptions.getCooldown()) *
+                        cooldownOptions.getCooldownMessageBarCount());
 
                 String sb = "&a" +
-                        repeat(30 - progress) +
+                        repeat(cooldownOptions.getCooldownMessageBar(), 30 - progress) +
                         "&c" +
-                        repeat(progress);
+                        repeat(cooldownOptions.getCooldownMessageBar(), progress) +
+                        "&f";
                 player.spigot().sendMessage(ChatMessageType.ACTION_BAR,
                         new ComponentBuilder(
-                                MessageUtils.color(MessageUtils.color(String.format("&2Cooldown &6[%s&6]", sb))))
+                                MessageUtils.color(MessageUtils.color(cooldownOptions.
+                                        getCooldownMessageFormat().replaceAll("%bar", sb))))
                                 .create());
             }
         };
     }
 
-    private String repeat(int count) {
-        return new String(new char[count]).replace("\0", "|");
+    private String repeat(String bar, int count) {
+        return new String(new char[count]).replace("\0", bar);
     }
 
     public CooldownInfo getCooldownInfo(LivingEntity e, UUID id, Class<? extends Skill> skill) {
