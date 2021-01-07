@@ -54,8 +54,8 @@ public class MoveLocationTargetAction extends WrapperAction {
 
     @Override
     public ActionResult execute(Target target, Source source) {
-        if (actions.stream().anyMatch(action -> action.execute(new LocationTarget(getLocation(target, source).
-                clone().add(vector.computeVector(target, source))), source).equals(ActionResult.CANCELLED))) {
+        if (actions.stream().filter(action -> action.execute(new LocationTarget(getLocation(target, source).
+                clone().add(vector.computeVector(target, source))), source).equals(ActionResult.CANCELLED)).count() > 0) {
             return ActionResult.CANCELLED;
         }
         return ActionResult.SUCCESS;

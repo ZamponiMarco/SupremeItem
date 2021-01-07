@@ -54,7 +54,8 @@ public class ConditionAction extends WrapperAction {
     @Override
     public ActionResult execute(Target target, Source source) {
         if (condition.checkCondition(target, source)) {
-            if (actions.stream().anyMatch(action -> action.execute(target, source).equals(ActionResult.CANCELLED))) {
+            if (actions.stream().filter(action -> action.execute(target, source).equals(ActionResult.CANCELLED)).
+                    count() > 0) {
                 return ActionResult.CANCELLED;
             }
             return ActionResult.SUCCESS;

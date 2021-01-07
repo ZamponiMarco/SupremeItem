@@ -78,17 +78,17 @@ public abstract class CooldownSkill extends Skill {
     protected abstract boolean executeExactSkill(LivingEntity... e);
 
     protected boolean executeCasterActions(LivingEntity e, List<Action> actions) {
-        return actions.stream().anyMatch(action -> action.execute(new EntityTarget(e),
-                new EntitySource(e)).equals(Action.ActionResult.CANCELLED));
+        return actions.stream().filter(action -> action.execute(new EntityTarget(e),
+                new EntitySource(e)).equals(Action.ActionResult.CANCELLED)).count() > 0;
     }
 
     protected boolean executeRayCastActions(LivingEntity e, int onRayCastMaxDistance, List<Action> onRayCastPointActions) {
         RayTraceResult result = e.rayTraceBlocks(onRayCastMaxDistance);
         if (result != null) {
             Location l = result.getHitPosition().toLocation(e.getWorld());
-            return onRayCastPointActions.stream().anyMatch(action ->
+            return onRayCastPointActions.stream().filter(action ->
                     action.execute(new LocationTarget(l),
-                            new EntitySource(e)).equals(Action.ActionResult.CANCELLED));
+                            new EntitySource(e)).equals(Action.ActionResult.CANCELLED)).count() > 0;
         }
         return false;
     }

@@ -64,12 +64,12 @@ public class HitEntitySkill extends CooldownSkill {
 
     @Override
     protected boolean executeExactSkill(LivingEntity... e) {
-        return onDamagedActions.stream().anyMatch(action ->
+        return onDamagedActions.stream().filter(action ->
                 action.execute(new EntityTarget(e[1]), new EntitySource(e[0])).
-                        equals(Action.ActionResult.CANCELLED)) ||
-                onDamagerActions.stream().anyMatch(action ->
+                        equals(Action.ActionResult.CANCELLED)).count() > 0 ||
+                onDamagerActions.stream().filter(action ->
                         action.execute(new EntityTarget(e[0]), new EntitySource(e[0])).
-                                equals(Action.ActionResult.CANCELLED));
+                                equals(Action.ActionResult.CANCELLED)).count() > 0;
     }
 
     @Override
