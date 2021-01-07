@@ -105,7 +105,7 @@ public class SetBlockAction extends LocationAction {
 
     @Override
     public Action clone() {
-        return new SetBlockAction(target, material, new HashSet<>(excludedMaterials), allowMaterials);
+        return new SetBlockAction(target, material.clone(), new HashSet<>(excludedMaterials), allowMaterials);
     }
 
     @Override

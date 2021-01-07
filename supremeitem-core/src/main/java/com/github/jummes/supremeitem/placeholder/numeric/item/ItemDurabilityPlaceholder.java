@@ -28,10 +28,8 @@ public class ItemDurabilityPlaceholder extends ItemNumericPlaceholder {
     @Override
     public Double computePlaceholder(Target target, Source source) {
         ItemStack item = getItem(target, source);
-        if (item.hasItemMeta()) {
-            if (item.getItemMeta() instanceof Damageable) {
-                return (double) ((Damageable) item.getItemMeta()).getDamage();
-            }
+        if (item != null && item.hasItemMeta() && item.getItemMeta() instanceof Damageable) {
+            return (double) ((Damageable) item.getItemMeta()).getDamage();
         }
         return Double.NaN;
     }

@@ -702,7 +702,10 @@ gui:
           - "&7&oSet a numeric item related placeholder."
         durability:
           description:
-            - "&7&oSet a item durability placeholder."
+            - "&7&oSet an item durability placeholder."
+        max-durability:
+          description:
+            - "&7&oSet an item max durability placeholder."
     boolean:
       player:
         description:
