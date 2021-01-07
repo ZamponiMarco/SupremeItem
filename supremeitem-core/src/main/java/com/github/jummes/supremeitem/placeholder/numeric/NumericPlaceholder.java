@@ -4,6 +4,7 @@ import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.supremeitem.placeholder.Placeholder;
 import com.github.jummes.supremeitem.placeholder.numeric.block.NumericBlockPlaceholder;
 import com.github.jummes.supremeitem.placeholder.numeric.entity.EntityNumericPlaceholder;
+import com.github.jummes.supremeitem.placeholder.numeric.item.ItemNumericPlaceholder;
 import com.github.jummes.supremeitem.placeholder.numeric.location.LocationPlaceholder;
 import com.github.jummes.supremeitem.placeholder.numeric.mob.MobNumericPlaceholder;
 import com.github.jummes.supremeitem.placeholder.numeric.operator.NumberOperatorPlaceholder;
@@ -11,7 +12,7 @@ import com.github.jummes.supremeitem.placeholder.numeric.operator.NumberOperator
 import java.util.Map;
 
 @Enumerable.Parent(classArray = {EntityNumericPlaceholder.class, NumberOperatorPlaceholder.class, LocationPlaceholder.class,
-        NumericBlockPlaceholder.class, SavedNumericPlaceholder.class, MobNumericPlaceholder.class})
+        NumericBlockPlaceholder.class, SavedNumericPlaceholder.class, MobNumericPlaceholder.class, ItemNumericPlaceholder.class})
 public abstract class NumericPlaceholder extends Placeholder<Double> {
 
     public NumericPlaceholder(boolean target) {

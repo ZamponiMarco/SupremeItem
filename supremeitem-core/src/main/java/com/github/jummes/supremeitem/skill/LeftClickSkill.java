@@ -42,13 +42,14 @@ public class LeftClickSkill extends CooldownSkill {
     protected int onRayCastMaxDistance;
 
     public LeftClickSkill() {
-        this(CONSUMABLE_DEFAULT, Sets.newHashSet(EquipmentSlot.values()), new CooldownOptions(), Lists.newArrayList(),
+        this(CONSUMABLE_DEFAULT, Sets.newHashSet(EquipmentSlot.values()), Lists.newArrayList(), new CooldownOptions(), Lists.newArrayList(),
                 Lists.newArrayList(), RAY_CAST_DISTANCE_DEFAULT);
     }
 
-    public LeftClickSkill(boolean consumable, Set<EquipmentSlot> allowedSlots, CooldownOptions cooldownOptions,
-                          List<Action> onCasterActions, List<Action> onRayCastPointActions, int onRayCastMaxDistance) {
-        super(consumable, allowedSlots, cooldownOptions);
+    public LeftClickSkill(boolean consumable, Set<EquipmentSlot> allowedSlots, List<Action> onItemActions,
+                          CooldownOptions cooldownOptions, List<Action> onCasterActions,
+                          List<Action> onRayCastPointActions, int onRayCastMaxDistance) {
+        super(consumable, allowedSlots, onItemActions, cooldownOptions);
         this.onCasterActions = onCasterActions;
         this.onRayCastPointActions = onRayCastPointActions;
         this.onRayCastMaxDistance = onRayCastMaxDistance;

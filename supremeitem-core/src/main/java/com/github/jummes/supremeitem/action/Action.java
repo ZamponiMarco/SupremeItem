@@ -6,6 +6,7 @@ import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.model.Model;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.entity.EntityAction;
+import com.github.jummes.supremeitem.action.item.ItemAction;
 import com.github.jummes.supremeitem.action.location.LocationAction;
 import com.github.jummes.supremeitem.action.meta.MetaAction;
 import com.github.jummes.supremeitem.action.source.EntitySource;
@@ -19,7 +20,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Map;
 
 @Enumerable.Parent(classArray = {EntityAction.class,
-        LocationAction.class, MetaAction.class, VariableAction.class})
+        LocationAction.class, MetaAction.class, VariableAction.class, ItemAction.class})
 public abstract class Action implements Model, Cloneable {
 
     protected static final boolean TARGET_DEFAULT = true;

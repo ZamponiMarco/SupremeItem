@@ -6,6 +6,7 @@ import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
+import com.github.jummes.supremeitem.action.targeter.ItemTarget;
 import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.manager.CooldownManager;
 import lombok.Getter;
@@ -25,11 +26,11 @@ public abstract class CooldownSkill extends Skill {
 
     protected static final String COOLDOWN_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZlOGNmZjc1ZjdkNDMzMjYwYWYxZWNiMmY3NzNiNGJjMzgxZDk1MWRlNGUyZWI2NjE0MjM3NzlhNTkwZTcyYiJ9fX0=";
 
-    @Serializable(headTexture = COOLDOWN_HEAD)
+    @Serializable(headTexture = COOLDOWN_HEAD, description = "gui.skill.cooldown-option")
     protected CooldownOptions cooldownOptions;
 
-    public CooldownSkill(boolean consumable, Set<EquipmentSlot> allowedSlots, CooldownOptions cooldownOptions) {
-        super(consumable, allowedSlots);
+    public CooldownSkill(boolean consumable, Set<EquipmentSlot> allowedSlots, List<Action> onItemActions, CooldownOptions cooldownOptions) {
+        super(consumable, allowedSlots, onItemActions);
         this.cooldownOptions = cooldownOptions;
     }
 
@@ -57,6 +58,7 @@ public abstract class CooldownSkill extends Skill {
         int currentCooldown = SupremeItem.getInstance().getCooldownManager().getCooldown(e[0], id, getClass());
         if (currentCooldown == 0) {
             consumeIfConsumable(id, item);
+            onItemActions.forEach(action -> action.execute(new ItemTarget(item, e[0]), new EntitySource(e[0])));
             cancelled = executeExactSkill(e);
             cooldown(e[0], id);
         } else {

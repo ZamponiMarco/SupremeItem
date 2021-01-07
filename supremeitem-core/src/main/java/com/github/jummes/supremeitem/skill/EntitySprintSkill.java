@@ -35,13 +35,13 @@ public class EntitySprintSkill extends CooldownSkill {
     private boolean onActivateSneak;
 
     public EntitySprintSkill() {
-        this(CONSUMABLE_DEFAULT, Sets.newHashSet(EquipmentSlot.values()), new CooldownOptions(), Lists.newArrayList(),
-                true);
+        this(CONSUMABLE_DEFAULT, Sets.newHashSet(EquipmentSlot.values()), Lists.newArrayList(), new CooldownOptions(),
+                Lists.newArrayList(), true);
     }
 
-    public EntitySprintSkill(boolean consumable, Set<EquipmentSlot> allowedSlots, CooldownOptions cooldownOptions,
-                             List<Action> onEntityActions, boolean onActivateSneak) {
-        super(consumable, allowedSlots, cooldownOptions);
+    public EntitySprintSkill(boolean consumable, Set<EquipmentSlot> allowedSlots, List<Action> onItemActions,
+                             CooldownOptions cooldownOptions, List<Action> onEntityActions, boolean onActivateSneak) {
+        super(consumable, allowedSlots, onItemActions, cooldownOptions);
         this.onEntityActions = onEntityActions;
         this.onActivateSneak = onActivateSneak;
     }

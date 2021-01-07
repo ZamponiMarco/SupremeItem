@@ -31,12 +31,13 @@ public class DamageEntitySkill extends CooldownSkill {
     protected List<Action> onDamagerActions;
 
     public DamageEntitySkill() {
-        this(CONSUMABLE_DEFAULT, Sets.newHashSet(EquipmentSlot.values()), new CooldownOptions(), Lists.newArrayList(), Lists.newArrayList());
+        this(CONSUMABLE_DEFAULT, Sets.newHashSet(EquipmentSlot.values()), Lists.newArrayList(), new CooldownOptions(),
+                Lists.newArrayList(), Lists.newArrayList());
     }
 
-    public DamageEntitySkill(boolean consumable, Set<EquipmentSlot> allowedSlots, CooldownOptions cooldownOptions,
-                             List<Action> onDamagedActions, List<Action> onDamagerActions) {
-        super(consumable, allowedSlots, cooldownOptions);
+    public DamageEntitySkill(boolean consumable, Set<EquipmentSlot> allowedSlots, List<Action> onItemActions,
+                             CooldownOptions cooldownOptions, List<Action> onDamagedActions, List<Action> onDamagerActions) {
+        super(consumable, allowedSlots, onItemActions, cooldownOptions);
         this.onDamagedActions = onDamagedActions;
         this.onDamagerActions = onDamagerActions;
     }

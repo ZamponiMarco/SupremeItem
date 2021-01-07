@@ -25,13 +25,13 @@ public class EntityBowShootSkill extends CooldownSkill {
     private List<Action> onEntityActions;
 
     public EntityBowShootSkill() {
-        this(CONSUMABLE_DEFAULT, Sets.newHashSet(EquipmentSlot.values()), new CooldownOptions(),
+        this(CONSUMABLE_DEFAULT, Sets.newHashSet(EquipmentSlot.values()), Lists.newArrayList(), new CooldownOptions(),
                 Lists.newArrayList());
     }
 
-    public EntityBowShootSkill(boolean consumable, Set<EquipmentSlot> allowedSlots, CooldownOptions cooldownOptions,
-                               List<Action> onEntityActions) {
-        super(consumable, allowedSlots, cooldownOptions);
+    public EntityBowShootSkill(boolean consumable, Set<EquipmentSlot> allowedSlots, List<Action> onItemActions,
+                               CooldownOptions cooldownOptions, List<Action> onEntityActions) {
+        super(consumable, allowedSlots, onItemActions, cooldownOptions);
         this.onEntityActions = onEntityActions;
     }
 

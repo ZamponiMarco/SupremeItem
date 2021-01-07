@@ -33,11 +33,12 @@ public class TimerSkill extends Skill {
 
 
     public TimerSkill() {
-        this(CONSUMABLE_DEFAULT, Sets.newHashSet(EquipmentSlot.values()), Lists.newArrayList(), TIMER_DEFAULT);
+        this(CONSUMABLE_DEFAULT, Sets.newHashSet(EquipmentSlot.values()), Lists.newArrayList(), Lists.newArrayList(), TIMER_DEFAULT);
     }
 
-    public TimerSkill(boolean consumable, Set<EquipmentSlot> allowedSlots, List<Action> onWearerActions, int timer) {
-        super(consumable, allowedSlots);
+    public TimerSkill(boolean consumable, Set<EquipmentSlot> allowedSlots, List<Action> onItemActions,
+                      List<Action> onWearerActions, int timer) {
+        super(consumable, allowedSlots, onItemActions);
         this.onWearerActions = onWearerActions;
         this.timer = timer;
     }

@@ -26,16 +26,20 @@ public abstract class Skill implements Model {
 
     protected static final String CONSUMABLE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTg0YTY4ZmQ3YjYyOGQzMDk2NjdkYjdhNTU4NTViNTRhYmMyM2YzNTk1YmJlNDMyMTYyMTFiZTVmZTU3MDE0In19fQ==";
     private static final String SLOTS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGQ5YjY4OTE1YjE0NzJkODllNWUzYTliYTZjOTM1YWFlNjAzZDEyYzE0NTRmMzgyMjgyNWY0M2RmZThhMmNhYyJ9fX0=";
+    private static final String ITEM_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWI0MjVhYTNkOTQ2MThhODdkYWM5Yzk0ZjM3N2FmNmNhNDk4NGMwNzU3OTY3NGZhZDkxN2Y2MDJiN2JmMjM1In19fQ==";
 
     @Serializable(headTexture = CONSUMABLE_HEAD, description = "gui.skill.consumable")
     @Serializable.Optional(defaultValue = "CONSUMABLE_DEFAULT")
     protected boolean consumable;
     @Serializable(headTexture = SLOTS_HEAD, description = "gui.skill.slots")
     protected Set<EquipmentSlot> allowedSlots;
+    @Serializable(headTexture = ITEM_HEAD, description = "gui.skill.item-actions")
+    protected List<Action> onItemActions;
 
-    public Skill(boolean consumable, Set<EquipmentSlot> allowedSlots) {
+    public Skill(boolean consumable, Set<EquipmentSlot> allowedSlots, List<Action> onItemActions) {
         this.consumable = consumable;
         this.allowedSlots = allowedSlots;
+        this.onItemActions = onItemActions;
     }
 
     public Skill(Map<String, Object> map) {
@@ -43,6 +47,7 @@ public abstract class Skill implements Model {
         this.allowedSlots = ((List<String>) map.getOrDefault("allowedSlots",
                 Arrays.stream(EquipmentSlot.values()).map(EquipmentSlot::name).collect(Collectors.toList()))).
                 stream().map(EquipmentSlot::valueOf).collect(Collectors.toSet());
+        this.onItemActions = (List<Action>) map.getOrDefault("onItemActions", Lists.newArrayList());
     }
 
     @Override
@@ -52,6 +57,7 @@ public abstract class Skill implements Model {
             map.put("consumable", consumable);
         if (!allowedSlots.equals(DEFAULT_SLOTS))
             map.put("allowedSlots", allowedSlots.stream().map(EquipmentSlot::name).collect(Collectors.toList()));
+        map.put("onItemActions", onItemActions);
         return map;
     }
 
