@@ -33,6 +33,10 @@ public class ItemMaxDurabilityPlaceholder extends ItemNumericPlaceholder {
         return Double.NaN;
     }
 
+    public ItemStack targetItem() {
+        return null;
+    }
+
     @Override
     public String getName() {
         return "Target Item Max Durability";

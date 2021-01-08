@@ -389,6 +389,12 @@ gui:
       name:
         - "&7&oThe name of the variable, used to"
         - "&7&oretrieve the value from other places."
+      persistent:
+        - "&7&oWhether the variable value persists through"
+        - "&7&oserver reloads, change applicable types."
+        - "&7&oCan be applied to:"
+        - "&6- true&7&o: entities, items."
+        - "&6- false&7&O: entities."
       value:
         - "&7&oThe value to assign to the variable."
       numeric-variable:
@@ -397,9 +403,10 @@ gui:
           - "&7&oentity to retrieve it later from"
           - "&7&oother places as a placeholder."
       string-variable:
-        - "&7&oAssign a string value to an"
-        - "&7&oentity to retrieve it later from"
-        - "&7&oother places as a placeholder."
+        description:
+          - "&7&oAssign a string value to an"
+          - "&7&oentity to retrieve it later from"
+          - "&7&oother places as a placeholder."
     item:
       durability:
         description:
@@ -688,6 +695,9 @@ gui:
             - "&7&oSet a variable placeholder."
           name:
             - "&7&oThe name used to retrieve the variable value."
+          persistent:
+            - "&7&oWhether the variable to retrieve is persistent"
+            - "&7&oor not. Depends on how it has been assigned initially."
         player:
           description:
             - "&7&oSet a numeric player related placeholder."
@@ -706,6 +716,12 @@ gui:
         max-durability:
           description:
             - "&7&oSet an item max durability placeholder."
+        variable:
+          description:
+            - "&7&oSet a placeholder that retrieves the numeric"
+            - "&7&ovalue from a saved variable."
+          name:
+            - "&7&oThe name of the variable to retrieve."
     boolean:
       player:
         description:
