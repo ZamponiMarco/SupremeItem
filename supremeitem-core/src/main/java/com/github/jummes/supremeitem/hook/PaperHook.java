@@ -2,6 +2,7 @@ package com.github.jummes.supremeitem.hook;
 
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.entity.BlockEventAction;
+import com.github.jummes.supremeitem.listener.paper.PlayerCrossBowLoadListener;
 import com.github.jummes.supremeitem.listener.paper.PlayerJumpListener;
 import lombok.Getter;
 import org.bukkit.plugin.PluginManager;
@@ -10,6 +11,7 @@ import org.bukkit.plugin.PluginManager;
 public class PaperHook implements ExternalHook {
 
     private boolean isJumpEventEnabled;
+    private boolean isCrossbowLoadEventEnabled;
 
     public PaperHook() {
         PluginManager pluginManager = SupremeItem.getInstance().getServer().getPluginManager();
@@ -21,10 +23,17 @@ public class PaperHook implements ExternalHook {
             isJumpEventEnabled = true;
         } catch (ClassNotFoundException ignored) {
         }
+        try {
+            Class.forName("io.papermc.paper.event.entity.EntityLoadCrossbowEvent");
+
+            pluginManager.registerEvents(new PlayerCrossBowLoadListener(), SupremeItem.getInstance());
+            isCrossbowLoadEventEnabled = true;
+        } catch (ClassNotFoundException ignored) {
+        }
     }
 
     @Override
     public boolean isEnabled() {
-        return isJumpEventEnabled;
+        return isJumpEventEnabled || isCrossbowLoadEventEnabled;
     }
 }

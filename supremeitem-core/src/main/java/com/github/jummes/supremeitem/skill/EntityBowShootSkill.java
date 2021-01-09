@@ -20,7 +20,7 @@ public class EntityBowShootSkill extends CombatSkill {
 
     private static final String CASTER_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjY4YjQzMTE1MmU4MmFmNWRlZjg4ZjkxYmI2MWM2MjNiM2I3YWMzYWJlODJkMjc2ZmFkMzQ3Nzc2NDBmOTU5MCJ9fX0=";
 
-    @Serializable(headTexture = CASTER_HEAD, description = "gui.skill.combat.caster-actions")
+    @Serializable(headTexture = CASTER_HEAD, description = "gui.skill.caster-actions")
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     private List<Action> onEntityActions;
 
@@ -58,7 +58,7 @@ public class EntityBowShootSkill extends CombatSkill {
 
     @Override
     public String getName() {
-        return "&cShoow Bow &6&lskill";
+        return "&cShoot Bow &6&lskill";
     }
 
     @Override

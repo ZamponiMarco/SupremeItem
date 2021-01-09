@@ -485,6 +485,10 @@ gui:
           - "&7&oThe actions to execute on the damaged entity."
           - "&6&oSource: &edamager entity."
           - "&6&oTarget: &edamaged entity."
+      crossbow-load:
+        description:
+          - "&7&oSet a skill to be triggered when an entity loads"
+          - "&7&oa crossbow."
     movement:
       description:
         - "&7&oSet one of the movement related skills."
