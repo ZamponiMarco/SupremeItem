@@ -5,7 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.RegisteredServiceProvider;
 
-public class VaultHook implements PluginHook {
+public class VaultHook implements ExternalHook {
 
     private Economy economy;
 

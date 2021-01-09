@@ -24,13 +24,13 @@ import java.util.Map;
 @Enumerable.Displayable(name = "&c&lBlock Entity Event", description = "gui.action.entity.block-event.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==")
 public class BlockEventAction extends EntityAction {
 
-    private static final String BLOCKED_EVENT_DEFAULT = "jump";
+    private static final String BLOCKED_EVENT_DEFAULT = "toolbar-slot-change";
     private static final NumericValue TICKS_DEFAULT = new NumericValue(100);
 
     private static final String BLOCK_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ";
     private static final String TICKS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZlOGNmZjc1ZjdkNDMzMjYwYWYxZWNiMmY3NzNiNGJjMzgxZDk1MWRlNGUyZWI2NjE0MjM3NzlhNTkwZTcyYiJ9fX0=";
 
-    private static final List<String> EVENTS_LIST = Lists.newArrayList("toolbar-slot-change", "jump");
+    private static final List<String> EVENTS_LIST = Lists.newArrayList("toolbar-slot-change");
 
     /**
      * The string that represents the event to block

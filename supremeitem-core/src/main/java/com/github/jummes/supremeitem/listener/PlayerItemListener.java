@@ -2,7 +2,6 @@ package com.github.jummes.supremeitem.listener;
 
 import com.github.jummes.libs.core.Libs;
 import com.github.jummes.supremeitem.SupremeItem;
-import com.github.jummes.supremeitem.event.PlayerJumpEvent;
 import com.github.jummes.supremeitem.item.Item;
 import com.github.jummes.supremeitem.skill.*;
 import com.github.jummes.supremeitem.util.Utils;
@@ -33,14 +32,6 @@ public class PlayerItemListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onPlayerChangeSlot(PlayerItemHeldEvent e) {
         if (e.getPlayer().getMetadata("toolbar-slot-change").stream().anyMatch(metadataValue ->
-                Objects.equals(metadataValue.getOwningPlugin(), SupremeItem.getInstance()))) {
-            e.setCancelled(true);
-        }
-    }
-
-    @EventHandler(ignoreCancelled = true)
-    public void onPlayerJump(PlayerJumpEvent e) {
-        if (e.getPlayer().getMetadata("jump").stream().anyMatch(metadataValue ->
                 Objects.equals(metadataValue.getOwningPlugin(), SupremeItem.getInstance()))) {
             e.setCancelled(true);
         }

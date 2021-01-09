@@ -1,6 +1,6 @@
 package com.github.jummes.supremeitem.hook;
 
-public interface PluginHook {
+public interface ExternalHook {
 
     boolean isEnabled();
 

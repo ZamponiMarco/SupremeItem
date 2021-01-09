@@ -15,8 +15,8 @@ import com.github.jummes.supremeitem.database.CompressedYamlDatabase;
 import com.github.jummes.supremeitem.entity.Entity;
 import com.github.jummes.supremeitem.entity.selector.EntitySelector;
 import com.github.jummes.supremeitem.entity.sorter.EntitySorter;
-import com.github.jummes.supremeitem.event.PlayerJumpEvent;
 import com.github.jummes.supremeitem.gui.ActionCollectionInventoryHolder;
+import com.github.jummes.supremeitem.hook.PaperHook;
 import com.github.jummes.supremeitem.hook.SupremeMobHook;
 import com.github.jummes.supremeitem.hook.VaultHook;
 import com.github.jummes.supremeitem.hook.WorldGuardHook;
@@ -121,6 +121,7 @@ public class SupremeItem extends JavaPlugin {
     private WorldGuardHook worldGuardHook;
     private VaultHook vaultHook;
     private SupremeMobHook supremeMobHook;
+    private PaperHook paperHook;
 
     public static SupremeItem getInstance() {
         return getPlugin(SupremeItem.class);
@@ -177,6 +178,7 @@ public class SupremeItem extends JavaPlugin {
         worldGuardHook = new WorldGuardHook();
         vaultHook = new VaultHook();
         supremeMobHook = new SupremeMobHook();
+        paperHook = new PaperHook();
     }
 
     private void setUpCommands() {
@@ -192,6 +194,5 @@ public class SupremeItem extends JavaPlugin {
     private void setUpListeners() {
         getServer().getPluginManager().registerEvents(new PlayerItemListener(), this);
         getServer().getPluginManager().registerEvents(new ProjectileListener(), this);
-        PlayerJumpEvent.register(this);
     }
 }

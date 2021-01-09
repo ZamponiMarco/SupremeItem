@@ -10,7 +10,7 @@ import org.bukkit.event.server.PluginEnableEvent;
 
 import java.util.List;
 
-public class SupremeMobHook implements PluginHook {
+public class SupremeMobHook implements ExternalHook {
 
     private SupremeMobAPI api;
 
