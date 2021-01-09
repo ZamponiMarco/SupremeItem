@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @Enumerable.Parent(classArray = {CooldownSkill.class, LeftClickSkill.class, RightClickSkill.class, CombatSkill.class,
-        TimerSkill.class, EntitySneakSkill.class, EntitySprintSkill.class})
+        MovementSkill.class, TimerSkill.class})
 public abstract class Skill implements Model {
 
     protected static final List<Action> ACTIONS_DEFAULT = Lists.newArrayList();

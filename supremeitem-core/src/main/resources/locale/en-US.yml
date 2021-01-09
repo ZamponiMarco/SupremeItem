@@ -485,6 +485,21 @@ gui:
           - "&7&oThe actions to execute on the damaged entity."
           - "&6&oSource: &edamager entity."
           - "&6&oTarget: &edamaged entity."
+    movement:
+      description:
+        - "&7&oSet one of the movement related skills."
+      entity-sneak:
+        description:
+          - "&7&oSet a skill to be triggered when a player"
+          - "&7&oenters sneaking mode."
+      entity-sprint:
+        description:
+          - "&7&oSet a skill to be triggered when a player"
+          - "&7&oenters sprinting mode."
+      jump:
+        description:
+          - "&7&oSet a skill to be triggered when a player"
+          - "&7&ojumps."
     left-click:
       description:
         - "&7&oSet a skill to be triggered when an entity left"
@@ -517,14 +532,6 @@ gui:
         - "&6&oTarget: &ewearer entity."
       timer:
         - "&7&oThe interval of time between skill executions."
-    entity-sneak:
-      description:
-        - "&7&oSet a skill to be triggered when a player"
-        - "&7&oenters sneaking mode."
-    entity-sprint:
-      description:
-        - "&7&oSet a skill to be triggered when a player"
-        - "&7&oenters sprinting mode."
   entity:
     no-entity:
       description:
