@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Map;
 import java.util.function.Predicate;
 
-@Enumerable.Parent(classArray = {SourceSelector.class, FieldOfViewSelector.class})
+@Enumerable.Parent(classArray = {SourceSelector.class, FieldOfViewSelector.class, ConditionSelector.class})
 public abstract class EntitySelector implements Model, Cloneable {
 
     protected static final boolean DENY_DEFAULT = false;

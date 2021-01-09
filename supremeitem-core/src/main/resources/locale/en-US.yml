@@ -453,31 +453,38 @@ gui:
       - "&6&oTarget: &ecaster entity."
     activate:
       - "&7&oWhether the skill should be triggered when"
-      - "&7&othe sneak mode is activated or not."
-    hit-entity:
+      - "&7&othe mode is activated or not."
+    combat:
       description:
-        - "&7&oSet a skill to be triggered when an entity hits"
-        - "&7&oanother one."
-      damager-actions:
-        - "&7&oThe actions to execute on the damager."
-        - "&6&oSource: &edamager entity."
-        - "&6&oTarget: &edamager entity."
-      damaged-actions:
-        - "&7&oThe actions to execute on the damaged entity."
-        - "&6&oSource: &edamager entity."
-        - "&6&oTarget: &edamaged entity."
-    damage-entity:
-      description:
-        - "&7&oSet a skill to be triggered when an entity is"
-        - "&7&odamaged by another one."
-      damager-actions:
-        - "&7&oThe actions to execute on the damager."
-        - "&6&oSource: &edamaged entity."
-        - "&6&oTarget: &edamager entity."
-      damaged-actions:
-        - "&7&oThe actions to execute on the damaged entity."
-        - "&6&oSource: &edamaged entity."
-        - "&6&oTarget: &edamaged entity."
+        - "&7&oSet one of the combat related skills."
+      bow-shoot:
+        description:
+          - "&7&oSet a skill to be triggered when an entity"
+          - "&7&oshoots a projectile (with bow or crossbow)."
+      damage-entity:
+        description:
+          - "&7&oSet a skill to be triggered when an entity is"
+          - "&7&odamaged by another one."
+        damager-actions:
+          - "&7&oThe actions to execute on the damager."
+          - "&6&oSource: &edamaged entity."
+          - "&6&oTarget: &edamager entity."
+        damaged-actions:
+          - "&7&oThe actions to execute on the damaged entity."
+          - "&6&oSource: &edamaged entity."
+          - "&6&oTarget: &edamaged entity."
+      hit-entity:
+        description:
+          - "&7&oSet a skill to be triggered when an entity hits"
+          - "&7&oanother one."
+        damager-actions:
+          - "&7&oThe actions to execute on the damager."
+          - "&6&oSource: &edamager entity."
+          - "&6&oTarget: &edamager entity."
+        damaged-actions:
+          - "&7&oThe actions to execute on the damaged entity."
+          - "&6&oSource: &edamager entity."
+          - "&6&oTarget: &edamaged entity."
     left-click:
       description:
         - "&7&oSet a skill to be triggered when an entity left"
@@ -518,10 +525,6 @@ gui:
       description:
         - "&7&oSet a skill to be triggered when a player"
         - "&7&oenters sprinting mode."
-    bow-shoot:
-      description:
-        - "&7&oSet a skill to be triggered when an entity"
-        - "&7&oshoots a projectile (with bow or crossbow)."
   entity:
     no-entity:
       description:
@@ -565,6 +568,13 @@ gui:
         fov:
           - "&7&oThe wideness of the angle of the field"
           - "&7&oof view in degree."
+      condition:
+        description:
+          - "&7&oSet a selector that filters the entities"
+          - "&7&othat matches a condition on target and source"
+          - "&7&oof the skill."
+        condition:
+          - "&7&oThe condition to match."
     sorter:
       proximity:
         description:

@@ -17,16 +17,16 @@ import java.util.Set;
 import java.util.UUID;
 
 @Enumerable.Child
-@Enumerable.Displayable(name = "&c&lOn entity damage", description = "gui.skill.damage-entity.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjUyNTU5ZjJiY2VhZDk4M2Y0YjY1NjFjMmI1ZjJiNTg4ZjBkNjExNmQ0NDY2NmNlZmYxMjAyMDc5ZDI3Y2E3NCJ9fX0=")
-public class DamageEntitySkill extends CooldownSkill {
+@Enumerable.Displayable(name = "&c&lOn entity damage", description = "gui.skill.combat.damage-entity.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjUyNTU5ZjJiY2VhZDk4M2Y0YjY1NjFjMmI1ZjJiNTg4ZjBkNjExNmQ0NDY2NmNlZmYxMjAyMDc5ZDI3Y2E3NCJ9fX0=")
+public class DamageEntitySkill extends CombatSkill {
 
     private static final String DAMAGER_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTBkZmM4YTM1NjNiZjk5NmY1YzFiNzRiMGIwMTViMmNjZWIyZDA0Zjk0YmJjZGFmYjIyOTlkOGE1OTc5ZmFjMSJ9fX0=";
     private static final String DAMAGED_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWJlMmRkNTM3Y2I3NDM0YzM5MGQwNDgyZmE0NzI0N2NhM2ViNTZmMTlhOTNjMDRjNmM4NTgxMzUyYjhkOTUzOCJ9fX0=";
 
-    @Serializable(headTexture = DAMAGED_HEAD, description = "gui.skill.damage-entity.damaged-actions")
+    @Serializable(headTexture = DAMAGED_HEAD, description = "gui.skill.combat.damage-entity.damaged-actions")
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     protected List<Action> onDamagedActions;
-    @Serializable(headTexture = DAMAGER_HEAD, description = "gui.skill.damage-entity.damager-actions")
+    @Serializable(headTexture = DAMAGER_HEAD, description = "gui.skill.combat.damage-entity.damager-actions")
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     protected List<Action> onDamagerActions;
 

@@ -26,7 +26,7 @@ public abstract class CooldownSkill extends Skill {
 
     protected static final String COOLDOWN_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZlOGNmZjc1ZjdkNDMzMjYwYWYxZWNiMmY3NzNiNGJjMzgxZDk1MWRlNGUyZWI2NjE0MjM3NzlhNTkwZTcyYiJ9fX0=";
 
-    @Serializable(headTexture = COOLDOWN_HEAD, description = "gui.skill.cooldown-option")
+    @Serializable(headTexture = COOLDOWN_HEAD, description = "gui.skill.cooldown-options")
     protected CooldownOptions cooldownOptions;
 
     public CooldownSkill(boolean consumable, Set<EquipmentSlot> allowedSlots, List<Action> onItemActions, CooldownOptions cooldownOptions) {
@@ -39,8 +39,8 @@ public abstract class CooldownSkill extends Skill {
         try {
             int cooldown = (int) map.get("cooldown");
             boolean cooldownMessage = (boolean) map.get("cooldownMessage");
-            this.cooldownOptions = new CooldownOptions(cooldown, cooldownMessage, "&2Cooldown &6[%s&6]",
-                    "|", 30);
+            this.cooldownOptions = new CooldownOptions(cooldown, cooldownMessage, CooldownOptions.COOLDOWN_MESSAGE_FORMAT_DEFAULT,
+                    CooldownOptions.COOLDOWN_MESSAGE_BAR_DEFAULT, CooldownOptions.COOLDOWN_MESSAGE_BAR_COUNT_DEFAULT);
         } catch (Exception e) {
             this.cooldownOptions = (CooldownOptions) map.getOrDefault("cooldownOptions", new CooldownOptions());
         }
@@ -58,8 +58,8 @@ public abstract class CooldownSkill extends Skill {
         int currentCooldown = SupremeItem.getInstance().getCooldownManager().getCooldown(e[0], id, getClass());
         if (currentCooldown == 0) {
             consumeIfConsumable(id, item);
-            onItemActions.forEach(action -> action.execute(new ItemTarget(item, e[0]), new EntitySource(e[0])));
             cancelled = executeExactSkill(e);
+            onItemActions.forEach(action -> action.execute(new ItemTarget(item, e[0]), new EntitySource(e[0])));
             cooldown(e[0], id);
         } else {
             if (e[0] instanceof Player) {
