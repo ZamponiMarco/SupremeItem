@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Enumerable.Child
 @Enumerable.Displayable(name = "&c&lOn entity damage", description = "gui.skill.combat.damage-entity.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjUyNTU5ZjJiY2VhZDk4M2Y0YjY1NjFjMmI1ZjJiNTg4ZjBkNjExNmQ0NDY2NmNlZmYxMjAyMDc5ZDI3Y2E3NCJ9fX0=")
@@ -76,9 +78,8 @@ public class DamageEntitySkill extends CombatSkill {
     }
 
     @Override
-    public void changeSkillName(String oldName, String newName) {
-        onDamagedActions.forEach(action -> action.changeSkillName(oldName, newName));
-        onDamagerActions.forEach(action -> action.changeSkillName(oldName, newName));
+    public List<Action> getAbstractActions() {
+        return Stream.concat(onDamagedActions.stream(), onDamagerActions.stream()).collect(Collectors.toList());
     }
 
 }

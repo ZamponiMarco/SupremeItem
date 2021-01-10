@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Getter
 @Setter
@@ -86,8 +88,7 @@ public class RightClickSkill extends CooldownSkill {
     }
 
     @Override
-    public void changeSkillName(String oldName, String newName) {
-        onCasterActions.forEach(action -> action.changeSkillName(oldName, newName));
-        onRayCastPointActions.forEach(action -> action.changeSkillName(oldName, newName));
+    public List<Action> getAbstractActions() {
+        return Stream.concat(onCasterActions.stream(), onRayCastPointActions.stream()).collect(Collectors.toList());
     }
 }

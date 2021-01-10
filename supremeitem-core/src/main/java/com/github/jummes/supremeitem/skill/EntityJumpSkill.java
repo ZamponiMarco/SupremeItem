@@ -11,10 +11,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Enumerable.Child
 @Enumerable.Displayable(name = "&c&lOn Entity Jump", condition = "paperEnabled", description = "gui.skill.movement.jump.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTQ3ZDFkZDRhN2RhZmYyYWFmMjhlNmExMmEwMWY0MmQ3ZTUxNTkzZWYzZGVhNzYyZWY4MTg0N2IxZDRjNTUzOCJ9fX0=")
@@ -66,7 +63,7 @@ public class EntityJumpSkill extends MovementSkill {
     }
 
     @Override
-    public void changeSkillName(String oldName, String newName) {
-        onEntityActions.forEach(action -> action.changeSkillName(oldName, newName));
+    public List<Action> getAbstractActions() {
+        return new ArrayList<>(onEntityActions);
     }
 }

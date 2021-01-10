@@ -12,6 +12,7 @@ import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.libs.util.MessageUtils;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.database.NamedModel;
+import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.github.jummes.supremeitem.skill.Skill;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -122,6 +123,16 @@ public class Item extends NamedModel {
     public void changeSkillName(String oldName, String newName) {
         skillSet.forEach(skill -> skill.changeSkillName(oldName, newName));
         SupremeItem.getInstance().getItemManager().saveModel(this);
+    }
+
+    public List<SavedSkill> getUsedSavedSkills() {
+        return skillSet.stream().reduce(Lists.newArrayList(), (list, skill) -> {
+            list.addAll(skill.getUsedSavedSkills());
+            return list;
+        }, (list1, list2) -> {
+            list1.addAll(list2);
+            return list1;
+        });
     }
 
 }

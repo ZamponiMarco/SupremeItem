@@ -5,8 +5,10 @@ import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.libs.util.MessageUtils;
 import com.github.jummes.supremeitem.action.Action;
+import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
+import com.google.common.collect.Lists;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -50,5 +52,16 @@ public abstract class WrapperAction extends MetaAction {
     @Override
     public void changeSkillName(String oldName, String newName) {
         getWrappedActions().forEach(action -> action.changeSkillName(oldName, newName));
+    }
+
+    @Override
+    public List<SavedSkill> getUsedSavedSkills() {
+        return getWrappedActions().stream().reduce(Lists.newArrayList(), (list, action) -> {
+            list.addAll(action.getUsedSavedSkills());
+            return list;
+        }, (list1, list2) -> {
+            list1.addAll(list2);
+            return list1;
+        });
     }
 }

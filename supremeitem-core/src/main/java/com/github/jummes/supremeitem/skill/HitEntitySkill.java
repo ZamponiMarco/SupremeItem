@@ -16,6 +16,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Getter
 @Enumerable.Child
@@ -79,8 +81,7 @@ public class HitEntitySkill extends CombatSkill {
     }
 
     @Override
-    public void changeSkillName(String oldName, String newName) {
-        onDamagedActions.forEach(action -> action.changeSkillName(oldName, newName));
-        onDamagerActions.forEach(action -> action.changeSkillName(oldName, newName));
+    public List<Action> getAbstractActions() {
+        return Stream.concat(onDamagedActions.stream(), onDamagerActions.stream()).collect(Collectors.toList());
     }
 }

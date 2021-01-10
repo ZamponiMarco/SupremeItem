@@ -12,10 +12,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 @Setter
@@ -75,8 +72,8 @@ public class EntitySneakSkill extends MovementSkill {
     }
 
     @Override
-    public void changeSkillName(String oldName, String newName) {
-        onEntityActions.forEach(action -> action.changeSkillName(oldName, newName));
+    public List<Action> getAbstractActions() {
+        return new ArrayList<>(onEntityActions);
     }
 
 }

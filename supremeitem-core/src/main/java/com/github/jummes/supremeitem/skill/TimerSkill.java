@@ -8,6 +8,7 @@ import com.google.common.collect.Sets;
 import lombok.Getter;
 import org.bukkit.inventory.EquipmentSlot;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -64,7 +65,7 @@ public class TimerSkill extends Skill {
     }
 
     @Override
-    public void changeSkillName(String oldName, String newName) {
-        onWearerActions.forEach(action -> action.changeSkillName(oldName, newName));
+    public List<Action> getAbstractActions() {
+        return new ArrayList<>(onWearerActions);
     }
 }

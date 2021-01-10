@@ -4,6 +4,7 @@ import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.entity.Entity;
 import com.github.jummes.supremeitem.entity.NoEntity;
+import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.github.jummes.supremeitem.value.NumericValue;
 import com.google.common.collect.Lists;
 import org.bukkit.Location;
@@ -13,6 +14,7 @@ import org.bukkit.util.Vector;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Stream;
 
 public abstract class AbstractProjectileAction extends MetaAction {
 
@@ -108,6 +110,18 @@ public abstract class AbstractProjectileAction extends MetaAction {
     protected Location getLeftSide(Location location, double distance) {
         float angle = location.getYaw() / 60;
         return location.clone().add(new Vector(Math.cos(angle), 0, Math.sin(angle)).normalize().multiply(distance));
+    }
+
+    @Override
+    public List<SavedSkill> getUsedSavedSkills() {
+        return Stream.concat(Stream.concat(onBlockHitActions.stream(), onEntityHitActions.stream()),
+                onProjectileTickActions.stream()).reduce(Lists.newArrayList(), (list, action) -> {
+            list.addAll(action.getUsedSavedSkills());
+            return list;
+        }, (list1, list2) -> {
+            list1.addAll(list2);
+            return list1;
+        });
     }
 
 }

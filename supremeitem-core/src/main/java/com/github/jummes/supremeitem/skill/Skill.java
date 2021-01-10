@@ -6,6 +6,7 @@ import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.model.Model;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.Action;
+import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.Getter;
@@ -86,7 +87,27 @@ public abstract class Skill implements Model {
 
     public abstract String getName();
 
-    public abstract void changeSkillName(String oldName, String newName);
+    public void changeSkillName(String oldName, String newName) {
+        getAllActions().forEach(action -> action.changeSkillName(oldName, newName));
+    }
+
+    public List<Action> getAllActions() {
+        List<Action> list = new ArrayList<>(this.onItemActions);
+        list.addAll(getAbstractActions());
+        return list;
+    }
+
+    public abstract List<Action> getAbstractActions();
+
+    public List<SavedSkill> getUsedSavedSkills() {
+        return getAllActions().stream().reduce(Lists.newArrayList(), (list, action) -> {
+            list.addAll(action.getUsedSavedSkills());
+            return list;
+        }, (list1, list2) -> {
+            list1.addAll(list2);
+            return list1;
+        });
+    }
 
     public enum SkillResult {
         SUCCESS,

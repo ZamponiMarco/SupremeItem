@@ -11,10 +11,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Enumerable.Child
 @Enumerable.Displayable(condition = "paperEnabled", name = "&c&lOn entity crossbow load", description = "gui.skill.combat.crossbow-load.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGFlZTZiYjM3Y2JmYzkyYjBkODZkYjVhZGE0NzkwYzY0ZmY0NDY4ZDY4Yjg0OTQyZmRlMDQ0MDVlOGVmNTMzMyJ9fX0=")
@@ -68,7 +65,7 @@ public class EntityCrossbowLoadSkill extends CombatSkill {
     }
 
     @Override
-    public void changeSkillName(String oldName, String newName) {
-        onEntityActions.forEach(action -> action.changeSkillName(oldName, newName));
+    public List<Action> getAbstractActions() {
+        return new ArrayList<>(onEntityActions);
     }
 }

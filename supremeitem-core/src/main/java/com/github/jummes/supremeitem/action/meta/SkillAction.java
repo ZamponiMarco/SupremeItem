@@ -101,4 +101,9 @@ public class SkillAction extends MetaAction {
             this.skillName = newName;
         }
     }
+
+    @Override
+    public List<SavedSkill> getUsedSavedSkills() {
+        return Lists.newArrayList(SupremeItem.getInstance().getSavedSkillManager().getByName(skillName));
+    }
 }
