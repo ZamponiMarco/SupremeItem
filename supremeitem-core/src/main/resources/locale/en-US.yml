@@ -415,6 +415,23 @@ gui:
         durability:
           - "&7&oThe durability to set. Remember that a durability"
           - "&7&oof 0 means the item is not damaged."
+      name:
+        description:
+          - "&7&oSet an action that modifies the name"
+          - "&7&oof an item."
+        name:
+          - "&7&oThe item name to set."
+      lore:
+        description:
+          - "&7&oSet an action that modifies the lore"
+          - "&7&oof an item."
+        line:
+          - "&7&oThe line to modify, starts from 0."
+          - "&7&oIf the original lore is shorter than"
+          - "&7&othis parameter, the other lines will"
+          - "&7&obe filled with empty strings."
+        lore:
+          - "&7&oThe text to set."
   skill:
     cooldown-options:
       - "&7&oThe options for customizing cooldown."
