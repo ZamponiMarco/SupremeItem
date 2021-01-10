@@ -25,4 +25,9 @@ public class ItemManager extends ModelManager<Item> {
     public Item getByName(String name) {
         return items.stream().filter(item -> item.getName().equals(name)).findFirst().orElse(null);
     }
+
+    public void addItem(Item item) {
+        items.add(item);
+        saveModel(item);
+    }
 }

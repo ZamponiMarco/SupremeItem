@@ -20,4 +20,9 @@ public class SavedSkillManager extends ModelManager<SavedSkill> {
     public SavedSkill getByName(String name) {
         return skills.stream().filter(skill -> skill.getName().equals(name)).findFirst().orElse(null);
     }
+
+    public void addSkill(SavedSkill skill) {
+        skills.add(skill);
+        saveModel(skill);
+    }
 }
