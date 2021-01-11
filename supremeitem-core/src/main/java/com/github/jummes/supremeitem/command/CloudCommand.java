@@ -1,6 +1,7 @@
 package com.github.jummes.supremeitem.command;
 
 import com.github.jummes.libs.command.AbstractCommand;
+import com.github.jummes.libs.util.MessageUtils;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.database.NamedModel;
 import com.github.jummes.supremeitem.item.Item;
@@ -30,8 +31,15 @@ public class CloudCommand extends AbstractCommand {
     protected void execute() {
 
         if (arguments.length < 1) {
+            printHelpMessage();
             return;
         }
+
+        if (!Bukkit.getServer().getOnlineMode()) {
+            sender.sendMessage(MessageUtils.color("&c&lAvailable only in online mode."));
+            return;
+        }
+
 
         String argument = arguments[0];
 
@@ -44,22 +52,28 @@ public class CloudCommand extends AbstractCommand {
                 break;
             case "list":
                 listItems();
+                break;
+            default:
+                printHelpMessage();
         }
+    }
+
+    private void printHelpMessage() {
+        sender.sendMessage(MessageUtils.color("        &cSupreme&6Item &cCloud Help\n" +
+                "&2/si cloud help &7Show cloud help message.\n" +
+                "&2/si cloud list &7Show personal published items.\n" +
+                "&2/si cloud export [item] &7Export to cloud the item saved locally.\n" +
+                "&2/si cloud import [player] [item] &7Import from cloud the selected item from the selected player.\n"));
     }
 
     private void listItems() {
         Bukkit.getScheduler().runTaskAsynchronously(SupremeItem.getInstance(), () -> {
             Player player = (Player) sender;
-
-            if (!Bukkit.getServer().getOnlineMode()) {
-                return;
-            }
-
             String id = player.getUniqueId().toString();
 
             URL url;
             try {
-                url = new URL("http://localhost:3000/items/" + id + "?keys=true");
+                url = new URL("http://188.34.166.204:3000/items/" + id + "?keys=true");
                 URLConnection con = url.openConnection();
                 HttpURLConnection http = (HttpURLConnection) con;
                 http.setRequestMethod("GET");
@@ -72,9 +86,9 @@ public class CloudCommand extends AbstractCommand {
                     final TypeAdapter<JsonArray> jsonObjectTypeAdapter = gson.getAdapter(JsonArray.class);
                     JsonReader jsonReader = gson.newJsonReader(reader);
                     final JsonArray incomingJsonObject = jsonObjectTypeAdapter.read(jsonReader);
-                    incomingJsonObject.forEach(elm -> {
-                        player.sendMessage(elm.getAsJsonObject().get("name").getAsString());
-                    });
+                    player.sendMessage(MessageUtils.color("&cList of items in cloud:"));
+                    incomingJsonObject.forEach(elm -> player.sendMessage(MessageUtils.color(String.format("&6&l - &c%s",
+                            elm.getAsJsonObject().get("name").getAsString()))));
                     jsonReader.close();
                 }
                 http.disconnect();
@@ -98,11 +112,8 @@ public class CloudCommand extends AbstractCommand {
         Bukkit.getScheduler().runTaskAsynchronously(SupremeItem.getInstance(), () -> {
             Player player = (Player) sender;
 
-            if (!Bukkit.getServer().getOnlineMode()) {
-                return;
-            }
-
             if (arguments.length < 3) {
+                printHelpMessage();
                 return;
             }
 
@@ -114,7 +125,7 @@ public class CloudCommand extends AbstractCommand {
             try {
                 String uuid = getPlayerUUID(playerName);
 
-                url = new URL("http://localhost:3000/items/" + uuid + "/" + itemName);
+                url = new URL("http://188.34.166.204:3000/items/" + uuid + "/" + itemName);
                 URLConnection con = url.openConnection();
                 HttpURLConnection http = (HttpURLConnection) con;
                 http.setRequestMethod("GET");
@@ -136,11 +147,13 @@ public class CloudCommand extends AbstractCommand {
                     SupremeItem.getInstance().getItemManager().addItem((Item) NamedModel.fromSerializedString(
                             new String(CompressUtils.decompress(Base64.getDecoder().decode(incomingJsonObject.
                                     get("item").getAsString())), Charset.defaultCharset())));
+                    sender.sendMessage(MessageUtils.color("&aThe item has been succesfully imported."));
                     jsonReader.close();
                 }
                 http.disconnect();
             } catch (Exception e) {
                 e.printStackTrace();
+                sender.sendMessage(MessageUtils.color("&cError during item import."));
             }
         });
     }
@@ -172,20 +185,16 @@ public class CloudCommand extends AbstractCommand {
         }
         http2.disconnect();
 
-        String uuid = String.format("%s-%s-%s-%s-%s", playerId.substring(0, 8), playerId.substring(8, 12),
+        return String.format("%s-%s-%s-%s-%s", playerId.substring(0, 8), playerId.substring(8, 12),
                 playerId.substring(12, 16), playerId.substring(16, 20), playerId.substring(20));
-        return uuid;
     }
 
     private void exportItem() {
         Bukkit.getScheduler().runTaskAsynchronously(SupremeItem.getInstance(), () -> {
             Player player = (Player) sender;
 
-            if (!Bukkit.getServer().getOnlineMode()) {
-                return;
-            }
-
             if (arguments.length < 2) {
+                printHelpMessage();
                 return;
             }
 
@@ -193,6 +202,7 @@ public class CloudCommand extends AbstractCommand {
             Item item = SupremeItem.getInstance().getItemManager().getByName(name);
 
             if (item == null) {
+                sender.sendMessage(MessageUtils.color("&cThe item &e" + name + "&ccouldn't be found."));
                 return;
             }
 
@@ -203,7 +213,7 @@ public class CloudCommand extends AbstractCommand {
 
             URL url;
             try {
-                url = new URL("http://localhost:3000/items");
+                url = new URL("http://188.34.166.204:3000/items");
                 URLConnection con = url.openConnection();
                 HttpURLConnection http = (HttpURLConnection) con;
                 http.setFixedLengthStreamingMode(length);
@@ -216,6 +226,7 @@ public class CloudCommand extends AbstractCommand {
                 http.disconnect();
             } catch (Exception e) {
                 e.printStackTrace();
+                sender.sendMessage(MessageUtils.color("&cError during item export."));
             }
         });
     }
