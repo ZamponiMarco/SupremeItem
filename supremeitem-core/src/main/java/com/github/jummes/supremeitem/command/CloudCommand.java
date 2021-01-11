@@ -13,10 +13,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.Permission;
 
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.Reader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -45,7 +42,46 @@ public class CloudCommand extends AbstractCommand {
             case "export":
                 exportItem();
                 break;
+            case "list":
+                listItems();
         }
+    }
+
+    private void listItems() {
+        Bukkit.getScheduler().runTaskAsynchronously(SupremeItem.getInstance(), () -> {
+            Player player = (Player) sender;
+
+            if (!Bukkit.getServer().getOnlineMode()) {
+                return;
+            }
+
+            String id = player.getUniqueId().toString();
+
+            URL url;
+            try {
+                url = new URL("http://localhost:3000/items/" + id + "?keys=true");
+                URLConnection con = url.openConnection();
+                HttpURLConnection http = (HttpURLConnection) con;
+                http.setRequestMethod("GET");
+                http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+                http.setDoInput(true);
+                http.connect();
+                try (InputStream is = http.getInputStream()) {
+                    Reader reader = new InputStreamReader(is);
+                    Gson gson = new GsonBuilder().create();
+                    final TypeAdapter<JsonArray> jsonObjectTypeAdapter = gson.getAdapter(JsonArray.class);
+                    JsonReader jsonReader = gson.newJsonReader(reader);
+                    final JsonArray incomingJsonObject = jsonObjectTypeAdapter.read(jsonReader);
+                    incomingJsonObject.forEach(elm -> {
+                        player.sendMessage(elm.getAsJsonObject().get("name").getAsString());
+                    });
+                    jsonReader.close();
+                }
+                http.disconnect();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -76,33 +112,7 @@ public class CloudCommand extends AbstractCommand {
 
             URL url;
             try {
-                URL url1 = new URL("https://api.mojang.com/profiles/minecraft");
-                URLConnection con2 = url1.openConnection();
-                HttpURLConnection http2 = (HttpURLConnection) con2;
-                http2.setRequestMethod("POST");
-                http2.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-                http2.setDoOutput(true);
-                String load = "[\"" + playerName + "\"]";
-                byte[] out = load.getBytes(StandardCharsets.UTF_8);
-                http2.connect();
-                try (OutputStream os = http2.getOutputStream()) {
-                    os.write(out);
-                }
-                try (InputStream is2 = http2.getInputStream()) {
-                    Reader reader2 = new InputStreamReader(is2);
-                    Gson gson2 = new GsonBuilder().create();
-                    final TypeAdapter<JsonObject> jsonObjectTypeAdapter = gson2.getAdapter(JsonObject.class);
-                    JsonReader jsonReader = gson2.newJsonReader(reader2);
-                    jsonReader.beginArray();
-                    final JsonObject incomingJsonObject = jsonObjectTypeAdapter.read(jsonReader);
-                    playerId = incomingJsonObject.get("id").getAsString();
-                    jsonReader.endArray();
-                    jsonReader.close();
-                }
-                http2.disconnect();
-
-                String uuid = String.format("%s-%s-%s-%s-%s", playerId.substring(0, 8), playerId.substring(8, 12),
-                        playerId.substring(12, 16), playerId.substring(16, 20), playerId.substring(20));
+                String uuid = getPlayerUUID(playerName);
 
                 url = new URL("http://localhost:3000/items/" + uuid + "/" + itemName);
                 URLConnection con = url.openConnection();
@@ -133,6 +143,38 @@ public class CloudCommand extends AbstractCommand {
                 e.printStackTrace();
             }
         });
+    }
+
+    private String getPlayerUUID(String playerName) throws IOException {
+        String playerId;
+        URL url1 = new URL("https://api.mojang.com/profiles/minecraft");
+        URLConnection con2 = url1.openConnection();
+        HttpURLConnection http2 = (HttpURLConnection) con2;
+        http2.setRequestMethod("POST");
+        http2.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+        http2.setDoOutput(true);
+        String load = "[\"" + playerName + "\"]";
+        byte[] out = load.getBytes(StandardCharsets.UTF_8);
+        http2.connect();
+        try (OutputStream os = http2.getOutputStream()) {
+            os.write(out);
+        }
+        try (InputStream is2 = http2.getInputStream()) {
+            Reader reader2 = new InputStreamReader(is2);
+            Gson gson2 = new GsonBuilder().create();
+            final TypeAdapter<JsonObject> jsonObjectTypeAdapter = gson2.getAdapter(JsonObject.class);
+            JsonReader jsonReader = gson2.newJsonReader(reader2);
+            jsonReader.beginArray();
+            final JsonObject incomingJsonObject = jsonObjectTypeAdapter.read(jsonReader);
+            playerId = incomingJsonObject.get("id").getAsString();
+            jsonReader.endArray();
+            jsonReader.close();
+        }
+        http2.disconnect();
+
+        String uuid = String.format("%s-%s-%s-%s-%s", playerId.substring(0, 8), playerId.substring(8, 12),
+                playerId.substring(12, 16), playerId.substring(16, 20), playerId.substring(20));
+        return uuid;
     }
 
     private void exportItem() {
