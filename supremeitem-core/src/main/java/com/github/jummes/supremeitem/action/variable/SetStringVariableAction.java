@@ -20,23 +20,23 @@ import java.util.Map;
 
 @Enumerable.Child
 @Enumerable.Displayable(name = "&c&lSet String Variable", description = "gui.action.variable.string-variable.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2RkNjM5NzhlODRlMjA5MjI4M2U5Y2QwNmU5ZWY0YmMyMjhiYjlmMjIyMmUxN2VlMzgzYjFjOWQ5N2E4YTAifX19")
-public class StringVariableAction extends VariableAction {
+public class SetStringVariableAction extends VariableAction {
 
     protected static final StringValue VALUE_DEFAULT = new StringValue("example");
 
     @Serializable(headTexture = VALUE_HEAD, description = "gui.action.variable.value", additionalDescription = {"gui.additional-tooltips.value"})
     private StringValue value;
 
-    public StringVariableAction() {
+    public SetStringVariableAction() {
         this(TARGET_DEFAULT, NAME_DEFAULT, PERSISTENT_DEFAULT, VALUE_DEFAULT.clone());
     }
 
-    public StringVariableAction(boolean target, String name, boolean persistent, StringValue value) {
+    public SetStringVariableAction(boolean target, String name, boolean persistent, StringValue value) {
         super(target, name, persistent);
         this.value = value;
     }
 
-    public StringVariableAction(Map<String, Object> map) {
+    public SetStringVariableAction(Map<String, Object> map) {
         super(map);
         this.value = (StringValue) map.getOrDefault("value", VALUE_DEFAULT.clone());
     }
@@ -77,7 +77,7 @@ public class StringVariableAction extends VariableAction {
 
     @Override
     public Action clone() {
-        return new StringVariableAction(target, name, persistent, value.clone());
+        return new SetStringVariableAction(target, name, persistent, value.clone());
     }
 
     @Override

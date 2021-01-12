@@ -12,7 +12,7 @@ import org.bukkit.persistence.PersistentDataContainer;
 
 import java.util.Map;
 
-@Enumerable.Parent(classArray = {NumericVariableAction.class, StringVariableAction.class})
+@Enumerable.Parent(classArray = {SetNumericVariableAction.class, SetStringVariableAction.class})
 @Enumerable.Displayable(name = "&9&lSet variable &6» &cEntity Targetable", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjVjNGQyNGFmZmRkNDgxMDI2MjAzNjE1MjdkMjE1NmUxOGMyMjNiYWU1MTg5YWM0Mzk4MTU2NDNmM2NmZjlkIn19fQ")
 public abstract class VariableAction extends Action {
     protected static final String NAME_DEFAULT = "var";

@@ -20,7 +20,7 @@ import java.util.Map;
 
 @Enumerable.Child
 @Enumerable.Displayable(name = "&c&lSet Numeric Variable", description = "gui.action.variable.numeric-variable.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdkYzNlMjlhMDkyM2U1MmVjZWU2YjRjOWQ1MzNhNzllNzRiYjZiZWQ1NDFiNDk1YTEzYWJkMzU5NjI3NjUzIn19fQ==")
-public class NumericVariableAction extends VariableAction {
+public class SetNumericVariableAction extends VariableAction {
 
     private static final NumericValue VALUE_DEFAULT = new NumericValue(10);
 
@@ -31,16 +31,16 @@ public class NumericVariableAction extends VariableAction {
     @Serializable.Optional(defaultValue = "VALUE_DEFAULT")
     private NumericValue value;
 
-    public NumericVariableAction() {
+    public SetNumericVariableAction() {
         this(TARGET_DEFAULT, NAME_DEFAULT, PERSISTENT_DEFAULT, VALUE_DEFAULT.clone());
     }
 
-    public NumericVariableAction(boolean target, String name, boolean persistent, NumericValue value) {
+    public SetNumericVariableAction(boolean target, String name, boolean persistent, NumericValue value) {
         super(target, name, persistent);
         this.value = value;
     }
 
-    public NumericVariableAction(Map<String, Object> map) {
+    public SetNumericVariableAction(Map<String, Object> map) {
         super(map);
         this.value = (NumericValue) map.getOrDefault("value", VALUE_DEFAULT.clone());
     }
@@ -82,7 +82,7 @@ public class NumericVariableAction extends VariableAction {
 
     @Override
     public Action clone() {
-        return new NumericVariableAction(target, name, persistent, value.clone());
+        return new SetNumericVariableAction(target, name, persistent, value.clone());
     }
 
     @Override

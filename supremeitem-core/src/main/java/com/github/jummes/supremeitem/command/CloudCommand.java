@@ -138,8 +138,6 @@ public class CloudCommand extends AbstractCommand {
                     final TypeAdapter<JsonObject> jsonObjectTypeAdapter = gson.getAdapter(JsonObject.class);
                     JsonReader jsonReader = gson.newJsonReader(reader);
                     final JsonObject incomingJsonObject = jsonObjectTypeAdapter.read(jsonReader);
-                    // JsonReader does not consume entire input stream and can read necessary JSON token only
-                    // And this is what we generate
                     incomingJsonObject.getAsJsonArray("skills").forEach(elm ->
                             SupremeItem.getInstance().getSavedSkillManager().addSkill((SavedSkill) NamedModel.
                                     fromSerializedString(new String(CompressUtils.decompress(Base64.getDecoder().
@@ -160,30 +158,30 @@ public class CloudCommand extends AbstractCommand {
 
     private String getPlayerUUID(String playerName) throws IOException {
         String playerId;
-        URL url1 = new URL("https://api.mojang.com/profiles/minecraft");
-        URLConnection con2 = url1.openConnection();
-        HttpURLConnection http2 = (HttpURLConnection) con2;
-        http2.setRequestMethod("POST");
-        http2.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-        http2.setDoOutput(true);
+        URL url = new URL("https://api.mojang.com/profiles/minecraft");
+        URLConnection con = url.openConnection();
+        HttpURLConnection http = (HttpURLConnection) con;
+        http.setRequestMethod("POST");
+        http.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+        http.setDoOutput(true);
         String load = "[\"" + playerName + "\"]";
         byte[] out = load.getBytes(StandardCharsets.UTF_8);
-        http2.connect();
-        try (OutputStream os = http2.getOutputStream()) {
+        http.connect();
+        try (OutputStream os = http.getOutputStream()) {
             os.write(out);
         }
-        try (InputStream is2 = http2.getInputStream()) {
-            Reader reader2 = new InputStreamReader(is2);
-            Gson gson2 = new GsonBuilder().create();
-            final TypeAdapter<JsonObject> jsonObjectTypeAdapter = gson2.getAdapter(JsonObject.class);
-            JsonReader jsonReader = gson2.newJsonReader(reader2);
+        try (InputStream is = http.getInputStream()) {
+            Reader reader = new InputStreamReader(is);
+            Gson gson = new GsonBuilder().create();
+            final TypeAdapter<JsonObject> jsonObjectTypeAdapter = gson.getAdapter(JsonObject.class);
+            JsonReader jsonReader = gson.newJsonReader(reader);
             jsonReader.beginArray();
             final JsonObject incomingJsonObject = jsonObjectTypeAdapter.read(jsonReader);
             playerId = incomingJsonObject.get("id").getAsString();
             jsonReader.endArray();
             jsonReader.close();
         }
-        http2.disconnect();
+        http.disconnect();
 
         return String.format("%s-%s-%s-%s-%s", playerId.substring(0, 8), playerId.substring(8, 12),
                 playerId.substring(12, 16), playerId.substring(16, 20), playerId.substring(20));
