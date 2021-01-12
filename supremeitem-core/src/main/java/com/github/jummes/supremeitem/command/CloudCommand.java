@@ -200,7 +200,7 @@ public class CloudCommand extends AbstractCommand {
             Item item = SupremeItem.getInstance().getItemManager().getByName(name);
 
             if (item == null) {
-                sender.sendMessage(MessageUtils.color("&cThe item &e" + name + "&ccouldn't be found."));
+                sender.sendMessage(MessageUtils.color("&cThe item &e" + name + " &ccouldn't be found."));
                 return;
             }
 
@@ -221,6 +221,7 @@ public class CloudCommand extends AbstractCommand {
                 try (OutputStream os = http.getOutputStream()) {
                     os.write(out);
                 }
+                sender.sendMessage(MessageUtils.color("&aItem correctly exported."));
                 http.disconnect();
             } catch (Exception e) {
                 e.printStackTrace();

@@ -15,7 +15,7 @@ import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.action.variable.VariableAction;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
-import org.apache.commons.compress.utils.Lists;
+import com.google.common.collect.Lists;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
