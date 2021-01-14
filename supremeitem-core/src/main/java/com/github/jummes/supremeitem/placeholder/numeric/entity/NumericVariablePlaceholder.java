@@ -73,6 +73,6 @@ public class NumericVariablePlaceholder extends EntityNumericPlaceholder {
 
     @Override
     public String getName() {
-        return String.format(persistent ? "Persistent" : "" + "% s. % s", target ? "Target" : "Source", name);
+        return String.format((persistent ? "[::] " : "") + "%s.%s", target ? "Target" : "Source", name);
     }
 }

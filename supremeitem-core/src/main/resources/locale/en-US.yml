@@ -453,7 +453,6 @@ gui:
         - "&7&oThe number of times the bar string"
         - "&7&owill be repeated inside the cooldown"
         - "&7&omessage."
-        - "&7&omessage."
     item-actions:
       - "&7&oThe actions to execute on the SupremeItem."
       - "&6&oSource: &ecaster entity."

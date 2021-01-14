@@ -63,7 +63,8 @@ public class DelayedAction extends WrapperAction {
 
     @Override
     public Action clone() {
-        return new DelayedAction(TARGET_DEFAULT, actions.stream().map(Action::clone).collect(Collectors.toList()), delay.clone());
+        return new DelayedAction(TARGET_DEFAULT, actions.stream().map(Action::clone).collect(Collectors.toList()),
+                delay.clone());
     }
 
     @Override

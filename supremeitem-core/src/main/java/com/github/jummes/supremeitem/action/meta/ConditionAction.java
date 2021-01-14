@@ -65,7 +65,8 @@ public class ConditionAction extends WrapperAction {
 
     @Override
     public Action clone() {
-        return new ConditionAction(TARGET_DEFAULT, actions.stream().map(Action::clone).collect(Collectors.toList()), condition.clone());
+        return new ConditionAction(TARGET_DEFAULT, actions.stream().map(Action::clone).collect(Collectors.toList()),
+                condition.clone());
     }
 
     @Override
