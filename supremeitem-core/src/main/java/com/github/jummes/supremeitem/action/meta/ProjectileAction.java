@@ -82,20 +82,22 @@ public class ProjectileAction extends AbstractProjectileAction {
             l = source.getLocation();
         }
 
-        if (l != null) {
-            if (!source.getLocation().equals(target.getLocation())) {
-                if (target instanceof LocationTarget) {
-                    l.setDirection(target.getLocation().clone().toVector().subtract(l.toVector()).normalize());
-                } else if (target instanceof EntityTarget) {
-                    l.setDirection(((EntityTarget) target).getTarget().getEyeLocation().clone().toVector().subtract(l.
-                            toVector()).normalize());
-                }
-            }
-            new Projectile(target, source, l, gravity.getRealValue(target, source), initialSpeed.getRealValue(target, source),
-                    onEntityHitActions, onBlockHitActions, onProjectileTickActions,
-                    this.entity, this.hitBoxSize.getRealValue(target, source), maxDistance.getRealValue(target, source).intValue(),
-                    projectileSpread.getRealValue(target, source).intValue()).run();
+        if (l == null) {
+            return ActionResult.FAILURE;
         }
+
+        if (!source.getLocation().equals(target.getLocation())) {
+            if (target instanceof LocationTarget) {
+                l.setDirection(target.getLocation().clone().toVector().subtract(l.toVector()).normalize());
+            } else if (target instanceof EntityTarget) {
+                l.setDirection(((EntityTarget) target).getTarget().getEyeLocation().clone().toVector().subtract(l.
+                        toVector()).normalize());
+            }
+        }
+        new Projectile(target, source, l, gravity.getRealValue(target, source), initialSpeed.getRealValue(target, source),
+                onEntityHitActions, onBlockHitActions, onProjectileTickActions,
+                this.entity, this.hitBoxSize.getRealValue(target, source), maxDistance.getRealValue(target, source).intValue(),
+                projectileSpread.getRealValue(target, source).intValue()).run();
         return ActionResult.SUCCESS;
     }
 
