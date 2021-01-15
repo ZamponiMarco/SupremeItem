@@ -5,7 +5,6 @@ import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.database.factory.DatabaseFactory;
 import com.github.jummes.libs.gui.FieldInventoryHolderFactory;
 import com.github.jummes.supremeitem.action.Action;
-import com.github.jummes.supremeitem.action.location.ParticleAction;
 import com.github.jummes.supremeitem.action.meta.MoveLocationTargetAction;
 import com.github.jummes.supremeitem.action.meta.RandomAction;
 import com.github.jummes.supremeitem.area.Area;
@@ -96,10 +95,6 @@ public class SupremeItem extends JavaPlugin {
         ConfigurationSerialization.registerClass(SavedPlaceholder.class);
 
         ConfigurationSerialization.registerClass(Vector.class);
-
-        ConfigurationSerialization.registerClass(ParticleAction.BlockDataData.class);
-        ConfigurationSerialization.registerClass(ParticleAction.DustOptionsData.class);
-        ConfigurationSerialization.registerClass(ParticleAction.ItemStackData.class);
 
         ConfigurationSerialization.registerClass(Area.class);
 

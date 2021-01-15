@@ -2,29 +2,26 @@ package com.github.jummes.supremeitem.action.location;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
-import com.github.jummes.libs.core.Libs;
-import com.github.jummes.libs.model.Model;
 import com.github.jummes.libs.model.ModelPath;
-import com.github.jummes.libs.model.wrapper.ItemStackWrapper;
-import com.github.jummes.libs.util.ItemUtils;
+import com.github.jummes.libs.model.util.particle.options.ParticleOptions;
 import com.github.jummes.libs.util.MapperUtils;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.value.NumericValue;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.SneakyThrows;
 import org.apache.commons.lang.WordUtils;
-import org.bukkit.*;
-import org.bukkit.block.data.BlockData;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -73,7 +70,8 @@ public class ParticleAction extends LocationAction {
                 SPEED_DEFAULT.clone(), FORCE_DEFAULT, null);
     }
 
-    public ParticleAction(boolean target, Particle type, NumericValue count, NumericValue offset, NumericValue speed, boolean force, ParticleOptions data) {
+    public ParticleAction(boolean target, Particle type, NumericValue count, NumericValue offset, NumericValue speed,
+                          boolean force, ParticleOptions data) {
         super(target);
         this.type = type;
         this.count = count;
@@ -87,24 +85,18 @@ public class ParticleAction extends LocationAction {
         super(map);
         this.type = Particle.valueOf((String) map.getOrDefault("type", "FIREWORKS_SPARK"));
         this.force = (boolean) map.getOrDefault("force", FORCE_DEFAULT);
-        this.data = (ParticleOptions) map.get("data");
-
         this.count = (NumericValue) map.getOrDefault("count", COUNT_DEFAULT.clone());
         this.offset = (NumericValue) map.getOrDefault("offset", OFFSET_DEFAULT.clone());
         this.speed = (NumericValue) map.getOrDefault("speed", SPEED_DEFAULT.clone());
+        this.data = (ParticleOptions) map.get("data");
     }
 
     public static List<Object> getParticles(ModelPath<?> path) {
-        return Arrays.stream(Particle.values()).filter(particle -> !particle.name().toLowerCase().contains("legacy")).
-                collect(Collectors.toList());
+        return MapperUtils.getParticles();
     }
 
     public static Function<Object, ItemStack> particlesMapper() {
-        return obj -> {
-            Particle type = (Particle) obj;
-            return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDQ2MWQ5ZDA2YzBiZjRhN2FmNGIxNmZkMTI4MzFlMmJlMGNmNDJlNmU1NWU5YzBkMzExYTJhODk2NWEyM2IzNCJ9fX0="),
-                    type.name(), new ArrayList<>());
-        };
+        return MapperUtils.particlesMapper();
     }
 
     @Override
@@ -142,156 +134,6 @@ public class ParticleAction extends LocationAction {
     public void onModify(Field field) {
         if (data == null || !data.getClass().equals(ParticleOptions.getParticleOptionsMap().get(type.getDataType()))) {
             data = ParticleOptions.buildOptions(type.getDataType());
-        }
-    }
-
-    public static abstract class ParticleOptions implements Model, Cloneable {
-
-        @SneakyThrows
-        protected static ParticleOptions buildOptions(Class<?> clazz) {
-            Class<? extends ParticleOptions> optionsClass = getParticleOptionsMap().get(clazz);
-            if (optionsClass != null) {
-                return optionsClass.getConstructor().newInstance();
-            }
-            return null;
-        }
-
-        protected static Map<Class<?>, Class<? extends ParticleOptions>> getParticleOptionsMap() {
-            Map<Class<?>, Class<? extends ParticleOptions>> map = new HashMap<>();
-            map.put(Particle.DustOptions.class, DustOptionsData.class);
-            map.put(ItemStack.class, ItemStackData.class);
-            map.put(BlockData.class, BlockDataData.class);
-            return map;
-        }
-
-        protected abstract Object buildData();
-
-        protected abstract ParticleOptions clone();
-
-    }
-
-    @AllArgsConstructor
-    @Enumerable.Child
-    @Getter
-    @Setter
-    public static class DustOptionsData extends ParticleOptions {
-
-        private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmIyYzI2NzhlOTM2NDA5ODhlNjg1YWM4OTM0N2VmYTQ1MjQxMTljOWQ4ZjcyNzhjZTAxODFiYzNlNGZiMmIwOSJ9fX0=";
-
-        @Serializable(headTexture = HEAD)
-        private String hexColor;
-        @Serializable(headTexture = HEAD)
-        @Serializable.Number(minValue = 0)
-        private double size;
-
-        public DustOptionsData() {
-            this("ffbb00", 2.0);
-        }
-
-        public static DustOptionsData deserialize(Map<String, Object> map) {
-            String hexColor = (String) map.get("hexColor");
-            double size = (double) map.get("size");
-            return new DustOptionsData(hexColor, size);
-        }
-
-        @Override
-        protected Object buildData() {
-            return new Particle.DustOptions(hex2Rgb(hexColor), (float) size);
-        }
-
-        @Override
-        protected ParticleOptions clone() {
-            return new DustOptionsData(hexColor, size);
-        }
-
-        public Color hex2Rgb(String colorStr) {
-            return Color.fromRGB(
-                    Integer.valueOf(colorStr.substring(0, 2), 16),
-                    Integer.valueOf(colorStr.substring(2, 4), 16),
-                    Integer.valueOf(colorStr.substring(4, 6), 16));
-        }
-    }
-
-    @AllArgsConstructor
-    @Enumerable.Child
-    @Getter
-    @Setter
-    public static class ItemStackData extends ParticleOptions {
-
-        private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTJiMzViZGE1ZWJkZjEzNWY0ZTcxY2U0OTcyNmZiZWM1NzM5ZjBhZGVkZjAxYzUxOWUyYWVhN2Y1MTk1MWVhMiJ9fX0=";
-
-        @Serializable(headTexture = HEAD, stringValue = true, fromListMapper = "materialListMapper", fromList = "materialList")
-        private Material item;
-
-        public ItemStackData() {
-            this(Material.IRON_AXE);
-        }
-
-        public static ItemStackData deserialize(Map<String, Object> map) {
-            Material item;
-            try {
-                item = Material.valueOf((String) map.get("item"));
-            } catch (Exception e) {
-                item = ((ItemStackWrapper) map.get("item")).getWrapped().getType();
-            }
-            return new ItemStackData(item);
-        }
-
-        public static List<Object> materialList(ModelPath<?> path) {
-            return MapperUtils.getMaterialList();
-        }
-
-        public static Function<Object, ItemStack> materialListMapper() {
-            return MapperUtils.getMaterialMapper();
-        }
-
-        @Override
-        protected Object buildData() {
-            return new ItemStack(item);
-        }
-
-        @Override
-        protected ParticleOptions clone() {
-            return new ItemStackData(item);
-        }
-    }
-
-    @AllArgsConstructor
-    @Enumerable.Child
-    @Getter
-    @Setter
-    public static class BlockDataData extends ParticleOptions {
-
-        private static final String HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTU0ODE4MjMzYzgxMTg3M2U4NWY1YTRlYTQ0MjliNzVmMjNiNmFlMGVhNmY1ZmMwZjdiYjQyMGQ3YzQ3MSJ9fX0=";
-
-        @Serializable(headTexture = HEAD, stringValue = true, fromListMapper = "materialListMapper", fromList = "materialList")
-        private Material material;
-
-        public BlockDataData() {
-            this(Material.STONE);
-        }
-
-        public static BlockDataData deserialize(Map<String, Object> map) {
-            Material material = Material.valueOf((String) map.get("material"));
-            return new BlockDataData(material);
-        }
-
-        public static List<Object> materialList(ModelPath<?> path) {
-            return MapperUtils.getMaterialList().stream().filter(m -> ((Material) m).isBlock()).collect(Collectors.toList());
-        }
-
-        public static Function<Object, ItemStack> materialListMapper() {
-            return MapperUtils.getMaterialMapper();
-        }
-
-        @Override
-        protected Object buildData() {
-            return Bukkit.createBlockData(material);
-        }
-
-        @Override
-        protected ParticleOptions clone() {
-            return new BlockDataData(material);
         }
     }
 }
