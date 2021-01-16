@@ -56,7 +56,7 @@ public class MessageAction extends EntityAction {
 
     @Override
     public Action clone() {
-        return new MessageAction(target, message);
+        return new MessageAction(target, message.clone());
     }
 
     @Override

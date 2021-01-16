@@ -35,6 +35,12 @@ gui:
       - "&7&oWhether the action should be executed"
       - "&7&oon the skill target or the skill source."
     entity:
+      action-bar:
+        description:
+          - "&7&oSet an action that sends an action bar"
+          - "&7&omessage to the player."
+        message:
+          - "&7&oThe message to send."
       block-event:
         description:
           - "&7&oSet an action that blocks a type of event"
