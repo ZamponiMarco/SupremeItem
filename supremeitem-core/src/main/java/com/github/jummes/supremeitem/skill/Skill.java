@@ -17,7 +17,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Getter
-@Enumerable.Parent(classArray = {CooldownSkill.class, LeftClickSkill.class, RightClickSkill.class, CombatSkill.class,
+@Enumerable.Parent(classArray = {CooldownSkill.class, InteractionSkill.class, CombatSkill.class,
         MovementSkill.class, TimerSkill.class})
 public abstract class Skill implements Model {
 

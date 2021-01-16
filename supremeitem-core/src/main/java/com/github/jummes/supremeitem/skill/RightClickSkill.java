@@ -21,7 +21,7 @@ import java.util.stream.Stream;
 @Getter
 @Setter
 @Enumerable.Child
-@Enumerable.Displayable(name = "&c&lRight click skill", description = "gui.skill.right-click.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTNmYzUyMjY0ZDhhZDllNjU0ZjQxNWJlZjAxYTIzOTQ3ZWRiY2NjY2Y2NDkzNzMyODliZWE0ZDE0OTU0MWY3MCJ9fX0=")
+@Enumerable.Displayable(name = "&c&lRight click skill", description = "gui.skill.interact.right-click.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTNmYzUyMjY0ZDhhZDllNjU0ZjQxNWJlZjAxYTIzOTQ3ZWRiY2NjY2Y2NDkzNzMyODliZWE0ZDE0OTU0MWY3MCJ9fX0=")
 public class RightClickSkill extends CooldownSkill {
 
     private static final int RAY_CAST_DISTANCE_DEFAULT = 30;
@@ -34,11 +34,11 @@ public class RightClickSkill extends CooldownSkill {
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     protected List<Action> onCasterActions;
 
-    @Serializable(headTexture = RAY_CAST_HEAD, description = "gui.skill.right-click.ray-cast-actions")
+    @Serializable(headTexture = RAY_CAST_HEAD, description = "gui.skill.interact.ray-cast-actions")
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     protected List<Action> onRayCastPointActions;
 
-    @Serializable(headTexture = DISTANCE_HEAD, description = "gui.skill.right-click.ray-cast-distance")
+    @Serializable(headTexture = DISTANCE_HEAD, description = "gui.skill.interact.ray-cast-distance")
     @Serializable.Number(minValue = 0)
     @Serializable.Optional(defaultValue = "RAY_CAST_DISTANCE_DEFAULT")
     protected int onRayCastMaxDistance;

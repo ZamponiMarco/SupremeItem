@@ -2,6 +2,7 @@ package com.github.jummes.supremeitem.action.entity;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
+import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.libs.util.MessageUtils;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
@@ -17,7 +18,7 @@ import java.util.Map;
 
 @Getter
 @Setter
-@Enumerable.Displayable(name = "&c&lAction bar message", description = "gui.action.entity.action-bar.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjAyYWYzY2EyZDVhMTYwY2ExMTE0MDQ4Yjc5NDc1OTQyNjlhZmUyYjFiNWVjMjU1ZWU3MmI2ODNiNjBiOTliOSJ9fX0=")
+@Enumerable.Displayable(condition = "paperEnabled", name = "&c&lAction bar message", description = "gui.action.entity.action-bar.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjAyYWYzY2EyZDVhMTYwY2ExMTE0MDQ4Yjc5NDc1OTQyNjlhZmUyYjFiNWVjMjU1ZWU3MmI2ODNiNjBiOTliOSJ9fX0=")
 @Enumerable.Child
 public class ActionBarMessageAction extends EntityAction {
     private static final StringValue DEFAULT_MESSAGE = new StringValue("message");
@@ -40,6 +41,10 @@ public class ActionBarMessageAction extends EntityAction {
     public ActionBarMessageAction(Map<String, Object> map) {
         super(map);
         this.message = (StringValue) map.getOrDefault("message", DEFAULT_MESSAGE.clone());
+    }
+
+    public static boolean paperEnabled(ModelPath path) {
+        return SupremeItem.getInstance().getPaperHook().isSendActionBarEnabled();
     }
 
     @Override

@@ -518,6 +518,24 @@ gui:
         description:
           - "&7&oSet a skill to be triggered when an entity loads"
           - "&7&oa crossbow."
+    interact:
+      description:
+        - "&7&oSet one of the world interaction related skills."
+      ray-cast-actions:
+        - "&7&oThe actions to execute in the location hit by a ray"
+        - "&7&ocast from the caster."
+        - "&6&oSource: &ecaster entity."
+        - "&6&oTarget: &eraycast result location."
+      ray-cast-distance:
+        - "&7&oThe maximum distance of the ray cast."
+      left-click:
+        description:
+          - "&7&oSet a skill to be triggered when an entity left"
+          - "&7&oclicks air with a supreme item in hand."
+      right-click:
+        description:
+          - "&7&oSet a skill to be triggered when an entity right"
+          - "&7&oclicks air with a supreme item in hand."
     movement:
       description:
         - "&7&oSet one of the movement related skills."
@@ -533,28 +551,6 @@ gui:
         description:
           - "&7&oSet a skill to be triggered when a player"
           - "&7&ojumps."
-    left-click:
-      description:
-        - "&7&oSet a skill to be triggered when an entity left"
-        - "&7&oclicks air with a supreme item in hand."
-      ray-cast-actions:
-        - "&7&oThe actions to execute in the location hit by a ray"
-        - "&7&ocast from the caster."
-      ray-cast-distance:
-        - "&7&oThe maximum distance of the ray cast."
-        - "&6&oSource: &ecaster entity."
-        - "&6&oTarget: &eraycast result location."
-    right-click:
-      description:
-        - "&7&oSet a skill to be triggered when an entity right"
-        - "&7&oclicks air with a supreme item in hand."
-      ray-cast-actions:
-        - "&7&oThe actions to execute in the location hit by a ray"
-        - "&7&ocast from the caster."
-        - "&6&oSource: &ecaster entity."
-        - "&6&oTarget: &eraycast result location."
-      ray-cast-distance:
-        - "&7&oThe maximum distance of the ray cast."
     timer:
       description:
         - "&7&oSet a skill to be triggered periodically when an"
