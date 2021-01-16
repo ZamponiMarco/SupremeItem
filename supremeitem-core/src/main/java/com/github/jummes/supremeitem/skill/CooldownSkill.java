@@ -58,8 +58,7 @@ public abstract class CooldownSkill extends Skill {
         int currentCooldown = SupremeItem.getInstance().getCooldownManager().getCooldown(e[0], id, getClass());
         if (currentCooldown == 0) {
             consumeIfConsumable(id, item);
-            cancelled = executeExactSkill(e);
-            onItemActions.forEach(action -> action.execute(new ItemTarget(item, e[0]), new EntitySource(e[0])));
+            cancelled = executeExactSkill(e) | executeItemActions(e[0], item);
             cooldown(e[0], id);
         } else {
             if (e[0] instanceof Player) {
@@ -78,6 +77,11 @@ public abstract class CooldownSkill extends Skill {
     }
 
     protected abstract boolean executeExactSkill(LivingEntity... e);
+
+    private boolean executeItemActions(LivingEntity e, ItemStack item) {
+        return onItemActions.stream().filter(action -> action.execute(new ItemTarget(item, e),
+                new EntitySource(e)).equals(Action.ActionResult.CANCELLED)).count() > 0;
+    }
 
     protected boolean executeCasterActions(LivingEntity e, List<Action> actions) {
         return actions.stream().filter(action -> action.execute(new EntityTarget(e),

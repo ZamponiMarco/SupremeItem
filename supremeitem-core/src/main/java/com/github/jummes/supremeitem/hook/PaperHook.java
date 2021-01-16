@@ -2,6 +2,7 @@ package com.github.jummes.supremeitem.hook;
 
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.entity.BlockEventAction;
+import com.github.jummes.supremeitem.listener.paper.PlayerChangeArmorListener;
 import com.github.jummes.supremeitem.listener.paper.PlayerCrossBowLoadListener;
 import com.github.jummes.supremeitem.listener.paper.PlayerJumpListener;
 import lombok.Getter;
@@ -14,6 +15,7 @@ public class PaperHook implements ExternalHook {
     private boolean isJumpEventEnabled;
     private boolean isCrossbowLoadEventEnabled;
     private boolean isSendActionBarEnabled;
+    private boolean isEquipChangeEnabled;
 
     public PaperHook() {
         PluginManager pluginManager = SupremeItem.getInstance().getServer().getPluginManager();
@@ -36,6 +38,13 @@ public class PaperHook implements ExternalHook {
             Player.class.getMethod("sendActionBar", String.class);
             isSendActionBarEnabled = true;
         } catch (NoSuchMethodException ignored) {
+        }
+        try {
+            Class.forName("com.destroystokyo.paper.event.player.PlayerArmorChangeEvent");
+
+            pluginManager.registerEvents(new PlayerChangeArmorListener(), SupremeItem.getInstance());
+            isEquipChangeEnabled = true;
+        } catch (ClassNotFoundException ignored) {
         }
     }
 

@@ -479,6 +479,13 @@ gui:
     combat:
       description:
         - "&7&oSet one of the combat related skills."
+      armor:
+        description:
+          - "&7&oSet a skill to be triggered when a player"
+          - "&7&oequips or unequips a SupremeItem."
+        equip:
+          - "&7&oIf true the skill is triggered on item equip,"
+          - "&7&ootherwise it's triggered on item unequip."
       bow-shoot:
         description:
           - "&7&oSet a skill to be triggered when an entity"
