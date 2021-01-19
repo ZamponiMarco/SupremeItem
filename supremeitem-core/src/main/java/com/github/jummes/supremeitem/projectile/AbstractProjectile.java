@@ -94,7 +94,7 @@ public abstract class AbstractProjectile {
 
                 updateLocationAndDirection();
 
-                if (gravity > 0) {
+                if (gravity != 0) {
                     double newYSpeed = initialDirection.getY() - gravity * .05;
                     initialDirection.setY(newYSpeed);
                 }

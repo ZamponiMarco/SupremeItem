@@ -108,7 +108,7 @@ public class PlayerItemListener implements Listener {
             Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);
             if (supremeItem != null) {
                 supremeItem.getSkillSet().stream().filter(skill -> skill instanceof EntitySneakSkill &&
-                        activated == ((EntitySneakSkill) skill).isOnActivateSneak() &&
+                        activated == ((EntitySneakSkill) skill).isOnActivate() &&
                         skill.getAllowedSlots().contains(EquipmentSlot.values()[i])).findFirst().
                         ifPresent(skill -> {
                             if (((EntitySneakSkill) skill).executeSkill(player, id, items.get(i)).
@@ -129,7 +129,7 @@ public class PlayerItemListener implements Listener {
             Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);
             if (supremeItem != null) {
                 supremeItem.getSkillSet().stream().filter(skill -> skill instanceof EntitySprintSkill &&
-                        activated == ((EntitySprintSkill) skill).isOnActivateSneak() &&
+                        activated == ((EntitySprintSkill) skill).isOnActivate() &&
                         skill.getAllowedSlots().contains(EquipmentSlot.values()[i])).findFirst().
                         ifPresent(skill -> {
                             if (((EntitySprintSkill) skill).executeSkill(player, id, items.get(i)).

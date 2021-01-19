@@ -38,7 +38,6 @@ public abstract class AbstractProjectileAction extends MetaAction {
     protected NumericValue initialSpeed;
 
     @Serializable(headTexture = GRAVITY_HEAD, description = "gui.action.meta.projectile.gravity", additionalDescription = {"gui.additional-tooltips.value"})
-    @Serializable.Number(minValue = 0)
     @Serializable.Optional(defaultValue = "GRAVITY_DEFAULT")
     protected NumericValue gravity;
 
