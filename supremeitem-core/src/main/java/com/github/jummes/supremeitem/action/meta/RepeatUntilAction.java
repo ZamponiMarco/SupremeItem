@@ -39,7 +39,7 @@ public class RepeatUntilAction extends WrapperAction {
     private Condition condition;
 
     @Serializable(headTexture = TIMER_HEAD, description = "gui.action.meta.wrapper.repeat-until.timer")
-    @Serializable.Number(minValue = 0)
+    @Serializable.Number(minValue = 0, scale = 1)
     @Serializable.Optional(defaultValue = "TIMER_DEFAULT")
     private int timer;
 
