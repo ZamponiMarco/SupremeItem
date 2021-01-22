@@ -296,7 +296,11 @@ gui:
             - "&7&ocontinuously based on a defined"
             - "&7&ointerval until a condition is met."
           actions:
-            - "&7&oThe group of actions to execute."
+            - "&7&oThe group of actions to execute"
+            - "&7&ountil the condition is met."
+          final-actions:
+            - "&7&oThe group of actions to execute"
+            - "&7&owhen the condition is finally met."
           condition:
             - "&7&oThe condition that has to be met"
             - "&7&oto stop executing the actions."

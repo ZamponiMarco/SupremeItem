@@ -18,6 +18,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.Getter;
 import lombok.Setter;
+import org.bukkit.Material;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -61,8 +62,8 @@ public class Item extends NamedModel {
     public Item(Map<String, Object> map) {
         super(map);
         this.id = UUID.fromString((String) map.get("id"));
-        this.item = (ItemStackWrapper) map.get("item");
-        this.skillSet = new HashSet<>((List<Skill>) map.get("skillSet"));
+        this.item = (ItemStackWrapper) map.getOrDefault("item", new ItemStackWrapper());
+        this.skillSet = new HashSet<>((List<Skill>) map.getOrDefault("skillSet", Lists.newArrayList()));
         counter++;
     }
 
@@ -80,6 +81,9 @@ public class Item extends NamedModel {
     }
 
     public ItemStack getUsableItem() {
+        if (item == null) {
+            return getCorruptedItem();
+        }
         ItemStack item = this.item.getWrapped().clone();
         item.setAmount(1);
         return Libs.getWrapper().addTagToItem(item, "supreme-item", getId().toString());
@@ -98,6 +102,9 @@ public class Item extends NamedModel {
 
     @Override
     public ItemStack getGUIItem() {
+        if (item == null) {
+            return getCorruptedItem();
+        }
         List<String> lore = item.getWrapped().getItemMeta() == null ? null : item.getWrapped().getItemMeta().getLore();
         lore = lore == null ? Lists.newArrayList() : lore;
         lore.add(MessageUtils.color("&6&lName: &c" + name));
@@ -105,6 +112,12 @@ public class Item extends NamedModel {
         ItemStack itemStack = item.getWrapped().clone();
         itemStack.setAmount(1);
         return ItemUtils.getNamedItem(itemStack, item.getWrapped().getItemMeta().getDisplayName(), lore);
+    }
+
+    protected ItemStack getCorruptedItem() {
+        return ItemUtils.getNamedItem(new ItemStack(Material.BARRIER), "&4&lCorrupted", Lists.
+                newArrayList(MessageUtils.color("&cThe display item is corrupted"),
+                        MessageUtils.color("&cTry to set it again.")));
     }
 
     public void defaultClickConsumer(JavaPlugin plugin, PluginInventoryHolder parent, ModelPath<?> path, Field field,

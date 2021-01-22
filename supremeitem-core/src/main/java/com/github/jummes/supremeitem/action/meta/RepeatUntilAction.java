@@ -28,12 +28,16 @@ public class RepeatUntilAction extends WrapperAction {
     private static final int TIMER_DEFAULT = 5;
 
     private static final String ACTIONS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvODIxNmVlNDA1OTNjMDk4MWVkMjhmNWJkNjc0ODc5NzgxYzQyNWNlMDg0MWI2ODc0ODFjNGY3MTE4YmI1YzNiMSJ9fX0=";
+    private static final String FINAL_ACTIONS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==";
     private static final String CONDITION_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmMyNzEwNTI3MTllZjY0MDc5ZWU4YzE0OTg5NTEyMzhhNzRkYWM0YzI3Yjk1NjQwZGI2ZmJkZGMyZDZiNWI2ZSJ9fX0=";
     private static final String TIMER_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZlOGNmZjc1ZjdkNDMzMjYwYWYxZWNiMmY3NzNiNGJjMzgxZDk1MWRlNGUyZWI2NjE0MjM3NzlhNTkwZTcyYiJ9fX0=";
 
     @Serializable(headTexture = ACTIONS_HEAD, description = "gui.action.meta.wrapper.repeat-until.actions")
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     private List<Action> actions;
+
+    @Serializable(headTexture = FINAL_ACTIONS_HEAD, description = "gui.action.meta.wrapper.repeat-until.final-actions")
+    private List<Action> finalActions;
 
     @Serializable(headTexture = CONDITION_HEAD, description = "gui.action.meta.wrapper.repeat-until.condition")
     private Condition condition;
@@ -44,12 +48,13 @@ public class RepeatUntilAction extends WrapperAction {
     private int timer;
 
     public RepeatUntilAction() {
-        this(TARGET_DEFAULT, Lists.newArrayList(), new BooleanCondition(), TIMER_DEFAULT);
+        this(TARGET_DEFAULT, Lists.newArrayList(), Lists.newArrayList(), new BooleanCondition(), TIMER_DEFAULT);
     }
 
-    public RepeatUntilAction(boolean target, List<Action> actions, Condition condition, int timer) {
+    public RepeatUntilAction(boolean target, List<Action> actions, List<Action> finalActions, Condition condition, int timer) {
         super(target);
         this.actions = actions;
+        this.finalActions = finalActions;
         this.condition = condition;
         this.timer = timer;
     }
@@ -58,6 +63,8 @@ public class RepeatUntilAction extends WrapperAction {
         super(map);
         this.actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
         this.actions.removeIf(Objects::isNull);
+        this.finalActions = (List<Action>) map.getOrDefault("finalActions", Lists.newArrayList());
+        this.finalActions.removeIf(Objects::isNull);
         this.condition = (Condition) map.getOrDefault("condition", new BooleanCondition());
         this.timer = (int) map.getOrDefault("timer", TIMER_DEFAULT);
     }
@@ -78,6 +85,7 @@ public class RepeatUntilAction extends WrapperAction {
             @Override
             public void run() {
                 if (condition.checkCondition(target, source)) {
+                    finalActions.forEach(action -> action.execute(target, source));
                     this.cancel();
                     return;
                 }
@@ -90,7 +98,7 @@ public class RepeatUntilAction extends WrapperAction {
     @Override
     public Action clone() {
         return new RepeatUntilAction(TARGET_DEFAULT, actions.stream().map(Action::clone).collect(Collectors.toList()),
-                condition.clone(), timer);
+                finalActions.stream().map(Action::clone).collect(Collectors.toList()), condition.clone(), timer);
     }
 
     @Override

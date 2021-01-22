@@ -4,6 +4,10 @@ import com.github.jummes.libs.command.PluginCommandExecutor;
 import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.database.factory.DatabaseFactory;
 import com.github.jummes.libs.gui.FieldInventoryHolderFactory;
+import com.github.jummes.libs.model.util.particle.options.BlockDataOptions;
+import com.github.jummes.libs.model.util.particle.options.DustDataOptions;
+import com.github.jummes.libs.model.util.particle.options.ItemStackOptions;
+import com.github.jummes.libs.model.util.particle.options.ParticleOptions;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.meta.MoveLocationTargetAction;
 import com.github.jummes.supremeitem.action.meta.RandomAction;
@@ -99,6 +103,18 @@ public class SupremeItem extends JavaPlugin {
         ConfigurationSerialization.registerClass(Area.class);
 
         ConfigurationSerialization.registerClass(EntitySorter.class);
+
+        /**
+         * Until 2 months in 1.17
+         */
+        ConfigurationSerialization.registerClass(ParticleOptions.class,
+                "com.github.jummes.supremeitem.action.location.ParticleAction$ParticleOptions");
+        ConfigurationSerialization.registerClass(BlockDataOptions.class,
+                "com.github.jummes.supremeitem.action.location.ParticleAction$BlockDataData");
+        ConfigurationSerialization.registerClass(DustDataOptions.class,
+                "com.github.jummes.supremeitem.action.location.ParticleAction$DustOptionsData");
+        ConfigurationSerialization.registerClass(ItemStackOptions.class,
+                "com.github.jummes.supremeitem.action.location.ParticleAction$ItemStackData");
     }
 
     /*
