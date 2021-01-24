@@ -53,15 +53,47 @@ public class CloudCommand extends AbstractCommand {
             case "list":
                 listItems();
                 break;
+            case "remove":
+                removeItem();
+                break;
             default:
                 printHelpMessage();
         }
+    }
+
+    private void removeItem() {
+        Bukkit.getScheduler().runTaskAsynchronously(SupremeItem.getInstance(), () -> {
+            Player player = (Player) sender;
+            String id = player.getUniqueId().toString();
+
+            if (arguments.length < 2) {
+                return;
+            }
+
+            String itemName = arguments[1];
+
+            URL url;
+            try {
+                url = new URL("http://188.34.166.204:3000/items/" + id + "/" + itemName);
+                URLConnection con = url.openConnection();
+                HttpURLConnection http = (HttpURLConnection) con;
+                http.setRequestMethod("DELETE");
+                http.setDoOutput(true);
+                http.connect();
+                http.getResponseCode();
+                http.disconnect();
+                player.sendMessage(MessageUtils.color("&aItem correctly eliminated from cloud"));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void printHelpMessage() {
         sender.sendMessage(MessageUtils.color("        &cSupreme&6Item &cCloud Help\n" +
                 "&2/si cloud help &7Show cloud help message.\n" +
                 "&2/si cloud list &7Show personal published items.\n" +
+                "&2/si cloud remove [item] &7Remove an exported item from the cloud.\n" +
                 "&2/si cloud export [item] &7Export to cloud the item saved locally.\n" +
                 "&2/si cloud import [player] [item] &7Import from cloud the selected item from the selected player.\n"));
     }
