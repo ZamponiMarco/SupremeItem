@@ -7,6 +7,7 @@ import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.math.Vector;
+import com.github.jummes.supremeitem.value.VectorValue;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,14 +28,15 @@ public class MoveLocationTargetAction extends WrapperAction {
 
     @Serializable(headTexture = ACTIONS_HEAD, description = "gui.action.meta.wrapper.move-location.actions")
     private List<Action> actions;
-    @Serializable(headTexture = VECTOR_HEAD, description = "gui.action.meta.wrapper.move-location.vector")
-    private Vector vector;
+    @Serializable(headTexture = VECTOR_HEAD, description = "gui.action.meta.wrapper.move-location.vector",
+            additionalDescription = {"gui.additional-tooltips.value"})
+    private VectorValue vector;
 
     public MoveLocationTargetAction() {
-        this(TARGET_DEFAULT, Lists.newArrayList(), new Vector());
+        this(TARGET_DEFAULT, Lists.newArrayList(), new VectorValue());
     }
 
-    public MoveLocationTargetAction(boolean target, List<Action> actions, Vector vector) {
+    public MoveLocationTargetAction(boolean target, List<Action> actions, VectorValue vector) {
         super(target);
         this.actions = actions;
         this.vector = vector;
@@ -44,7 +46,11 @@ public class MoveLocationTargetAction extends WrapperAction {
         super(map);
         this.actions = (List<Action>) map.getOrDefault("actions", Lists.newArrayList());
         this.actions.removeIf(Objects::isNull);
-        this.vector = (Vector) map.getOrDefault("vector", new Vector());
+        try {
+            this.vector = (VectorValue) map.getOrDefault("vector", new VectorValue());
+        } catch (ClassCastException e) {
+            this.vector = new VectorValue((Vector) map.getOrDefault("vector", new Vector()));
+        }
     }
 
     @Override
@@ -55,7 +61,7 @@ public class MoveLocationTargetAction extends WrapperAction {
     @Override
     public ActionResult execute(Target target, Source source) {
         if (actions.stream().filter(action -> action.execute(new LocationTarget(getLocation(target, source).
-                clone().add(vector.computeVector(target, source))), source).equals(ActionResult.CANCELLED)).count() > 0) {
+                clone().add(vector.getRealValue(target, source).computeVector(target, source))), source).equals(ActionResult.CANCELLED)).count() > 0) {
             return ActionResult.CANCELLED;
         }
         return ActionResult.SUCCESS;

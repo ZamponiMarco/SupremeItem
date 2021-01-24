@@ -6,6 +6,7 @@ import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.math.Vector;
+import com.github.jummes.supremeitem.value.VectorValue;
 import org.bukkit.entity.LivingEntity;
 
 import java.util.Map;
@@ -16,21 +17,26 @@ public class RelativeTeleportAction extends EntityAction {
 
     private static final String VECTOR_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTNmYzUyMjY0ZDhhZDllNjU0ZjQxNWJlZjAxYTIzOTQ3ZWRiY2NjY2Y2NDkzNzMyODliZWE0ZDE0OTU0MWY3MCJ9fX0";
 
-    @Serializable(headTexture = VECTOR_HEAD, description = "gui.action.entity.relative-teleport.coordinates")
-    private Vector relativeCoordinates;
+    @Serializable(headTexture = VECTOR_HEAD, description = "gui.action.entity.relative-teleport.coordinates",
+            additionalDescription = {"gui.additional-tooltips.value"})
+    private VectorValue relativeCoordinates;
 
     public RelativeTeleportAction() {
-        this(TARGET_DEFAULT, new Vector());
+        this(TARGET_DEFAULT, new VectorValue());
     }
 
-    public RelativeTeleportAction(boolean target, Vector relativeCoordinates) {
+    public RelativeTeleportAction(boolean target, VectorValue relativeCoordinates) {
         super(target);
         this.relativeCoordinates = relativeCoordinates;
     }
 
     public RelativeTeleportAction(Map<String, Object> map) {
         super(map);
-        this.relativeCoordinates = (Vector) map.get("relativeCoordinates");
+        try {
+            this.relativeCoordinates = (VectorValue) map.getOrDefault("relativeCoordinates", new VectorValue());
+        } catch (ClassCastException e) {
+            this.relativeCoordinates = new VectorValue((Vector) map.getOrDefault("relativeCoordinates", new Vector()));
+        }
     }
 
     @Override
@@ -41,8 +47,8 @@ public class RelativeTeleportAction extends EntityAction {
             return ActionResult.FAILURE;
         }
 
-        entity.teleport(entity.getLocation().clone().add(relativeCoordinates.computeVector(target, source)));
-
+        entity.teleport(entity.getLocation().clone().add(relativeCoordinates.getRealValue(target, source).
+                computeVector(target, source)));
         return ActionResult.SUCCESS;
     }
 
