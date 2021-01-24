@@ -9,6 +9,7 @@ import com.github.jummes.libs.model.util.particle.options.DustDataOptions;
 import com.github.jummes.libs.model.util.particle.options.ItemStackOptions;
 import com.github.jummes.libs.model.util.particle.options.ParticleOptions;
 import com.github.jummes.supremeitem.action.Action;
+import com.github.jummes.supremeitem.action.meta.MoveLocationTargetAction;
 import com.github.jummes.supremeitem.action.meta.RandomAction;
 import com.github.jummes.supremeitem.area.Area;
 import com.github.jummes.supremeitem.command.*;
@@ -65,6 +66,8 @@ public class SupremeItem extends JavaPlugin {
         ConfigurationSerialization.registerClass(CooldownSkill.CooldownOptions.class);
 
         ConfigurationSerialization.registerClass(Action.class);
+        ConfigurationSerialization.registerClass(MoveLocationTargetAction.class,
+                "com.github.jummes.supremeitem.action.location.MoveLocationTargetAction");
         ConfigurationSerialization.registerClass(RandomAction.RandomActionEntry.class);
 
         ConfigurationSerialization.registerClass(Entity.class);
