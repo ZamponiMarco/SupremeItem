@@ -4,6 +4,7 @@ import com.destroystokyo.paper.event.player.PlayerArmorChangeEvent;
 import com.github.jummes.libs.core.Libs;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.item.Item;
+import com.github.jummes.supremeitem.manager.ItemManager;
 import com.github.jummes.supremeitem.skill.EntityEquipArmorSkill;
 import com.github.jummes.supremeitem.skill.Skill;
 import org.bukkit.entity.LivingEntity;
@@ -28,9 +29,9 @@ public class PlayerChangeArmorListener implements Listener {
     private boolean executeEquipSkill(LivingEntity entity, ItemStack oldItem, ItemStack newItem, EquipmentSlot slot) {
         AtomicBoolean toReturn = new AtomicBoolean(false);
 
-        if (oldItem != null && Item.isSupremeItem(oldItem)) {
+        if (oldItem != null && ItemManager.isSupremeItem(oldItem)) {
             UUID oldItemId = UUID.fromString(Libs.getWrapper().getTagItem(oldItem, "supreme-item"));
-            Item oldSupremeItem = SupremeItem.getInstance().getItemManager().getById(oldItemId);
+            Item oldSupremeItem = SupremeItem.getInstance().getItemManager().getItemById(oldItemId);
             if (oldSupremeItem != null) {
                 oldSupremeItem.getSkillSet().stream().filter(skill -> skill instanceof EntityEquipArmorSkill &&
                         !((EntityEquipArmorSkill) skill).isOnEquip() && skill.getAllowedSlots().contains(slot)).findFirst().
@@ -43,9 +44,9 @@ public class PlayerChangeArmorListener implements Listener {
             }
         }
 
-        if (newItem != null && Item.isSupremeItem(newItem)) {
+        if (newItem != null && ItemManager.isSupremeItem(newItem)) {
             UUID newItemId = UUID.fromString(Libs.getWrapper().getTagItem(newItem, "supreme-item"));
-            Item newSupremeItem = SupremeItem.getInstance().getItemManager().getById(newItemId);
+            Item newSupremeItem = SupremeItem.getInstance().getItemManager().getItemById(newItemId);
             if (newSupremeItem != null) {
                 newSupremeItem.getSkillSet().stream().filter(skill -> skill instanceof EntityEquipArmorSkill &&
                         ((EntityEquipArmorSkill) skill).isOnEquip() && skill.getAllowedSlots().contains(slot)).findFirst().

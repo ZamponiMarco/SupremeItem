@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.SneakyThrows;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import java.lang.reflect.Field;
 import java.util.Map;
 
 @Getter
@@ -41,5 +42,18 @@ public abstract class NamedModel implements Model {
         YamlConfiguration config = new YamlConfiguration();
         config.set("model", this);
         return config.saveToString();
+    }
+
+    protected abstract boolean isAlreadyPresent(String name);
+
+    @Override
+    public Object beforeModify(Field field, Object value) {
+        if ("name".equals(field.getName())) {
+            String stringValue = (String) value;
+            if (isAlreadyPresent(stringValue)) {
+                return stringValue.concat("-copy");
+            }
+        }
+        return null;
     }
 }

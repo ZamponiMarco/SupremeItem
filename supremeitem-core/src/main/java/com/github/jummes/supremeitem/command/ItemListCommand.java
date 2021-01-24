@@ -1,9 +1,9 @@
 package com.github.jummes.supremeitem.command;
 
 import com.github.jummes.libs.command.AbstractCommand;
-import com.github.jummes.libs.gui.model.ModelCollectionInventoryHolder;
+import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.supremeitem.SupremeItem;
-import com.github.jummes.supremeitem.item.Item;
+import com.github.jummes.supremeitem.gui.ItemCollectionInventoryHolder;
 import lombok.SneakyThrows;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -19,8 +19,9 @@ public class ItemListCommand extends AbstractCommand {
     @Override
     protected void execute() {
         Player p = (Player) sender;
-        p.openInventory(new ModelCollectionInventoryHolder<Item>(SupremeItem.getInstance(),
-                SupremeItem.getInstance().getItemManager(), "items").getInventory());
+        p.openInventory(new ItemCollectionInventoryHolder(SupremeItem.getInstance(), null,
+                new ModelPath<>(SupremeItem.getInstance().getItemManager(), null), SupremeItem.getInstance().
+                getItemManager().getClass().getDeclaredField("items"), 1, o -> true).getInventory());
     }
 
     @Override

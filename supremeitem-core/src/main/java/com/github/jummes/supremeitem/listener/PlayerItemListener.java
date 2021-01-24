@@ -3,6 +3,7 @@ package com.github.jummes.supremeitem.listener;
 import com.github.jummes.libs.core.Libs;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.item.Item;
+import com.github.jummes.supremeitem.manager.ItemManager;
 import com.github.jummes.supremeitem.skill.*;
 import com.github.jummes.supremeitem.util.Utils;
 import org.bukkit.entity.LivingEntity;
@@ -103,9 +104,9 @@ public class PlayerItemListener implements Listener {
     private boolean executeSneakSkill(Player player, boolean activated) {
         AtomicBoolean toReturn = new AtomicBoolean(false);
         List<ItemStack> items = Utils.getEntityItems(player);
-        IntStream.range(0, items.size()).filter(i -> Item.isSupremeItem(items.get(i))).forEach(i -> {
+        IntStream.range(0, items.size()).filter(i -> ItemManager.isSupremeItem(items.get(i))).forEach(i -> {
             UUID id = UUID.fromString(Libs.getWrapper().getTagItem(items.get(i), "supreme-item"));
-            Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);
+            Item supremeItem = SupremeItem.getInstance().getItemManager().getItemById(id);
             if (supremeItem != null) {
                 supremeItem.getSkillSet().stream().filter(skill -> skill instanceof EntitySneakSkill &&
                         activated == ((EntitySneakSkill) skill).isOnActivate() &&
@@ -124,9 +125,9 @@ public class PlayerItemListener implements Listener {
     private boolean executeSprintSkill(Player player, boolean activated) {
         AtomicBoolean toReturn = new AtomicBoolean(false);
         List<ItemStack> items = Utils.getEntityItems(player);
-        IntStream.range(0, items.size()).filter(i -> Item.isSupremeItem(items.get(i))).forEach(i -> {
+        IntStream.range(0, items.size()).filter(i -> ItemManager.isSupremeItem(items.get(i))).forEach(i -> {
             UUID id = UUID.fromString(Libs.getWrapper().getTagItem(items.get(i), "supreme-item"));
-            Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);
+            Item supremeItem = SupremeItem.getInstance().getItemManager().getItemById(id);
             if (supremeItem != null) {
                 supremeItem.getSkillSet().stream().filter(skill -> skill instanceof EntitySprintSkill &&
                         activated == ((EntitySprintSkill) skill).isOnActivate() &&
@@ -145,9 +146,9 @@ public class PlayerItemListener implements Listener {
     private boolean executeBowSkill(LivingEntity entity) {
         AtomicBoolean toReturn = new AtomicBoolean(false);
         List<ItemStack> items = Utils.getEntityItems(entity);
-        IntStream.range(0, items.size()).filter(i -> Item.isSupremeItem(items.get(i))).forEach(i -> {
+        IntStream.range(0, items.size()).filter(i -> ItemManager.isSupremeItem(items.get(i))).forEach(i -> {
             UUID id = UUID.fromString(Libs.getWrapper().getTagItem(items.get(i), "supreme-item"));
-            Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);
+            Item supremeItem = SupremeItem.getInstance().getItemManager().getItemById(id);
             if (supremeItem != null) {
                 supremeItem.getSkillSet().stream().filter(skill -> skill instanceof EntityBowShootSkill &&
                         skill.getAllowedSlots().contains(EquipmentSlot.values()[i])).findFirst().
@@ -171,13 +172,13 @@ public class PlayerItemListener implements Listener {
         Player p = e.getPlayer();
         Action action = e.getAction();
         List<ItemStack> items = Utils.getEntityItems(p);
-        IntStream.range(0, items.size()).filter(i -> Item.isSupremeItem(items.get(i))).forEach(i ->
+        IntStream.range(0, items.size()).filter(i -> ItemManager.isSupremeItem(items.get(i))).forEach(i ->
                 executeItemInteractSkill(p, action, items.get(i), EquipmentSlot.values()[i]));
     }
 
     private void executeItemInteractSkill(Player p, Action action, ItemStack item, EquipmentSlot slot) {
         UUID id = UUID.fromString(Libs.getWrapper().getTagItem(item, "supreme-item"));
-        Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);
+        Item supremeItem = SupremeItem.getInstance().getItemManager().getItemById(id);
         if (supremeItem != null) {
             if (action.equals(Action.RIGHT_CLICK_AIR)) {
                 supremeItem.getSkillSet().stream().filter(skill -> skill instanceof RightClickSkill && skill.
@@ -201,9 +202,9 @@ public class PlayerItemListener implements Listener {
     private boolean executeDamageEntitySkill(LivingEntity damager, LivingEntity damaged) {
         AtomicBoolean toReturn = new AtomicBoolean(false);
         List<ItemStack> items = Utils.getEntityItems(damaged);
-        IntStream.range(0, items.size()).filter(i -> Item.isSupremeItem(items.get(i))).forEach(i -> {
+        IntStream.range(0, items.size()).filter(i -> ItemManager.isSupremeItem(items.get(i))).forEach(i -> {
             UUID id = UUID.fromString(Libs.getWrapper().getTagItem(items.get(i), "supreme-item"));
-            Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);
+            Item supremeItem = SupremeItem.getInstance().getItemManager().getItemById(id);
             if (supremeItem != null) {
                 supremeItem.getSkillSet().stream().filter(skill -> skill instanceof DamageEntitySkill &&
                         skill.getAllowedSlots().contains(EquipmentSlot.values()[i])).findFirst().
@@ -228,9 +229,9 @@ public class PlayerItemListener implements Listener {
     private boolean executeHitEntitySkill(LivingEntity damager, LivingEntity damaged) {
         AtomicBoolean toReturn = new AtomicBoolean(false);
         List<ItemStack> items = Utils.getEntityItems(damager);
-        IntStream.range(0, items.size()).filter(i -> Item.isSupremeItem(items.get(i))).forEach(i -> {
+        IntStream.range(0, items.size()).filter(i -> ItemManager.isSupremeItem(items.get(i))).forEach(i -> {
             UUID id = UUID.fromString(Libs.getWrapper().getTagItem(items.get(i), "supreme-item"));
-            Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);
+            Item supremeItem = SupremeItem.getInstance().getItemManager().getItemById(id);
             if (supremeItem != null) {
                 supremeItem.getSkillSet().stream().filter(skill -> skill instanceof HitEntitySkill &&
                         skill.getAllowedSlots().contains(EquipmentSlot.values()[i])).findFirst().

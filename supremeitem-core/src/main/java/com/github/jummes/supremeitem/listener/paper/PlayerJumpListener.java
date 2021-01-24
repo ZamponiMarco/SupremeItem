@@ -4,6 +4,7 @@ import com.destroystokyo.paper.event.player.PlayerJumpEvent;
 import com.github.jummes.libs.core.Libs;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.item.Item;
+import com.github.jummes.supremeitem.manager.ItemManager;
 import com.github.jummes.supremeitem.skill.EntityJumpSkill;
 import com.github.jummes.supremeitem.skill.Skill;
 import com.github.jummes.supremeitem.util.Utils;
@@ -38,9 +39,9 @@ public class PlayerJumpListener implements Listener {
     private boolean executeJumpSkill(Player player) {
         AtomicBoolean toReturn = new AtomicBoolean(false);
         List<ItemStack> items = Utils.getEntityItems(player);
-        IntStream.range(0, items.size()).filter(i -> Item.isSupremeItem(items.get(i))).forEach(i -> {
+        IntStream.range(0, items.size()).filter(i -> ItemManager.isSupremeItem(items.get(i))).forEach(i -> {
             UUID id = UUID.fromString(Libs.getWrapper().getTagItem(items.get(i), "supreme-item"));
-            Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);
+            Item supremeItem = SupremeItem.getInstance().getItemManager().getItemById(id);
             if (supremeItem != null) {
                 supremeItem.getSkillSet().stream().filter(skill -> skill instanceof EntityJumpSkill &&
                         skill.getAllowedSlots().contains(EquipmentSlot.values()[i])).findFirst().

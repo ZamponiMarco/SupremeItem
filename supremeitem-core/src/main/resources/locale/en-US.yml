@@ -10,9 +10,18 @@ gui:
     - "&7&oThe name of the model."
   item:
     description:
-      - "&6&lLeft click &eto modify."
-      - "&6&lRight click &eto delete."
-      - "&6&lMiddle click &eto get the item."
+      - "&6&l- Left click &eto modify."
+      - "&6&l- Right click &eto delete."
+      - "&6&l- Middle click &eto get the item."
+      - "&6&l- [9] &eto wrap in a new folder."
+      - "&6&l- [Q] &eto select/deselect this item."
+      - "&6&l- [Ctrl+Q] &eto select/deselect all items."
+    folder-description:
+      - "&6&l- Left click &eto modify."
+      - "&6&l- Right click &eto delete."
+      - "&6&l- [9] &eto unwrap contained items."
+      - "&6&l- [Q] &eto select/deselect this item."
+      - "&6&l- [Ctrl+Q] &eto select/deselect all items."
     item:
       - "&7&oThe base item that will trigger"
       - "&7&othe skills. (Note, only the items"

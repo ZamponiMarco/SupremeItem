@@ -1,41 +1,25 @@
 package com.github.jummes.supremeitem.item;
 
-import com.github.jummes.libs.annotation.CustomClickable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.core.Libs;
-import com.github.jummes.libs.gui.PluginInventoryHolder;
-import com.github.jummes.libs.gui.model.ModelObjectInventoryHolder;
-import com.github.jummes.libs.gui.model.RemoveConfirmationInventoryHolder;
-import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.libs.model.wrapper.ItemStackWrapper;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.libs.util.MessageUtils;
 import com.github.jummes.supremeitem.SupremeItem;
-import com.github.jummes.supremeitem.database.NamedModel;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.github.jummes.supremeitem.skill.Skill;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.Getter;
-import lombok.Setter;
-import org.bukkit.Material;
-import org.bukkit.event.inventory.ClickType;
-import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
 
-import java.lang.reflect.Field;
 import java.util.*;
 
 @Getter
-@Setter
-@CustomClickable(customCollectionClickConsumer = "defaultClickConsumer")
-public class Item extends NamedModel {
+public class Item extends AbstractItem {
 
     private static final String SKILL_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmJiMTI1NmViOWY2NjdjMDVmYjIxZTAyN2FhMWQ1MzU1OGJkYTc0ZTI0MGU0ZmE5ZTEzN2Q4NTFjNDE2ZmU5OCJ9fX0=";
-
-    private static int counter = 1;
-
+    protected static int itemCounter = 1;
     @Serializable(stringValue = true)
     private UUID id;
     @Serializable(description = "gui.item.item", displayItem = "getUsableItem",
@@ -56,7 +40,7 @@ public class Item extends NamedModel {
         this.id = id;
         this.item = item;
         this.skillSet = skillSet;
-        counter++;
+        itemCounter++;
     }
 
     public Item(Map<String, Object> map) {
@@ -64,20 +48,16 @@ public class Item extends NamedModel {
         this.id = UUID.fromString((String) map.get("id"));
         this.item = (ItemStackWrapper) map.getOrDefault("item", new ItemStackWrapper());
         this.skillSet = new HashSet<>((List<Skill>) map.getOrDefault("skillSet", Lists.newArrayList()));
-        counter++;
+        itemCounter++;
     }
 
-    private static String nextAvailableName() {
+    protected static String nextAvailableName() {
         String name;
         do {
-            name = "item" + counter;
-            counter++;
-        } while (SupremeItem.getInstance().getItemManager().getByName(name) != null);
+            name = "item" + itemCounter;
+            itemCounter++;
+        } while (SupremeItem.getInstance().getItemManager().getAbstractItemByName(name) != null);
         return name;
-    }
-
-    public static boolean isSupremeItem(ItemStack i) {
-        return !Libs.getWrapper().getTagItem(i, "supreme-item").equals("");
     }
 
     public ItemStack getUsableItem() {
@@ -114,25 +94,6 @@ public class Item extends NamedModel {
         return ItemUtils.getNamedItem(itemStack, item.getWrapped().getItemMeta().getDisplayName(), lore);
     }
 
-    protected ItemStack getCorruptedItem() {
-        return ItemUtils.getNamedItem(new ItemStack(Material.BARRIER), "&4&lCorrupted", Lists.
-                newArrayList(MessageUtils.color("&cThe display item is corrupted"),
-                        MessageUtils.color("&cTry to set it again.")));
-    }
-
-    public void defaultClickConsumer(JavaPlugin plugin, PluginInventoryHolder parent, ModelPath<?> path, Field field,
-                                     InventoryClickEvent e) {
-        if (e.getClick().equals(ClickType.LEFT)) {
-            path.addModel(this);
-            e.getWhoClicked().openInventory(new ModelObjectInventoryHolder(plugin, parent, path).getInventory());
-        } else if (e.getClick().equals(ClickType.RIGHT)) {
-            e.getWhoClicked().openInventory(new RemoveConfirmationInventoryHolder(plugin, parent, path, this,
-                    field).getInventory());
-        } else if (e.getClick().equals(ClickType.MIDDLE)) {
-            e.getWhoClicked().getInventory().addItem(getUsableItem());
-        }
-    }
-
     public void changeSkillName(String oldName, String newName) {
         skillSet.forEach(skill -> skill.changeSkillName(oldName, newName));
         SupremeItem.getInstance().getItemManager().saveModel(this);
@@ -146,6 +107,16 @@ public class Item extends NamedModel {
             list1.addAll(list2);
             return list1;
         });
+    }
+
+    @Override
+    public Item getByName(String name) {
+        return this.name.equals(name) ? this : null;
+    }
+
+    @Override
+    public Item getById(UUID uuid) {
+        return this.id.equals(uuid) ? this : null;
     }
 
 }

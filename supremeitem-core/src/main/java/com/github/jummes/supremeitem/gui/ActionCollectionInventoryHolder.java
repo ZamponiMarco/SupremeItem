@@ -2,7 +2,6 @@ package com.github.jummes.supremeitem.gui;
 
 import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.gui.PluginInventoryHolder;
-import com.github.jummes.libs.gui.model.ModelCollectionInventoryHolder;
 import com.github.jummes.libs.gui.model.ModelObjectInventoryHolder;
 import com.github.jummes.libs.gui.model.RemoveConfirmationInventoryHolder;
 import com.github.jummes.libs.model.ModelPath;
@@ -15,8 +14,6 @@ import com.github.jummes.supremeitem.action.meta.WrapperAction;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import lombok.SneakyThrows;
 import org.apache.commons.lang.reflect.FieldUtils;
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
@@ -29,41 +26,13 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
-public class ActionCollectionInventoryHolder extends ModelCollectionInventoryHolder<Action> {
+public class ActionCollectionInventoryHolder extends SelectableCollectionInventoryHolder<Action> {
 
     private static final boolean TARGET_DEFAULT = true;
-
-    private static final String SELECTED_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZWQ3OGNjMzkxYWZmYjgwYjJiMzVlYjczNjRmZjc2MmQzODQyNGMwN2U3MjRiOTkzOTZkZWU5MjFmYmJjOWNmIn19fQ==";
-
-    private final List<Action> selected;
 
     public ActionCollectionInventoryHolder(JavaPlugin plugin, PluginInventoryHolder parent, ModelPath<Action> path,
                                            Field field, int page, Predicate<Action> filter) {
         super(plugin, parent, path, field, page, filter);
-        this.selected = new ArrayList<>();
-    }
-
-    @Override
-    protected void initializeInventory() {
-        try {
-            List<Action> models = ((Collection<Action>) FieldUtils.readField(field,
-                    path.getLast() != null ? path.getLast() : path.getModelManager(), true)).stream()
-                    .filter(model -> model.getGUIItem() != null && filter.test(model)).collect(Collectors.toList());
-            List<Action> toList = models.stream().filter(model -> models.indexOf(model) >= (page - 1) * MODELS_NUMBER
-                    && models.indexOf(model) <= page * MODELS_NUMBER - 1).collect(Collectors.toList());
-            int maxPage = (int) Math.ceil((models.size() > 0 ? models.size() : 1) / (double) MODELS_NUMBER);
-
-            this.inventory = Bukkit.createInventory(this, 54,
-                    MessageUtils.color("&c&l" + field.getName() + " &6&l(&c" + page + "&6&l/&c" + maxPage + "&6&l)"));
-
-            toList.forEach(model -> registerClickConsumer(toList.indexOf(model), selected.contains(model) ?
-                    getGlintedItem(model) : model.getGUIItem(), e -> executeClickConsumer(model, e)));
-            placeCollectionOnlyItems(maxPage);
-            registerClickConsumer(53, getBackItem(), getBackConsumer());
-            fillInventoryWith(Material.GRAY_STAINED_GLASS_PANE);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public ItemStack getGlintedItem(Action action) {
@@ -95,34 +64,12 @@ public class ActionCollectionInventoryHolder extends ModelCollectionInventoryHol
                 openSkillGUI((SkillAction) model, e);
             }
         } else if (e.getClick().equals(ClickType.DROP)) {
-            selectAction(model, e);
+            selectModel(model, e);
         } else if (e.getClick().equals(ClickType.CONTROL_DROP)) {
             selectAllActions(e, actions);
         } else {
             unselectAllActions();
         }
-    }
-
-    private void unselectAllActions() {
-        selected.clear();
-    }
-
-    private void selectAllActions(InventoryClickEvent e, Collection<Action> actions) {
-        if (selected.isEmpty()) {
-            selected.addAll(actions);
-        } else {
-            unselectAllActions();
-        }
-        e.getWhoClicked().openInventory(getInventory());
-    }
-
-    private void selectAction(Action model, InventoryClickEvent e) {
-        if (!selected.contains(model)) {
-            selected.add(model);
-        } else {
-            selected.remove(model);
-        }
-        e.getWhoClicked().openInventory(getInventory());
     }
 
     private void wrapIntoNewSavedSkill(Action model, InventoryClickEvent e, Collection<Action> actions) {
@@ -186,7 +133,7 @@ public class ActionCollectionInventoryHolder extends ModelCollectionInventoryHol
     }
 
     @SneakyThrows
-    protected void wrapActions(InventoryClickEvent e, Action model, Collection<Action> superActions) {
+    private void wrapActions(InventoryClickEvent e, Action model, Collection<Action> superActions) {
         WrapperAction wrapperAction = WrapperAction.WRAPPERS_MAP.inverse().get(e.getHotbarButton()).newInstance();
         superActions.add(wrapperAction);
         if (selected.contains(model)) {

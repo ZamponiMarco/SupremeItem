@@ -3,6 +3,7 @@ package com.github.jummes.supremeitem.listener.paper;
 import com.github.jummes.libs.core.Libs;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.item.Item;
+import com.github.jummes.supremeitem.manager.ItemManager;
 import com.github.jummes.supremeitem.skill.EntityCrossbowLoadSkill;
 import com.github.jummes.supremeitem.skill.Skill;
 import com.github.jummes.supremeitem.util.Utils;
@@ -32,9 +33,9 @@ public class PlayerCrossBowLoadListener implements Listener {
     private boolean executeCrossbowSkill(LivingEntity entity) {
         AtomicBoolean toReturn = new AtomicBoolean(false);
         List<ItemStack> items = Utils.getEntityItems(entity);
-        IntStream.range(0, items.size()).filter(i -> Item.isSupremeItem(items.get(i))).forEach(i -> {
+        IntStream.range(0, items.size()).filter(i -> ItemManager.isSupremeItem(items.get(i))).forEach(i -> {
             UUID id = UUID.fromString(Libs.getWrapper().getTagItem(items.get(i), "supreme-item"));
-            Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);
+            Item supremeItem = SupremeItem.getInstance().getItemManager().getItemById(id);
             if (supremeItem != null) {
                 supremeItem.getSkillSet().stream().filter(skill -> skill instanceof EntityCrossbowLoadSkill &&
                         skill.getAllowedSlots().contains(EquipmentSlot.values()[i])).findFirst().

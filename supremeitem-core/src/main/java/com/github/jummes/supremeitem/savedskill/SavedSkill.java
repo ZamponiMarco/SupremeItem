@@ -109,4 +109,9 @@ public class SavedSkill extends NamedModel {
             }
         }
     }
+
+    @Override
+    protected boolean isAlreadyPresent(String name) {
+        return SupremeItem.getInstance().getSavedSkillManager().getByName(name) != null;
+    }
 }

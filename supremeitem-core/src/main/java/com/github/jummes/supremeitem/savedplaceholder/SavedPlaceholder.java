@@ -93,4 +93,9 @@ public class SavedPlaceholder extends NamedModel {
         }
     }
 
+    @Override
+    protected boolean isAlreadyPresent(String name) {
+        return SupremeItem.getInstance().getSavedPlaceholderManager().getByName(name) != null;
+    }
+
 }

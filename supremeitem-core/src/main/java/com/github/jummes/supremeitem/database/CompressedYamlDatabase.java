@@ -1,52 +1,49 @@
 package com.github.jummes.supremeitem.database;
 
 import com.github.jummes.libs.database.Database;
-import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.util.CompressUtils;
 import lombok.NonNull;
 import lombok.SneakyThrows;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.util.FileUtil;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 public class CompressedYamlDatabase<T extends NamedModel> extends Database<T> {
 
     private static final String FILE_SUFFIX = ".yml";
 
     private String name;
+    private String fileName;
     private File dataFile;
     private YamlConfiguration yamlConfiguration;
 
     private List<String> usedNames;
 
-    public CompressedYamlDatabase(@NonNull Class<T> classObject, @NonNull JavaPlugin plugin) {
-        super(classObject, plugin);
+    public CompressedYamlDatabase(@NonNull Class<T> classObject, @NonNull JavaPlugin plugin, Map<String, Object> args) {
+        super(classObject, plugin, args);
         this.usedNames = new ArrayList<>();
+        this.name = (String) args.getOrDefault("name", classObject.getSimpleName().toLowerCase());
+        this.fileName = (String) args.getOrDefault("fileName", name.concat(FILE_SUFFIX));
+        this.dataFile = new File(plugin.getDataFolder(), fileName);
+        if (!this.dataFile.exists()) {
+            plugin.saveResource(fileName, false);
+        }
     }
 
     @Override
-    protected void openConnection() {
-        this.name = classObject.getSimpleName().toLowerCase();
-
-        this.dataFile = new File(plugin.getDataFolder(), name.concat(FILE_SUFFIX));
-
-        if (!this.dataFile.exists()) {
-            plugin.saveResource(classObject.getSimpleName().toLowerCase().concat(FILE_SUFFIX), false);
-        }
-
+    public void openConnection() {
         this.yamlConfiguration = new YamlConfiguration();
     }
 
     @Override
-    protected void closeConnection() {
+    public void closeConnection() {
         try {
             yamlConfiguration.save(dataFile);
         } catch (IOException e) {
@@ -61,39 +58,16 @@ public class CompressedYamlDatabase<T extends NamedModel> extends Database<T> {
 
         List<T> list = new ArrayList<>();
 
-        if (yamlConfiguration.isList(this.name)) {
-            handleOldConfig(list);
-        } else {
-            yamlConfiguration.getKeys(false).forEach(key -> {
-                        String string = yamlConfiguration.getString(key);
-                        T obj = (T) NamedModel.fromSerializedString(new String(CompressUtils.
-                                decompress(Base64.getDecoder().decode(string)), Charset.defaultCharset()));
-                        if (obj != null) {
-                            list.add(obj);
-                        }
+        yamlConfiguration.getKeys(false).forEach(key -> {
+                    String string = yamlConfiguration.getString(key);
+                    T obj = (T) NamedModel.fromSerializedString(new String(CompressUtils.
+                            decompress(Base64.getDecoder().decode(string)), Charset.defaultCharset()));
+                    if (obj != null) {
+                        list.add(obj);
                     }
-            );
-        }
+                }
+        );
         return list;
-    }
-
-    private void handleOldConfig(List<T> list) throws IOException {
-        File backupFolder = new File(SupremeItem.getInstance().getDataFolder(), "backup");
-        if (!backupFolder.exists()) {
-            backupFolder.mkdir();
-        }
-        File backupFile = new File(backupFolder, dataFile.getName());
-        if (!backupFile.exists()) {
-            backupFile.createNewFile();
-        }
-        FileUtil.copy(dataFile, backupFile);
-        list.addAll((Collection<? extends T>) this.yamlConfiguration.getList(this.name));
-        list.forEach(t -> {
-            validateDeserializedName(t);
-            saveObject(t);
-        });
-        yamlConfiguration.set(this.name, null);
-        yamlConfiguration.save(dataFile);
     }
 
     @SneakyThrows
@@ -123,6 +97,7 @@ public class CompressedYamlDatabase<T extends NamedModel> extends Database<T> {
     @SneakyThrows
     @Override
     public void deleteObject(@NonNull T t) {
+        usedNames.remove(t.name);
         yamlConfiguration.set(t.name, null);
         yamlConfiguration.save(dataFile);
     }

@@ -33,7 +33,7 @@ public class TimerManager {
             set.addAll(timers.keySet());
             set.forEach(player -> {
                 List<ItemStack> items = Utils.getEntityItems(player);
-                IntStream.range(0, items.size()).filter(i -> Item.isSupremeItem(items.get(i))).forEach(i ->
+                IntStream.range(0, items.size()).filter(i -> ItemManager.isSupremeItem(items.get(i))).forEach(i ->
                         addNewTimers(player, items.get(i), EquipmentSlot.values()[i]));
                 removeTimers(player);
             });
@@ -63,7 +63,7 @@ public class TimerManager {
     public void addNewTimers(Player player, ItemStack armor, EquipmentSlot slot) {
         if (armor != null) {
             UUID id = UUID.fromString(Libs.getWrapper().getTagItem(armor, "supreme-item"));
-            Item supremeItem = SupremeItem.getInstance().getItemManager().getById(id);
+            Item supremeItem = SupremeItem.getInstance().getItemManager().getItemById(id);
             if (supremeItem != null) {
                 TimerSkill timerSkill = (TimerSkill) supremeItem.getSkillSet().stream().filter(skill ->
                         skill instanceof TimerSkill).findFirst().orElse(null);

@@ -9,7 +9,6 @@ import com.github.jummes.libs.model.util.particle.options.DustDataOptions;
 import com.github.jummes.libs.model.util.particle.options.ItemStackOptions;
 import com.github.jummes.libs.model.util.particle.options.ParticleOptions;
 import com.github.jummes.supremeitem.action.Action;
-import com.github.jummes.supremeitem.action.meta.MoveLocationTargetAction;
 import com.github.jummes.supremeitem.action.meta.RandomAction;
 import com.github.jummes.supremeitem.area.Area;
 import com.github.jummes.supremeitem.command.*;
@@ -19,21 +18,19 @@ import com.github.jummes.supremeitem.entity.Entity;
 import com.github.jummes.supremeitem.entity.selector.EntitySelector;
 import com.github.jummes.supremeitem.entity.sorter.EntitySorter;
 import com.github.jummes.supremeitem.gui.ActionCollectionInventoryHolder;
+import com.github.jummes.supremeitem.gui.ItemCollectionInventoryHolder;
 import com.github.jummes.supremeitem.hook.PaperHook;
 import com.github.jummes.supremeitem.hook.SupremeMobHook;
 import com.github.jummes.supremeitem.hook.VaultHook;
 import com.github.jummes.supremeitem.hook.WorldGuardHook;
+import com.github.jummes.supremeitem.item.AbstractItem;
 import com.github.jummes.supremeitem.item.Item;
+import com.github.jummes.supremeitem.item.ItemFolder;
 import com.github.jummes.supremeitem.listener.PlayerItemListener;
 import com.github.jummes.supremeitem.listener.ProjectileListener;
 import com.github.jummes.supremeitem.manager.*;
 import com.github.jummes.supremeitem.math.Vector;
 import com.github.jummes.supremeitem.placeholder.Placeholder;
-import com.github.jummes.supremeitem.placeholder.numeric.entity.HealthPlaceholder;
-import com.github.jummes.supremeitem.placeholder.numeric.entity.MaxHealthPlaceholder;
-import com.github.jummes.supremeitem.placeholder.numeric.entity.NumericVariablePlaceholder;
-import com.github.jummes.supremeitem.placeholder.numeric.entity.player.BalancePlaceholder;
-import com.github.jummes.supremeitem.placeholder.numeric.entity.player.HungerPlaceholder;
 import com.github.jummes.supremeitem.savedplaceholder.SavedPlaceholder;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.github.jummes.supremeitem.skill.CooldownSkill;
@@ -62,14 +59,13 @@ public class SupremeItem extends JavaPlugin {
         Libs.registerSerializables();
 
         ConfigurationSerialization.registerClass(Item.class);
+        ConfigurationSerialization.registerClass(ItemFolder.class);
 
         ConfigurationSerialization.registerClass(Skill.class);
         ConfigurationSerialization.registerClass(CooldownSkill.CooldownOptions.class);
 
         ConfigurationSerialization.registerClass(Action.class);
         ConfigurationSerialization.registerClass(RandomAction.RandomActionEntry.class);
-        ConfigurationSerialization.registerClass(MoveLocationTargetAction.class,
-                "com.github.jummes.supremeitem.action.location.MoveLocationTargetAction");
 
         ConfigurationSerialization.registerClass(Entity.class);
 
@@ -80,16 +76,6 @@ public class SupremeItem extends JavaPlugin {
         ConfigurationSerialization.registerClass(Condition.class);
 
         ConfigurationSerialization.registerClass(Placeholder.class);
-        ConfigurationSerialization.registerClass(BalancePlaceholder.class,
-                "com.github.jummes.supremeitem.placeholder.numeric.BalancePlaceholder");
-        ConfigurationSerialization.registerClass(HealthPlaceholder.class,
-                "com.github.jummes.supremeitem.placeholder.numeric.HealthPlaceholder");
-        ConfigurationSerialization.registerClass(HungerPlaceholder.class,
-                "com.github.jummes.supremeitem.placeholder.numeric.HungerPlaceholder");
-        ConfigurationSerialization.registerClass(MaxHealthPlaceholder.class,
-                "com.github.jummes.supremeitem.placeholder.numeric.MaxHealthPlaceholder");
-        ConfigurationSerialization.registerClass(NumericVariablePlaceholder.class,
-                "com.github.jummes.supremeitem.placeholder.numeric.NumericVariablePlaceholder");
 
         ConfigurationSerialization.registerClass(Value.class);
         ConfigurationSerialization.registerClass(NumericValue.class);
@@ -173,12 +159,13 @@ public class SupremeItem extends JavaPlugin {
     private void setUpLibrary() {
         DatabaseFactory.getMap().put("comp", CompressedYamlDatabase.class);
         FieldInventoryHolderFactory.collectionGUIMap.put(Action.class, ActionCollectionInventoryHolder.class);
+        FieldInventoryHolderFactory.collectionGUIMap.put(AbstractItem.class, ItemCollectionInventoryHolder.class);
         Libs.initializeLibrary(this);
         Libs.getLocale().registerLocaleFiles(this, Lists.newArrayList("en-US"), "en-US");
     }
 
     private void setUpData() {
-        itemManager = new ItemManager(Item.class, "comp", this);
+        itemManager = new ItemManager(AbstractItem.class, "comp", this);
         cooldownManager = new CooldownManager();
         savedSkillManager = new SavedSkillManager(SavedSkill.class, "comp", this);
         timerManager = new TimerManager();

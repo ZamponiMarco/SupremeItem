@@ -20,7 +20,7 @@ public class ItemGetCommand extends AbstractCommand {
             return;
         }
 
-        Item item = SupremeItem.getInstance().getItemManager().getByName(arguments[0]);
+        Item item = SupremeItem.getInstance().getItemManager().getItemByName(arguments[0]);
         if (item == null) {
             sender.sendMessage(Libs.getLocale().get("messages.command.item-not-found"));
             return;

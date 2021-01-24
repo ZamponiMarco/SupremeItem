@@ -4,7 +4,7 @@ import com.github.jummes.libs.command.AbstractCommand;
 import com.github.jummes.libs.util.MessageUtils;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.database.NamedModel;
-import com.github.jummes.supremeitem.item.Item;
+import com.github.jummes.supremeitem.item.AbstractItem;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.github.jummes.supremeitem.util.CompressUtils;
 import com.google.gson.*;
@@ -142,7 +142,7 @@ public class CloudCommand extends AbstractCommand {
                             SupremeItem.getInstance().getSavedSkillManager().addSkill((SavedSkill) NamedModel.
                                     fromSerializedString(new String(CompressUtils.decompress(Base64.getDecoder().
                                             decode(elm.getAsJsonObject().get("skill").getAsString())), Charset.defaultCharset()))));
-                    SupremeItem.getInstance().getItemManager().addItem((Item) NamedModel.fromSerializedString(
+                    SupremeItem.getInstance().getItemManager().addItem((AbstractItem) NamedModel.fromSerializedString(
                             new String(CompressUtils.decompress(Base64.getDecoder().decode(incomingJsonObject.
                                     get("item").getAsString())), Charset.defaultCharset())));
                     sender.sendMessage(MessageUtils.color("&aThe item has been succesfully imported."));
@@ -197,7 +197,7 @@ public class CloudCommand extends AbstractCommand {
             }
 
             String name = arguments[1];
-            Item item = SupremeItem.getInstance().getItemManager().getByName(name);
+            AbstractItem item = SupremeItem.getInstance().getItemManager().getAbstractItemByName(name);
 
             if (item == null) {
                 sender.sendMessage(MessageUtils.color("&cThe item &e" + name + " &ccouldn't be found."));
@@ -230,7 +230,7 @@ public class CloudCommand extends AbstractCommand {
         });
     }
 
-    private JsonObject getItemJson(Player player, Item item) {
+    private JsonObject getItemJson(Player player, AbstractItem item) {
         JsonArray skillsArray = new JsonArray();
         item.getUsedSavedSkills().stream().map(skill -> parseSkill(skill, player.getUniqueId().toString())).
                 forEach(skillsArray::add);

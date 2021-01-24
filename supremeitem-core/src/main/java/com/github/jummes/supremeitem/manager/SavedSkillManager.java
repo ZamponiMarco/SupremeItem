@@ -5,6 +5,7 @@ import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Getter
@@ -13,7 +14,7 @@ public class SavedSkillManager extends ModelManager<SavedSkill> {
     private final List<SavedSkill> skills;
 
     public SavedSkillManager(Class<SavedSkill> classObject, String databaseType, JavaPlugin plugin) {
-        super(classObject, databaseType, plugin);
+        super(classObject, databaseType, plugin, new HashMap<>());
         this.skills = database.loadObjects();
     }
 
