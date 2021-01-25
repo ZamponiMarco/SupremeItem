@@ -19,18 +19,23 @@ public class SetVelocityAction extends EntityAction {
     @Serializable(headTexture = NAME_HEAD, description = "gui.placeholder.double.variable.name")
     private VectorValue vector;
 
+    @Serializable(headTexture = NAME_HEAD, description = "gui.placeholder.double.variable.name")
+    private boolean resetFallDistance;
+
     public SetVelocityAction() {
-        this(TARGET_DEFAULT, new VectorValue());
+        this(TARGET_DEFAULT, new VectorValue(), true);
     }
 
-    public SetVelocityAction(boolean target, VectorValue vector) {
+    public SetVelocityAction(boolean target, VectorValue vector, boolean resetFallDistance) {
         super(target);
         this.vector = vector;
+        this.resetFallDistance = resetFallDistance;
     }
 
     public SetVelocityAction(Map<String, Object> map) {
         super(map);
         this.vector = (VectorValue) map.getOrDefault("vector", new VectorValue());
+        this.resetFallDistance = (boolean) map.getOrDefault("resetFallDistance", true);
     }
 
     // TODO
@@ -44,6 +49,10 @@ public class SetVelocityAction extends EntityAction {
 
         entity.setVelocity(vector.getRealValue(target, source).computeVector(target, source));
 
+        if (resetFallDistance) {
+            entity.setFallDistance(0);
+        }
+
         return ActionResult.SUCCESS;
     }
 
@@ -54,6 +63,6 @@ public class SetVelocityAction extends EntityAction {
 
     @Override
     public Action clone() {
-        return new SetVelocityAction(target, vector.clone());
+        return new SetVelocityAction(target, vector.clone(), resetFallDistance);
     }
 }

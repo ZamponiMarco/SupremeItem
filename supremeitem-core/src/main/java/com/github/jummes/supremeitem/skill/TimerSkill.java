@@ -28,7 +28,7 @@ public class TimerSkill extends Skill {
     private List<Action> onWearerActions;
 
     @Serializable(headTexture = COOLDOWN_HEAD, description = "gui.skill.timer.timer")
-    @Serializable.Number(minValue = 0)
+    @Serializable.Number(minValue = 0, scale = 1)
     @Serializable.Optional(defaultValue = "TIMER_DEFAULT")
     private int timer;
 

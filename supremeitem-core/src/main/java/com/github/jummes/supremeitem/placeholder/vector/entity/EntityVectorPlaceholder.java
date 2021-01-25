@@ -10,7 +10,7 @@ import org.bukkit.entity.LivingEntity;
 import java.util.Map;
 
 @Enumerable.Displayable
-@Enumerable.Parent(classArray = {DirectionPlaceholder.class})
+@Enumerable.Parent(classArray = {DirectionPlaceholder.class, VelocityPlaceholder.class})
 public abstract class EntityVectorPlaceholder extends VectorPlaceholder {
     public EntityVectorPlaceholder(boolean target) {
         super(target);

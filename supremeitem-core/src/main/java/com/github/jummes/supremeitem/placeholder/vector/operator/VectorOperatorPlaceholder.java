@@ -7,7 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Map;
 
 @Enumerable.Displayable
-@Enumerable.Parent(classArray = {VectorSumPlaceholder.class})
+@Enumerable.Parent(classArray = {VectorSumPlaceholder.class, VectorMultiplicationPlaceholder.class})
 public abstract class VectorOperatorPlaceholder extends VectorPlaceholder {
     public VectorOperatorPlaceholder(boolean target) {
         super(target);
