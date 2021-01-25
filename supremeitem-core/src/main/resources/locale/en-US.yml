@@ -781,6 +781,18 @@ gui:
             - "&7&ovalue from a saved variable."
           name:
             - "&7&oThe name of the variable to retrieve."
+      vector:
+        description:
+          - "&7&oSet a vector related placeholder."
+        x:
+          description:
+            - "&7&oSet a vector x placeholder."
+        y:
+          description:
+            - "&7&oSet a vector y placeholder."
+        z:
+          description:
+            - "&7&oSet a vector z placeholder."
     boolean:
       player:
         description:

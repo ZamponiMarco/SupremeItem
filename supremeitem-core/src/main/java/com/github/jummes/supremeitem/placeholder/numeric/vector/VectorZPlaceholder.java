@@ -10,7 +10,7 @@ import com.github.jummes.supremeitem.placeholder.vector.entity.DirectionPlacehol
 import java.util.Map;
 
 @Enumerable.Child
-@Enumerable.Displayable
+@Enumerable.Displayable(name = "&c&lVector Z Placeholder", description = "gui.placeholder.double.vector.z.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzA1ZjE4ZDQxNmY2OGU5YmQxOWQ1NWRmOWZhNzQyZWRmYmYxYTUyNWM4ZTI5ZjY1OWFlODMzYWYyMTdkNTM1In19fQ")
 public class VectorZPlaceholder extends NumericVectorPlaceholder {
 
     public VectorZPlaceholder() {
