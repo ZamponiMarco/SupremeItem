@@ -6,6 +6,7 @@ import com.github.jummes.supremeitem.item.Item;
 import com.github.jummes.supremeitem.manager.ItemManager;
 import com.github.jummes.supremeitem.skill.*;
 import com.github.jummes.supremeitem.util.Utils;
+import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -13,6 +14,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -99,7 +102,65 @@ public class PlayerItemListener implements Listener {
         }
     }
 
+    @EventHandler
+    public void onBlockPlaced(BlockPlaceEvent e) {
+        Player player = e.getPlayer();
+        boolean cancelled = executeBlockPlaceSkill(player, e.getBlock().getLocation().clone().add(.5, .5, .5));
+        if (cancelled) {
+            e.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onBlockBroken(BlockBreakEvent e) {
+        Player player = e.getPlayer();
+        boolean cancelled = executeBlockBreakSkill(player, e.getBlock().getLocation().clone().add(.5, .5, .5));
+        if (cancelled) {
+            e.setCancelled(true);
+        }
+    }
+
     // Private methods
+
+    private boolean executeBlockBreakSkill(Player player, Location loc) {
+        AtomicBoolean toReturn = new AtomicBoolean(false);
+        List<ItemStack> items = Utils.getEntityItems(player);
+        IntStream.range(0, items.size()).filter(i -> ItemManager.isSupremeItem(items.get(i))).forEach(i -> {
+            UUID id = UUID.fromString(Libs.getWrapper().getTagItem(items.get(i), "supreme-item"));
+            Item supremeItem = SupremeItem.getInstance().getItemManager().getItemById(id);
+            if (supremeItem != null) {
+                supremeItem.getSkillSet().stream().filter(skill -> skill instanceof BlockBreakSkill &&
+                        skill.getAllowedSlots().contains(EquipmentSlot.values()[i])).findFirst().
+                        ifPresent(skill -> {
+                            if (((BlockBreakSkill) skill).executeSkill(player, loc, id, items.get(i)).
+                                    equals(Skill.SkillResult.CANCELLED)) {
+                                toReturn.set(true);
+                            }
+                        });
+            }
+        });
+        return toReturn.get();
+    }
+
+    private boolean executeBlockPlaceSkill(Player player, Location loc) {
+        AtomicBoolean toReturn = new AtomicBoolean(false);
+        List<ItemStack> items = Utils.getEntityItems(player);
+        IntStream.range(0, items.size()).filter(i -> ItemManager.isSupremeItem(items.get(i))).forEach(i -> {
+            UUID id = UUID.fromString(Libs.getWrapper().getTagItem(items.get(i), "supreme-item"));
+            Item supremeItem = SupremeItem.getInstance().getItemManager().getItemById(id);
+            if (supremeItem != null) {
+                supremeItem.getSkillSet().stream().filter(skill -> skill instanceof BlockPlaceSkill &&
+                        skill.getAllowedSlots().contains(EquipmentSlot.values()[i])).findFirst().
+                        ifPresent(skill -> {
+                            if (((BlockPlaceSkill) skill).executeSkill(player, loc, id, items.get(i)).
+                                    equals(Skill.SkillResult.CANCELLED)) {
+                                toReturn.set(true);
+                            }
+                        });
+            }
+        });
+        return toReturn.get();
+    }
 
     private boolean executeSneakSkill(Player player, boolean activated) {
         AtomicBoolean toReturn = new AtomicBoolean(false);

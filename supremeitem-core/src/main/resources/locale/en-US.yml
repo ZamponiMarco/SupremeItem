@@ -542,6 +542,20 @@ gui:
     interact:
       description:
         - "&7&oSet one of the world interaction related skills."
+      block:
+        block-actions:
+          - "&7&oThe list of actions to execute on the location"
+          - "&7&oof the block."
+          - "&6&oSource: &ecaster entity."
+          - "&6&oTarget: &eblock location."
+        place:
+          description:
+            - "&7&oSet a skill to be triggered when a player"
+            - "&7&oplaces a block."
+        break:
+          description:
+            - "&7&oSet a skill to be triggered when a player"
+            - "&7&obreaks a block."
       ray-cast-actions:
         - "&7&oThe actions to execute in the location hit by a ray"
         - "&7&ocast from the caster."

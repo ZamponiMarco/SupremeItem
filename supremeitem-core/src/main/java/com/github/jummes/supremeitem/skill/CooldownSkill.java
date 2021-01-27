@@ -78,7 +78,7 @@ public abstract class CooldownSkill extends Skill {
 
     protected abstract boolean executeExactSkill(LivingEntity... e);
 
-    private boolean executeItemActions(LivingEntity e, ItemStack item) {
+    protected boolean executeItemActions(LivingEntity e, ItemStack item) {
         return onItemActions.stream().filter(action -> action.execute(new ItemTarget(item, e),
                 new EntitySource(e)).equals(Action.ActionResult.CANCELLED)).count() > 0;
     }
