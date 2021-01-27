@@ -13,8 +13,6 @@ import java.util.Map;
 @Enumerable.Parent(classArray = {EntityVectorPlaceholder.class, VectorOperatorPlaceholder.class})
 public abstract class VectorPlaceholder extends Placeholder<Vector> {
 
-    // TODO
-
     public VectorPlaceholder(boolean target) {
         super(target);
     }

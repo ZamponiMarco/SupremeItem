@@ -9,8 +9,8 @@ import org.bukkit.entity.LivingEntity;
 
 import java.util.Map;
 
-@Enumerable.Displayable
 @Enumerable.Child
+@Enumerable.Displayable(name = "&c&lDirection Placeholder", description = "gui.placeholder.vector.entity.direction.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzg0OTI5NjgxNzFiOWZhYjk4Njg0MDU1MDNjNTc2YzQyNzIzNzQ0YTMxYmYxZTFkMGUzOWJkYTRkN2ZiMCJ9fX0=")
 public class DirectionPlaceholder extends EntityVectorPlaceholder {
 
     public DirectionPlaceholder() {
@@ -25,7 +25,6 @@ public class DirectionPlaceholder extends EntityVectorPlaceholder {
         super(map);
     }
 
-    // TODO
 
     @Override
     public Vector computePlaceholder(Target target, Source source) {
@@ -38,7 +37,7 @@ public class DirectionPlaceholder extends EntityVectorPlaceholder {
 
     @Override
     public String getName() {
-        return "Direction";
+        return String.format("%s Direction", target ? "Target" : "Source");
     }
 
     @Override

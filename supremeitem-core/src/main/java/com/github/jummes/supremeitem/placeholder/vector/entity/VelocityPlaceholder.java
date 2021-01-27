@@ -10,7 +10,7 @@ import org.bukkit.entity.LivingEntity;
 import java.util.Map;
 
 @Enumerable.Child
-@Enumerable.Displayable
+@Enumerable.Displayable(name = "&c&lVelocity Placeholder", description = "gui.placeholder.vector.entity.velocity.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTQyMzI5YTljNDEwNDA4NDE5N2JkNjg4NjE1ODUzOTg0ZDM3ZTE3YzJkZDIzZTNlNDEyZGQ0MmQ3OGI5OGViIn19fQ==")
 public class VelocityPlaceholder extends EntityVectorPlaceholder {
 
     public VelocityPlaceholder() {
@@ -37,7 +37,7 @@ public class VelocityPlaceholder extends EntityVectorPlaceholder {
 
     @Override
     public String getName() {
-        return "Velocity";
+        return String.format("%s Velocity", target ? "Target" : "Source");
     }
 
     @Override

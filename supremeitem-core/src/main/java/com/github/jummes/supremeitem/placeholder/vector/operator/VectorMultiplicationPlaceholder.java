@@ -12,13 +12,14 @@ import com.github.jummes.supremeitem.value.VectorValue;
 import java.util.Map;
 
 @Enumerable.Child
-@Enumerable.Displayable
+@Enumerable.Displayable(name = "&c&lVector Multiplication Placeholder", description = "gui.placeholder.vector.operator.multiplication.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzkxZDZlZGE4M2VkMmMyNGRjZGNjYjFlMzNkZjM2OTRlZWUzOTdhNTcwMTIyNTViZmM1NmEzYzI0NGJjYzQ3NCJ9fX0=")
 public class VectorMultiplicationPlaceholder extends VectorOperatorPlaceholder {
-    private static final String NAME_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTdlZDY2ZjVhNzAyMDlkODIxMTY3ZDE1NmZkYmMwY2EzYmYxMWFkNTRlZDVkODZlNzVjMjY1ZjdlNTAyOWVjMSJ9fX0=";
 
-    @Serializable(headTexture = NAME_HEAD, description = "gui.placeholder.double.variable.name")
+    @Serializable(headTexture = ONE_HEAD, description = "gui.placeholder.vector.operator.operand-one",
+            additionalDescription = {"gui.additional-tooltips.value"})
     private VectorValue operandOne;
-    @Serializable(headTexture = NAME_HEAD, description = "gui.placeholder.double.variable.name")
+    @Serializable(headTexture = TWO_HEAD, description = "gui.placeholder.vector.operator.operand-two",
+            additionalDescription = {"gui.additional-tooltips.value"})
     private NumericValue operandTwo;
 
     public VectorMultiplicationPlaceholder() {
@@ -45,7 +46,7 @@ public class VectorMultiplicationPlaceholder extends VectorOperatorPlaceholder {
 
     @Override
     public String getName() {
-        return "Vector multiply";
+        return operandOne.getName() + " &6&lx&c " + operandTwo.getName();
     }
 
     @Override

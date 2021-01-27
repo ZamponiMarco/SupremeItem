@@ -11,16 +11,16 @@ import com.github.jummes.supremeitem.value.VectorValue;
 import java.util.Map;
 
 @Enumerable.Child
-@Enumerable.Displayable
+@Enumerable.Displayable(name = "&c&lVector Sum Placeholder", description = "gui.placeholder.vector.operator.sum.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhMGZjNmRjZjczOWMxMWZlY2U0M2NkZDE4NGRlYTc5MWNmNzU3YmY3YmQ5MTUzNmZkYmM5NmZhNDdhY2ZiIn19fQ==")
 public class VectorSumPlaceholder extends VectorOperatorPlaceholder {
     private static final String NAME_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTdlZDY2ZjVhNzAyMDlkODIxMTY3ZDE1NmZkYmMwY2EzYmYxMWFkNTRlZDVkODZlNzVjMjY1ZjdlNTAyOWVjMSJ9fX0=";
 
-    @Serializable(headTexture = NAME_HEAD, description = "gui.placeholder.double.variable.name")
+    @Serializable(headTexture = ONE_HEAD, description = "gui.placeholder.vector.operator.operand-one",
+            additionalDescription = {"gui.additional-tooltips.value"})
     private VectorValue operandOne;
-    @Serializable(headTexture = NAME_HEAD, description = "gui.placeholder.double.variable.name")
+    @Serializable(headTexture = TWO_HEAD, description = "gui.placeholder.vector.operator.operand-two",
+            additionalDescription = {"gui.additional-tooltips.value"})
     private VectorValue operandTwo;
-
-    // TODO
 
     public VectorSumPlaceholder() {
         this(TARGET_DEFAULT, new VectorValue(), new VectorValue());
@@ -46,7 +46,7 @@ public class VectorSumPlaceholder extends VectorOperatorPlaceholder {
 
     @Override
     public String getName() {
-        return "Vector sum";
+        return operandOne.getName() + " &6&l+&c " + operandTwo.getName();
     }
 
     @Override

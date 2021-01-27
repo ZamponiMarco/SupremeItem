@@ -158,6 +158,14 @@ gui:
           - "&7&oSet an action that sets an entity on fire."
         ticks:
           - "&7&oThe amount of ticks the fire will last."
+      velocity:
+        description:
+          - "&7&oSet an action that applies a velocity vector"
+          - "&7&oon an entity."
+        vector:
+          - "&7&oThe vector to apply to the entity."
+        fall:
+          - "&7&oWhether the fall damage should be reset."
     location:
       explosion:
         description:
@@ -885,6 +893,29 @@ gui:
           - "&7&ofrom a string."
         name:
           - "&7&oThe name of the material."
+    vector:
+      entity:
+        description:
+          - "&7&oSet an entity related vector placeholder."
+        velocity:
+          description:
+            - "&7&oSet a placeholder that returns the entity velocity."
+        direction:
+          description:
+            - "&7&oSet a placeholder that returns the entity direction."
+      operator:
+        description:
+          - "&7&oSet a vector operator placeholder."
+        operand-one:
+          - "&7&oThe first vector of the operation."
+        operand-two:
+          - "&7&oThe second vector of the operation."
+        sum:
+          description:
+            - "&7&oSet a vector sum operator placeholder."
+        multiplication:
+          description:
+            - "&7&oSet a vector multiplication placeholder."
   condition:
     description:
       - "&6&lLeft click &eto modify."
