@@ -3,6 +3,7 @@ package com.github.jummes.supremeitem.entity.selector;
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.supremeitem.action.source.Source;
+import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.condition.AlwaysTrueCondition;
 import com.github.jummes.supremeitem.condition.Condition;
@@ -36,7 +37,7 @@ public class ConditionSelector extends EntitySelector {
 
     @Override
     protected Predicate<LivingEntity> getAbstractFilter(Source source, Target target) {
-        return e -> condition.checkCondition(target, source);
+        return e -> condition.checkCondition(new EntityTarget(e), source);
     }
 
     @Override

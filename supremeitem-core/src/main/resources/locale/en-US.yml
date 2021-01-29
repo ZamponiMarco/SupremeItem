@@ -279,6 +279,14 @@ gui:
           count:
             - "&7&oThe maximum number of targeted entities."
             - "&7&oIf it is 0 there is no maximum limit."
+        source:
+          description:
+            - "&7&oSet a group of actions that will be applied"
+            - "&7&ousing as source the current skill target"
+          action:
+            - "&7&oThe group of actions to execute."
+            - "&6&oSource: &ethe target entity."
+            - "&6&oTarget: &ethe target entity."
         condition:
           description:
             - "&7&oSet the execution of actions"
@@ -286,6 +294,8 @@ gui:
             - "&7&otrue"
           actions:
             - "&7&oThe group of actions to execute."
+            - "&6&oSource: &ethe same of skill."
+            - "&6&oTarget: &ethe same of skill."
           condition:
             - "&7&oThe condition that has to be met"
             - "&7&oto execute the actions."
@@ -880,7 +890,7 @@ gui:
             - "&7&oThe ordered list of placeholders that will be"
             - "&7&oprinted inside the string to format. Note that"
             - "&7&othe first element in this collection will be"
-            - "&7&oprinted where the first occurrence of &c%s &7&o is"
+            - "&7&oprinted where the first occurrence of &c%s &7&ois"
             - "&7&oinside the string and so on."
         number-format:
           description:

@@ -3,7 +3,7 @@ package com.github.jummes.supremeitem.action.targeter;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.ItemStack;
 
 @AllArgsConstructor
@@ -11,7 +11,7 @@ import org.bukkit.inventory.ItemStack;
 public class ItemTarget implements Target {
 
     private final ItemStack target;
-    private final Entity owner;
+    private final LivingEntity owner;
 
     @Override
     public Location getLocation() {
