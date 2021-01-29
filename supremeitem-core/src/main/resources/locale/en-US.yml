@@ -283,7 +283,7 @@ gui:
           description:
             - "&7&oSet a group of actions that will be applied"
             - "&7&ousing as source the current skill target"
-          action:
+          actions:
             - "&7&oThe group of actions to execute."
             - "&6&oSource: &ethe target entity."
             - "&6&oTarget: &ethe target entity."

@@ -49,7 +49,7 @@ public class ChangeSourceAction extends WrapperAction {
     public ActionResult execute(Target target, Source source) {
         Source newSource = null;
         if (target instanceof LocationTarget) {
-            newSource = new LocationSource(target.getLocation(), source.getCaster());
+            newSource = new LocationSource(target.getLocation().clone(), source.getCaster());
         } else if (target instanceof EntityTarget) {
             newSource = new EntitySource(((EntityTarget) target).getTarget());
         } else if (target instanceof ItemTarget) {

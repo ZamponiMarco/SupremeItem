@@ -6,6 +6,7 @@ import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
+import com.google.common.collect.Lists;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
@@ -126,6 +127,9 @@ public abstract class AbstractProjectile {
     }
 
     private List<LivingEntity> getHitEntities() {
+        if (hitBoxSize == 0) {
+            return Lists.newArrayList();
+        }
         return location.getWorld().getNearbyEntities(location, hitBoxSize, hitBoxSize, hitBoxSize).stream().
                 filter(livingEntity -> livingEntity instanceof LivingEntity
                         && !livingEntity.equals(source.getCaster())
