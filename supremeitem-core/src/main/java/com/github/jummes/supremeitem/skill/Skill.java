@@ -9,6 +9,7 @@ import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
@@ -16,6 +17,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Getter
 @Enumerable.Parent(classArray = {CooldownSkill.class, InteractionSkill.class, CombatSkill.class,
         MovementSkill.class, TimerSkill.class})
@@ -29,6 +31,9 @@ public abstract class Skill implements Model {
     protected static final String CONSUMABLE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTg0YTY4ZmQ3YjYyOGQzMDk2NjdkYjdhNTU4NTViNTRhYmMyM2YzNTk1YmJlNDMyMTYyMTFiZTVmZTU3MDE0In19fQ==";
     private static final String SLOTS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGQ5YjY4OTE1YjE0NzJkODllNWUzYTliYTZjOTM1YWFlNjAzZDEyYzE0NTRmMzgyMjgyNWY0M2RmZThhMmNhYyJ9fX0=";
     private static final String ITEM_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWI0MjVhYTNkOTQ2MThhODdkYWM5Yzk0ZjM3N2FmNmNhNDk4NGMwNzU3OTY3NGZhZDkxN2Y2MDJiN2JmMjM1In19fQ==";
+
+    @EqualsAndHashCode.Include
+    protected UUID id = UUID.randomUUID();
 
     @Serializable(headTexture = CONSUMABLE_HEAD, description = "gui.skill.consumable")
     @Serializable.Optional(defaultValue = "CONSUMABLE_DEFAULT")
@@ -63,16 +68,6 @@ public abstract class Skill implements Model {
             map.put("allowedSlots", allowedSlots.stream().map(EquipmentSlot::name).collect(Collectors.toList()));
         map.put("onItemActions", onItemActions);
         return map;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        return getClass().equals(obj.getClass());
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
     }
 
     protected void consumeIfConsumable(UUID id, ItemStack item) {

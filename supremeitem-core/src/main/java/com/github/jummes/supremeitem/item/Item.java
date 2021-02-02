@@ -9,11 +9,13 @@ import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.github.jummes.supremeitem.skill.Skill;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Getter
 public class Item extends AbstractItem {
@@ -26,16 +28,16 @@ public class Item extends AbstractItem {
             additionalDescription = {"gui.additional-tooltips.item"})
     private ItemStackWrapper item;
     @Serializable(headTexture = SKILL_HEAD, description = "gui.item.skill-set")
-    private Set<Skill> skillSet;
+    private List<Skill> skillSet;
 
     public Item() {
         super(nextAvailableName());
         this.id = UUID.randomUUID();
         this.item = new ItemStackWrapper(true);
-        this.skillSet = Sets.newHashSet();
+        this.skillSet = Lists.newArrayList();
     }
 
-    public Item(UUID id, String name, ItemStackWrapper item, Set<Skill> skillSet) {
+    public Item(UUID id, String name, ItemStackWrapper item, List<Skill> skillSet) {
         super(name);
         this.id = id;
         this.item = item;
@@ -47,7 +49,7 @@ public class Item extends AbstractItem {
         super(map);
         this.id = UUID.fromString((String) map.get("id"));
         this.item = (ItemStackWrapper) map.getOrDefault("item", new ItemStackWrapper());
-        this.skillSet = new HashSet<>((List<Skill>) map.getOrDefault("skillSet", Lists.newArrayList()));
+        this.skillSet = (List<Skill>) map.getOrDefault("skillSet", Lists.newArrayList());
         itemCounter++;
     }
 
@@ -76,7 +78,7 @@ public class Item extends AbstractItem {
         map.put("id", id.toString());
         map.put("name", name);
         map.put("item", item);
-        map.put("skillSet", new ArrayList<>(skillSet));
+        map.put("skillSet", skillSet);
         return map;
     }
 

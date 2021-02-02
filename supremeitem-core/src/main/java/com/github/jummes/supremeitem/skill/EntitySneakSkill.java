@@ -16,7 +16,6 @@ import java.util.*;
 
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = true)
 @Enumerable.Child
 @Enumerable.Displayable(name = "&c&lOn Entity Sneak", description = "gui.skill.movement.entity-sneak.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTQyMzI5YTljNDEwNDA4NDE5N2JkNjg4NjE1ODUzOTg0ZDM3ZTE3YzJkZDIzZTNlNDEyZGQ0MmQ3OGI5OGViIn19fQ")
 public class EntitySneakSkill extends MovementSkill {

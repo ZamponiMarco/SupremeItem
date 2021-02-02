@@ -8,7 +8,7 @@ import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.ItemTarget;
 import com.github.jummes.supremeitem.action.targeter.LocationTarget;
-import com.github.jummes.supremeitem.manager.CooldownManager;
+import com.github.jummes.supremeitem.cooldown.CooldownInfo;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
@@ -53,26 +53,26 @@ public abstract class CooldownSkill extends Skill {
         return map;
     }
 
-    protected SkillResult getSkillResult(UUID id, ItemStack item, LivingEntity... e) {
+    protected SkillResult getSkillResult(UUID itemId, ItemStack item, LivingEntity... e) {
         boolean cancelled = false;
-        int currentCooldown = SupremeItem.getInstance().getCooldownManager().getCooldown(e[0], id, getClass());
+        int currentCooldown = SupremeItem.getInstance().getCooldownManager().getCooldown(e[0], itemId, this.id);
         if (currentCooldown == 0) {
-            consumeIfConsumable(id, item);
+            consumeIfConsumable(itemId, item);
             cancelled = executeExactSkill(e) | executeItemActions(e[0], item);
-            cooldown(e[0], id);
+            cooldown(e[0], itemId);
         } else {
             if (e[0] instanceof Player) {
-                SupremeItem.getInstance().getCooldownManager().switchCooldownContext((Player) e[0], id,
-                        getClass(), cooldownOptions);
+                SupremeItem.getInstance().getCooldownManager().switchCooldownContext((Player) e[0], itemId,
+                        this.id, cooldownOptions);
             }
         }
         return cancelled ? SkillResult.CANCELLED : SkillResult.SUCCESS;
     }
 
-    protected void cooldown(LivingEntity e, UUID id) {
+    protected void cooldown(LivingEntity e, UUID itemId) {
         if (cooldownOptions.cooldown > 0) {
             SupremeItem.getInstance().getCooldownManager().addCooldown(e,
-                    new CooldownManager.CooldownInfo(id, cooldownOptions.cooldown, getClass()), cooldownOptions);
+                    new CooldownInfo(itemId, cooldownOptions.cooldown, this.id), cooldownOptions);
         }
     }
 

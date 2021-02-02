@@ -5,7 +5,6 @@ import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.supremeitem.action.Action;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.entity.LivingEntity;
@@ -16,7 +15,6 @@ import java.util.*;
 
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = true)
 @Enumerable.Child
 @Enumerable.Displayable(name = "&c&lOn Entity Sprint", description = "gui.skill.movement.entity-sprint.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzJhN2RjYmY3ZWNhNmI2ZjYzODY1OTFkMjM3OTkxY2ExYjg4OGE0ZjBjNzUzZmY5YTMyMDJjZjBlOTIyMjllMyJ9fX0=")
 public class EntitySprintSkill extends MovementSkill {
@@ -28,7 +26,6 @@ public class EntitySprintSkill extends MovementSkill {
     @Serializable(headTexture = CASTER_HEAD, description = "gui.skill.caster-actions")
     @Serializable.Optional(defaultValue = "ACTIONS_DEFAULT")
     private List<Action> onEntityActions;
-    @EqualsAndHashCode.Include
     @Serializable(headTexture = ACTIVATION_HEAD, description = "gui.skill.activate")
     private boolean onActivate;
 

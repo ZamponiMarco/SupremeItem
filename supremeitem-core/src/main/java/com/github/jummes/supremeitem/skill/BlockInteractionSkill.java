@@ -63,7 +63,7 @@ public abstract class BlockInteractionSkill extends InteractionSkill {
         LivingEntity e = (LivingEntity) args[0];
         Location loc = (Location) args[1];
         boolean cancelled = false;
-        int currentCooldown = SupremeItem.getInstance().getCooldownManager().getCooldown(e, id, getClass());
+        int currentCooldown = SupremeItem.getInstance().getCooldownManager().getCooldown(e, id, this.id);
         if (currentCooldown == 0) {
             consumeIfConsumable(id, item);
             cancelled = executeExactSkill(e) | executeItemActions(e, item) | exactBlockSkill(e, loc);
@@ -71,7 +71,7 @@ public abstract class BlockInteractionSkill extends InteractionSkill {
         } else {
             if (e instanceof Player) {
                 SupremeItem.getInstance().getCooldownManager().switchCooldownContext((Player) e, id,
-                        getClass(), cooldownOptions);
+                        this.id, cooldownOptions);
             }
         }
         return cancelled ? SkillResult.CANCELLED : SkillResult.SUCCESS;

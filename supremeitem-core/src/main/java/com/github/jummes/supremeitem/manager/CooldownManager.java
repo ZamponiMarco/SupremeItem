@@ -2,14 +2,9 @@ package com.github.jummes.supremeitem.manager;
 
 import com.github.jummes.libs.util.MessageUtils;
 import com.github.jummes.supremeitem.SupremeItem;
+import com.github.jummes.supremeitem.cooldown.CooldownInfo;
 import com.github.jummes.supremeitem.skill.CooldownSkill;
-import com.github.jummes.supremeitem.skill.RightClickSkill;
-import com.github.jummes.supremeitem.skill.Skill;
 import com.google.common.collect.Lists;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import org.bukkit.Bukkit;
@@ -52,9 +47,9 @@ public class CooldownManager {
         }
     }
 
-    public void switchCooldownContext(Player p, UUID id, Class<? extends Skill> skill,
+    public void switchCooldownContext(Player p, UUID id, UUID skillId,
                                       CooldownSkill.CooldownOptions cooldownOptions) {
-        switchCooldownContext(p, getCooldownInfo(p, id, skill), cooldownOptions);
+        switchCooldownContext(p, getCooldownInfo(p, id, skillId), cooldownOptions);
     }
 
     private void switchCooldownContext(Player p, CooldownInfo info, CooldownSkill.CooldownOptions cooldownOptions) {
@@ -63,8 +58,7 @@ public class CooldownManager {
                 Bukkit.getScheduler().cancelTask(cooldownMessagesMap.get(p));
             }
             cooldownMessagesMap.put(p, sendProgressMessage(p, info, cooldownOptions).
-                    runTaskTimer(SupremeItem.getInstance(),
-                            0, 1).getTaskId());
+                    runTaskTimer(SupremeItem.getInstance(), 0, 1).getTaskId());
         }
     }
 
@@ -99,29 +93,17 @@ public class CooldownManager {
         return new String(new char[count]).replace("\0", bar);
     }
 
-    public CooldownInfo getCooldownInfo(LivingEntity e, UUID id, Class<? extends Skill> skill) {
+    public CooldownInfo getCooldownInfo(LivingEntity e, UUID id, UUID skillId) {
         if (cooldowns.containsKey(e)) {
-            return cooldowns.get(e).stream().filter(info -> info.getItemId().equals(id) && info.getSkill().equals(skill)).
-                    findFirst().orElse(new CooldownInfo(id, 0, RightClickSkill.class));
+            return cooldowns.get(e).stream().filter(info -> info.getItemId().equals(id) && info.getSkillId().equals(skillId)).
+                    findFirst().orElse(new CooldownInfo(id, 0, UUID.randomUUID()));
         }
-        return new CooldownInfo(id, 0, RightClickSkill.class);
+        return new CooldownInfo(id, 0, UUID.randomUUID());
     }
 
-    public int getCooldown(LivingEntity e, UUID id, Class<? extends Skill> skill) {
-        CooldownInfo info = getCooldownInfo(e, id, skill);
+    public int getCooldown(LivingEntity e, UUID id, UUID skillId) {
+        CooldownInfo info = getCooldownInfo(e, id, skillId);
         return info.getRemainingCooldown();
-    }
-
-    @AllArgsConstructor
-    @Getter
-    @Setter
-    @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-    public static class CooldownInfo {
-        @EqualsAndHashCode.Include
-        private UUID itemId;
-        private int remainingCooldown;
-        @EqualsAndHashCode.Include
-        private Class<? extends Skill> skill;
     }
 
 }
