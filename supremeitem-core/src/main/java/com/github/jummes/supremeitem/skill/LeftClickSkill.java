@@ -65,16 +65,18 @@ public class LeftClickSkill extends CooldownSkill {
     }
 
     @Override
+    public SkillResult executeSkill(UUID id, ItemStack item, Object... args) {
+        LivingEntity e = (LivingEntity) args[0];
+        return getSkillResult(id, item, e);
+    }
+
+    @Override
     public Map<String, Object> serialize() {
         Map<String, Object> map = super.serialize();
         map.put("onCasterActions", onCasterActions);
         map.put("onRayCastPointActions", onRayCastPointActions);
         map.put("onRayCastMaxDistance", onRayCastMaxDistance);
         return map;
-    }
-
-    public SkillResult executeSkill(LivingEntity e, UUID id, ItemStack item) {
-        return getSkillResult(id, item, e);
     }
 
     @Override

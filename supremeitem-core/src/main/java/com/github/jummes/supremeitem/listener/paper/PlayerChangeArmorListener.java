@@ -36,8 +36,7 @@ public class PlayerChangeArmorListener implements Listener {
                 oldSupremeItem.getSkillSet().stream().filter(skill -> skill instanceof EntityEquipArmorSkill &&
                         !((EntityEquipArmorSkill) skill).isOnEquip() && skill.getAllowedSlots().contains(slot)).findFirst().
                         ifPresent(skill -> {
-                            if (((EntityEquipArmorSkill) skill).executeSkill(entity, oldItemId, oldItem).
-                                    equals(Skill.SkillResult.CANCELLED)) {
+                            if (skill.executeSkill(oldItemId, oldItem, entity).equals(Skill.SkillResult.CANCELLED)) {
                                 toReturn.set(true);
                             }
                         });
@@ -51,8 +50,7 @@ public class PlayerChangeArmorListener implements Listener {
                 newSupremeItem.getSkillSet().stream().filter(skill -> skill instanceof EntityEquipArmorSkill &&
                         ((EntityEquipArmorSkill) skill).isOnEquip() && skill.getAllowedSlots().contains(slot)).findFirst().
                         ifPresent(skill -> {
-                            if (((EntityEquipArmorSkill) skill).executeSkill(entity, newItemId, newItem).
-                                    equals(Skill.SkillResult.CANCELLED)) {
+                            if (skill.executeSkill(newItemId, newItem, entity).equals(Skill.SkillResult.CANCELLED)) {
                                 toReturn.set(true);
                             }
                         });

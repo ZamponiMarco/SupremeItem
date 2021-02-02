@@ -51,6 +51,12 @@ public class EntitySneakSkill extends MovementSkill {
         onActivate = (boolean) map.getOrDefault("onActivate", old);
     }
 
+    @Override
+    public SkillResult executeSkill(UUID id, ItemStack item, Object... args) {
+        LivingEntity e = (LivingEntity) args[0];
+        return getSkillResult(id, item, e);
+    }
+
 
     @Override
     public Map<String, Object> serialize() {

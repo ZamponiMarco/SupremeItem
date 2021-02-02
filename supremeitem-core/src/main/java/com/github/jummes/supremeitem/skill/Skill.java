@@ -52,6 +52,8 @@ public abstract class Skill implements Model {
         this.onItemActions = (List<Action>) map.getOrDefault("onItemActions", Lists.newArrayList());
     }
 
+    public abstract SkillResult executeSkill(UUID id, ItemStack item, Object... args);
+
     @Override
     public Map<String, Object> serialize() {
         Map<String, Object> map = new LinkedHashMap<>();

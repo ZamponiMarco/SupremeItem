@@ -3,15 +3,17 @@ package com.github.jummes.supremeitem.skill;
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.supremeitem.action.Action;
+import com.github.jummes.supremeitem.action.source.EntitySource;
+import com.github.jummes.supremeitem.action.targeter.EntityTarget;
+import com.github.jummes.supremeitem.action.targeter.ItemTarget;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.Getter;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EquipmentSlot;
+import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Enumerable.Child
@@ -48,6 +50,14 @@ public class TimerSkill extends Skill {
         super(map);
         this.onWearerActions = (List<Action>) map.getOrDefault("onWearerActions", Lists.newArrayList());
         this.timer = (int) map.getOrDefault("timer", TIMER_DEFAULT);
+    }
+
+    @Override
+    public SkillResult executeSkill(UUID id, ItemStack item, Object... args) {
+        LivingEntity e = (LivingEntity) args[0];
+        onItemActions.forEach(action -> action.execute(new ItemTarget(item, e), new EntitySource(e)));
+        onWearerActions.forEach(action -> action.execute(new EntityTarget(e), new EntitySource(e)));
+        return SkillResult.SUCCESS;
     }
 
 

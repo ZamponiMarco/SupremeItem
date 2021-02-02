@@ -36,6 +36,14 @@ public class ItemManager extends ModelManager<AbstractItem> {
         return items.stream().map(abstractItem -> abstractItem.getByName(name)).filter(Objects::nonNull).findFirst().orElse(null);
     }
 
+    public Item getItemByItemStack(ItemStack item) {
+        if (isSupremeItem(item)) {
+            UUID id = UUID.fromString(Libs.getWrapper().getTagItem(item, "supreme-item"));
+            return getItemById(id);
+        }
+        return null;
+    }
+
     public ItemFolder getFolderByName(String name) {
         return (ItemFolder) items.stream().filter(abstractItem -> abstractItem instanceof ItemFolder &&
                 abstractItem.getName().equals(name)).findFirst().orElse(null);

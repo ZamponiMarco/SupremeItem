@@ -73,7 +73,9 @@ public class RightClickSkill extends CooldownSkill {
         return map;
     }
 
-    public SkillResult executeSkill(LivingEntity e, UUID id, ItemStack item) {
+    @Override
+    public SkillResult executeSkill(UUID id, ItemStack item, Object... args) {
+        LivingEntity e = (LivingEntity) args[0];
         return getSkillResult(id, item, e);
     }
 

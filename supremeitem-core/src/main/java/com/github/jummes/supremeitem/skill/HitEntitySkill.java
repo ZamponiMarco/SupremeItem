@@ -61,7 +61,10 @@ public class HitEntitySkill extends CombatSkill {
         return map;
     }
 
-    public SkillResult executeSkill(LivingEntity damager, LivingEntity damaged, UUID id, ItemStack item) {
+    @Override
+    public SkillResult executeSkill(UUID id, ItemStack item, Object... args) {
+        LivingEntity damager = (LivingEntity) args[0];
+        LivingEntity damaged = (LivingEntity) args[1];
         return getSkillResult(id, item, damager, damaged);
     }
 

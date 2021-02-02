@@ -51,15 +51,18 @@ public class DamageEntitySkill extends CombatSkill {
     }
 
     @Override
+    public SkillResult executeSkill(UUID id, ItemStack item, Object... args) {
+        LivingEntity damaged = (LivingEntity) args[0];
+        LivingEntity damager = (LivingEntity) args[1];
+        return getSkillResult(id, item, damaged, damager);
+    }
+
+    @Override
     public Map<String, Object> serialize() {
         Map<String, Object> map = super.serialize();
         map.put("onDamagedActions", onDamagedActions);
         map.put("onDamagerActions", onDamagerActions);
         return map;
-    }
-
-    public SkillResult executeSkill(LivingEntity damaged, LivingEntity damager, UUID id, ItemStack item) {
-        return getSkillResult(id, item, damaged, damager);
     }
 
     @Override

@@ -2,9 +2,6 @@ package com.github.jummes.supremeitem.manager;
 
 import com.github.jummes.libs.core.Libs;
 import com.github.jummes.supremeitem.SupremeItem;
-import com.github.jummes.supremeitem.action.source.EntitySource;
-import com.github.jummes.supremeitem.action.targeter.EntityTarget;
-import com.github.jummes.supremeitem.action.targeter.ItemTarget;
 import com.github.jummes.supremeitem.item.Item;
 import com.github.jummes.supremeitem.skill.TimerSkill;
 import com.github.jummes.supremeitem.util.Utils;
@@ -81,10 +78,7 @@ public class TimerManager {
         if (!timers.get(player).contains(new TimerInfo(id, 0))) {
             timers.get(player).add(new TimerInfo(id, Bukkit.getScheduler().runTaskTimer(SupremeItem.getInstance(),
                     () -> {
-                        timerSkill.getOnItemActions().forEach(action -> action.execute(new ItemTarget(armor, player),
-                                new EntitySource(player)));
-                        timerSkill.getOnWearerActions().forEach(action -> action.execute(new EntityTarget(player),
-                                new EntitySource(player)));
+                        timerSkill.executeSkill(id, armor, player);
                     }, 0, timerSkill.getTimer()).getTaskId()));
         }
     }

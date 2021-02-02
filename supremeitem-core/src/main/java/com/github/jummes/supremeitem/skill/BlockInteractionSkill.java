@@ -59,16 +59,9 @@ public abstract class BlockInteractionSkill extends InteractionSkill {
     }
 
     @Override
-    protected boolean executeExactSkill(LivingEntity... e) {
-        return executeCasterActions(e[0], onEntityActions);
-    }
-
-    private boolean exactBlockSkill(LivingEntity caster, Location loc) {
-        return onBlockActions.stream().filter(action -> action.execute(new LocationTarget(loc),
-                new EntitySource(caster)).equals(Action.ActionResult.CANCELLED)).count() > 0;
-    }
-
-    public SkillResult executeSkill(LivingEntity e, Location loc, UUID id, ItemStack item) {
+    public SkillResult executeSkill(UUID id, ItemStack item, Object... args) {
+        LivingEntity e = (LivingEntity) args[0];
+        Location loc = (Location) args[1];
         boolean cancelled = false;
         int currentCooldown = SupremeItem.getInstance().getCooldownManager().getCooldown(e, id, getClass());
         if (currentCooldown == 0) {
@@ -82,6 +75,16 @@ public abstract class BlockInteractionSkill extends InteractionSkill {
             }
         }
         return cancelled ? SkillResult.CANCELLED : SkillResult.SUCCESS;
+    }
+
+    @Override
+    protected boolean executeExactSkill(LivingEntity... e) {
+        return executeCasterActions(e[0], onEntityActions);
+    }
+
+    private boolean exactBlockSkill(LivingEntity caster, Location loc) {
+        return onBlockActions.stream().filter(action -> action.execute(new LocationTarget(loc),
+                new EntitySource(caster)).equals(Action.ActionResult.CANCELLED)).count() > 0;
     }
 
     @Override
