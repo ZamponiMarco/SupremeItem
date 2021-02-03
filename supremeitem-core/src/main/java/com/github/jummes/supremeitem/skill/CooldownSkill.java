@@ -9,6 +9,8 @@ import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.ItemTarget;
 import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.cooldown.CooldownInfo;
+import com.github.jummes.supremeitem.cooldown.bar.ActionBar;
+import com.github.jummes.supremeitem.cooldown.bar.CooldownBar;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
@@ -36,14 +38,7 @@ public abstract class CooldownSkill extends Skill {
 
     public CooldownSkill(Map<String, Object> map) {
         super(map);
-        try {
-            int cooldown = (int) map.get("cooldown");
-            boolean cooldownMessage = (boolean) map.get("cooldownMessage");
-            this.cooldownOptions = new CooldownOptions(cooldown, cooldownMessage, CooldownOptions.COOLDOWN_MESSAGE_FORMAT_DEFAULT,
-                    CooldownOptions.COOLDOWN_MESSAGE_BAR_DEFAULT, CooldownOptions.COOLDOWN_MESSAGE_BAR_COUNT_DEFAULT);
-        } catch (Exception e) {
-            this.cooldownOptions = (CooldownOptions) map.getOrDefault("cooldownOptions", new CooldownOptions());
-        }
+        this.cooldownOptions = (CooldownOptions) map.getOrDefault("cooldownOptions", new CooldownOptions());
     }
 
     @Override
@@ -62,8 +57,8 @@ public abstract class CooldownSkill extends Skill {
             cooldown(e[0], itemId);
         } else {
             if (e[0] instanceof Player) {
-                SupremeItem.getInstance().getCooldownManager().switchCooldownContext((Player) e[0], itemId,
-                        this.id, cooldownOptions);
+                cooldownOptions.getBar().switchCooldownContext((Player) e[0], itemId,
+                        this.id, cooldownOptions.getCooldown());
             }
         }
         return cancelled ? SkillResult.CANCELLED : SkillResult.SUCCESS;
@@ -102,60 +97,48 @@ public abstract class CooldownSkill extends Skill {
     @Getter
     public static class CooldownOptions implements Model {
         protected static final int COOLDOWN_DEFAULT = 0;
-        protected static final boolean COOLDOWN_MESSAGE_DEFAULT = true;
         protected static final String COOLDOWN_MESSAGE_FORMAT_DEFAULT = "&2Cooldown &6[%bar&6]";
         protected static final String COOLDOWN_MESSAGE_BAR_DEFAULT = "|";
         protected static final int COOLDOWN_MESSAGE_BAR_COUNT_DEFAULT = 30;
 
-        protected static final String COOLDOWN_MESSAGE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTdlZDY2ZjVhNzAyMDlkODIxMTY3ZDE1NmZkYmMwY2EzYmYxMWFkNTRlZDVkODZlNzVjMjY1ZjdlNTAyOWVjMSJ9fX0=";
 
-        private static final String FORMAT_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMWZlMTk3MmYyY2ZhNGQzMGRjMmYzNGU4ZDIxNTM1OGMwYzU3NDMyYTU1ZjZjMzdhZDkxZTBkZDQ0MTkxYSJ9fX0=";
-        private static final String BAR_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjcxYjVjYTNhNjFiZWYyOTE2NWViMTI2NmI0MDVhYzI1OTE1NzJjMTZhNGIzOWNiMzZlZGFmNDZjODZjMDg4In19fQ==";
-        private static final String BAR_COUNT_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjdkYzNlMjlhMDkyM2U1MmVjZWU2YjRjOWQ1MzNhNzllNzRiYjZiZWQ1NDFiNDk1YTEzYWJkMzU5NjI3NjUzIn19fQ==";
+        protected static final String COOLDOWN_MESSAGE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTdlZDY2ZjVhNzAyMDlkODIxMTY3ZDE1NmZkYmMwY2EzYmYxMWFkNTRlZDVkODZlNzVjMjY1ZjdlNTAyOWVjMSJ9fX0=";
 
         @Serializable(headTexture = COOLDOWN_HEAD, description = "gui.skill.cooldown.cooldown")
         @Serializable.Number(minValue = 0, scale = 1)
         @Serializable.Optional(defaultValue = "COOLDOWN_DEFAULT")
         protected int cooldown;
 
-        @Serializable(headTexture = COOLDOWN_MESSAGE_HEAD, description = "gui.skill.cooldown.cooldown-message")
-        @Serializable.Optional(defaultValue = "COOLDOWN_MESSAGE_DEFAULT")
-        protected boolean cooldownMessage;
-
-        @Serializable(headTexture = FORMAT_HEAD, description = "gui.skill.cooldown.format")
-        @Serializable.Optional(defaultValue = "COOLDOWN_MESSAGE_FORMAT_DEFAULT")
-        protected String cooldownMessageFormat;
-
-        @Serializable(headTexture = BAR_HEAD, description = "gui.skill.cooldown.bar")
-        @Serializable.Optional(defaultValue = "COOLDOWN_MESSAGE_BAR_DEFAULT")
-        protected String cooldownMessageBar;
-
-        @Serializable(headTexture = BAR_COUNT_HEAD, description = "gui.skill.cooldown.bar-count")
-        @Serializable.Optional(defaultValue = "COOLDOWN_MESSAGE_BAR_COUNT_DEFAULT")
-        protected int cooldownMessageBarCount;
+        @Serializable(headTexture = COOLDOWN_HEAD, description = "gui.skill.cooldown.cooldown")
+        protected CooldownBar bar;
 
         public CooldownOptions() {
-            this(COOLDOWN_DEFAULT, COOLDOWN_MESSAGE_DEFAULT, COOLDOWN_MESSAGE_FORMAT_DEFAULT,
-                    COOLDOWN_MESSAGE_BAR_DEFAULT, COOLDOWN_MESSAGE_BAR_COUNT_DEFAULT);
+            this(COOLDOWN_DEFAULT, new ActionBar());
         }
 
-        public CooldownOptions(int cooldown, boolean cooldownMessage, String cooldownMessageFormat,
-                               String cooldownMessageBar, int cooldownMessageBarCount) {
+        public CooldownOptions(int cooldown, CooldownBar bar) {
             this.cooldown = cooldown;
-            this.cooldownMessage = cooldownMessage;
-            this.cooldownMessageFormat = cooldownMessageFormat;
-            this.cooldownMessageBar = cooldownMessageBar;
-            this.cooldownMessageBarCount = cooldownMessageBarCount;
+            this.bar = bar;
         }
 
         public CooldownOptions(Map<String, Object> map) {
             this.cooldown = (int) map.getOrDefault("cooldown", COOLDOWN_DEFAULT);
-            this.cooldownMessage = (boolean) map.getOrDefault("cooldownMessage", COOLDOWN_MESSAGE_DEFAULT);
-            this.cooldownMessageFormat = (String) map.getOrDefault("cooldownMessageFormat",
-                    COOLDOWN_MESSAGE_FORMAT_DEFAULT);
-            this.cooldownMessageBar = (String) map.getOrDefault("cooldownMessageBar", COOLDOWN_MESSAGE_BAR_DEFAULT);
-            this.cooldownMessageBarCount = (int) map.getOrDefault("cooldownMessageBarCount",
-                    COOLDOWN_MESSAGE_BAR_COUNT_DEFAULT);
+            boolean cooldownMessage;
+            try {
+                cooldownMessage = (boolean) map.get("cooldownMessage");
+            } catch (NullPointerException e) {
+                cooldownMessage = false;
+            }
+            if (cooldownMessage) {
+                String cooldownMessageFormat = (String) map.getOrDefault("cooldownMessageFormat",
+                        COOLDOWN_MESSAGE_FORMAT_DEFAULT);
+                String cooldownMessageBar = (String) map.getOrDefault("cooldownMessageBar", COOLDOWN_MESSAGE_BAR_DEFAULT);
+                int cooldownMessageBarCount = (int) map.getOrDefault("cooldownMessageBarCount",
+                        COOLDOWN_MESSAGE_BAR_COUNT_DEFAULT);
+                this.bar = new ActionBar();
+            } else {
+                this.bar = (CooldownBar) map.getOrDefault("bar", new ActionBar());
+            }
         }
     }
 }

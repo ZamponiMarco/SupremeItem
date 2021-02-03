@@ -14,6 +14,7 @@ import com.github.jummes.supremeitem.action.meta.RandomAction;
 import com.github.jummes.supremeitem.area.Area;
 import com.github.jummes.supremeitem.command.*;
 import com.github.jummes.supremeitem.condition.Condition;
+import com.github.jummes.supremeitem.cooldown.bar.CooldownBar;
 import com.github.jummes.supremeitem.database.CompressedYamlDatabase;
 import com.github.jummes.supremeitem.entity.Entity;
 import com.github.jummes.supremeitem.entity.selector.EntitySelector;
@@ -90,6 +91,8 @@ public class SupremeItem extends JavaPlugin {
         ConfigurationSerialization.registerClass(Area.class);
 
         ConfigurationSerialization.registerClass(EntitySorter.class);
+
+        ConfigurationSerialization.registerClass(CooldownBar.class);
 
         /**
          * Until 2 months in 1.17

@@ -70,8 +70,8 @@ public abstract class BlockInteractionSkill extends InteractionSkill {
             cooldown(e, id);
         } else {
             if (e instanceof Player) {
-                SupremeItem.getInstance().getCooldownManager().switchCooldownContext((Player) e, id,
-                        this.id, cooldownOptions);
+                cooldownOptions.getBar().switchCooldownContext((Player) e, id,
+                        this.id, cooldownOptions.getCooldown());
             }
         }
         return cancelled ? SkillResult.CANCELLED : SkillResult.SUCCESS;
