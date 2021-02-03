@@ -9,7 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.UUID;
 
-@Enumerable.Parent(classArray = {ActionBar.class, BossBar.class})
+@Enumerable.Parent(classArray = {ActionBar.class, BossBar.class, NoBar.class})
 public abstract class CooldownBar implements Model {
 
     public abstract BukkitRunnable sendProgress(Player player, CooldownInfo info,

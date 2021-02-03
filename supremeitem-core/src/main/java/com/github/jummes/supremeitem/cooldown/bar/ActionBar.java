@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Enumerable.Child
+@Enumerable.Displayable(name = "&c&lAction Cooldown Bar", description = "gui.skill.cooldown.bar.action.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjAyYWYzY2EyZDVhMTYwY2ExMTE0MDQ4Yjc5NDc1OTQyNjlhZmUyYjFiNWVjMjU1ZWU3MmI2ODNiNjBiOTliOSJ9fX0")
 public class ActionBar extends CooldownBar {
 
     protected static final String COOLDOWN_MESSAGE_FORMAT_DEFAULT = "&2Cooldown &6[%bar&6]";
@@ -27,15 +28,15 @@ public class ActionBar extends CooldownBar {
 
     private static final Map<Player, Integer> cooldownMessagesMap = new HashMap<>();
 
-    @Serializable(headTexture = FORMAT_HEAD, description = "gui.skill.cooldown.format")
+    @Serializable(headTexture = FORMAT_HEAD, description = "gui.skill.cooldown.bar.action.format")
     @Serializable.Optional(defaultValue = "COOLDOWN_MESSAGE_FORMAT_DEFAULT")
     protected String cooldownMessageFormat;
 
-    @Serializable(headTexture = BAR_HEAD, description = "gui.skill.cooldown.bar")
+    @Serializable(headTexture = BAR_HEAD, description = "gui.skill.cooldown.bar.action.bar")
     @Serializable.Optional(defaultValue = "COOLDOWN_MESSAGE_BAR_DEFAULT")
     protected String cooldownMessageBar;
 
-    @Serializable(headTexture = BAR_COUNT_HEAD, description = "gui.skill.cooldown.bar-count")
+    @Serializable(headTexture = BAR_COUNT_HEAD, description = "gui.skill.cooldown.bar.action.bar-count")
     @Serializable.Optional(defaultValue = "COOLDOWN_MESSAGE_BAR_COUNT_DEFAULT")
     protected int cooldownMessageBarCount;
 

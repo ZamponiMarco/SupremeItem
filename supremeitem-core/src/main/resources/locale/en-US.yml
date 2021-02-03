@@ -475,21 +475,37 @@ gui:
     cooldown:
       cooldown:
         - "&7&oThe cooldown between skill executions."
-      cooldown-message:
-        - "&7&oWhether the cooldown message should be"
-        - "&7&odisplayed to the player."
-      format:
-        - "&7&oThe format of the cooldown message."
-        - "&7&oEvery color code will be rendered."
-        - "&7&oTo put the bar into the format just"
-        - "&7&otype in the format &e%bar&7&o."
       bar:
-        - "&7&oThe string that will be used as the"
-        - "&7&obar inside the cooldown message."
-      bar-count:
-        - "&7&oThe number of times the bar string"
-        - "&7&owill be repeated inside the cooldown"
-        - "&7&omessage."
+        description:
+          - "&7&oThe bar that represents the cooldown."
+        no-bar:
+          description:
+            - "&7&oSet no bar to display the skill cooldown."
+        action:
+          description:
+            - "&7&oSet a bar displayed as a action bar"
+            - "&7&omessage of the player."
+          format:
+            - "&7&oThe format of the cooldown message."
+            - "&7&oEvery color code will be rendered."
+            - "&7&oTo put the bar into the format just"
+            - "&7&otype in the format &e%bar&7&o."
+          bar:
+            - "&7&oThe string that will be used as the"
+            - "&7&obar inside the cooldown message."
+          bar-count:
+            - "&7&oThe number of times the bar string"
+            - "&7&owill be repeated inside the cooldown"
+            - "&7&omessage."
+        boss:
+          description:
+            - "&7&oSet a bar displayed as a boss bar."
+          message:
+            - "&7&oThe title of the boss bar."
+          color:
+            - "&7&oThe color of the boss bar."
+          style:
+            - "&7&oThe style of the boss bar."
     item-actions:
       - "&7&oThe actions to execute on the SupremeItem."
       - "&6&oSource: &ecaster entity."

@@ -11,6 +11,7 @@ import com.github.jummes.supremeitem.action.targeter.LocationTarget;
 import com.github.jummes.supremeitem.cooldown.CooldownInfo;
 import com.github.jummes.supremeitem.cooldown.bar.ActionBar;
 import com.github.jummes.supremeitem.cooldown.bar.CooldownBar;
+import com.github.jummes.supremeitem.cooldown.bar.NoBar;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
@@ -103,13 +104,15 @@ public abstract class CooldownSkill extends Skill {
 
 
         protected static final String COOLDOWN_MESSAGE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTdlZDY2ZjVhNzAyMDlkODIxMTY3ZDE1NmZkYmMwY2EzYmYxMWFkNTRlZDVkODZlNzVjMjY1ZjdlNTAyOWVjMSJ9fX0=";
+        private static final String BAR_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZmFmMGM5NWNlYmEzNGM3ZmU2ZDMzNDA0ZmViODdiNDE4NGNjY2UxNDM5Nzg2MjJjMTY0N2ZlYWVkMmI2MzI3NCJ9fX0==";
 
         @Serializable(headTexture = COOLDOWN_HEAD, description = "gui.skill.cooldown.cooldown")
         @Serializable.Number(minValue = 0, scale = 1)
         @Serializable.Optional(defaultValue = "COOLDOWN_DEFAULT")
         protected int cooldown;
 
-        @Serializable(headTexture = COOLDOWN_HEAD, description = "gui.skill.cooldown.cooldown")
+        @Serializable(headTexture = BAR_HEAD, description = "gui.skill.cooldown.bar.description",
+                additionalDescription = {"gui.additional-tooltips.recreate"})
         protected CooldownBar bar;
 
         public CooldownOptions() {
@@ -137,7 +140,7 @@ public abstract class CooldownSkill extends Skill {
                         COOLDOWN_MESSAGE_BAR_COUNT_DEFAULT);
                 this.bar = new ActionBar();
             } else {
-                this.bar = (CooldownBar) map.getOrDefault("bar", new ActionBar());
+                this.bar = (CooldownBar) map.getOrDefault("bar", new NoBar());
             }
         }
     }
