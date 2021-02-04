@@ -541,6 +541,11 @@ gui:
         description:
           - "&7&oSet a skill to be triggered when an entity is"
           - "&7&odamaged by another one."
+        list-description:
+          - "&6&lModifiable variables:"
+          - "&6&l- &cdamage &7&oThe damage of the hit."
+          - "&6&l- &cdamageCause &7&oThe damage cause."
+          - ""
         damager-actions:
           - "&7&oThe actions to execute on the damager."
           - "&6&oSource: &edamaged entity."
@@ -553,6 +558,11 @@ gui:
         description:
           - "&7&oSet a skill to be triggered when an entity hits"
           - "&7&oanother one."
+        list-description:
+          - "&6&lModifiable variables:"
+          - "&6&l- &cdamage &7&oThe damage of the hit."
+          - "&6&l- &cdamageCause &7&oThe damage cause."
+          - ""
         damager-actions:
           - "&7&oThe actions to execute on the damager."
           - "&6&oSource: &edamager entity."

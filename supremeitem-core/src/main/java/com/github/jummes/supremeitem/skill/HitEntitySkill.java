@@ -2,6 +2,7 @@ package com.github.jummes.supremeitem.skill;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
+import com.github.jummes.libs.core.Libs;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.EntitySource;
@@ -95,6 +96,11 @@ public class HitEntitySkill extends CombatSkill {
     @Override
     public String getName() {
         return "&cHit entity &6&lskill";
+    }
+
+    @Override
+    public List<String> getCustomLore() {
+        return Libs.getLocale().getList("gui.skill.combat.hit-entity.list-description");
     }
 
     @Override

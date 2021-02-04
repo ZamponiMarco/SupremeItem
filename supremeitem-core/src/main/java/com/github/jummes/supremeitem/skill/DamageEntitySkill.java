@@ -2,14 +2,18 @@ package com.github.jummes.supremeitem.skill;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
+import com.github.jummes.libs.core.Libs;
+import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
+import com.github.jummes.supremeitem.util.Utils;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
 
 import java.util.List;
 import java.util.Map;
@@ -67,13 +71,28 @@ public class DamageEntitySkill extends CombatSkill {
     protected void executeCooldownSkill(Map<String, Object> args) {
         LivingEntity damaged = (LivingEntity) args.get("damaged");
         LivingEntity damager = (LivingEntity) args.get("damager");
+
+        damaged.setMetadata("damage", new FixedMetadataValue(SupremeItem.getInstance(), args.get("damage")));
+        damaged.setMetadata("damageCause", new FixedMetadataValue(SupremeItem.getInstance(), args.
+                get("damageCause")));
+
         onDamagedActions.forEach(action -> action.execute(new EntityTarget(damaged), new EntitySource(damaged), args));
         onDamagerActions.forEach(action -> action.execute(new EntityTarget(damager), new EntitySource(damaged), args));
+
+        args.put("damage", Utils.getMetadata(damaged.getMetadata("damage"), 0.0).asDouble());
+
+        damaged.removeMetadata("damage", SupremeItem.getInstance());
+        damaged.removeMetadata("damageCause", SupremeItem.getInstance());
     }
 
     @Override
     public String getName() {
         return "&cDamage Entity &6&lskill";
+    }
+
+    @Override
+    public List<String> getCustomLore() {
+        return Libs.getLocale().getList("gui.skill.combat.damage-entity.list-description");
     }
 
     @Override

@@ -79,11 +79,17 @@ public abstract class Skill implements Model {
 
     @Override
     public ItemStack getGUIItem() {
+        List<String> lore = getCustomLore();
+        lore.addAll(Libs.getLocale().getList("gui.additional-tooltips.delete"));
         return ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue(getClass().getAnnotation(Enumerable.Displayable.class).headTexture()),
-                getName(), Libs.getLocale().getList("gui.additional-tooltips.delete"));
+                getName(), lore);
     }
 
     public abstract String getName();
+
+    public List<String> getCustomLore() {
+        return new ArrayList<>();
+    }
 
     public void changeSkillName(String oldName, String newName) {
         getAllActions().forEach(action -> action.changeSkillName(oldName, newName));
