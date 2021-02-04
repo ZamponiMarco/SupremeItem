@@ -46,7 +46,7 @@ public class SetNumericVariableAction extends VariableAction {
     }
 
     @Override
-    public ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source, Map<String, Object> map) {
         if (persistent) {
             if (target instanceof ItemTarget) {
                 ItemStack item = ((ItemTarget) target).getTarget();

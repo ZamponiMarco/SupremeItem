@@ -43,7 +43,7 @@ public class PullAction extends EntityAction {
     }
 
     @Override
-    public ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source, Map<String, Object> map) {
         Vector difference = null;
         LivingEntity entityTarget = getEntity(target, source);
         LivingEntity entitySource = source.getCaster();

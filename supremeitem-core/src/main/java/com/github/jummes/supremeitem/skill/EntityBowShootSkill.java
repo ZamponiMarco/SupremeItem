@@ -36,7 +36,7 @@ public class EntityBowShootSkill extends CombatSkill {
     }
 
     @Override
-    public SkillResult executeSkill(UUID id, ItemStack item, Object... args) {
+    public Map<String, Object> executeSkill(UUID id, ItemStack item, Object... args) {
         LivingEntity e = (LivingEntity) args[0];
         return getSkillResult(id, item, e);
     }
@@ -49,8 +49,8 @@ public class EntityBowShootSkill extends CombatSkill {
     }
 
     @Override
-    protected boolean executeExactSkill(LivingEntity... e) {
-        return executeCasterActions(e[0], onEntityActions);
+    protected void executeExactSkill(Map<String, Object> map, LivingEntity... e) {
+        executeCasterActions(e[0], onEntityActions, map);
     }
 
     @Override

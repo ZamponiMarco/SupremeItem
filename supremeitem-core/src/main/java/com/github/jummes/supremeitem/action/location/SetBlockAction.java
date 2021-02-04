@@ -79,7 +79,7 @@ public class SetBlockAction extends LocationAction {
     }
 
     @Override
-    public ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source, Map<String, Object> map) {
         Location location = getLocation(target, source);
 
         if (location == null) {

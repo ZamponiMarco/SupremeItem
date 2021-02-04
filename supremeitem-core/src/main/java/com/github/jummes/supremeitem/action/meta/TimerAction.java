@@ -12,6 +12,7 @@ import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -64,7 +65,7 @@ public class TimerAction extends WrapperAction {
     }
 
     @Override
-    public ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source, Map<String, Object> map) {
         BukkitRunnable runnable = new BukkitRunnable() {
             private int counter = 1;
 
@@ -73,7 +74,7 @@ public class TimerAction extends WrapperAction {
                 if (counter >= repetitions) {
                     this.cancel();
                 }
-                actions.forEach(action -> action.execute(target, source));
+                actions.forEach(action -> action.execute(target, source, new HashMap<>()));
                 counter++;
             }
         };

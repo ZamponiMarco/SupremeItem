@@ -13,6 +13,7 @@ import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -55,9 +56,10 @@ public class DelayedAction extends WrapperAction {
     }
 
     @Override
-    public ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source, Map<String, Object> map) {
         Bukkit.getScheduler().runTaskLater(SupremeItem.getInstance(), () ->
-                actions.forEach(action -> action.execute(target, source)), delay.getRealValue(target, source).longValue());
+                        actions.forEach(action -> action.execute(target, source, new HashMap<>())),
+                delay.getRealValue(target, source).longValue());
         return ActionResult.SUCCESS;
     }
 

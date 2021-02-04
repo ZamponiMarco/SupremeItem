@@ -13,10 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -59,14 +56,16 @@ public abstract class BlockInteractionSkill extends InteractionSkill {
     }
 
     @Override
-    public SkillResult executeSkill(UUID id, ItemStack item, Object... args) {
+    public Map<String, Object> executeSkill(UUID id, ItemStack item, Object... args) {
         LivingEntity e = (LivingEntity) args[0];
         Location loc = (Location) args[1];
-        boolean cancelled = false;
+        Map<String, Object> map = new HashMap<>();
         int currentCooldown = SupremeItem.getInstance().getCooldownManager().getCooldown(e, id, this.id);
         if (currentCooldown == 0) {
             consumeIfConsumable(id, item);
-            cancelled = executeExactSkill(e) | executeItemActions(e, item) | exactBlockSkill(e, loc);
+            executeExactSkill(map, e);
+            executeItemActions(e, item, map);
+            exactBlockSkill(e, loc, map);
             cooldown(e, id);
         } else {
             if (e instanceof Player) {
@@ -74,17 +73,16 @@ public abstract class BlockInteractionSkill extends InteractionSkill {
                         this.id, cooldownOptions.getCooldown());
             }
         }
-        return cancelled ? SkillResult.CANCELLED : SkillResult.SUCCESS;
+        return map;
     }
 
     @Override
-    protected boolean executeExactSkill(LivingEntity... e) {
-        return executeCasterActions(e[0], onEntityActions);
+    protected void executeExactSkill(Map<String, Object> map, LivingEntity... e) {
+        executeCasterActions(e[0], onEntityActions, map);
     }
 
-    private boolean exactBlockSkill(LivingEntity caster, Location loc) {
-        return onBlockActions.stream().filter(action -> action.execute(new LocationTarget(loc),
-                new EntitySource(caster)).equals(Action.ActionResult.CANCELLED)).count() > 0;
+    private void exactBlockSkill(LivingEntity caster, Location loc, Map<String, Object> map) {
+        onBlockActions.forEach(action -> action.execute(new LocationTarget(loc), new EntitySource(caster), map));
     }
 
     @Override

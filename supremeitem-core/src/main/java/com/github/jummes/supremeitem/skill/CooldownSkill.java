@@ -20,10 +20,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.RayTraceResult;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public abstract class CooldownSkill extends Skill {
 
@@ -49,12 +46,13 @@ public abstract class CooldownSkill extends Skill {
         return map;
     }
 
-    protected SkillResult getSkillResult(UUID itemId, ItemStack item, LivingEntity... e) {
-        boolean cancelled = false;
+    protected Map<String, Object> getSkillResult(UUID itemId, ItemStack item, LivingEntity... e) {
+        Map<String, Object> map = new HashMap<>();
         int currentCooldown = SupremeItem.getInstance().getCooldownManager().getCooldown(e[0], itemId, this.id);
         if (currentCooldown == 0) {
             consumeIfConsumable(itemId, item);
-            cancelled = executeExactSkill(e) | executeItemActions(e[0], item);
+            executeExactSkill(map, e);
+            executeItemActions(e[0], item, map);
             cooldown(e[0], itemId);
         } else {
             if (e[0] instanceof Player) {
@@ -62,7 +60,7 @@ public abstract class CooldownSkill extends Skill {
                         this.id, cooldownOptions.getCooldown());
             }
         }
-        return cancelled ? SkillResult.CANCELLED : SkillResult.SUCCESS;
+        return map;
     }
 
     protected void cooldown(LivingEntity e, UUID itemId) {
@@ -72,27 +70,24 @@ public abstract class CooldownSkill extends Skill {
         }
     }
 
-    protected abstract boolean executeExactSkill(LivingEntity... e);
+    protected abstract void executeExactSkill(Map<String, Object> map, LivingEntity... e);
 
-    protected boolean executeItemActions(LivingEntity e, ItemStack item) {
-        return onItemActions.stream().filter(action -> action.execute(new ItemTarget(item, e),
-                new EntitySource(e)).equals(Action.ActionResult.CANCELLED)).count() > 0;
+    protected void executeItemActions(LivingEntity e, ItemStack item, Map<String, Object> map) {
+        onItemActions.forEach(action -> action.execute(new ItemTarget(item, e),
+                new EntitySource(e), map));
     }
 
-    protected boolean executeCasterActions(LivingEntity e, List<Action> actions) {
-        return actions.stream().filter(action -> action.execute(new EntityTarget(e),
-                new EntitySource(e)).equals(Action.ActionResult.CANCELLED)).count() > 0;
+    protected void executeCasterActions(LivingEntity e, List<Action> actions, Map<String, Object> map) {
+        actions.forEach(action -> action.execute(new EntityTarget(e), new EntitySource(e), map));
     }
 
-    protected boolean executeRayCastActions(LivingEntity e, int onRayCastMaxDistance, List<Action> onRayCastPointActions) {
+    protected void executeRayCastActions(LivingEntity e, int onRayCastMaxDistance,
+                                         List<Action> onRayCastPointActions, Map<String, Object> map) {
         RayTraceResult result = e.rayTraceBlocks(onRayCastMaxDistance);
         if (result != null) {
             Location l = result.getHitPosition().toLocation(e.getWorld());
-            return onRayCastPointActions.stream().filter(action ->
-                    action.execute(new LocationTarget(l),
-                            new EntitySource(e)).equals(Action.ActionResult.CANCELLED)).count() > 0;
+            onRayCastPointActions.forEach(action -> action.execute(new LocationTarget(l), new EntitySource(e), map));
         }
-        return false;
     }
 
     @Getter

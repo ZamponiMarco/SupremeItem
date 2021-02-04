@@ -52,7 +52,7 @@ public class MoneyAction extends EntityAction {
     }
 
     @Override
-    public ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source, Map<String, Object> map) {
         Entity entity = getEntity(target, source);
         if (entity == null) {
             return ActionResult.FAILURE;

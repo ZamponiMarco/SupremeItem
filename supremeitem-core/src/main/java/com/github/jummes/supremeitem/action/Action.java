@@ -47,13 +47,10 @@ public abstract class Action implements Model, Cloneable {
      *
      * @param target The target of the action.
      * @param source The source of the action.
+     * @param map
      * @return The ActionResult that describes how the action went.
      */
-    public abstract ActionResult execute(Target target, Source source);
-
-    public ItemStack targetItem() {
-        return Libs.getWrapper().skullFromValue(TARGET_HEAD);
-    }
+    public abstract ActionResult execute(Target target, Source source, Map<String, Object> map);
 
     public abstract String getName();
 
@@ -72,6 +69,10 @@ public abstract class Action implements Model, Cloneable {
             return source.getCaster().getEyeLocation();
         }
         return source.getLocation();
+    }
+
+    public ItemStack targetItem() {
+        return Libs.getWrapper().skullFromValue(TARGET_HEAD);
     }
 
     public void changeSkillName(String oldName, String newName) {
@@ -95,10 +96,6 @@ public abstract class Action implements Model, Cloneable {
          * An action concluded with success.
          */
         SUCCESS,
-        /**
-         * An action that has been cancelled.
-         */
-        CANCELLED,
         /**
          * An action that failed.
          */

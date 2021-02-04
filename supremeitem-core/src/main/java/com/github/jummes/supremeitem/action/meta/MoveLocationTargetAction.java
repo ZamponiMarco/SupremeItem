@@ -59,11 +59,9 @@ public class MoveLocationTargetAction extends WrapperAction {
     }
 
     @Override
-    public ActionResult execute(Target target, Source source) {
-        if (actions.stream().filter(action -> action.execute(new LocationTarget(getLocation(target, source).
-                clone().add(vector.getRealValue(target, source).computeVector(target, source))), source).equals(ActionResult.CANCELLED)).count() > 0) {
-            return ActionResult.CANCELLED;
-        }
+    public ActionResult execute(Target target, Source source, Map<String, Object> map) {
+        actions.forEach(action -> action.execute(new LocationTarget(getLocation(target, source).
+                clone().add(vector.getRealValue(target, source).computeVector(target, source))), source, map));
         return ActionResult.SUCCESS;
     }
 

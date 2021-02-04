@@ -22,31 +22,33 @@ import org.bukkit.event.player.PlayerToggleSprintEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
 
 public class PlayerItemListener implements Listener {
 
-    public static boolean executeSkill(LivingEntity caster, Class<? extends Skill> skillClass, Predicate<Skill>
+    public static Map<String, Object> executeSkill(LivingEntity caster, Class<? extends Skill> skillClass, Predicate<Skill>
             additionalPredicate, Object... args) {
-        AtomicBoolean toReturn = new AtomicBoolean(false);
+        Map<String, Object> toReturn = new HashMap<>();
         List<ItemStack> items = Utils.getEntityItems(caster);
         IntStream.range(0, items.size()).forEach(i -> {
             Item item = SupremeItem.getInstance().getItemManager().getItemByItemStack(items.get(i));
             if (item != null) {
                 item.getSkillSet().stream().filter(skill -> skillClass.isAssignableFrom(skill.getClass()) &&
                         skill.getAllowedSlots().contains(EquipmentSlot.values()[i]) && additionalPredicate.test(skill)).
-                        forEach(skill -> {
-                            if (skill.executeSkill(item.getId(), items.get(i), args).equals(Skill.SkillResult.CANCELLED)) {
-                                toReturn.set(true);
-                            }
-                        });
+                        forEach(skill -> mergeMaps(toReturn, skill.executeSkill(item.getId(), items.get(i), args)));
             }
         });
-        return toReturn.get();
+        return toReturn;
+    }
+
+    public static Map<String, Object> mergeMaps(Map<String, Object> first, Map<String, Object> second) {
+        second.forEach((string, object) -> first.merge(string, object, (a, b) -> b));
+        return first;
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -69,7 +71,6 @@ public class PlayerItemListener implements Listener {
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerDamage(EntityDamageByEntityEvent e) {
-        boolean cancelled = false;
         if (e.getEntity() instanceof LivingEntity) {
             LivingEntity damaged = (LivingEntity) e.getEntity();
             LivingEntity damager;
@@ -82,14 +83,16 @@ public class PlayerItemListener implements Listener {
                 return;
             }
 
+            Map<String, Object> map = new HashMap<>();
+
             if (e.getEntity().getMetadata("siattack").stream().noneMatch(metadataValue ->
                     Objects.equals(metadataValue.getOwningPlugin(), SupremeItem.getInstance()))) {
-                cancelled = executeSkill(damager, HitEntitySkill.class, skill -> true, damager, damaged) |
-                        executeSkill(damaged, DamageEntitySkill.class, skill -> true, damaged, damager);
+                mergeMaps(map, executeSkill(damager, HitEntitySkill.class, skill -> true, damager, damaged));
+                mergeMaps(map, executeSkill(damaged, DamageEntitySkill.class, skill -> true, damaged, damager));
             } else {
                 e.getEntity().removeMetadata("siattack", SupremeItem.getInstance());
             }
-            if (cancelled) {
+            if ((boolean) map.getOrDefault("cancelled", false)) {
                 e.setCancelled(true);
             }
         }
@@ -98,9 +101,9 @@ public class PlayerItemListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerSneak(PlayerToggleSneakEvent e) {
         Player player = e.getPlayer();
-        boolean cancelled = executeSkill(player, EntitySneakSkill.class, skill ->
+        Map<String, Object> map = executeSkill(player, EntitySneakSkill.class, skill ->
                 e.isSneaking() == ((EntitySneakSkill) skill).isOnActivate(), player);
-        if (cancelled) {
+        if ((boolean) map.getOrDefault("cancelled", false)) {
             e.setCancelled(true);
         }
     }
@@ -108,9 +111,9 @@ public class PlayerItemListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerSprint(PlayerToggleSprintEvent e) {
         Player player = e.getPlayer();
-        boolean cancelled = executeSkill(player, EntitySprintSkill.class, skill ->
+        Map<String, Object> map = executeSkill(player, EntitySprintSkill.class, skill ->
                 e.isSprinting() == ((EntitySprintSkill) skill).isOnActivate(), player);
-        if (cancelled) {
+        if ((boolean) map.getOrDefault("cancelled", false)) {
             e.setCancelled(true);
         }
     }
@@ -118,8 +121,8 @@ public class PlayerItemListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onPlayerShoot(EntityShootBowEvent e) {
         LivingEntity entity = e.getEntity();
-        boolean cancelled = executeSkill(entity, EntityBowShootSkill.class, skill -> true, entity);
-        if (cancelled) {
+        Map<String, Object> map = executeSkill(entity, EntityBowShootSkill.class, skill -> true, entity);
+        if ((boolean) map.getOrDefault("cancelled", false)) {
             e.setCancelled(true);
         }
     }
@@ -127,9 +130,9 @@ public class PlayerItemListener implements Listener {
     @EventHandler
     public void onBlockPlaced(BlockPlaceEvent e) {
         Player player = e.getPlayer();
-        boolean cancelled = executeSkill(player, BlockPlaceSkill.class, skill -> true, player,
+        Map<String, Object> map = executeSkill(player, BlockPlaceSkill.class, skill -> true, player,
                 e.getBlock().getLocation().clone().add(.5, .5, .5));
-        if (cancelled) {
+        if ((boolean) map.getOrDefault("cancelled", false)) {
             e.setCancelled(true);
         }
     }
@@ -137,9 +140,9 @@ public class PlayerItemListener implements Listener {
     @EventHandler
     public void onBlockBroken(BlockBreakEvent e) {
         Player player = e.getPlayer();
-        boolean cancelled = executeSkill(player, BlockBreakSkill.class, skill -> true, player,
+        Map<String, Object> map = executeSkill(player, BlockBreakSkill.class, skill -> true, player,
                 e.getBlock().getLocation().clone().add(.5, .5, .5));
-        if (cancelled) {
+        if ((boolean) map.getOrDefault("cancelled", false)) {
             e.setCancelled(true);
         }
     }

@@ -15,6 +15,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -73,14 +74,15 @@ public abstract class AbstractProjectile {
             public void run() {
 
                 if (projectileHitBlock()) {
-                    onBlockHitActions.forEach(Action -> Action.execute(new LocationTarget(location), source));
+                    onBlockHitActions.forEach(Action -> Action.execute(new LocationTarget(location), source,
+                            new HashMap<>()));
                     remove();
                 }
 
                 List<LivingEntity> hitEntities = getHitEntities();
                 if (!hitEntities.isEmpty()) {
                     hitEntities.forEach(livingEntity -> onEntityHitActions.forEach(action -> action.
-                            execute(new EntityTarget(livingEntity), source)));
+                            execute(new EntityTarget(livingEntity), source, new HashMap<>())));
                     remove();
                 }
 
@@ -88,7 +90,8 @@ public abstract class AbstractProjectile {
                     remove();
                 }
 
-                onProjectileTickActions.forEach(action -> action.execute(new LocationTarget(location), source));
+                onProjectileTickActions.forEach(action -> action.execute(new LocationTarget(location), source,
+                        new HashMap<>()));
 
                 if (projectilePresent)
                     entity.setVelocity(initialDirection);

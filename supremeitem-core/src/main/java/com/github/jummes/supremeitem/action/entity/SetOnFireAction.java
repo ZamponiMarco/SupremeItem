@@ -39,7 +39,7 @@ public class SetOnFireAction extends EntityAction {
     }
 
     @Override
-    public ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source, Map<String, Object> map) {
         LivingEntity e = getEntity(target, source);
 
         if (e == null) {

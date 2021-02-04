@@ -53,7 +53,7 @@ public class ExplosionAction extends LocationAction {
     }
 
     @Override
-    public ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source, Map<String, Object> map) {
         Location l = getLocation(target, source);
         if (l != null && l.getWorld() != null) {
             l.getWorld().createExplosion(l.getX(), l.getY(), l.getZ(), power.getRealValue(target, source).floatValue(),

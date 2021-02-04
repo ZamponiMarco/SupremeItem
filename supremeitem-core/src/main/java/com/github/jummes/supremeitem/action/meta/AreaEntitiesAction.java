@@ -108,7 +108,7 @@ public class AreaEntitiesAction extends WrapperAction {
     }
 
     @Override
-    public ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source, Map<String, Object> map) {
         Location l = getLocation(target, source);
 
         LivingEntity caster = source.getCaster();
@@ -128,7 +128,7 @@ public class AreaEntitiesAction extends WrapperAction {
                 }
                 entityStream.map(entity -> (LivingEntity) entity).
                         forEach(entity -> actions.forEach(action -> action.execute(new EntityTarget(entity),
-                                castFromLocation ? new LocationSource(l, caster) : source)));
+                                castFromLocation ? new LocationSource(l, caster) : source, map)));
             } else {
                 return ActionResult.FAILURE;
             }

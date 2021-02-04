@@ -100,7 +100,7 @@ public class ParticleAction extends LocationAction {
     }
 
     @Override
-    public ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source, Map<String, Object> map) {
         int count = this.count.getRealValue(target, source).intValue();
         double offset = this.offset.getRealValue(target, source);
         double speed = this.speed.getRealValue(target, source);

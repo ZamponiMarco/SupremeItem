@@ -57,7 +57,7 @@ public class ConsumeItemAction extends EntityAction {
     }
 
     @Override
-    public ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source, Map<String, Object> map) {
         LivingEntity e = getEntity(target, source);
         if (e instanceof InventoryHolder) {
             int toRemove = amount.getRealValue(target, source).intValue();

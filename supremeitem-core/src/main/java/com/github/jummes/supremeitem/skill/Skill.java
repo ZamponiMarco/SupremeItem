@@ -57,7 +57,7 @@ public abstract class Skill implements Model {
         this.onItemActions = (List<Action>) map.getOrDefault("onItemActions", Lists.newArrayList());
     }
 
-    public abstract SkillResult executeSkill(UUID id, ItemStack item, Object... args);
+    public abstract Map<String, Object> executeSkill(UUID id, ItemStack item, Object... args);
 
     @Override
     public Map<String, Object> serialize() {
@@ -105,11 +105,5 @@ public abstract class Skill implements Model {
             list1.addAll(list2);
             return list1;
         });
-    }
-
-    public enum SkillResult {
-        SUCCESS,
-        CANCELLED,
-        FAILURE
     }
 }

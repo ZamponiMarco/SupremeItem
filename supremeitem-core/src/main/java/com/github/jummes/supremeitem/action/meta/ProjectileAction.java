@@ -66,7 +66,7 @@ public class ProjectileAction extends AbstractProjectileAction {
     }
 
     @Override
-    public ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source, Map<String, Object> map) {
         Location l = null;
         if (source instanceof EntitySource) {
             EntitySource entitySource = (EntitySource) source;

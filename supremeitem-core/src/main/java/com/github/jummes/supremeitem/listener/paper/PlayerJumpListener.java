@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import java.util.Map;
 import java.util.Objects;
 
 public class PlayerJumpListener implements Listener {
@@ -20,8 +21,8 @@ public class PlayerJumpListener implements Listener {
         }
 
         Player player = e.getPlayer();
-        boolean cancelled = PlayerItemListener.executeSkill(player, EntityJumpSkill.class, skill -> true, player);
-        if (cancelled) {
+        Map<String, Object> map = PlayerItemListener.executeSkill(player, EntityJumpSkill.class, skill -> true, player);
+        if ((boolean) map.getOrDefault("cancelled", false)) {
             e.setCancelled(true);
         }
     }

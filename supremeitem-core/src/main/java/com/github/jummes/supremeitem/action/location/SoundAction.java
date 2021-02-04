@@ -101,7 +101,7 @@ public class SoundAction extends LocationAction {
     }
 
     @Override
-    public ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source, Map<String, Object> map) {
         double volume = this.volume.getRealValue(target, source);
         double pitch = this.pitch.getRealValue(target, source);
         Location location = getLocation(target, source);

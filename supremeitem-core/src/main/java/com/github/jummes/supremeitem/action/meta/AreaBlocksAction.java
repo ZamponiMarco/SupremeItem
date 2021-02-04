@@ -53,9 +53,9 @@ public class AreaBlocksAction extends WrapperAction {
     }
 
     @Override
-    public ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source, Map<String, Object> map) {
         area.getBlocks(getLocation(target, source), target, source).forEach(block -> actions.forEach(action -> action.
-                execute(new LocationTarget(block), source)));
+                execute(new LocationTarget(block), source, map)));
         return ActionResult.SUCCESS;
     }
 

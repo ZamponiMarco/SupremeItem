@@ -41,7 +41,7 @@ public class SetVelocityAction extends EntityAction {
     }
 
     @Override
-    public ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source, Map<String, Object> map) {
         LivingEntity entity = getEntity(target, source);
         if (entity == null) {
             return ActionResult.FAILURE;

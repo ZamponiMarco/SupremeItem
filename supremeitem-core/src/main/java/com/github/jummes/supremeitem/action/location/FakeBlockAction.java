@@ -94,7 +94,7 @@ public class FakeBlockAction extends LocationAction {
     }
 
     @Override
-    public Action.ActionResult execute(Target target, Source source) {
+    public Action.ActionResult execute(Target target, Source source, Map<String, Object> map) {
         Location location = getLocation(target, source);
         World world = location.getWorld();
 

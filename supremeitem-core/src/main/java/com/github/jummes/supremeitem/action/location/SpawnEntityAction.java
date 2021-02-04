@@ -34,7 +34,7 @@ public class SpawnEntityAction extends LocationAction {
     }
 
     @Override
-    public ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source, Map<String, Object> map) {
         entity.spawnEntity(getLocation(target, source), target, source);
         return ActionResult.SUCCESS;
     }

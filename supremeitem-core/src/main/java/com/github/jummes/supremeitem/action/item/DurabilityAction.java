@@ -39,7 +39,7 @@ public class DurabilityAction extends ItemAction {
     }
 
     @Override
-    public ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source, Map<String, Object> map) {
         ItemStack item = getItemStack(target, source);
         if (item != null) {
             ItemMeta meta = item.getItemMeta();

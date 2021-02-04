@@ -7,13 +7,15 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import java.util.Map;
+
 public class PlayerCrossBowLoadListener implements Listener {
 
     @EventHandler
     public void onCrossbowLoad(EntityLoadCrossbowEvent e) {
         LivingEntity entity = e.getEntity();
-        boolean cancelled = PlayerItemListener.executeSkill(entity, EntityCrossbowLoadSkill.class, skill -> true, entity);
-        if (cancelled) {
+        Map<String, Object> map = PlayerItemListener.executeSkill(entity, EntityCrossbowLoadSkill.class, skill -> true, entity);
+        if ((boolean) map.getOrDefault("cancelled", false)) {
             e.setCancelled(true);
         }
     }

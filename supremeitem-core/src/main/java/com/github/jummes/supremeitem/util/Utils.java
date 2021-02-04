@@ -7,7 +7,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 
-public class Utils {
+public final class Utils {
     public static List<ItemStack> getEntityItems(LivingEntity e) {
         EntityEquipment equipment = e.getEquipment();
         if (equipment == null) {

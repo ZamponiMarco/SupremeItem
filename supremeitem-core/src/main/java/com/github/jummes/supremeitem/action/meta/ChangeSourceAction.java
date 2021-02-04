@@ -46,7 +46,7 @@ public class ChangeSourceAction extends WrapperAction {
     }
 
     @Override
-    public ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source, Map<String, Object> map) {
         Source newSource = null;
         if (target instanceof LocationTarget) {
             newSource = new LocationSource(target.getLocation().clone(), source.getCaster());
@@ -56,10 +56,7 @@ public class ChangeSourceAction extends WrapperAction {
             newSource = new EntitySource(((ItemTarget) target).getOwner());
         }
         Source finalNewSource = newSource;
-        if (actions.stream().filter(action -> action.execute(target, finalNewSource).equals(ActionResult.CANCELLED)).
-                count() > 0) {
-            return ActionResult.CANCELLED;
-        }
+        actions.forEach(action -> action.execute(target, finalNewSource, map));
         return ActionResult.SUCCESS;
     }
 

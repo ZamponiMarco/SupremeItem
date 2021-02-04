@@ -74,14 +74,15 @@ public class RightClickSkill extends CooldownSkill {
     }
 
     @Override
-    public SkillResult executeSkill(UUID id, ItemStack item, Object... args) {
+    public Map<String, Object> executeSkill(UUID id, ItemStack item, Object... args) {
         LivingEntity e = (LivingEntity) args[0];
         return getSkillResult(id, item, e);
     }
 
     @Override
-    protected boolean executeExactSkill(LivingEntity... e) {
-        return executeCasterActions(e[0], onCasterActions) || executeRayCastActions(e[0], onRayCastMaxDistance, onRayCastPointActions);
+    protected void executeExactSkill(Map<String, Object> map, LivingEntity... e) {
+        executeCasterActions(e[0], onCasterActions, map);
+        executeRayCastActions(e[0], onRayCastMaxDistance, onRayCastPointActions, map);
     }
 
     @Override

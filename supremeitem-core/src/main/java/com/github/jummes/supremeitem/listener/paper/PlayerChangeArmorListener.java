@@ -6,7 +6,6 @@ import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.item.Item;
 import com.github.jummes.supremeitem.manager.ItemManager;
 import com.github.jummes.supremeitem.skill.EntityEquipArmorSkill;
-import com.github.jummes.supremeitem.skill.Skill;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -15,31 +14,24 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class PlayerChangeArmorListener implements Listener {
 
     @EventHandler
     public void onPlayerChangeArmor(PlayerArmorChangeEvent e) {
         Player entity = e.getPlayer();
-        boolean cancelled = executeEquipSkill(entity, e.getOldItem(), e.getNewItem(),
+        executeEquipSkill(entity, e.getOldItem(), e.getNewItem(),
                 EquipmentSlot.valueOf(e.getSlotType().name()));
     }
 
-    private boolean executeEquipSkill(LivingEntity entity, ItemStack oldItem, ItemStack newItem, EquipmentSlot slot) {
-        AtomicBoolean toReturn = new AtomicBoolean(false);
-
+    private void executeEquipSkill(LivingEntity entity, ItemStack oldItem, ItemStack newItem, EquipmentSlot slot) {
         if (oldItem != null && ItemManager.isSupremeItem(oldItem)) {
             UUID oldItemId = UUID.fromString(Libs.getWrapper().getTagItem(oldItem, "supreme-item"));
             Item oldSupremeItem = SupremeItem.getInstance().getItemManager().getItemById(oldItemId);
             if (oldSupremeItem != null) {
                 oldSupremeItem.getSkillSet().stream().filter(skill -> skill instanceof EntityEquipArmorSkill &&
                         !((EntityEquipArmorSkill) skill).isOnEquip() && skill.getAllowedSlots().contains(slot)).findFirst().
-                        ifPresent(skill -> {
-                            if (skill.executeSkill(oldItemId, oldItem, entity).equals(Skill.SkillResult.CANCELLED)) {
-                                toReturn.set(true);
-                            }
-                        });
+                        ifPresent(skill -> skill.executeSkill(oldItemId, oldItem, entity));
             }
         }
 
@@ -49,13 +41,8 @@ public class PlayerChangeArmorListener implements Listener {
             if (newSupremeItem != null) {
                 newSupremeItem.getSkillSet().stream().filter(skill -> skill instanceof EntityEquipArmorSkill &&
                         ((EntityEquipArmorSkill) skill).isOnEquip() && skill.getAllowedSlots().contains(slot)).findFirst().
-                        ifPresent(skill -> {
-                            if (skill.executeSkill(newItemId, newItem, entity).equals(Skill.SkillResult.CANCELLED)) {
-                                toReturn.set(true);
-                            }
-                        });
+                        ifPresent(skill -> skill.executeSkill(newItemId, newItem, entity));
             }
         }
-        return toReturn.get();
     }
 }

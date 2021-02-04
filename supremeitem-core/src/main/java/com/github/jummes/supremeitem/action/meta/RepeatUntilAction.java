@@ -14,6 +14,7 @@ import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -75,7 +76,7 @@ public class RepeatUntilAction extends WrapperAction {
     }
 
     @Override
-    public ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source, Map<String, Object> map) {
         getRunnable(target, source).runTaskTimer(SupremeItem.getInstance(), 0, timer);
         return ActionResult.SUCCESS;
     }
@@ -85,12 +86,12 @@ public class RepeatUntilAction extends WrapperAction {
             @Override
             public void run() {
                 if (condition.checkCondition(target, source)) {
-                    finalActions.forEach(action -> action.execute(target, source));
+                    finalActions.forEach(action -> action.execute(target, source, new HashMap<>()));
                     this.cancel();
                     return;
                 }
 
-                actions.forEach(action -> action.execute(target, source));
+                actions.forEach(action -> action.execute(target, source, new HashMap<>()));
             }
         };
     }

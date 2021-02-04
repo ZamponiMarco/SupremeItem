@@ -60,11 +60,11 @@ public class SkillAction extends MetaAction {
     }
 
     @Override
-    public ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source, Map<String, Object> map) {
         SavedSkill skill = SupremeItem.getInstance().getSavedSkillManager().getByName(skillName);
         if (skill != null) {
-            return skill.getActions().stream().filter(action -> action.execute(target, source).
-                    equals(ActionResult.CANCELLED)).count() > 0 ? ActionResult.CANCELLED : ActionResult.SUCCESS;
+            skill.getActions().forEach(action -> action.execute(target, source, map));
+            return ActionResult.SUCCESS;
         }
         return ActionResult.FAILURE;
     }

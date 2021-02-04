@@ -25,8 +25,9 @@ public class CancelEventAction extends MetaAction {
     }
 
     @Override
-    public ActionResult execute(Target target, Source source) {
-        return ActionResult.CANCELLED;
+    public ActionResult execute(Target target, Source source, Map<String, Object> map) {
+        map.put("cancelled", true);
+        return ActionResult.SUCCESS;
     }
 
     @Override

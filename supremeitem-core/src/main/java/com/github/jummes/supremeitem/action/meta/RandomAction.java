@@ -56,7 +56,7 @@ public class RandomAction extends MetaAction {
     }
 
     @Override
-    public ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source, Map<String, Object> map) {
         TreeMap<Integer, Action> utilityMap = new TreeMap<>();
         AtomicInteger integer = new AtomicInteger(0);
         actions.forEach(action -> utilityMap.put(integer.getAndAccumulate(action.weight.getRealValue(target, source).
@@ -65,7 +65,7 @@ public class RandomAction extends MetaAction {
         Random random = new Random();
         int number = random.nextInt(integer.get());
         IntStream.range(0, rolls).forEach(i ->
-                utilityMap.floorEntry(number).getValue().execute(target, source));
+                utilityMap.floorEntry(number).getValue().execute(target, source, map));
         return ActionResult.SUCCESS;
     }
 

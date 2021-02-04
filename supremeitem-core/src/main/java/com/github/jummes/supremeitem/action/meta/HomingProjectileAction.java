@@ -77,7 +77,7 @@ public class HomingProjectileAction extends AbstractProjectileAction {
     }
 
     @Override
-    public ActionResult execute(Target target, Source source) {
+    public ActionResult execute(Target target, Source source, Map<String, Object> map) {
         Location l = null;
 
         if (!(target instanceof EntityTarget)) {
