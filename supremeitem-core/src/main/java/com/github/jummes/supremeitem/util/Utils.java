@@ -1,5 +1,8 @@
 package com.github.jummes.supremeitem.util;
 
+import com.github.jummes.libs.model.ModelPath;
+import com.github.jummes.supremeitem.item.Item;
+import com.github.jummes.supremeitem.skill.Skill;
 import com.google.common.collect.Lists;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
@@ -23,5 +26,18 @@ public final class Utils {
         list.add(equipment.getHelmet());
 
         return list;
+    }
+
+    public static Skill getSkill(ModelPath<Item> path) {
+        Skill toReturn = null;
+        ModelPath<Item> clone = path.clone();
+        while (toReturn == null && !(path.getLast() instanceof Skill)) {
+            if (clone.getLast() instanceof Skill) {
+                toReturn = (Skill) clone.getLast();
+            } else {
+                clone.popModel();
+            }
+        }
+        return toReturn;
     }
 }

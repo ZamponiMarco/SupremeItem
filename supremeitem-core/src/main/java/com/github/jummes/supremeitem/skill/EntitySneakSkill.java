@@ -8,7 +8,6 @@ import com.google.common.collect.Sets;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
@@ -51,9 +50,8 @@ public class EntitySneakSkill extends MovementSkill {
     }
 
     @Override
-    public Map<String, Object> executeSkill(UUID id, ItemStack item, Object... args) {
-        LivingEntity e = (LivingEntity) args[0];
-        return getSkillResult(id, item, e);
+    public void executeSkill(UUID id, ItemStack item, Map<String, Object> args) {
+        getSkillResult(id, item, args);
     }
 
 
@@ -66,8 +64,8 @@ public class EntitySneakSkill extends MovementSkill {
     }
 
     @Override
-    protected void executeExactSkill(Map<String, Object> map, LivingEntity... e) {
-        executeCasterActions(e[0], onEntityActions, map);
+    protected void executeExactSkill(Map<String, Object> args) {
+        executeCasterActions(onEntityActions, args);
     }
 
     @Override

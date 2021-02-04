@@ -31,8 +31,8 @@ import java.util.stream.IntStream;
 
 public class PlayerItemListener implements Listener {
 
-    public static Map<String, Object> executeSkill(LivingEntity caster, Class<? extends Skill> skillClass, Predicate<Skill>
-            additionalPredicate, Object... args) {
+    public static void executeSkill(LivingEntity caster, Class<? extends Skill> skillClass, Predicate<Skill>
+            additionalPredicate, Map<String, Object> args) {
         Map<String, Object> toReturn = new HashMap<>();
         List<ItemStack> items = Utils.getEntityItems(caster);
         IntStream.range(0, items.size()).forEach(i -> {
@@ -40,15 +40,9 @@ public class PlayerItemListener implements Listener {
             if (item != null) {
                 item.getSkillSet().stream().filter(skill -> skillClass.isAssignableFrom(skill.getClass()) &&
                         skill.getAllowedSlots().contains(EquipmentSlot.values()[i]) && additionalPredicate.test(skill)).
-                        forEach(skill -> mergeMaps(toReturn, skill.executeSkill(item.getId(), items.get(i), args)));
+                        forEach(skill -> skill.executeSkill(item.getId(), items.get(i), args));
             }
         });
-        return toReturn;
-    }
-
-    public static Map<String, Object> mergeMaps(Map<String, Object> first, Map<String, Object> second) {
-        second.forEach((string, object) -> first.merge(string, object, (a, b) -> b));
-        return first;
     }
 
     @EventHandler(ignoreCancelled = true)
@@ -62,10 +56,12 @@ public class PlayerItemListener implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent e) {
         Player p = e.getPlayer();
+        Map<String, Object> args = new HashMap<>();
+        args.put("caster", p);
         if (e.getAction().equals(Action.RIGHT_CLICK_AIR)) {
-            executeSkill(p, RightClickSkill.class, skill -> true, p);
+            executeSkill(p, RightClickSkill.class, skill -> true, args);
         } else if (e.getAction().equals(Action.LEFT_CLICK_AIR)) {
-            executeSkill(p, LeftClickSkill.class, skill -> true, p);
+            executeSkill(p, LeftClickSkill.class, skill -> true, args);
         }
     }
 
@@ -83,16 +79,19 @@ public class PlayerItemListener implements Listener {
                 return;
             }
 
-            Map<String, Object> map = new HashMap<>();
+            Map<String, Object> args = new HashMap<>();
+            args.put("damager", damager);
+            args.put("damaged", damaged);
+
 
             if (e.getEntity().getMetadata("siattack").stream().noneMatch(metadataValue ->
                     Objects.equals(metadataValue.getOwningPlugin(), SupremeItem.getInstance()))) {
-                mergeMaps(map, executeSkill(damager, HitEntitySkill.class, skill -> true, damager, damaged));
-                mergeMaps(map, executeSkill(damaged, DamageEntitySkill.class, skill -> true, damaged, damager));
+                executeSkill(damager, HitEntitySkill.class, skill -> true, args);
+                executeSkill(damaged, DamageEntitySkill.class, skill -> true, args);
             } else {
                 e.getEntity().removeMetadata("siattack", SupremeItem.getInstance());
             }
-            if ((boolean) map.getOrDefault("cancelled", false)) {
+            if ((boolean) args.getOrDefault("cancelled", false)) {
                 e.setCancelled(true);
             }
         }
@@ -101,9 +100,11 @@ public class PlayerItemListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerSneak(PlayerToggleSneakEvent e) {
         Player player = e.getPlayer();
-        Map<String, Object> map = executeSkill(player, EntitySneakSkill.class, skill ->
-                e.isSneaking() == ((EntitySneakSkill) skill).isOnActivate(), player);
-        if ((boolean) map.getOrDefault("cancelled", false)) {
+        Map<String, Object> args = new HashMap<>();
+        args.put("caster", player);
+        executeSkill(player, EntitySneakSkill.class, skill ->
+                e.isSneaking() == ((EntitySneakSkill) skill).isOnActivate(), args);
+        if ((boolean) args.getOrDefault("cancelled", false)) {
             e.setCancelled(true);
         }
     }
@@ -111,9 +112,11 @@ public class PlayerItemListener implements Listener {
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onPlayerSprint(PlayerToggleSprintEvent e) {
         Player player = e.getPlayer();
-        Map<String, Object> map = executeSkill(player, EntitySprintSkill.class, skill ->
-                e.isSprinting() == ((EntitySprintSkill) skill).isOnActivate(), player);
-        if ((boolean) map.getOrDefault("cancelled", false)) {
+        Map<String, Object> args = new HashMap<>();
+        args.put("caster", player);
+        executeSkill(player, EntitySprintSkill.class, skill ->
+                e.isSprinting() == ((EntitySprintSkill) skill).isOnActivate(), args);
+        if ((boolean) args.getOrDefault("cancelled", false)) {
             e.setCancelled(true);
         }
     }
@@ -121,8 +124,10 @@ public class PlayerItemListener implements Listener {
     @EventHandler(ignoreCancelled = true)
     public void onPlayerShoot(EntityShootBowEvent e) {
         LivingEntity entity = e.getEntity();
-        Map<String, Object> map = executeSkill(entity, EntityBowShootSkill.class, skill -> true, entity);
-        if ((boolean) map.getOrDefault("cancelled", false)) {
+        Map<String, Object> args = new HashMap<>();
+        args.put("caster", entity);
+        executeSkill(entity, EntityBowShootSkill.class, skill -> true, args);
+        if ((boolean) args.getOrDefault("cancelled", false)) {
             e.setCancelled(true);
         }
     }
@@ -130,9 +135,11 @@ public class PlayerItemListener implements Listener {
     @EventHandler
     public void onBlockPlaced(BlockPlaceEvent e) {
         Player player = e.getPlayer();
-        Map<String, Object> map = executeSkill(player, BlockPlaceSkill.class, skill -> true, player,
-                e.getBlock().getLocation().clone().add(.5, .5, .5));
-        if ((boolean) map.getOrDefault("cancelled", false)) {
+        Map<String, Object> args = new HashMap<>();
+        args.put("caster", player);
+        args.put("location", e.getBlock().getLocation().clone().add(.5, .5, .5));
+        executeSkill(player, BlockPlaceSkill.class, skill -> true, args);
+        if ((boolean) args.getOrDefault("cancelled", false)) {
             e.setCancelled(true);
         }
     }
@@ -140,9 +147,11 @@ public class PlayerItemListener implements Listener {
     @EventHandler
     public void onBlockBroken(BlockBreakEvent e) {
         Player player = e.getPlayer();
-        Map<String, Object> map = executeSkill(player, BlockBreakSkill.class, skill -> true, player,
-                e.getBlock().getLocation().clone().add(.5, .5, .5));
-        if ((boolean) map.getOrDefault("cancelled", false)) {
+        Map<String, Object> args = new HashMap<>();
+        args.put("caster", player);
+        args.put("location", e.getBlock().getLocation().clone().add(.5, .5, .5));
+        executeSkill(player, BlockBreakSkill.class, skill -> true, args);
+        if ((boolean) args.getOrDefault("cancelled", false)) {
             e.setCancelled(true);
         }
     }

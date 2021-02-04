@@ -53,12 +53,10 @@ public class TimerSkill extends Skill {
     }
 
     @Override
-    public Map<String, Object> executeSkill(UUID id, ItemStack item, Object... args) {
-        LivingEntity e = (LivingEntity) args[0];
-        Map<String, Object> map = new HashMap<>();
-        onItemActions.forEach(action -> action.execute(new ItemTarget(item, e), new EntitySource(e), map));
-        onWearerActions.forEach(action -> action.execute(new EntityTarget(e), new EntitySource(e), map));
-        return map;
+    public void executeSkill(UUID id, ItemStack item, Map<String, Object> args) {
+        LivingEntity e = (LivingEntity) args.get("caster");
+        onItemActions.forEach(action -> action.execute(new ItemTarget(item, e), new EntitySource(e), args));
+        onWearerActions.forEach(action -> action.execute(new EntityTarget(e), new EntitySource(e), args));
     }
 
 

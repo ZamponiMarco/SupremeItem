@@ -62,16 +62,16 @@ public class HitEntitySkill extends CombatSkill {
     }
 
     @Override
-    public Map<String, Object> executeSkill(UUID id, ItemStack item, Object... args) {
-        LivingEntity damager = (LivingEntity) args[0];
-        LivingEntity damaged = (LivingEntity) args[1];
-        return getSkillResult(id, item, damager, damaged);
+    public void executeSkill(UUID id, ItemStack item, Map<String, Object> args) {
+        getSkillResult(id, item, args);
     }
 
     @Override
-    protected void executeExactSkill(Map<String, Object> map, LivingEntity... e) {
-        onDamagedActions.forEach(action -> action.execute(new EntityTarget(e[1]), new EntitySource(e[0]), map));
-        onDamagerActions.forEach(action -> action.execute(new EntityTarget(e[0]), new EntitySource(e[0]), map));
+    protected void executeExactSkill(Map<String, Object> args) {
+        LivingEntity damager = (LivingEntity) args.get("damager");
+        LivingEntity damaged = (LivingEntity) args.get("damaged");
+        onDamagedActions.forEach(action -> action.execute(new EntityTarget(damaged), new EntitySource(damager), args));
+        onDamagerActions.forEach(action -> action.execute(new EntityTarget(damaged), new EntitySource(damager), args));
     }
 
     @Override

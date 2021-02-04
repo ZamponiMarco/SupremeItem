@@ -57,7 +57,7 @@ public abstract class Skill implements Model {
         this.onItemActions = (List<Action>) map.getOrDefault("onItemActions", Lists.newArrayList());
     }
 
-    public abstract Map<String, Object> executeSkill(UUID id, ItemStack item, Object... args);
+    public abstract void executeSkill(UUID id, ItemStack item, Map<String, Object> args);
 
     @Override
     public Map<String, Object> serialize() {

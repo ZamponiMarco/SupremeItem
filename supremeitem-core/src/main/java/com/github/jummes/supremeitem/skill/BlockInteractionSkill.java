@@ -1,7 +1,6 @@
 package com.github.jummes.supremeitem.skill;
 
 import com.github.jummes.libs.annotation.Serializable;
-import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.targeter.LocationTarget;
@@ -9,11 +8,13 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -56,33 +57,20 @@ public abstract class BlockInteractionSkill extends InteractionSkill {
     }
 
     @Override
-    public Map<String, Object> executeSkill(UUID id, ItemStack item, Object... args) {
-        LivingEntity e = (LivingEntity) args[0];
-        Location loc = (Location) args[1];
-        Map<String, Object> map = new HashMap<>();
-        int currentCooldown = SupremeItem.getInstance().getCooldownManager().getCooldown(e, id, this.id);
-        if (currentCooldown == 0) {
-            consumeIfConsumable(id, item);
-            executeExactSkill(map, e);
-            executeItemActions(e, item, map);
-            exactBlockSkill(e, loc, map);
-            cooldown(e, id);
-        } else {
-            if (e instanceof Player) {
-                cooldownOptions.getBar().switchCooldownContext((Player) e, id,
-                        this.id, cooldownOptions.getCooldown());
-            }
-        }
-        return map;
+    public void executeSkill(UUID id, ItemStack item, Map<String, Object> args) {
+        getSkillResult(id, item, args);
     }
 
     @Override
-    protected void executeExactSkill(Map<String, Object> map, LivingEntity... e) {
-        executeCasterActions(e[0], onEntityActions, map);
+    protected void executeExactSkill(Map<String, Object> args) {
+        executeCasterActions(onEntityActions, args);
+        exactBlockSkill(args);
     }
 
-    private void exactBlockSkill(LivingEntity caster, Location loc, Map<String, Object> map) {
-        onBlockActions.forEach(action -> action.execute(new LocationTarget(loc), new EntitySource(caster), map));
+    private void exactBlockSkill(Map<String, Object> args) {
+        LivingEntity e = (LivingEntity) args.get("caster");
+        Location loc = (Location) args.get("location");
+        onBlockActions.forEach(action -> action.execute(new LocationTarget(loc), new EntitySource(e), args));
     }
 
     @Override

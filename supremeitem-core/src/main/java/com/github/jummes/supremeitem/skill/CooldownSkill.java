@@ -20,7 +20,10 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.RayTraceResult;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.UUID;
 
 public abstract class CooldownSkill extends Skill {
 
@@ -46,21 +49,20 @@ public abstract class CooldownSkill extends Skill {
         return map;
     }
 
-    protected Map<String, Object> getSkillResult(UUID itemId, ItemStack item, LivingEntity... e) {
-        Map<String, Object> map = new HashMap<>();
-        int currentCooldown = SupremeItem.getInstance().getCooldownManager().getCooldown(e[0], itemId, this.id);
+    protected void getSkillResult(UUID itemId, ItemStack item, Map<String, Object> args) {
+        LivingEntity caster = (LivingEntity) args.get("caster");
+        int currentCooldown = SupremeItem.getInstance().getCooldownManager().getCooldown(caster, itemId, this.id);
         if (currentCooldown == 0) {
             consumeIfConsumable(itemId, item);
-            executeExactSkill(map, e);
-            executeItemActions(e[0], item, map);
-            cooldown(e[0], itemId);
+            executeExactSkill(args);
+            executeItemActions(caster, item, args);
+            cooldown(caster, itemId);
         } else {
-            if (e[0] instanceof Player) {
-                cooldownOptions.getBar().switchCooldownContext((Player) e[0], itemId,
+            if (caster instanceof Player) {
+                cooldownOptions.getBar().switchCooldownContext((Player) caster, itemId,
                         this.id, cooldownOptions.getCooldown());
             }
         }
-        return map;
     }
 
     protected void cooldown(LivingEntity e, UUID itemId) {
@@ -70,19 +72,21 @@ public abstract class CooldownSkill extends Skill {
         }
     }
 
-    protected abstract void executeExactSkill(Map<String, Object> map, LivingEntity... e);
+    protected abstract void executeExactSkill(Map<String, Object> args);
 
     protected void executeItemActions(LivingEntity e, ItemStack item, Map<String, Object> map) {
         onItemActions.forEach(action -> action.execute(new ItemTarget(item, e),
                 new EntitySource(e), map));
     }
 
-    protected void executeCasterActions(LivingEntity e, List<Action> actions, Map<String, Object> map) {
+    protected void executeCasterActions(List<Action> actions, Map<String, Object> map) {
+        LivingEntity e = (LivingEntity) map.get("caster");
         actions.forEach(action -> action.execute(new EntityTarget(e), new EntitySource(e), map));
     }
 
-    protected void executeRayCastActions(LivingEntity e, int onRayCastMaxDistance,
+    protected void executeRayCastActions(int onRayCastMaxDistance,
                                          List<Action> onRayCastPointActions, Map<String, Object> map) {
+        LivingEntity e = (LivingEntity) map.get("caster");
         RayTraceResult result = e.rayTraceBlocks(onRayCastMaxDistance);
         if (result != null) {
             Location l = result.getHitPosition().toLocation(e.getWorld());

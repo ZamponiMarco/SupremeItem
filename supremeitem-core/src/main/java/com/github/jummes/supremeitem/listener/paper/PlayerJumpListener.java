@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -21,8 +22,10 @@ public class PlayerJumpListener implements Listener {
         }
 
         Player player = e.getPlayer();
-        Map<String, Object> map = PlayerItemListener.executeSkill(player, EntityJumpSkill.class, skill -> true, player);
-        if ((boolean) map.getOrDefault("cancelled", false)) {
+        Map<String, Object> args = new HashMap<>();
+        args.put("caster", player);
+        PlayerItemListener.executeSkill(player, EntityJumpSkill.class, skill -> true, args);
+        if ((boolean) args.getOrDefault("cancelled", false)) {
             e.setCancelled(true);
         }
     }

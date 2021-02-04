@@ -79,7 +79,9 @@ public class TimerManager {
         if (!timers.get(player).contains(new TimerInfo(id, timerSkill.getId(), 0))) {
             timers.get(player).add(new TimerInfo(id, timerSkill.getId(), Bukkit.getScheduler().runTaskTimer(SupremeItem.getInstance(),
                     () -> {
-                        timerSkill.executeSkill(id, armor, player);
+                        Map<String, Object> map = new HashMap<>();
+                        map.put("caster", player);
+                        timerSkill.executeSkill(id, armor, map);
                     }, 0, timerSkill.getTimer()).getTaskId()));
         }
     }
