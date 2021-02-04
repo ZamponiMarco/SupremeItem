@@ -62,11 +62,12 @@ public class TimerManager {
             UUID id = UUID.fromString(Libs.getWrapper().getTagItem(armor, "supreme-item"));
             Item supremeItem = SupremeItem.getInstance().getItemManager().getItemById(id);
             if (supremeItem != null) {
-                TimerSkill timerSkill = (TimerSkill) supremeItem.getSkillSet().stream().filter(skill ->
-                        skill instanceof TimerSkill).findFirst().orElse(null);
-                if (timerSkill != null && timerSkill.getAllowedSlots().contains(slot)) {
-                    startTimerTask(player, id, timerSkill, armor);
-                }
+                supremeItem.getSkillSet().stream().filter(skill ->
+                        skill instanceof TimerSkill).forEach(skill -> {
+                    if (skill.getAllowedSlots().contains(slot)) {
+                        startTimerTask(player, id, (TimerSkill) skill, armor);
+                    }
+                });
             }
         }
     }
@@ -75,8 +76,8 @@ public class TimerManager {
         if (!timers.containsKey(player)) {
             timers.put(player, Sets.newHashSet());
         }
-        if (!timers.get(player).contains(new TimerInfo(id, 0))) {
-            timers.get(player).add(new TimerInfo(id, Bukkit.getScheduler().runTaskTimer(SupremeItem.getInstance(),
+        if (!timers.get(player).contains(new TimerInfo(id, timerSkill.getId(), 0))) {
+            timers.get(player).add(new TimerInfo(id, timerSkill.getId(), Bukkit.getScheduler().runTaskTimer(SupremeItem.getInstance(),
                     () -> {
                         timerSkill.executeSkill(id, armor, player);
                     }, 0, timerSkill.getTimer()).getTaskId()));
@@ -90,6 +91,8 @@ public class TimerManager {
     public static class TimerInfo {
         @EqualsAndHashCode.Include
         private UUID itemId;
+        @EqualsAndHashCode.Include
+        private UUID skillId;
         private int task;
     }
 }
