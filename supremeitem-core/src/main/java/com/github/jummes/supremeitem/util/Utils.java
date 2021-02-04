@@ -1,14 +1,18 @@
 package com.github.jummes.supremeitem.util;
 
 import com.github.jummes.libs.model.ModelPath;
+import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.item.Item;
 import com.github.jummes.supremeitem.skill.Skill;
 import com.google.common.collect.Lists;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.inventory.EntityEquipment;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.metadata.FixedMetadataValue;
+import org.bukkit.metadata.MetadataValue;
 
 import java.util.List;
+import java.util.Objects;
 
 public final class Utils {
     public static List<ItemStack> getEntityItems(LivingEntity e) {
@@ -39,5 +43,10 @@ public final class Utils {
             }
         }
         return toReturn;
+    }
+
+    public static MetadataValue getMetadata(List<MetadataValue> value, Object defaultValue) {
+        return value.stream().filter(metadataValue -> Objects.equals(metadataValue.getOwningPlugin(),
+                SupremeItem.getInstance())).findFirst().orElse(new FixedMetadataValue(SupremeItem.getInstance(), defaultValue));
     }
 }

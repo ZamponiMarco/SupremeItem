@@ -54,7 +54,7 @@ public abstract class CooldownSkill extends Skill {
         int currentCooldown = SupremeItem.getInstance().getCooldownManager().getCooldown(caster, itemId, this.id);
         if (currentCooldown == 0) {
             consumeIfConsumable(itemId, item);
-            executeExactSkill(args);
+            executeCooldownSkill(args);
             executeItemActions(caster, item, args);
             cooldown(caster, itemId);
         } else {
@@ -72,7 +72,7 @@ public abstract class CooldownSkill extends Skill {
         }
     }
 
-    protected abstract void executeExactSkill(Map<String, Object> args);
+    protected abstract void executeCooldownSkill(Map<String, Object> args);
 
     protected void executeItemActions(LivingEntity e, ItemStack item, Map<String, Object> map) {
         onItemActions.forEach(action -> action.execute(new ItemTarget(item, e),

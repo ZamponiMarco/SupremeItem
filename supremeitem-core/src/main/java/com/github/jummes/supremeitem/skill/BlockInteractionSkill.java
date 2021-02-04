@@ -62,7 +62,7 @@ public abstract class BlockInteractionSkill extends InteractionSkill {
     }
 
     @Override
-    protected void executeExactSkill(Map<String, Object> args) {
+    protected void executeCooldownSkill(Map<String, Object> args) {
         executeCasterActions(onEntityActions, args);
         exactBlockSkill(args);
     }

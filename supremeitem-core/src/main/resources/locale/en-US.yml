@@ -891,6 +891,12 @@ gui:
         placeholder:
           - "&7&oThe placeholder which string representation is"
           - "&7&oreturned."
+      variable:
+        description:
+          - "&7&oSet a placeholder that retrieves the string value"
+          - "&7&oof a variable."
+        name:
+          - "&7&oThe name of the variable."
       operator:
         description:
           - "&7&oSet a string operator placeholder."

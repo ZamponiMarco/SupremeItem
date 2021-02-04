@@ -78,7 +78,7 @@ public class LeftClickSkill extends CooldownSkill {
     }
 
     @Override
-    protected void executeExactSkill(Map<String, Object> args) {
+    protected void executeCooldownSkill(Map<String, Object> args) {
         executeCasterActions(onCasterActions, args);
         executeRayCastActions(onRayCastMaxDistance, onRayCastPointActions, args);
     }

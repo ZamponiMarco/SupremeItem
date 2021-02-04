@@ -64,7 +64,7 @@ public class DamageEntitySkill extends CombatSkill {
     }
 
     @Override
-    protected void executeExactSkill(Map<String, Object> args) {
+    protected void executeCooldownSkill(Map<String, Object> args) {
         LivingEntity damaged = (LivingEntity) args.get("damaged");
         LivingEntity damager = (LivingEntity) args.get("damager");
         onDamagedActions.forEach(action -> action.execute(new EntityTarget(damaged), new EntitySource(damaged), args));

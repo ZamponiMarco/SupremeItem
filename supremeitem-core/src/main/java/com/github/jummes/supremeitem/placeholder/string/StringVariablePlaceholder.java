@@ -13,14 +13,14 @@ import java.util.Map;
 import java.util.Objects;
 
 @Enumerable.Child
-@Enumerable.Displayable(name = "&c&lVariable Placeholder", description = "gui.placeholder.double.variable.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjVjNGQyNGFmZmRkNDgxMDI2MjAzNjE1MjdkMjE1NmUxOGMyMjNiYWU1MTg5YWM0Mzk4MTU2NDNmM2NmZjlkIn19fQ==")
+@Enumerable.Displayable(name = "&c&lVariable Placeholder", description = "gui.placeholder.string.variable.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjVjNGQyNGFmZmRkNDgxMDI2MjAzNjE1MjdkMjE1NmUxOGMyMjNiYWU1MTg5YWM0Mzk4MTU2NDNmM2NmZjlkIn19fQ==")
 public class StringVariablePlaceholder extends StringPlaceholder {
 
     private static final String NAME_DEFAULT = "var";
 
     private static final String NAME_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTdlZDY2ZjVhNzAyMDlkODIxMTY3ZDE1NmZkYmMwY2EzYmYxMWFkNTRlZDVkODZlNzVjMjY1ZjdlNTAyOWVjMSJ9fX0=";
 
-    @Serializable(headTexture = NAME_HEAD, description = "gui.placeholder.double.variable.name")
+    @Serializable(headTexture = NAME_HEAD, description = "gui.placeholder.string.variable.name")
     @Serializable.Optional(defaultValue = "NAME_DEFAULT")
     private String name;
 

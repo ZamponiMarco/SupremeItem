@@ -82,6 +82,8 @@ public class PlayerItemListener implements Listener {
             Map<String, Object> args = new HashMap<>();
             args.put("damager", damager);
             args.put("damaged", damaged);
+            args.put("damage", e.getDamage());
+            args.put("damageCause", e.getCause().name());
 
 
             if (e.getEntity().getMetadata("siattack").stream().noneMatch(metadataValue ->
@@ -94,6 +96,10 @@ public class PlayerItemListener implements Listener {
             if ((boolean) args.getOrDefault("cancelled", false)) {
                 e.setCancelled(true);
             }
+
+            double damage = (double) args.get("damage");
+
+            e.setDamage(damage);
         }
     }
 
