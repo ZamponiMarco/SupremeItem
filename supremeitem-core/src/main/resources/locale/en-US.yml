@@ -533,10 +533,10 @@ gui:
         equip:
           - "&7&oIf true the skill is triggered on item equip,"
           - "&7&ootherwise it's triggered on item unequip."
-      bow-shoot:
+      projectile-shoot:
         description:
           - "&7&oSet a skill to be triggered when an entity"
-          - "&7&oshoots a projectile (with bow or crossbow)."
+          - "&7&oshoots a projectile."
       damage-entity:
         description:
           - "&7&oSet a skill to be triggered when an entity is"

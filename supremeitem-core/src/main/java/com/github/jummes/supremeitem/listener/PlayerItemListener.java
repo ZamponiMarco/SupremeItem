@@ -4,6 +4,7 @@ import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.item.Item;
 import com.github.jummes.supremeitem.skill.*;
 import com.github.jummes.supremeitem.util.Utils;
+import org.bukkit.Material;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -14,7 +15,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.entity.ProjectileLaunchEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
@@ -62,6 +63,17 @@ public class PlayerItemListener implements Listener {
             executeSkill(p, RightClickSkill.class, skill -> true, args);
         } else if (e.getAction().equals(Action.LEFT_CLICK_AIR)) {
             executeSkill(p, LeftClickSkill.class, skill -> true, args);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerInteract2(PlayerInteractEvent e) {
+        if (e.getAction().equals(Action.RIGHT_CLICK_AIR) || e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+            Material material = e.getPlayer().getInventory().getItemInMainHand().getType();
+            if (material.equals(Material.BOW) || material.equals(Material.CROSSBOW)) {
+                SupremeItem.getInstance().getProtocolLibHook().sendSetSlotPacket(e.getPlayer(), 10,
+                        new ItemStack(Material.ARROW));
+            }
         }
     }
 
@@ -128,13 +140,15 @@ public class PlayerItemListener implements Listener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onPlayerShoot(EntityShootBowEvent e) {
-        LivingEntity entity = e.getEntity();
-        Map<String, Object> args = new HashMap<>();
-        args.put("caster", entity);
-        executeSkill(entity, EntityBowShootSkill.class, skill -> true, args);
-        if ((boolean) args.getOrDefault("cancelled", false)) {
-            e.setCancelled(true);
+    public void onPlayerShoot(ProjectileLaunchEvent e) {
+        if (e.getEntity().getShooter() instanceof LivingEntity) {
+            LivingEntity entity = (LivingEntity) e.getEntity().getShooter();
+            Map<String, Object> args = new HashMap<>();
+            args.put("caster", entity);
+            executeSkill(entity, EntityShootProjectileSkill.class, skill -> true, args);
+            if ((boolean) args.getOrDefault("cancelled", false)) {
+                e.setCancelled(true);
+            }
         }
     }
 

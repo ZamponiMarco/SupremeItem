@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.github.jummes</groupId>
         <artifactId>supremeitem</artifactId>
-        <version>0.1.19-dev1</version>
+        <version>0.1.19-dev2</version>
     </parent>
     <artifactId>supremeitem-core</artifactId>
     <properties>
@@ -75,6 +75,12 @@
             <groupId>com.github.jummes</groupId>
             <artifactId>suprememob-core</artifactId>
             <version>0.1-dev3</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.dmulloy2</groupId>
+            <artifactId>ProtocolLib</artifactId>
+            <version>4.5.1</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

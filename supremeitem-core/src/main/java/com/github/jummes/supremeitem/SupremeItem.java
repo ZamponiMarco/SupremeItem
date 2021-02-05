@@ -21,10 +21,7 @@ import com.github.jummes.supremeitem.entity.selector.EntitySelector;
 import com.github.jummes.supremeitem.entity.sorter.EntitySorter;
 import com.github.jummes.supremeitem.gui.ActionCollectionInventoryHolder;
 import com.github.jummes.supremeitem.gui.ItemCollectionInventoryHolder;
-import com.github.jummes.supremeitem.hook.PaperHook;
-import com.github.jummes.supremeitem.hook.SupremeMobHook;
-import com.github.jummes.supremeitem.hook.VaultHook;
-import com.github.jummes.supremeitem.hook.WorldGuardHook;
+import com.github.jummes.supremeitem.hook.*;
 import com.github.jummes.supremeitem.item.AbstractItem;
 import com.github.jummes.supremeitem.item.Item;
 import com.github.jummes.supremeitem.item.ItemFolder;
@@ -36,6 +33,7 @@ import com.github.jummes.supremeitem.placeholder.Placeholder;
 import com.github.jummes.supremeitem.savedplaceholder.SavedPlaceholder;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.github.jummes.supremeitem.skill.CooldownSkill;
+import com.github.jummes.supremeitem.skill.EntityShootProjectileSkill;
 import com.github.jummes.supremeitem.skill.Skill;
 import com.github.jummes.supremeitem.value.*;
 import com.google.common.collect.Lists;
@@ -64,8 +62,6 @@ public class SupremeItem extends JavaPlugin {
         ConfigurationSerialization.registerClass(CooldownSkill.CooldownOptions.class);
 
         ConfigurationSerialization.registerClass(Action.class);
-        ConfigurationSerialization.registerClass(MoveLocationTargetAction.class,
-                "com.github.jummes.supremeitem.action.location.MoveLocationTargetAction");
         ConfigurationSerialization.registerClass(RandomAction.RandomActionEntry.class);
 
         ConfigurationSerialization.registerClass(Entity.class);
@@ -93,6 +89,15 @@ public class SupremeItem extends JavaPlugin {
         ConfigurationSerialization.registerClass(EntitySorter.class);
 
         ConfigurationSerialization.registerClass(CooldownBar.class);
+
+        /**
+         * Aliases
+         */
+
+        ConfigurationSerialization.registerClass(MoveLocationTargetAction.class,
+                "com.github.jummes.supremeitem.action.location.MoveLocationTargetAction");
+        ConfigurationSerialization.registerClass(EntityShootProjectileSkill.class,
+                "com.github.jummes.supremeitem.skill.EntityBowShootSkill");
 
         /**
          * Until 2 months in 1.17
@@ -123,6 +128,7 @@ public class SupremeItem extends JavaPlugin {
     private VaultHook vaultHook;
     private SupremeMobHook supremeMobHook;
     private PaperHook paperHook;
+    private ProtocolLibHook protocolLibHook;
 
     public static SupremeItem getInstance() {
         return getPlugin(SupremeItem.class);
@@ -181,6 +187,7 @@ public class SupremeItem extends JavaPlugin {
         vaultHook = new VaultHook();
         supremeMobHook = new SupremeMobHook();
         paperHook = new PaperHook();
+        protocolLibHook = new ProtocolLibHook();
     }
 
     private void setUpCommands() {
