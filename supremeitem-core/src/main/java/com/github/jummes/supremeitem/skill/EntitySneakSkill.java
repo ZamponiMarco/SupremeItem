@@ -4,14 +4,13 @@ import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.supremeitem.action.Action;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -31,11 +30,11 @@ public class EntitySneakSkill extends MovementSkill {
     private boolean onActivate;
 
     public EntitySneakSkill() {
-        this(CONSUMABLE_DEFAULT, Sets.newHashSet(EquipmentSlot.values()), Lists.newArrayList(), new CooldownOptions(),
-                Lists.newArrayList(), true);
+        this(CONSUMABLE_DEFAULT, DEFAULT_SLOTS.stream().map(Slot::clone).collect(Collectors.toSet()), Lists.newArrayList(),
+                new CooldownOptions(), Lists.newArrayList(), true);
     }
 
-    public EntitySneakSkill(boolean consumable, Set<EquipmentSlot> allowedSlots, List<Action> onItemActions,
+    public EntitySneakSkill(boolean consumable, Set<Slot> allowedSlots, List<Action> onItemActions,
                             CooldownOptions cooldownOptions, List<Action> onEntityActions, boolean onActivate) {
         super(consumable, allowedSlots, onItemActions, cooldownOptions);
         this.onEntityActions = onEntityActions;

@@ -6,11 +6,10 @@ import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Enumerable.Child
 @Enumerable.Displayable(condition = "paperEnabled", name = "&c&lOn entity crossbow load", description = "gui.skill.combat.crossbow-load.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGFlZTZiYjM3Y2JmYzkyYjBkODZkYjVhZGE0NzkwYzY0ZmY0NDY4ZDY4Yjg0OTQyZmRlMDQ0MDVlOGVmNTMzMyJ9fX0=")
@@ -21,11 +20,11 @@ public class EntityCrossbowLoadSkill extends CombatSkill {
     private List<Action> onEntityActions;
 
     public EntityCrossbowLoadSkill() {
-        this(CONSUMABLE_DEFAULT, Sets.newHashSet(EquipmentSlot.values()), Lists.newArrayList(), new CooldownOptions(),
-                Lists.newArrayList());
+        this(CONSUMABLE_DEFAULT, DEFAULT_SLOTS.stream().map(Slot::clone).collect(Collectors.toSet()), Lists.newArrayList(),
+                new CooldownOptions(), Lists.newArrayList());
     }
 
-    public EntityCrossbowLoadSkill(boolean consumable, Set<EquipmentSlot> allowedSlots, List<Action> onItemActions,
+    public EntityCrossbowLoadSkill(boolean consumable, Set<Slot> allowedSlots, List<Action> onItemActions,
                                    CooldownOptions cooldownOptions, List<Action> onEntityActions) {
         super(consumable, allowedSlots, onItemActions, cooldownOptions);
         this.onEntityActions = onEntityActions;

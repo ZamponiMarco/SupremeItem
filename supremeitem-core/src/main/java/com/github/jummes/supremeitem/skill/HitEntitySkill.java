@@ -11,10 +11,8 @@ import com.github.jummes.supremeitem.placeholder.numeric.entity.NumericVariableP
 import com.github.jummes.supremeitem.util.Utils;
 import com.github.jummes.supremeitem.value.NumericValue;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import lombok.Getter;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -44,11 +42,11 @@ public class HitEntitySkill extends CombatSkill {
     private List<Action> onDamagedActions;
 
     public HitEntitySkill() {
-        this(CONSUMABLE_DEFAULT, Sets.newHashSet(EquipmentSlot.values()), Lists.newArrayList(), new CooldownOptions(),
-                Lists.newArrayList(), Lists.newArrayList());
+        this(CONSUMABLE_DEFAULT, DEFAULT_SLOTS.stream().map(Slot::clone).collect(Collectors.toSet()),
+                Lists.newArrayList(), new CooldownOptions(), Lists.newArrayList(), Lists.newArrayList());
     }
 
-    public HitEntitySkill(boolean consumable, Set<EquipmentSlot> allowedSlots, List<Action> onItemActions,
+    public HitEntitySkill(boolean consumable, Set<Slot> allowedSlots, List<Action> onItemActions,
                           CooldownOptions cooldownOptions, List<Action> onDamagerActions, List<Action> onDamagedActions) {
         super(consumable, allowedSlots, onItemActions, cooldownOptions);
         this.onDamagerActions = onDamagerActions;

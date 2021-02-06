@@ -7,13 +7,12 @@ import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.ItemTarget;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import lombok.Getter;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @Enumerable.Child
@@ -36,10 +35,11 @@ public class TimerSkill extends Skill {
 
 
     public TimerSkill() {
-        this(CONSUMABLE_DEFAULT, Sets.newHashSet(EquipmentSlot.values()), Lists.newArrayList(), Lists.newArrayList(), TIMER_DEFAULT);
+        this(CONSUMABLE_DEFAULT, DEFAULT_SLOTS.stream().map(Slot::clone).collect(Collectors.toSet()),
+                Lists.newArrayList(), Lists.newArrayList(), TIMER_DEFAULT);
     }
 
-    public TimerSkill(boolean consumable, Set<EquipmentSlot> allowedSlots, List<Action> onItemActions,
+    public TimerSkill(boolean consumable, Set<Slot> allowedSlots, List<Action> onItemActions,
                       List<Action> onWearerActions, int timer) {
         super(consumable, allowedSlots, onItemActions);
         this.onWearerActions = onWearerActions;

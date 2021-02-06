@@ -16,7 +16,6 @@ import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.RayTraceResult;
 
@@ -32,7 +31,7 @@ public abstract class CooldownSkill extends Skill {
     @Serializable(headTexture = COOLDOWN_HEAD, description = "gui.skill.cooldown-options")
     protected CooldownOptions cooldownOptions;
 
-    public CooldownSkill(boolean consumable, Set<EquipmentSlot> allowedSlots, List<Action> onItemActions, CooldownOptions cooldownOptions) {
+    public CooldownSkill(boolean consumable, Set<Slot> allowedSlots, List<Action> onItemActions, CooldownOptions cooldownOptions) {
         super(consumable, allowedSlots, onItemActions);
         this.cooldownOptions = cooldownOptions;
     }

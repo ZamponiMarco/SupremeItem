@@ -6,12 +6,11 @@ import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import lombok.Getter;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Getter
 @Enumerable.Child
@@ -27,11 +26,11 @@ public class EntityEquipArmorSkill extends CombatSkill {
     private boolean onEquip;
 
     public EntityEquipArmorSkill() {
-        this(CONSUMABLE_DEFAULT, Sets.newHashSet(EquipmentSlot.values()), Lists.newArrayList(), new CooldownOptions(),
-                Lists.newArrayList(), true);
+        this(CONSUMABLE_DEFAULT, DEFAULT_SLOTS.stream().map(Slot::clone).collect(Collectors.toSet()), Lists.newArrayList(),
+                new CooldownOptions(), Lists.newArrayList(), true);
     }
 
-    public EntityEquipArmorSkill(boolean consumable, Set<EquipmentSlot> allowedSlots, List<Action> onItemActions,
+    public EntityEquipArmorSkill(boolean consumable, Set<Slot> allowedSlots, List<Action> onItemActions,
                                  CooldownOptions cooldownOptions, List<Action> onEntityActions, boolean onEquip) {
         super(consumable, allowedSlots, onItemActions, cooldownOptions);
         this.onEntityActions = onEntityActions;

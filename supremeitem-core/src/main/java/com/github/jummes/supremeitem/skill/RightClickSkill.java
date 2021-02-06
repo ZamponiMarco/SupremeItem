@@ -4,10 +4,8 @@ import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.supremeitem.action.Action;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -43,11 +41,11 @@ public class RightClickSkill extends CooldownSkill {
     protected int onRayCastMaxDistance;
 
     public RightClickSkill() {
-        this(CONSUMABLE_DEFAULT, Sets.newHashSet(EquipmentSlot.values()), Lists.newArrayList(), new CooldownOptions(), Lists.newArrayList(),
-                Lists.newArrayList(), RAY_CAST_DISTANCE_DEFAULT);
+        this(CONSUMABLE_DEFAULT, DEFAULT_SLOTS.stream().map(Slot::clone).collect(Collectors.toSet()),
+                Lists.newArrayList(), new CooldownOptions(), Lists.newArrayList(), Lists.newArrayList(), RAY_CAST_DISTANCE_DEFAULT);
     }
 
-    public RightClickSkill(boolean consumable, Set<EquipmentSlot> allowedSlots, List<Action> onItemActions,
+    public RightClickSkill(boolean consumable, Set<Slot> allowedSlots, List<Action> onItemActions,
                            CooldownOptions cooldownOptions, List<Action> onCasterActions,
                            List<Action> onRayCastPointActions, int onRayCastMaxDistance) {
         super(consumable, allowedSlots, onItemActions, cooldownOptions);

@@ -2,7 +2,6 @@ package com.github.jummes.supremeitem.skill;
 
 import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.supremeitem.action.Action;
-import org.bukkit.inventory.EquipmentSlot;
 
 import java.util.List;
 import java.util.Map;
@@ -12,7 +11,7 @@ import java.util.Set;
 @Enumerable.Parent(classArray = {DamageEntitySkill.class, HitEntitySkill.class, EntityShootProjectileSkill.class,
         EntityCrossbowLoadSkill.class, EntityEquipArmorSkill.class})
 public abstract class CombatSkill extends CooldownSkill {
-    public CombatSkill(boolean consumable, Set<EquipmentSlot> allowedSlots, List<Action> onItemActions, CooldownOptions cooldownOptions) {
+    public CombatSkill(boolean consumable, Set<Slot> allowedSlots, List<Action> onItemActions, CooldownOptions cooldownOptions) {
         super(consumable, allowedSlots, onItemActions, cooldownOptions);
     }
 

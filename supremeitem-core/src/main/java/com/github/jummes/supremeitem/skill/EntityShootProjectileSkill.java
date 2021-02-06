@@ -4,11 +4,10 @@ import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.supremeitem.action.Action;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Enumerable.Child
 @Enumerable.Displayable(name = "&c&lOn entity shoot bow", description = "gui.skill.combat.projectile-shoot.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNzU0Nzk1MTA0MjJiMWM1ZGNjNzdmNzVmZGMzMzQ2ZWQ0ZDlkYmJjYzFlODg1YjRhMjk5MmEyNzM3MzM2NDZhOSJ9fX0=")
@@ -19,11 +18,11 @@ public class EntityShootProjectileSkill extends CombatSkill {
     private List<Action> onEntityActions;
 
     public EntityShootProjectileSkill() {
-        this(CONSUMABLE_DEFAULT, Sets.newHashSet(EquipmentSlot.values()), Lists.newArrayList(), new CooldownOptions(),
-                Lists.newArrayList());
+        this(CONSUMABLE_DEFAULT, DEFAULT_SLOTS.stream().map(Slot::clone).collect(Collectors.toSet()), Lists.newArrayList(),
+                new CooldownOptions(), Lists.newArrayList());
     }
 
-    public EntityShootProjectileSkill(boolean consumable, Set<EquipmentSlot> allowedSlots, List<Action> onItemActions,
+    public EntityShootProjectileSkill(boolean consumable, Set<Slot> allowedSlots, List<Action> onItemActions,
                                       CooldownOptions cooldownOptions, List<Action> onEntityActions) {
         super(consumable, allowedSlots, onItemActions, cooldownOptions);
         this.onEntityActions = onEntityActions;

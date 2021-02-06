@@ -90,6 +90,8 @@ public class SupremeItem extends JavaPlugin {
 
         ConfigurationSerialization.registerClass(CooldownBar.class);
 
+        ConfigurationSerialization.registerClass(Skill.Slot.class);
+
         /**
          * Aliases
          */

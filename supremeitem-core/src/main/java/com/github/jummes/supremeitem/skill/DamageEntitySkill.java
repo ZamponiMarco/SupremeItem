@@ -9,9 +9,7 @@ import com.github.jummes.supremeitem.action.source.EntitySource;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.util.Utils;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.FixedMetadataValue;
 
@@ -37,11 +35,11 @@ public class DamageEntitySkill extends CombatSkill {
     protected List<Action> onDamagerActions;
 
     public DamageEntitySkill() {
-        this(CONSUMABLE_DEFAULT, Sets.newHashSet(EquipmentSlot.values()), Lists.newArrayList(), new CooldownOptions(),
-                Lists.newArrayList(), Lists.newArrayList());
+        this(CONSUMABLE_DEFAULT, DEFAULT_SLOTS.stream().map(Slot::clone).collect(Collectors.toSet()), Lists.newArrayList(),
+                new CooldownOptions(), Lists.newArrayList(), Lists.newArrayList());
     }
 
-    public DamageEntitySkill(boolean consumable, Set<EquipmentSlot> allowedSlots, List<Action> onItemActions,
+    public DamageEntitySkill(boolean consumable, Set<Slot> allowedSlots, List<Action> onItemActions,
                              CooldownOptions cooldownOptions, List<Action> onDamagedActions, List<Action> onDamagerActions) {
         super(consumable, allowedSlots, onItemActions, cooldownOptions);
         this.onDamagedActions = onDamagedActions;

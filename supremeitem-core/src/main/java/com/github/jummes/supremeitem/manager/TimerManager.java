@@ -3,6 +3,7 @@ package com.github.jummes.supremeitem.manager;
 import com.github.jummes.libs.core.Libs;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.item.Item;
+import com.github.jummes.supremeitem.skill.Skill;
 import com.github.jummes.supremeitem.skill.TimerSkill;
 import com.github.jummes.supremeitem.util.Utils;
 import com.google.common.collect.Sets;
@@ -12,7 +13,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -31,7 +31,7 @@ public class TimerManager {
             set.forEach(player -> {
                 List<ItemStack> items = Utils.getEntityItems(player);
                 IntStream.range(0, items.size()).filter(i -> ItemManager.isSupremeItem(items.get(i))).forEach(i ->
-                        addNewTimers(player, items.get(i), EquipmentSlot.values()[i]));
+                        addNewTimers(player, items.get(i), Utils.slots.get(i)));
                 removeTimers(player);
             });
         }, 0, 5);
@@ -57,7 +57,7 @@ public class TimerManager {
         }
     }
 
-    public void addNewTimers(Player player, ItemStack armor, EquipmentSlot slot) {
+    public void addNewTimers(Player player, ItemStack armor, Skill.Slot slot) {
         if (armor != null) {
             UUID id = UUID.fromString(Libs.getWrapper().getTagItem(armor, "supreme-item"));
             Item supremeItem = SupremeItem.getInstance().getItemManager().getItemById(id);

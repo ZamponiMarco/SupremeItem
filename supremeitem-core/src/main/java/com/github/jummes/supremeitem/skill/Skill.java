@@ -5,13 +5,15 @@ import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.model.Model;
 import com.github.jummes.libs.util.ItemUtils;
+import com.github.jummes.libs.util.MapperUtils;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import org.bukkit.inventory.EquipmentSlot;
+import lombok.ToString;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
@@ -25,7 +27,9 @@ public abstract class Skill implements Model {
 
     protected static final List<Action> ACTIONS_DEFAULT = Lists.newArrayList();
     protected static final boolean CONSUMABLE_DEFAULT = false;
-    protected static final Set<EquipmentSlot> DEFAULT_SLOTS = Sets.newHashSet(EquipmentSlot.values());
+    @Getter
+    protected static final Set<Slot> DEFAULT_SLOTS = Arrays.stream(org.bukkit.inventory.EquipmentSlot.values()).
+            map(EquipmentSlot::new).collect(Collectors.toSet());
 
     protected static final String CASTER_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjY4YjQzMTE1MmU4MmFmNWRlZjg4ZjkxYmI2MWM2MjNiM2I3YWMzYWJlODJkMjc2ZmFkMzQ3Nzc2NDBmOTU5MCJ9fX0=";
     protected static final String CONSUMABLE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTg0YTY4ZmQ3YjYyOGQzMDk2NjdkYjdhNTU4NTViNTRhYmMyM2YzNTk1YmJlNDMyMTYyMTFiZTVmZTU3MDE0In19fQ==";
@@ -39,11 +43,11 @@ public abstract class Skill implements Model {
     @Serializable.Optional(defaultValue = "CONSUMABLE_DEFAULT")
     protected boolean consumable;
     @Serializable(headTexture = SLOTS_HEAD, description = "gui.skill.slots")
-    protected Set<EquipmentSlot> allowedSlots;
+    protected Set<Slot> allowedSlots;
     @Serializable(headTexture = ITEM_HEAD, description = "gui.skill.item-actions")
     protected List<Action> onItemActions;
 
-    public Skill(boolean consumable, Set<EquipmentSlot> allowedSlots, List<Action> onItemActions) {
+    public Skill(boolean consumable, Set<Slot> allowedSlots, List<Action> onItemActions) {
         this.consumable = consumable;
         this.allowedSlots = allowedSlots;
         this.onItemActions = onItemActions;
@@ -51,10 +55,15 @@ public abstract class Skill implements Model {
 
     public Skill(Map<String, Object> map) {
         this.consumable = (boolean) map.getOrDefault("consumable", CONSUMABLE_DEFAULT);
-        this.allowedSlots = ((List<String>) map.getOrDefault("allowedSlots",
-                Arrays.stream(EquipmentSlot.values()).map(EquipmentSlot::name).collect(Collectors.toList()))).
-                stream().map(EquipmentSlot::valueOf).collect(Collectors.toSet());
         this.onItemActions = (List<Action>) map.getOrDefault("onItemActions", Lists.newArrayList());
+        try {
+            this.allowedSlots = Sets.newHashSet((List<Slot>) map.getOrDefault("allowedSlots", DEFAULT_SLOTS.
+                    stream().map(Slot::clone).collect(Collectors.toList())));
+        } catch (ClassCastException e) {
+            List<String> slots = (List<String>) map.getOrDefault("allowedSlots", Lists.newArrayList());
+            this.allowedSlots = slots.stream().map(string -> new EquipmentSlot(org.bukkit.inventory.EquipmentSlot.
+                    valueOf(string))).collect(Collectors.toSet());
+        }
     }
 
     public abstract void executeSkill(UUID id, ItemStack item, Map<String, Object> args);
@@ -64,8 +73,7 @@ public abstract class Skill implements Model {
         Map<String, Object> map = new LinkedHashMap<>();
         if (consumable != CONSUMABLE_DEFAULT)
             map.put("consumable", consumable);
-        if (!allowedSlots.equals(DEFAULT_SLOTS))
-            map.put("allowedSlots", allowedSlots.stream().map(EquipmentSlot::name).collect(Collectors.toList()));
+        map.put("allowedSlots", new ArrayList<>(allowedSlots));
         map.put("onItemActions", onItemActions);
         return map;
     }
@@ -112,4 +120,91 @@ public abstract class Skill implements Model {
             return list1;
         });
     }
+
+    @Enumerable.Parent(classArray = {EquipmentSlot.class, NumberedSlot.class})
+    @Enumerable.Displayable
+    public abstract static class Slot implements Model, Cloneable {
+
+        public Slot() {
+
+        }
+
+        public Slot(Map<String, Object> map) {
+
+        }
+
+        public abstract Slot clone();
+
+    }
+
+    @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
+    @Enumerable.Child
+    @Enumerable.Displayable
+    @Getter
+    @ToString
+    public static class EquipmentSlot extends Slot {
+
+        @Serializable(headTexture = SLOTS_HEAD, description = "gui.skill.slots", stringValue = true)
+        @EqualsAndHashCode.Include
+        private org.bukkit.inventory.EquipmentSlot slot;
+
+        public EquipmentSlot() {
+            this(org.bukkit.inventory.EquipmentSlot.HAND);
+        }
+
+        public EquipmentSlot(org.bukkit.inventory.EquipmentSlot slot) {
+            this.slot = slot;
+        }
+
+        public EquipmentSlot(Map<String, Object> map) {
+            super(map);
+            this.slot = org.bukkit.inventory.EquipmentSlot.valueOf((String) map.getOrDefault("slot", "HAND"));
+        }
+
+        @Override
+        public ItemStack getGUIItem() {
+            return MapperUtils.getEquipmentSlotMapper().apply(slot);
+        }
+
+        @Override
+        public Slot clone() {
+            return new EquipmentSlot(slot);
+        }
+    }
+
+    @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
+    @Enumerable.Child
+    @Enumerable.Displayable
+    @Getter
+    @ToString
+    public static class NumberedSlot extends Slot {
+
+        @Serializable(headTexture = SLOTS_HEAD, description = "gui.skill.slots")
+        @EqualsAndHashCode.Include
+        private int slot;
+
+        public NumberedSlot() {
+            this(17);
+        }
+
+        public NumberedSlot(int slot) {
+            this.slot = slot;
+        }
+
+        public NumberedSlot(Map<String, Object> map) {
+            super(map);
+            this.slot = (int) map.getOrDefault("slot", 17);
+        }
+
+        @Override
+        public ItemStack getGUIItem() {
+            return new ItemStack(Material.CACTUS);
+        }
+
+        @Override
+        public Slot clone() {
+            return new NumberedSlot(slot);
+        }
+    }
+
 }

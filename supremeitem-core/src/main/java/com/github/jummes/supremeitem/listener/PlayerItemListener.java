@@ -19,7 +19,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
@@ -39,7 +38,7 @@ public class PlayerItemListener implements Listener {
             Item item = SupremeItem.getInstance().getItemManager().getItemByItemStack(items.get(i));
             if (item != null) {
                 item.getSkillSet().stream().filter(skill -> skillClass.isAssignableFrom(skill.getClass()) &&
-                        skill.getAllowedSlots().contains(EquipmentSlot.values()[i]) && additionalPredicate.test(skill)).
+                        skill.getAllowedSlots().contains(Utils.slots.get(i)) && additionalPredicate.test(skill)).
                         forEach(skill -> skill.executeSkill(item.getId(), items.get(i), args));
             }
         });
@@ -84,7 +83,6 @@ public class PlayerItemListener implements Listener {
             args.put("damaged", damaged);
             args.put("damage", e.getDamage());
             args.put("damageCause", e.getCause().name());
-
 
             if (e.getEntity().getMetadata("siattack").stream().noneMatch(metadataValue ->
                     Objects.equals(metadataValue.getOwningPlugin(), SupremeItem.getInstance()))) {
