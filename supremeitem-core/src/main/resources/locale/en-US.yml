@@ -812,6 +812,9 @@ gui:
         speed:
           description:
             - "&7&oSet a movement speed placeholder."
+        height:
+          description:
+            - "&7&oSet an entity height placeholder."
         knock:
           description:
             - "&7&oSet a knockback resistance placeholder."
