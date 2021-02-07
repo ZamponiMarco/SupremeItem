@@ -5,7 +5,6 @@ import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.item.Item;
 import com.github.jummes.supremeitem.skill.Skill;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Streams;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.EntityEquipment;
@@ -15,13 +14,8 @@ import org.bukkit.metadata.MetadataValue;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public final class Utils {
-
-    public static List<Integer> additionalSlots = Lists.newArrayList(17);
-    public static List<Skill.Slot> slots = Streams.concat(Skill.getDEFAULT_SLOTS().stream(),
-            additionalSlots.stream().map(Skill.NumberedSlot::new)).collect(Collectors.toList());
 
     public static List<ItemStack> getEntityItems(LivingEntity e) {
         EntityEquipment equipment = e.getEquipment();
@@ -30,7 +24,7 @@ public final class Utils {
         }
 
         List<ItemStack> list = Lists.newArrayList();
-        slots.forEach(slot -> {
+        Skill.slots.forEach(slot -> {
             if (slot instanceof Skill.EquipmentSlot) {
                 list.add(equipment.getItem(((Skill.EquipmentSlot) slot).getSlot()));
             } else if (slot instanceof Skill.NumberedSlot) {

@@ -31,7 +31,7 @@ public class TimerManager {
             set.forEach(player -> {
                 List<ItemStack> items = Utils.getEntityItems(player);
                 IntStream.range(0, items.size()).filter(i -> ItemManager.isSupremeItem(items.get(i))).forEach(i ->
-                        addNewTimers(player, items.get(i), Utils.slots.get(i)));
+                        addNewTimers(player, items.get(i), Skill.slots.get(i)));
                 removeTimers(player);
             });
         }, 0, 5);

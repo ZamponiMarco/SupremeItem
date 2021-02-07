@@ -4,6 +4,7 @@ import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.libs.core.Libs;
 import com.github.jummes.libs.model.Model;
+import com.github.jummes.libs.model.ModelPath;
 import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.libs.util.MapperUtils;
 import com.github.jummes.supremeitem.action.Action;
@@ -13,10 +14,10 @@ import com.google.common.collect.Sets;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
@@ -35,6 +36,9 @@ public abstract class Skill implements Model {
     protected static final String CONSUMABLE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTg0YTY4ZmQ3YjYyOGQzMDk2NjdkYjdhNTU4NTViNTRhYmMyM2YzNTk1YmJlNDMyMTYyMTFiZTVmZTU3MDE0In19fQ==";
     private static final String SLOTS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNGQ5YjY4OTE1YjE0NzJkODllNWUzYTliYTZjOTM1YWFlNjAzZDEyYzE0NTRmMzgyMjgyNWY0M2RmZThhMmNhYyJ9fX0=";
     private static final String ITEM_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWI0MjVhYTNkOTQ2MThhODdkYWM5Yzk0ZjM3N2FmNmNhNDk4NGMwNzU3OTY3NGZhZDkxN2Y2MDJiN2JmMjM1In19fQ==";
+
+    public static Set<Integer> additionalSlots = Sets.newHashSet();
+    public static List<Slot> slots = new ArrayList<>(DEFAULT_SLOTS);
 
     @EqualsAndHashCode.Include
     protected UUID id = UUID.randomUUID();
@@ -174,12 +178,13 @@ public abstract class Skill implements Model {
 
     @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
     @Enumerable.Child
-    @Enumerable.Displayable
+    @Enumerable.Displayable(condition = "additionalSlotsEnabled")
     @Getter
     @ToString
     public static class NumberedSlot extends Slot {
 
-        @Serializable(headTexture = SLOTS_HEAD, description = "gui.skill.slots")
+        @Serializable(headTexture = SLOTS_HEAD, description = "gui.skill.slots", fromList = "getSlots",
+                fromListMapper = "slotsMapper")
         @EqualsAndHashCode.Include
         private int slot;
 
@@ -196,9 +201,31 @@ public abstract class Skill implements Model {
             this.slot = (int) map.getOrDefault("slot", 17);
         }
 
+        public static List<Object> getSlots(ModelPath<?> path) {
+            return new ArrayList<>(Skill.additionalSlots);
+        }
+
+        public static Function<Object, ItemStack> slotsMapper() {
+            return obj -> {
+                int slot = (int) obj;
+                return getItem(slot);
+            };
+        }
+
+        private static ItemStack getItem(int slot) {
+            ItemStack item = ItemUtils.getNamedItem(Libs.getWrapper().skullFromValue(SLOTS_HEAD),
+                    "&6&lSlot: &c" + slot, Lists.newArrayList());
+            item.setAmount(slot);
+            return item;
+        }
+
+        public static boolean additionalSlotsEnabled(ModelPath path) {
+            return !Skill.additionalSlots.isEmpty();
+        }
+
         @Override
         public ItemStack getGUIItem() {
-            return new ItemStack(Material.CACTUS);
+            return getItem(slot);
         }
 
         @Override

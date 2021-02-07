@@ -45,12 +45,13 @@ import org.bukkit.util.FileUtil;
 
 import java.io.File;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
 public class SupremeItem extends JavaPlugin {
 
-    private static final String CONFIG_VERSION = "0.1";
+    private static final String CONFIG_VERSION = "0.1.19";
 
     static {
         Libs.registerSerializables();
@@ -138,7 +139,7 @@ public class SupremeItem extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        setUpFolder();
+        setUpConfig();
         setUpLibrary();
         setUpData();
         setUpHooks();
@@ -146,7 +147,7 @@ public class SupremeItem extends JavaPlugin {
         setUpListeners();
     }
 
-    private void setUpFolder() {
+    private void setUpConfig() {
         if (!getDataFolder().exists()) {
             getDataFolder().mkdir();
         }
@@ -160,12 +161,18 @@ public class SupremeItem extends JavaPlugin {
         if (!Objects.equals(getConfig().getString("version"), CONFIG_VERSION)) {
             getLogger().info("config.yml has changed. Old config is stored inside config-"
                     + getConfig().getString("version") + ".yml");
-            File outputFile = new File(getDataFolder(), "backup" + File.pathSeparator +
-                    "config-" + getConfig().getString("version") + ".yml");
+            File backupFolder = new File(getDataFolder(), "backup");
+            if (!backupFolder.exists()) {
+                backupFolder.mkdir();
+            }
+            File outputFile = new File(backupFolder, "config-" + getConfig().getString("version") + ".yml");
             FileUtil.copy(configFile, outputFile);
             configFile.delete();
             saveDefaultConfig();
         }
+
+        Skill.additionalSlots.addAll(getConfig().getIntegerList("additional-slots"));
+        Skill.slots.addAll(Skill.additionalSlots.stream().map(Skill.NumberedSlot::new).collect(Collectors.toList()));
     }
 
     private void setUpLibrary() {

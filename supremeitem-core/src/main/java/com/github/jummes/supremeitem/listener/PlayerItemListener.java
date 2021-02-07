@@ -38,7 +38,7 @@ public class PlayerItemListener implements Listener {
             Item item = SupremeItem.getInstance().getItemManager().getItemByItemStack(items.get(i));
             if (item != null) {
                 item.getSkillSet().stream().filter(skill -> skillClass.isAssignableFrom(skill.getClass()) &&
-                        skill.getAllowedSlots().contains(Utils.slots.get(i)) && additionalPredicate.test(skill)).
+                        skill.getAllowedSlots().contains(Skill.slots.get(i)) && additionalPredicate.test(skill)).
                         forEach(skill -> skill.executeSkill(item.getId(), items.get(i), args));
             }
         });

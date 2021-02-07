@@ -3,5 +3,10 @@
 # after that write in this parameter the name of the file without the leading .yml
 locale: en-US
 
+# If you want to allow the items to be used from other slots other than the hands
+# or the armor slots just put the numbers of the slots you want to possibly use. The
+# slot numbers are specified here https://minecraft.gamepedia.com/File:Items_slot_number.png
+additional-slots: [ ]
+
 #DO NOT MODIFY
-version: 0.1
+version: 0.1.19
