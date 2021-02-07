@@ -6,9 +6,9 @@ import com.github.jummes.supremeitem.placeholder.Placeholder;
 import java.util.Map;
 
 @Enumerable.Parent(classArray = {OnGroundPlaceholder.class, PossessItemPlaceholder.class,
-        PlayerPropertyBooleanPlaceholder.class})
+        PlayerPropertyBooleanPlaceholder.class, IsWeatherClearPlaceholder.class})
 public abstract class BooleanPlaceholder extends Placeholder<Boolean> {
-    
+
     public BooleanPlaceholder(boolean target) {
         super(target);
     }

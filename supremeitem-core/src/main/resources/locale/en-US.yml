@@ -897,6 +897,10 @@ gui:
           - "&7&otarget or source has a permission. (only players)"
         permission:
           - "&7&oThe permission to check."
+      clear:
+        description:
+          - "&7&oSet a placeholder that checks if the"
+          - "&7&oworld has clear weather."
     string:
       player-name:
         description:
