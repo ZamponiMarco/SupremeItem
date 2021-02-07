@@ -143,12 +143,13 @@ public abstract class Skill implements Model {
 
     @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
     @Enumerable.Child
-    @Enumerable.Displayable
+    @Enumerable.Displayable(name = "&c&lEquipment Slot", description = "gui.skill.slot.armor.description",
+            headTexture = SLOTS_HEAD)
     @Getter
     @ToString
     public static class EquipmentSlot extends Slot {
 
-        @Serializable(headTexture = SLOTS_HEAD, description = "gui.skill.slots", stringValue = true)
+        @Serializable(headTexture = SLOTS_HEAD, description = "gui.skill.slot.slot", stringValue = true)
         @EqualsAndHashCode.Include
         private org.bukkit.inventory.EquipmentSlot slot;
 
@@ -178,18 +179,19 @@ public abstract class Skill implements Model {
 
     @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
     @Enumerable.Child
-    @Enumerable.Displayable(condition = "additionalSlotsEnabled")
+    @Enumerable.Displayable(name = "&c&lNumbered Slot", description = "gui.skill.slot.numbered.description",
+            condition = "additionalSlotsEnabled", headTexture = SLOTS_HEAD)
     @Getter
     @ToString
     public static class NumberedSlot extends Slot {
 
-        @Serializable(headTexture = SLOTS_HEAD, description = "gui.skill.slots", fromList = "getSlots",
+        @Serializable(headTexture = SLOTS_HEAD, description = "gui.skill.slot.slot", fromList = "getSlots",
                 fromListMapper = "slotsMapper")
         @EqualsAndHashCode.Include
         private int slot;
 
         public NumberedSlot() {
-            this(17);
+            this(additionalSlots.iterator().next());
         }
 
         public NumberedSlot(int slot) {
@@ -198,7 +200,7 @@ public abstract class Skill implements Model {
 
         public NumberedSlot(Map<String, Object> map) {
             super(map);
-            this.slot = (int) map.getOrDefault("slot", 17);
+            this.slot = (int) map.getOrDefault("slot", additionalSlots.iterator().next());
         }
 
         public static List<Object> getSlots(ModelPath<?> path) {

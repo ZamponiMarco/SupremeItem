@@ -472,6 +472,17 @@ gui:
   skill:
     cooldown-options:
       - "&7&oThe options for customizing cooldown."
+    slot:
+      slot:
+        - "&7&oThe slot to allow."
+      numbered:
+        description:
+          - "&7&oSet a slot that represents one of the"
+          - "&7&odefault equipment slots."
+      armor:
+        description:
+          - "&7&oSet a slot that represents one of the"
+          - "&7&omumbered slots in the player inventory."
     cooldown:
       cooldown:
         - "&7&oThe cooldown between skill executions."
