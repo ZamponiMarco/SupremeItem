@@ -905,6 +905,10 @@ gui:
           - "&7&oSet a placeholder that checks if the"
           - "&7&oworld has clear weather."
     string:
+      biome:
+        description:
+          - "&7&oSet a placeholder that returns the"
+          - "&7&obiome of the targeted location."
       player-name:
         description:
           - "&7&oSet a placeholder that returns the"

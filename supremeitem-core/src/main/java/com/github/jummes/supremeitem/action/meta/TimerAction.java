@@ -32,12 +32,12 @@ public class TimerAction extends WrapperAction {
     private static final String REPETITIONS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYmM4ZGVmNjdhMTI2MjJlYWQxZGVjZDNkODkzNjQyNTdiNTMxODk2ZDg3ZTQ2OTgxMzEzMWNhMjM1YjVjNyJ9fX0=";
 
     @Serializable(headTexture = TIMER_HEAD, description = "gui.action.meta.wrapper.timer.timer")
-    @Serializable.Number(minValue = 0)
+    @Serializable.Number(minValue = 0, scale = 1)
     @Serializable.Optional(defaultValue = "TIMER_DEFAULT")
     private int timer;
 
     @Serializable(headTexture = REPETITIONS_HEAD, description = "gui.action.meta.wrapper.timer.repetitions")
-    @Serializable.Number(minValue = 0)
+    @Serializable.Number(minValue = 0, scale = 1)
     @Serializable.Optional(defaultValue = "REPETITIONS_DEFAULT")
     private int repetitions;
 
