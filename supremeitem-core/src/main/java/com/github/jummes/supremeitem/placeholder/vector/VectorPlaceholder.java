@@ -10,7 +10,8 @@ import java.util.Map;
 
 
 @Enumerable.Displayable
-@Enumerable.Parent(classArray = {EntityVectorPlaceholder.class, VectorOperatorPlaceholder.class})
+@Enumerable.Parent(classArray = {EntityVectorPlaceholder.class, VectorOperatorPlaceholder.class,
+        VectorVariablePlaceholder.class})
 public abstract class VectorPlaceholder extends Placeholder<Vector> {
 
     public VectorPlaceholder(boolean target) {

@@ -444,6 +444,11 @@ gui:
           - "&7&oAssign a string value to an"
           - "&7&oentity to retrieve it later from"
           - "&7&oother places as a placeholder."
+      vector-variable:
+        description:
+          - "&7&oAssign a vector value to an"
+          - "&7&oentity to retrieve it later from"
+          - "&7&oother places as a placeholder."
     item:
       durability:
         description:
@@ -994,6 +999,12 @@ gui:
         multiplication:
           description:
             - "&7&oSet a vector multiplication placeholder."
+      variable:
+        description:
+          - "&7&oSet a placeholder that retrieves the vector value"
+          - "&7&oof a variable."
+        name:
+          - "&7&oThe name of the variable."
   condition:
     description:
       - "&6&lLeft click &eto modify."
