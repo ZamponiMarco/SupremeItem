@@ -996,15 +996,25 @@ gui:
         sum:
           description:
             - "&7&oSet a vector sum operator placeholder."
+        difference:
+          description:
+            - "&7&oSet a vector difference operator placeholder."
         multiplication:
           description:
             - "&7&oSet a vector multiplication placeholder."
+        normalize:
+          description:
+            - "&7&oSet a vector normalization placeholder."
       variable:
         description:
           - "&7&oSet a placeholder that retrieves the vector value"
           - "&7&oof a variable."
         name:
           - "&7&oThe name of the variable."
+      location:
+        description:
+          - "&7&oSet a placeholder that returns a vector from the"
+          - "&7&otargeted location."
   condition:
     description:
       - "&6&lLeft click &eto modify."

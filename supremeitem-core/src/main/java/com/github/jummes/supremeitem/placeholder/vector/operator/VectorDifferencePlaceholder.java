@@ -11,9 +11,8 @@ import com.github.jummes.supremeitem.value.VectorValue;
 import java.util.Map;
 
 @Enumerable.Child
-@Enumerable.Displayable(name = "&c&lVector Sum Placeholder", description = "gui.placeholder.vector.operator.sum.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDdhMGZjNmRjZjczOWMxMWZlY2U0M2NkZDE4NGRlYTc5MWNmNzU3YmY3YmQ5MTUzNmZkYmM5NmZhNDdhY2ZiIn19fQ==")
-public class VectorSumPlaceholder extends VectorOperatorPlaceholder {
-
+@Enumerable.Displayable(name = "&c&lVector Difference Placeholder", description = "gui.placeholder.vector.operator.difference.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWQ2YjEyOTNkYjcyOWQwMTBmNTM0Y2UxMzYxYmJjNTVhZTVhOGM4ZjgzYTE5NDdhZmU3YTg2NzMyZWZjMiJ9fX0")
+public class VectorDifferencePlaceholder extends VectorOperatorPlaceholder {
     @Serializable(headTexture = ONE_HEAD, description = "gui.placeholder.vector.operator.operand-one",
             additionalDescription = {"gui.additional-tooltips.value"})
     private VectorValue operandOne;
@@ -21,17 +20,17 @@ public class VectorSumPlaceholder extends VectorOperatorPlaceholder {
             additionalDescription = {"gui.additional-tooltips.value"})
     private VectorValue operandTwo;
 
-    public VectorSumPlaceholder() {
+    public VectorDifferencePlaceholder() {
         this(TARGET_DEFAULT, new VectorValue(), new VectorValue());
     }
 
-    public VectorSumPlaceholder(boolean target, VectorValue operandOne, VectorValue operandTwo) {
+    public VectorDifferencePlaceholder(boolean target, VectorValue operandOne, VectorValue operandTwo) {
         super(target);
         this.operandOne = operandOne;
         this.operandTwo = operandTwo;
     }
 
-    public VectorSumPlaceholder(Map<String, Object> map) {
+    public VectorDifferencePlaceholder(Map<String, Object> map) {
         super(map);
         this.operandOne = (VectorValue) map.getOrDefault("operandOne", new VectorValue());
         this.operandTwo = (VectorValue) map.getOrDefault("operandTwo", new VectorValue());
@@ -39,17 +38,17 @@ public class VectorSumPlaceholder extends VectorOperatorPlaceholder {
 
     @Override
     public Vector computePlaceholder(Target target, Source source) {
-        return new Vector(operandOne.getRealValue(target, source).computeVector(target, source).add(operandTwo.
+        return new Vector(operandOne.getRealValue(target, source).computeVector(target, source).subtract(operandTwo.
                 getRealValue(target, source).computeVector(target, source)));
     }
 
     @Override
     public String getName() {
-        return operandOne.getName() + " &6&l+&c " + operandTwo.getName();
+        return operandOne.getName() + " &6&l-&c " + operandTwo.getName();
     }
 
     @Override
     public VectorPlaceholder clone() {
-        return new VectorSumPlaceholder(TARGET_DEFAULT, operandOne.clone(), operandTwo.clone());
+        return new VectorDifferencePlaceholder(TARGET_DEFAULT, operandOne.clone(), operandTwo.clone());
     }
 }
