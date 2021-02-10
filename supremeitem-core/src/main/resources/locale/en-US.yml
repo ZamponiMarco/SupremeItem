@@ -1005,6 +1005,15 @@ gui:
         normalize:
           description:
             - "&7&oSet a vector normalization placeholder."
+        rotate:
+          description:
+            - "&7&oSet a vector rotation placeholder."
+          vector:
+            - "&7&oThe vector to rotate."
+          axis:
+            - "&7&oThe vector around the vector will be rotated."
+          angle:
+            - "&7&oThe angle of the rotation."
       variable:
         description:
           - "&7&oSet a placeholder that retrieves the vector value"

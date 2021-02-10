@@ -32,7 +32,7 @@ public class DirectionPlaceholder extends EntityVectorPlaceholder {
         if (entity == null) {
             return new Vector();
         }
-        return new Vector(entity.getLocation().getDirection());
+        return new Vector(entity.getLocation().getDirection().clone());
     }
 
     @Override

@@ -7,7 +7,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Map;
 
 @Enumerable.Parent(classArray = {VectorSumPlaceholder.class, VectorMultiplicationPlaceholder.class,
-        VectorDifferencePlaceholder.class, VectorNormalizePlaceholder.class})
+        VectorDifferencePlaceholder.class, VectorNormalizePlaceholder.class, VectorRotatePlaceholder.class})
 @Enumerable.Displayable(name = "&c&lVector Operator Placeholders", description = "gui.placeholder.vector.operator.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzhlZTlmZDhjMGM2ZDI5Njc1YTNhZGZkOTRjNzIzZjZkMzA2YjJhNTk4NGU2NWRiNDY3N2JhNmFjNGY5MDIwIn19fQ==")
 public abstract class VectorOperatorPlaceholder extends VectorPlaceholder {
 

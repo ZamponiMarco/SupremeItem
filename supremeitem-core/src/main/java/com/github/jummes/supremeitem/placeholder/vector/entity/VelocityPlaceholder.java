@@ -32,7 +32,7 @@ public class VelocityPlaceholder extends EntityVectorPlaceholder {
         if (entity == null) {
             return new Vector();
         }
-        return new Vector(entity.getVelocity());
+        return new Vector(entity.getVelocity().clone());
     }
 
     @Override

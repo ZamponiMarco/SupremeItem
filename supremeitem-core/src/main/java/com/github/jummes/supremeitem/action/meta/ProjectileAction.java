@@ -4,7 +4,6 @@ import com.github.jummes.libs.annotation.Enumerable;
 import com.github.jummes.libs.annotation.Serializable;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.EntitySource;
-import com.github.jummes.supremeitem.action.source.LocationSource;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.LocationTarget;
@@ -67,34 +66,34 @@ public class ProjectileAction extends AbstractProjectileAction {
 
     @Override
     public ActionResult execute(Target target, Source source, Map<String, Object> map) {
-        Location l = null;
-        if (source instanceof EntitySource) {
-            EntitySource entitySource = (EntitySource) source;
-            l = entitySource.getCaster().getEyeLocation().clone();
-            if (shootFromHand) {
-                if (entitySource.getHand().equals(MainHand.RIGHT)) {
-                    l = getRightSide(l, 0.5);
-                } else {
-                    l = getLeftSide(l, 0.5);
-                }
-            }
-        } else if (source instanceof LocationSource) {
-            l = source.getLocation();
-        }
+        Location sourceLocation = source.getLocation();
 
-        if (l == null) {
+        if (sourceLocation == null) {
             return ActionResult.FAILURE;
         }
 
         if (!source.getLocation().equals(target.getLocation())) {
             if (target instanceof LocationTarget) {
-                l.setDirection(target.getLocation().clone().toVector().subtract(l.toVector()).normalize());
+                sourceLocation.setDirection(target.getLocation().clone().toVector().subtract(sourceLocation.toVector()).normalize());
             } else if (target instanceof EntityTarget) {
-                l.setDirection(((EntityTarget) target).getTarget().getEyeLocation().clone().toVector().subtract(l.
+                sourceLocation.setDirection(((EntityTarget) target).getTarget().getEyeLocation().clone().toVector().subtract(sourceLocation.
                         toVector()).normalize());
             }
         }
-        new Projectile(target, source, l, gravity.getRealValue(target, source), initialSpeed.getRealValue(target, source),
+
+        if (source instanceof EntitySource) {
+            EntitySource entitySource = (EntitySource) source;
+            sourceLocation.add(0, entitySource.getCaster().getEyeHeight(), 0);
+            if (shootFromHand) {
+                if (entitySource.getHand().equals(MainHand.RIGHT)) {
+                    sourceLocation = getRightSide(sourceLocation, 0.5);
+                } else {
+                    sourceLocation = getLeftSide(sourceLocation, 0.5);
+                }
+            }
+        }
+
+        new Projectile(target, source, sourceLocation, gravity.getRealValue(target, source), initialSpeed.getRealValue(target, source),
                 onEntityHitActions, onBlockHitActions, onProjectileTickActions,
                 this.entity, this.hitBoxSize.getRealValue(target, source), maxDistance.getRealValue(target, source).intValue(),
                 projectileSpread.getRealValue(target, source).intValue()).run();
