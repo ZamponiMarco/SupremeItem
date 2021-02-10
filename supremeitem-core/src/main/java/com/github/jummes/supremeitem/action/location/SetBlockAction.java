@@ -72,6 +72,7 @@ public class SetBlockAction extends LocationAction {
     public Map<String, Object> serialize() {
         Map<String, Object> map = new HashMap<>();
         map.put("==", getClass().getName());
+        map.put("target", target);
         map.put("material", material);
         map.put("excludedMaterials", excludedMaterials.stream().map(Material::name).collect(Collectors.toList()));
         map.put("allowMaterials", allowMaterials);

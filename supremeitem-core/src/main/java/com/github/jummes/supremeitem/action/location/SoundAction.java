@@ -9,6 +9,7 @@ import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
+import com.github.jummes.supremeitem.entity.selector.EntitySelector;
 import com.github.jummes.supremeitem.value.NumericValue;
 import com.google.common.collect.Lists;
 import lombok.Getter;
@@ -17,19 +18,19 @@ import org.apache.commons.lang.WordUtils;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
-import org.bukkit.World;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
 @Enumerable.Displayable(name = "&c&lSound", description = "gui.action.location.sound.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOWIxZTIwNDEwYmI2YzdlNjk2OGFmY2QzZWM4NTU1MjBjMzdhNDBkNTRhNTRlOGRhZmMyZTZiNmYyZjlhMTkxNSJ9fX0=")
 @Enumerable.Child
-public class SoundAction extends LocationAction {
+public class SoundAction extends PacketAction {
 
     private static final NumericValue PITCH_DEFAULT = new NumericValue(1f);
     private static final NumericValue VOLUME_DEFAULT = new NumericValue(10f);
@@ -56,11 +57,13 @@ public class SoundAction extends LocationAction {
     private NumericValue volume;
 
     public SoundAction() {
-        this(TARGET_DEFAULT, Sound.BLOCK_ANVIL_BREAK, SoundCategory.MASTER, PITCH_DEFAULT.clone(), VOLUME_DEFAULT.clone());
+        this(TARGET_DEFAULT, Lists.newArrayList(), Sound.BLOCK_ANVIL_BREAK, SoundCategory.MASTER, PITCH_DEFAULT.clone(),
+                VOLUME_DEFAULT.clone());
     }
 
-    public SoundAction(boolean target, Sound type, SoundCategory category, NumericValue pitch, NumericValue volume) {
-        super(target);
+    public SoundAction(boolean target, List<EntitySelector> selectors, Sound type, SoundCategory category,
+                       NumericValue pitch, NumericValue volume) {
+        super(target, selectors);
         this.type = type;
         this.category = category;
         this.pitch = pitch;
@@ -71,7 +74,6 @@ public class SoundAction extends LocationAction {
         super(map);
         this.type = Sound.valueOf((String) map.getOrDefault("type", "BLOCK_ANVIL_BREAK"));
         this.category = SoundCategory.valueOf((String) map.getOrDefault("category", "MASTER"));
-
         this.pitch = (NumericValue) map.getOrDefault("pitch", PITCH_DEFAULT.clone());
         this.volume = (NumericValue) map.getOrDefault("volume", VOLUME_DEFAULT.clone());
     }
@@ -102,20 +104,18 @@ public class SoundAction extends LocationAction {
 
     @Override
     public ActionResult execute(Target target, Source source, Map<String, Object> map) {
-        double volume = this.volume.getRealValue(target, source);
-        double pitch = this.pitch.getRealValue(target, source);
+        float volume = this.volume.getRealValue(target, source).floatValue();
+        float pitch = this.pitch.getRealValue(target, source).floatValue();
         Location location = getLocation(target, source);
-        World world = location.getWorld();
-        if (world == null) {
-            return ActionResult.FAILURE;
-        }
-        location.getWorld().playSound(location, type, category, (float) volume, (float) pitch);
+        selectedPlayers(location, target, source).forEach(player -> player.playSound(location, type, category, volume,
+                pitch));
         return ActionResult.SUCCESS;
     }
 
     @Override
     public Action clone() {
-        return new SoundAction(target, type, category, pitch.clone(), volume.clone());
+        return new SoundAction(target, selectors.stream().map(EntitySelector::clone).collect(Collectors.toList()),
+                type, category, pitch.clone(), volume.clone());
     }
 
     @Override

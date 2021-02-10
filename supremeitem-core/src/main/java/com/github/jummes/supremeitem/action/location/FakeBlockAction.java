@@ -8,8 +8,10 @@ import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
+import com.github.jummes.supremeitem.entity.selector.EntitySelector;
 import com.github.jummes.supremeitem.value.MaterialValue;
 import com.github.jummes.supremeitem.value.NumericValue;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import lombok.Setter;
 import org.apache.commons.lang.WordUtils;
@@ -28,7 +30,7 @@ import java.util.stream.Collectors;
 @Enumerable.Child
 @Setter
 @Enumerable.Displayable(name = "&c&lFake block", description = "gui.action.location.fake-block.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYThjODU2MzY2YzY0Nzc0YWY2MjJkZjkwY2ViMTNjYzkxNjcyNzk0ZTc0OWE2MmJkMDFjYjg3MmRhNzE2ZCJ9fX0=")
-public class FakeBlockAction extends LocationAction {
+public class FakeBlockAction extends PacketAction {
 
     private static final boolean ALLOW_MATERIALS_DEFAULT = false;
 
@@ -51,13 +53,13 @@ public class FakeBlockAction extends LocationAction {
     private NumericValue ticks;
 
     public FakeBlockAction() {
-        this(TARGET_DEFAULT, new MaterialValue(Material.STONE), Sets.newHashSet(Material.AIR), ALLOW_MATERIALS_DEFAULT,
-                new NumericValue(100));
+        this(TARGET_DEFAULT, Lists.newArrayList(), new MaterialValue(Material.STONE), Sets.newHashSet(Material.AIR),
+                ALLOW_MATERIALS_DEFAULT, new NumericValue(100));
     }
 
-    public FakeBlockAction(boolean target, MaterialValue material, Set<Material> excludedMaterials, boolean negate,
-                           NumericValue ticks) {
-        super(target);
+    public FakeBlockAction(boolean target, List<EntitySelector> selectors, MaterialValue material,
+                           Set<Material> excludedMaterials, boolean negate, NumericValue ticks) {
+        super(target, selectors);
         this.material = material;
         this.excludedMaterials = excludedMaterials;
         this.allowMaterials = negate;
@@ -86,6 +88,8 @@ public class FakeBlockAction extends LocationAction {
     public Map<String, Object> serialize() {
         Map<String, Object> map = new HashMap<>();
         map.put("==", getClass().getName());
+        map.put("target", target);
+        map.put("selectors", selectors);
         map.put("material", material);
         map.put("excludedMaterials", excludedMaterials.stream().map(Material::name).collect(Collectors.toList()));
         map.put("allowMaterials", allowMaterials);
@@ -117,26 +121,24 @@ public class FakeBlockAction extends LocationAction {
 
         int ticks = this.ticks.getRealValue(target, source).intValue();
         Material type = location.getBlock().getType();
-        List<Player> players = location.getWorld().getNearbyEntities(location, Bukkit.getViewDistance() << 4, 50,
-                Bukkit.getViewDistance() << 4,
-                entity -> entity instanceof Player).stream().map(entity -> (Player) entity).collect(Collectors.toList());
+        Collection<Player> players = selectedPlayers(location, target, source);
         players.forEach(
                 player -> player.sendBlockChange(location,
                         Bukkit.createBlockData(material.getRealValue(target, source)))
         );
 
-        Bukkit.getScheduler().runTaskLater(SupremeItem.getInstance(), () -> {
-            players.forEach(
-                    player -> player.sendBlockChange(location,
-                            Bukkit.createBlockData(type))
-            );
-        }, ticks);
+        Bukkit.getScheduler().runTaskLater(SupremeItem.getInstance(), () -> players.forEach(
+                player -> player.sendBlockChange(location,
+                        Bukkit.createBlockData(type))
+        ), ticks);
+
         return Action.ActionResult.SUCCESS;
     }
 
     @Override
     public Action clone() {
-        return new FakeBlockAction(target, material.clone(), new HashSet<>(excludedMaterials), allowMaterials, ticks.clone());
+        return new FakeBlockAction(target, selectors.stream().map(EntitySelector::clone).collect(Collectors.toList()),
+                material.clone(), new HashSet<>(excludedMaterials), allowMaterials, ticks.clone());
     }
 
     @Override

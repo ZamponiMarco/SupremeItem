@@ -8,26 +8,30 @@ import com.github.jummes.libs.util.MapperUtils;
 import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
+import com.github.jummes.supremeitem.entity.selector.EntitySelector;
 import com.github.jummes.supremeitem.value.NumericValue;
+import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang.WordUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.lang.reflect.Field;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
 @Enumerable.Displayable(name = "&c&lParticle", description = "gui.action.location.particle.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDQ2MWQ5ZDA2YzBiZjRhN2FmNGIxNmZkMTI4MzFlMmJlMGNmNDJlNmU1NWU5YzBkMzExYTJhODk2NWEyM2IzNCJ9fX0=")
 @Enumerable.Child
-public class ParticleAction extends LocationAction {
+public class ParticleAction extends PacketAction {
 
     private static final NumericValue COUNT_DEFAULT = new NumericValue(1);
     private static final NumericValue OFFSET_DEFAULT = new NumericValue(0);
@@ -66,13 +70,13 @@ public class ParticleAction extends LocationAction {
     private ParticleOptions data;
 
     public ParticleAction() {
-        this(TARGET_DEFAULT, Particle.FIREWORKS_SPARK, COUNT_DEFAULT.clone(), OFFSET_DEFAULT.clone(),
+        this(TARGET_DEFAULT, Lists.newArrayList(), Particle.FIREWORKS_SPARK, COUNT_DEFAULT.clone(), OFFSET_DEFAULT.clone(),
                 SPEED_DEFAULT.clone(), FORCE_DEFAULT, null);
     }
 
-    public ParticleAction(boolean target, Particle type, NumericValue count, NumericValue offset, NumericValue speed,
-                          boolean force, ParticleOptions data) {
-        super(target);
+    public ParticleAction(boolean target, List<EntitySelector> selectors, Particle type, NumericValue count,
+                          NumericValue offset, NumericValue speed, boolean force, ParticleOptions data) {
+        super(target, selectors);
         this.type = type;
         this.count = count;
         this.offset = offset;
@@ -105,17 +109,16 @@ public class ParticleAction extends LocationAction {
         double offset = this.offset.getRealValue(target, source);
         double speed = this.speed.getRealValue(target, source);
         Location l = getLocation(target, source, true).clone();
-        World world = l.getWorld();
-        if (world != null) {
-            world.spawnParticle(type, l, count, offset, offset, offset, speed, data == null ? null : data.buildData(), force);
-            return ActionResult.SUCCESS;
-        }
-        return ActionResult.FAILURE;
+        Collection<Player> players = force ? selectedPlayers(l, target, source) : selectedPlayers(l, target, source, 50);
+        players.forEach(player -> player.spawnParticle(type, l, count, offset, offset, offset, speed,
+                data == null ? null : data.buildData()));
+        return ActionResult.SUCCESS;
     }
 
     @Override
     public Action clone() {
-        return new ParticleAction(target, type, count.clone(), offset.clone(), speed.clone(), force, data == null ? null : data.clone());
+        return new ParticleAction(target, selectors.stream().map(EntitySelector::clone).collect(Collectors.toList()),
+                type, count.clone(), offset.clone(), speed.clone(), force, data == null ? null : data.clone());
     }
 
     @Override
