@@ -34,7 +34,11 @@ public class VectorNormalizePlaceholder extends VectorOperatorPlaceholder {
 
     @Override
     public Vector computePlaceholder(Target target, Source source) {
-        return new Vector(operandOne.getRealValue(target, source).computeVector(target, source).normalize());
+        try {
+            return new Vector(operandOne.getRealValue(target, source).computeVector(target, source).normalize());
+        } catch (Exception e) {
+            return new Vector();
+        }
     }
 
     @Override

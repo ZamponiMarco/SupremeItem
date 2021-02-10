@@ -57,8 +57,12 @@ public class VectorRotatePlaceholder extends VectorOperatorPlaceholder {
     public Vector computePlaceholder(Target target, Source source) {
         Vector one = toRotate.getRealValue(target, source);
         Vector two = axis.getRealValue(target, source);
-        return new Vector(one.computeVector(target, source).rotateAroundAxis(two.computeVector(target, source),
-                angle.getRealValue(target, source)));
+        try {
+            return new Vector(one.computeVector(target, source).rotateAroundAxis(two.computeVector(target, source),
+                    angle.getRealValue(target, source)));
+        } catch (Exception e) {
+            return new Vector();
+        }
     }
 
     @Override
