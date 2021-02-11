@@ -113,7 +113,7 @@ public abstract class Value<S, T extends Placeholder<S>> implements Model, Clone
     }
 
     public String getName() {
-        return objectValue ? "&c" + value : placeholderValue.getName();
+        return "&c" + (objectValue ? value.toString() : placeholderValue.getName());
     }
 
     @Override

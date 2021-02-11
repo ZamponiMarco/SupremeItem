@@ -21,8 +21,7 @@ import java.util.Map;
 @Getter
 @Setter
 @Enumerable.Child
-@Enumerable.Displayable(name = "&c&lBlock Entity Event", description = "gui.action.entity.block-event.description", headTexture = "" +
-        "==")
+@Enumerable.Displayable(name = "&c&lBlock Entity Event", description = "gui.action.entity.block-event.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2VkMWFiYTczZjYzOWY0YmM0MmJkNDgxOTZjNzE1MTk3YmUyNzEyYzNiOTYyYzk3ZWJmOWU5ZWQ4ZWZhMDI1In19fQ==")
 public class BlockEventAction extends EntityAction {
 
     private static final String BLOCKED_EVENT_DEFAULT = "toolbar-slot-change";
