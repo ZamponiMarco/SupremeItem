@@ -25,7 +25,7 @@ public class DurabilityAction extends ItemAction {
     private NumericValue durability;
 
     public DurabilityAction() {
-        this(TARGET_DEFAULT, DURABILITY_DEFAULT);
+        this(TARGET_DEFAULT, DURABILITY_DEFAULT.clone());
     }
 
     public DurabilityAction(boolean target, NumericValue durability) {
