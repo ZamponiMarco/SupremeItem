@@ -17,8 +17,9 @@ import java.util.function.Predicate;
 
 public abstract class PacketAction extends LocationAction {
 
-    private static final String ALLOW_MATERIALS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvM2U2MTdiZWQ4ZTk3ZDQwODc5OTNlYzBjODk4Zjg3NzJjNDUyYjk5ZDhiNGI5YTQ1ZTNlYzQzNDkzMDQwOWVlOSJ9fX0";
-    @Serializable(headTexture = ALLOW_MATERIALS_HEAD, description = "gui.action.location.set-block.allow-materials")
+    private static final String SELECTOR_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjM4ZDI3NTk1NjlkNTE1ZDI0NTRkNGE3ODkxYTk0Y2M2M2RkZmU3MmQwM2JmZGY3NmYxZDQyNzdkNTkwIn19fQ==";
+
+    @Serializable(headTexture = SELECTOR_HEAD, description = "gui.action.location.selectors")
     protected List<EntitySelector> selectors;
 
     public PacketAction(boolean target, List<EntitySelector> selectors) {

@@ -167,6 +167,10 @@ gui:
         fall:
           - "&7&oWhether the fall damage should be reset."
     location:
+      selectors:
+        - "&7&oThe list of entity selectors that will"
+        - "&7&odefine which players will be able to see"
+        - "&7&othe result of this action."
       explosion:
         description:
           - "&7&oSet an action that produces an explosion."
@@ -220,6 +224,14 @@ gui:
           - "&7&oIf true the excluded materials list becomes"
           - "&7&oa whitelist, so only materials in that set"
           - "&7&owill be  changed by this action."
+      crack:
+        description:
+          - "&7&oSet an action that fakes cracks into the block"
+          - "&7&oof the targeted location. This effect is client"
+          - "&7&osided only and will not affect the real blocks."
+        stage:
+          - "&7&oThe stage of the block destruction, goes from 0"
+          - "&7&oto 9."
       sound:
         description:
           - "&7&oSet the sound to play on the target location."

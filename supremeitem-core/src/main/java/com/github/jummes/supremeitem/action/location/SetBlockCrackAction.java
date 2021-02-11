@@ -18,13 +18,14 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Enumerable.Child
-@Enumerable.Displayable(condition = "protocolLibEnabled")
+@Enumerable.Displayable(condition = "protocolLibEnabled", name = "&c&lCrack Block Action", description = "gui.action.location.crack.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzlhNDZiMmFiMzJmMjE2ZTJkOTIyYzcyMzdiYTIzMTlmOTFiNzFmYTI0ZmU0NTFhZDJjYTgxNDIzZWEzYzgifX19")
 public class SetBlockCrackAction extends PacketAction {
 
-    private static final String MATERIAL_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2ZmOTgxN2Q3NjdkMmVkZTcxODFhMDU3YWEyNmYwOGY3ZWNmNDY1MWRlYzk3ZGU1YjU0ZWVkZTFkZDJiNDJjNyJ9fX0";
+    private static final String CRACK_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzlhNDZiMmFiMzJmMjE2ZTJkOTIyYzcyMzdiYTIzMTlmOTFiNzFmYTI0ZmU0NTFhZDJjYTgxNDIzZWEzYzgifX19";
 
-    @Serializable(headTexture = MATERIAL_HEAD, description = "gui.action.location.set-block.material",
+    @Serializable(headTexture = CRACK_HEAD, description = "gui.action.location.crack.stage",
             additionalDescription = {"gui.additional-tooltips.value"})
+    @Serializable.Number(minValue = 0, maxValue = 9, scale = 1)
     private NumericValue destroyStage;
 
     public SetBlockCrackAction() {
