@@ -6,17 +6,17 @@ import org.bukkit.entity.Player;
 import java.util.Map;
 
 @Enumerable.Child
-@Enumerable.Displayable(name = "&c&lIs Flying Placeholder", description = "gui.placeholder.boolean.is-flying.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmIxZDYxOTI4NDJlMTkyODg3Y2I0YjMzNjI0NzVlYzdhYTlmZWEzY2JkMWMyMzMyMjhkNWU0Y2YzZmNkYWYzIn19fQ==")
-public class IsFlyingPlaceholder extends PlayerPropertyBooleanPlaceholder {
-    public IsFlyingPlaceholder() {
+@Enumerable.Displayable(name = "&c&lIs Blocking Placeholder", description = "gui.placeholder.boolean.is-blocking.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMjUyNTU5ZjJiY2VhZDk4M2Y0YjY1NjFjMmI1ZjJiNTg4ZjBkNjExNmQ0NDY2NmNlZmYxMjAyMDc5ZDI3Y2E3NCJ9fX0")
+public class IsBlockingPlaceholder extends PlayerPropertyBooleanPlaceholder {
+    public IsBlockingPlaceholder() {
         this(TARGET_DEFAULT);
     }
 
-    public IsFlyingPlaceholder(boolean target) {
+    public IsBlockingPlaceholder(boolean target) {
         super(target);
     }
 
-    public IsFlyingPlaceholder(Map<String, Object> map) {
+    public IsBlockingPlaceholder(Map<String, Object> map) {
         super(map);
     }
 
@@ -32,6 +32,6 @@ public class IsFlyingPlaceholder extends PlayerPropertyBooleanPlaceholder {
 
     @Override
     protected Boolean getPropertyValue(Player p) {
-        return p.isFlying();
+        return p.isBlocking();
     }
 }

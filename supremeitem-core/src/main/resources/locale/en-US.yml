@@ -911,6 +911,10 @@ gui:
         description:
           - "&7&oSet a placeholder that checks if"
           - "&7&otarget or source is flying. (only players)"
+      is-blocking:
+        description:
+          - "&7&oSet a placeholder that checks if the"
+          - "&7&oplayer is blocking with a shield."
       has-permission:
         description:
           - "&7&oSet a placeholder that checks if"

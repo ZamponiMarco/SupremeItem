@@ -16,9 +16,8 @@ public class IsSprintingPlaceholder extends PlayerPropertyBooleanPlaceholder {
         super(target);
     }
 
-    public static IsSprintingPlaceholder deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        return new IsSprintingPlaceholder(target);
+    public IsSprintingPlaceholder(Map<String, Object> map) {
+        super(map);
     }
 
     @Override

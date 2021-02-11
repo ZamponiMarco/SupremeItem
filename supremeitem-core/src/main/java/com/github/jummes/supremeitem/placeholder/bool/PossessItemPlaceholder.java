@@ -38,11 +38,10 @@ public class PossessItemPlaceholder extends BooleanPlaceholder {
         this.amount = amount;
     }
 
-    public static PossessItemPlaceholder deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        ItemStackWrapper item = (ItemStackWrapper) map.get("item");
-        int amount = (int) map.getOrDefault("amount", AMOUNT_DEFAULT);
-        return new PossessItemPlaceholder(target, item, amount);
+    public PossessItemPlaceholder(Map<String, Object> map) {
+        super(map);
+        this.item = (ItemStackWrapper) map.getOrDefault("item", new ItemStackWrapper());
+        this.amount = (int) map.getOrDefault("amount", AMOUNT_DEFAULT);
     }
 
     @Override

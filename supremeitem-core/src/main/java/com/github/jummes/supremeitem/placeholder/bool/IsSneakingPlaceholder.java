@@ -16,9 +16,8 @@ public class IsSneakingPlaceholder extends PlayerPropertyBooleanPlaceholder {
         super(target);
     }
 
-    public static IsSneakingPlaceholder deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        return new IsSneakingPlaceholder(target);
+    public IsSneakingPlaceholder(Map<String, Object> map) {
+        super(map);
     }
 
     @Override

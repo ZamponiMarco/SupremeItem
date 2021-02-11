@@ -27,10 +27,9 @@ public class HasPermissionPlaceholder extends PlayerPropertyBooleanPlaceholder {
         this.permission = permission;
     }
 
-    public static HasPermissionPlaceholder deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        String permission = (String) map.getOrDefault("permission", PERMISSION_DEFAULT);
-        return new HasPermissionPlaceholder(target, permission);
+    public HasPermissionPlaceholder(Map<String, Object> map) {
+        super(map);
+        this.permission = (String) map.getOrDefault("permission", PERMISSION_DEFAULT);
     }
 
     @Override

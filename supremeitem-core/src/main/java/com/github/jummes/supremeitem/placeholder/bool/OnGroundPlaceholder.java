@@ -19,9 +19,8 @@ public class OnGroundPlaceholder extends BooleanPlaceholder {
         super(target);
     }
 
-    public static OnGroundPlaceholder deserialize(Map<String, Object> map) {
-        boolean target = (boolean) map.getOrDefault("target", TARGET_DEFAULT);
-        return new OnGroundPlaceholder(target);
+    public OnGroundPlaceholder(Map<String, Object> map) {
+        super(map);
     }
 
     @Override
