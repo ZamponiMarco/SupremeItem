@@ -944,6 +944,9 @@ gui:
         placeholder:
           - "&7&oThe placeholder which string representation is"
           - "&7&oreturned."
+      entity-type:
+        description:
+          - "&7&oSet a placeholder that returns the type of an entity."
       variable:
         description:
           - "&7&oSet a placeholder that retrieves the string value"
