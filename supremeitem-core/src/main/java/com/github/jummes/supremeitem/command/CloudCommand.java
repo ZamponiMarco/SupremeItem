@@ -35,11 +35,6 @@ public class CloudCommand extends AbstractCommand {
             return;
         }
 
-        if (!Bukkit.getServer().getOnlineMode()) {
-            sender.sendMessage(MessageUtils.color("&c&lAvailable only in online mode."));
-            return;
-        }
-
 
         String argument = arguments[0];
 
@@ -62,6 +57,10 @@ public class CloudCommand extends AbstractCommand {
     }
 
     private void removeItem() {
+        if (!Bukkit.getServer().getOnlineMode()) {
+            sender.sendMessage(MessageUtils.color("&c&lAvailable only in online mode."));
+            return;
+        }
         Bukkit.getScheduler().runTaskAsynchronously(SupremeItem.getInstance(), () -> {
             Player player = (Player) sender;
             String id = player.getUniqueId().toString();
@@ -99,6 +98,10 @@ public class CloudCommand extends AbstractCommand {
     }
 
     private void listItems() {
+        if (!Bukkit.getServer().getOnlineMode()) {
+            sender.sendMessage(MessageUtils.color("&c&lAvailable only in online mode."));
+            return;
+        }
         Bukkit.getScheduler().runTaskAsynchronously(SupremeItem.getInstance(), () -> {
             Player player = (Player) sender;
             String id = player.getUniqueId().toString();
@@ -220,6 +223,10 @@ public class CloudCommand extends AbstractCommand {
     }
 
     private void exportItem() {
+        if (!Bukkit.getServer().getOnlineMode()) {
+            sender.sendMessage(MessageUtils.color("&c&lAvailable only in online mode."));
+            return;
+        }
         Bukkit.getScheduler().runTaskAsynchronously(SupremeItem.getInstance(), () -> {
             Player player = (Player) sender;
 

@@ -59,7 +59,7 @@ public class StringVariablePlaceholder extends StringPlaceholder {
 
         return entity.getMetadata(name).stream().filter(m -> Objects.equals(m.getOwningPlugin(),
                 SupremeItem.getInstance())).findFirst().orElse(new FixedMetadataValue(SupremeItem.getInstance(),
-                0.0)).asString();
+                "")).asString();
     }
 
     @Override

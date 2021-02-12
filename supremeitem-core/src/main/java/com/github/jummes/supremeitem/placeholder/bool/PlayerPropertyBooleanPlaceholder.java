@@ -11,7 +11,7 @@ import java.util.Map;
 
 @Enumerable.Displayable(name = "&c&lPlayer Properties", description = "gui.placeholder.boolean.player.description", headTexture = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWMxNjcxOWEzNGVkNmU2NWNmMjE2Njk2NThkNDUzOTA2MGQ0ZDFhMjM2MmJhZDNjYzJkZTU3M2M5ZWM2ZjIifX19")
 @Enumerable.Parent(classArray = {IsSneakingPlaceholder.class, IsFlyingPlaceholder.class, IsSprintingPlaceholder.class,
-        HasPermissionPlaceholder.class})
+        HasPermissionPlaceholder.class, IsBlockingPlaceholder.class})
 public abstract class PlayerPropertyBooleanPlaceholder extends BooleanPlaceholder {
 
     public PlayerPropertyBooleanPlaceholder(boolean target) {

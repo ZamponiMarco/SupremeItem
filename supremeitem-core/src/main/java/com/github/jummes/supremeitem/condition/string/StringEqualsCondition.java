@@ -32,7 +32,7 @@ public class StringEqualsCondition extends StringCondition {
     public StringEqualsCondition() {
         this(NEGATE_DEFAULT, new StringValue(new PlayerNamePlaceholder()), new StringValue("Example"));
     }
-    
+
     public StringEqualsCondition(boolean negate, StringValue operandOne, StringValue operandTwo) {
         super(negate);
         this.operandOne = operandOne;
