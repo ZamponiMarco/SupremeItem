@@ -195,6 +195,15 @@ gui:
         ticks:
           - "&7&oThe number of ticks which the fake block"
           - "&7&owill last."
+      highlight:
+        description:
+          - "&7&oSet an action that highlights a block with"
+          - "&7&oa glowing effect for a limited amount of time."
+        color:
+          - "&7&oThe color of the highlight."
+        ticks:
+          - "&7&oThe number of ticks which the highlight"
+          - "&7&owill last."
       particle:
         description:
           - "&7&oSet the particles to show on the target."

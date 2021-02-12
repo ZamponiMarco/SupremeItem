@@ -50,12 +50,9 @@ public class SetBlockCrackAction extends PacketAction {
     public ActionResult execute(Target target, Source source, Map<String, Object> map) {
         Location location = getLocation(target, source);
 
-        if (location == null) {
+        if (location == null || !SupremeItem.getInstance().getProtocolLibHook().isEnabled()) {
             return ActionResult.FAILURE;
         }
-
-        // We do this to always target the block hit and not the above one
-        location.subtract(0, 0.01, 0);
 
         if (source.getCaster() instanceof Player &&
                 !SupremeItem.getInstance().getWorldGuardHook().

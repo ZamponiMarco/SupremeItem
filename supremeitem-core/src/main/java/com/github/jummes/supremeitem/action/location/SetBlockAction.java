@@ -87,9 +87,6 @@ public class SetBlockAction extends LocationAction {
             return ActionResult.FAILURE;
         }
 
-        // We do this to always target the block hit and not the above one
-        location.subtract(0, 0.01, 0);
-
         if (source.getCaster() instanceof Player &&
                 !SupremeItem.getInstance().getWorldGuardHook().
                         canBuild((Player) source.getCaster(), location)) {
