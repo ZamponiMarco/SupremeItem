@@ -6,11 +6,11 @@ import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.item.Item;
 import com.github.jummes.supremeitem.manager.ItemManager;
 import com.github.jummes.supremeitem.skill.EntityEquipArmorSkill;
+import com.github.jummes.supremeitem.skill.Skill;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
@@ -22,12 +22,12 @@ public class PlayerChangeArmorListener implements Listener {
     @EventHandler
     public void onPlayerChangeArmor(PlayerArmorChangeEvent e) {
         Player entity = e.getPlayer();
-        executeEquipSkill(entity, e.getOldItem(), e.getNewItem(),
-                EquipmentSlot.valueOf(e.getSlotType().name()));
+        executeEquipSkill(entity, e.getOldItem(), e.getNewItem(), new Skill.EquipmentSlot(
+                org.bukkit.inventory.EquipmentSlot.valueOf(e.getSlotType().name())));
     }
 
 
-    private void executeEquipSkill(LivingEntity entity, ItemStack oldItem, ItemStack newItem, EquipmentSlot slot) {
+    private void executeEquipSkill(LivingEntity entity, ItemStack oldItem, ItemStack newItem, Skill.EquipmentSlot slot) {
         Map<String, Object> args = new HashMap<>();
         args.put("caster", entity);
 

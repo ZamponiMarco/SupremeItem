@@ -63,6 +63,7 @@ public abstract class Skill implements Model {
         try {
             this.allowedSlots = Sets.newHashSet((List<Slot>) map.getOrDefault("allowedSlots", DEFAULT_SLOTS.
                     stream().map(Slot::clone).collect(Collectors.toList())));
+            this.allowedSlots.stream().findAny().ifPresent(Model::onCreation);
         } catch (ClassCastException e) {
             List<String> slots = (List<String>) map.getOrDefault("allowedSlots", Lists.newArrayList());
             this.allowedSlots = slots.stream().map(string -> new EquipmentSlot(org.bukkit.inventory.EquipmentSlot.
