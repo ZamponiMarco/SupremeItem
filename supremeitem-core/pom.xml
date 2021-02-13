@@ -74,7 +74,7 @@
         <dependency>
             <groupId>com.github.jummes</groupId>
             <artifactId>suprememob-core</artifactId>
-            <version>0.1-dev3</version>
+            <version>0.1-dev5</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
