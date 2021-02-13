@@ -30,3 +30,5 @@ jobs:
           token: ${{ secrets.JENKINS_TOKEN }}
           # Name of job
           job: SupremeItem
+          # Json with "name":"value" params
+          params: "{}" 
