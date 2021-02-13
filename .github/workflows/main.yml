@@ -17,12 +17,8 @@ jobs:
           webhook: ${{ secrets.DISCORD }}
           message: "New commit into **{{ github.context.payload.repository.owner.name }}/{{ github.context.payload.repository.name}}**."
           embed: '{ "title": "{{ commit.title }}", "description": "{{ commit.description }}", "url": "{{ commit.url }}", "author": { "name": "{{ commit.author.name }} ({{ commit.author.username }})", "icon_url": "https://avatars3.githubusercontent.com/u/32539635?s=400&u=d9038b82096fd87145509d8607fde5d3f551f77e&v=4"} }'
-      - name: Trigger Jenkins Multiple Jobs
-        # You may pin to the exact commit or the version.
-        # uses: appleboy/jenkins-action@c30e234348506c6d17f465b059db79ae1f53d266
-        uses: appleboy/jenkins-action@v0.0.2
+      - name: Deploy Stage
+        uses: fjogeleit/http-request-action@master
         with:
-          url: http://188.34.166.204:8080
-          user: admin
-          token: ${{ secrets.JENKINS_TOKEN }}
-          job: SupremeItem
+          url: 'http://188.34.166.204:8080/job/SupremeItem/build?token=${{secrets.JENKINS_TOKEN}}'
+          method: 'POST'
