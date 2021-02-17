@@ -19,21 +19,25 @@ public final class Utils {
 
     public static List<ItemStack> getEntityItems(LivingEntity e) {
         EntityEquipment equipment = e.getEquipment();
+
         if (equipment == null) {
             return Lists.newArrayList();
         }
 
         List<ItemStack> list = Lists.newArrayList();
-        Skill.slots.forEach(slot -> {
-            if (slot instanceof Skill.EquipmentSlot) {
-                list.add(equipment.getItem(((Skill.EquipmentSlot) slot).getSlot()));
-            } else if (slot instanceof Skill.NumberedSlot) {
-                if (e instanceof Player) {
-                    Player p = (Player) e;
-                    list.add(p.getInventory().getItem(((Skill.NumberedSlot) slot).getSlot()));
-                } else {
-                    list.add(null);
-                }
+        list.add(equipment.getItemInMainHand());
+        list.add(equipment.getItemInOffHand());
+        list.add(equipment.getBoots());
+        list.add(equipment.getLeggings());
+        list.add(equipment.getChestplate());
+        list.add(equipment.getHelmet());
+
+        Skill.additionalSlots.forEach(slot -> {
+            if (e instanceof Player) {
+                Player p = (Player) e;
+                list.add(p.getInventory().getItem(slot));
+            } else {
+                list.add(null);
             }
         });
 

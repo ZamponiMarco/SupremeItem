@@ -5,7 +5,7 @@
 
     <groupId>com.github.jummes</groupId>
     <artifactId>supremeitem</artifactId>
-    <version>0.1.19</version>
+    <version>0.1.20</version>
     <packaging>pom</packaging>
     <name>SupremeItem</name>
     <properties>
