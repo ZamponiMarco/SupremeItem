@@ -7,13 +7,16 @@ import com.github.jummes.supremeitem.entity.selector.EntitySelector;
 import com.google.common.collect.Lists;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.util.BoundingBox;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public abstract class PacketAction extends LocationAction {
 
@@ -39,7 +42,17 @@ public abstract class PacketAction extends LocationAction {
     protected Collection<Player> selectedPlayers(Location l, Target target, Source source, int range) {
         Predicate<LivingEntity> select = selectors.stream().map(selector -> selector.getFilter(source, target)).
                 reduce(e -> true, Predicate::and);
-        return l.getNearbyPlayers(range, 64, range, select::test);
+        BoundingBox box = new BoundingBox(l.getX() - range, l.getY() - 64, l.getZ() - range,
+                l.getX() + range, l.getY() + 64, l.getZ() + range);
+
+        World world = l.getWorld();
+
+        if (world == null) {
+            return Lists.newArrayList();
+        }
+
+        return l.getWorld().getPlayers().stream().filter(player -> box.contains(player.getBoundingBox()) &&
+                select.test(player)).collect(Collectors.toList());
     }
 
 }
