@@ -42,12 +42,27 @@ public class ProtocolLibHook implements ExternalHook {
     }
 
     @SneakyThrows
-    public void sendSetBlockCrackPacket(Player p, Location l, int crack) {
+    public void sendSetBlockCrackPacket(Player p, Location l, int crack, int ticks) {
+        int randomEid = new Random().nextInt();
         PacketContainer packet = protocolManager.createPacket(PacketType.Play.Server.BLOCK_BREAK_ANIMATION);
-        packet.getIntegers().write(0, new Random().nextInt());
+        packet.getIntegers().write(0, randomEid);
         packet.getIntegers().write(1, crack);
         packet.getBlockPositionModifier().write(0, new BlockPosition(l.getBlock().getLocation().toVector()));
+
+        PacketContainer packetDestroy = protocolManager.createPacket(PacketType.Play.Server.BLOCK_BREAK_ANIMATION);
+        packetDestroy.getIntegers().write(0, randomEid);
+        packetDestroy.getIntegers().write(1, -1);
+        packetDestroy.getBlockPositionModifier().write(0, new BlockPosition(l.getBlock().getLocation().toVector()));
+
         protocolManager.sendServerPacket(p, packet);
+
+        Bukkit.getScheduler().runTaskLater(SupremeItem.getInstance(), () -> {
+            try {
+                protocolManager.sendServerPacket(p, packetDestroy);
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }, ticks);
     }
 
     @SneakyThrows

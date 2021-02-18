@@ -241,6 +241,9 @@ gui:
         stage:
           - "&7&oThe stage of the block destruction, goes from 0"
           - "&7&oto 9."
+        ticks:
+          - "&7&oThe number of ticks the block crack"
+          - "&7&owill last."
       sound:
         description:
           - "&7&oSet the sound to play on the target location."

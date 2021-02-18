@@ -22,24 +22,31 @@ import java.util.stream.Collectors;
 public class SetBlockCrackAction extends PacketAction {
 
     private static final String CRACK_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzlhNDZiMmFiMzJmMjE2ZTJkOTIyYzcyMzdiYTIzMTlmOTFiNzFmYTI0ZmU0NTFhZDJjYTgxNDIzZWEzYzgifX19";
+    private static final String TICKS_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmZlOGNmZjc1ZjdkNDMzMjYwYWYxZWNiMmY3NzNiNGJjMzgxZDk1MWRlNGUyZWI2NjE0MjM3NzlhNTkwZTcyYiJ9fX0=";
 
     @Serializable(headTexture = CRACK_HEAD, description = "gui.action.location.crack.stage",
             additionalDescription = {"gui.additional-tooltips.value"})
     @Serializable.Number(minValue = 0, maxValue = 9, scale = 1)
     private NumericValue destroyStage;
+    @Serializable(headTexture = TICKS_HEAD, description = "gui.action.location.crack.ticks",
+            additionalDescription = {"gui.additional-tooltips.value"})
+    @Serializable.Number(minValue = 0, scale = 1)
+    private NumericValue ticks;
 
     public SetBlockCrackAction() {
-        this(TARGET_DEFAULT, Lists.newArrayList(), new NumericValue(0));
+        this(TARGET_DEFAULT, Lists.newArrayList(), new NumericValue(0), new NumericValue(100));
     }
 
-    public SetBlockCrackAction(boolean target, List<EntitySelector> selectors, NumericValue destroyStage) {
+    public SetBlockCrackAction(boolean target, List<EntitySelector> selectors, NumericValue destroyStage, NumericValue ticks) {
         super(target, selectors);
         this.destroyStage = destroyStage;
+        this.ticks = ticks;
     }
 
     public SetBlockCrackAction(Map<String, Object> map) {
         super(map);
         this.destroyStage = (NumericValue) map.getOrDefault("destroyStage", new NumericValue(0));
+        this.ticks = (NumericValue) map.getOrDefault("ticks", new NumericValue(100));
     }
 
     public static boolean protocolLibEnabled(ModelPath path) {
@@ -60,7 +67,8 @@ public class SetBlockCrackAction extends PacketAction {
             return ActionResult.FAILURE;
         }
         selectedPlayers(location, target, source).forEach(player -> SupremeItem.getInstance().getProtocolLibHook().
-                sendSetBlockCrackPacket(player, location, destroyStage.getRealValue(target, source).intValue()));
+                sendSetBlockCrackPacket(player, location, destroyStage.getRealValue(target, source).intValue(),
+                        ticks.getRealValue(target, source).intValue()));
         return ActionResult.SUCCESS;
     }
 
@@ -72,7 +80,7 @@ public class SetBlockCrackAction extends PacketAction {
     @Override
     public Action clone() {
         return new SetBlockCrackAction(target, selectors.stream().map(EntitySelector::clone).collect(Collectors.toList()),
-                destroyStage.clone());
+                destroyStage.clone(), ticks.clone());
     }
 
 }
