@@ -29,8 +29,8 @@ public abstract class Skill implements Model {
     protected static final List<Action> ACTIONS_DEFAULT = Lists.newArrayList();
     protected static final boolean CONSUMABLE_DEFAULT = false;
     @Getter
-    protected static final Set<Slot> DEFAULT_SLOTS = Arrays.stream(org.bukkit.inventory.EquipmentSlot.values()).
-            map(EquipmentSlot::new).collect(Collectors.toSet());
+    protected static final List<Slot> DEFAULT_SLOTS = Arrays.stream(org.bukkit.inventory.EquipmentSlot.values()).
+            map(EquipmentSlot::new).collect(Collectors.toList());
 
     protected static final String CASTER_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjY4YjQzMTE1MmU4MmFmNWRlZjg4ZjkxYmI2MWM2MjNiM2I3YWMzYWJlODJkMjc2ZmFkMzQ3Nzc2NDBmOTU5MCJ9fX0=";
     protected static final String CONSUMABLE_HEAD = "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTg0YTY4ZmQ3YjYyOGQzMDk2NjdkYjdhNTU4NTViNTRhYmMyM2YzNTk1YmJlNDMyMTYyMTFiZTVmZTU3MDE0In19fQ==";
