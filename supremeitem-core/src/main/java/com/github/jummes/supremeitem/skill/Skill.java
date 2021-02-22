@@ -116,8 +116,8 @@ public abstract class Skill implements Model {
 
     public abstract List<Action> getAbstractActions();
 
-    public List<SavedSkill> getUsedSavedSkills() {
-        return getAllActions().stream().reduce(Lists.newArrayList(), (list, action) -> {
+    public Set<SavedSkill> getUsedSavedSkills() {
+        return getAllActions().stream().reduce(Sets.newHashSet(), (list, action) -> {
             list.addAll(action.getUsedSavedSkills());
             return list;
         }, (list1, list2) -> {

@@ -6,13 +6,11 @@ import com.github.jummes.libs.util.ItemUtils;
 import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 public class ItemFolder extends AbstractItem {
@@ -61,8 +59,8 @@ public class ItemFolder extends AbstractItem {
     }
 
     @Override
-    public List<SavedSkill> getUsedSavedSkills() {
-        return items.stream().reduce(Lists.newArrayList(), (list, item) -> {
+    public Set<SavedSkill> getUsedSavedSkills() {
+        return items.stream().reduce(Sets.newHashSet(), (list, item) -> {
             list.addAll(item.getUsedSavedSkills());
             return list;
         }, (list1, list2) -> {

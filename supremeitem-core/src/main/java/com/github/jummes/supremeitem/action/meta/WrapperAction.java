@@ -8,11 +8,12 @@ import com.github.jummes.supremeitem.action.Action;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.ImmutableBiMap;
-import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Enumerable.Parent(classArray = {DelayedAction.class, TimerAction.class, ConditionAction.class, AreaBlocksAction.class,
         AreaEntitiesAction.class, MoveLocationTargetAction.class, RepeatUntilAction.class, ChangeSourceAction.class})
@@ -55,8 +56,8 @@ public abstract class WrapperAction extends MetaAction {
     }
 
     @Override
-    public List<SavedSkill> getUsedSavedSkills() {
-        return getWrappedActions().stream().reduce(Lists.newArrayList(), (list, action) -> {
+    public Set<SavedSkill> getUsedSavedSkills() {
+        return getWrappedActions().stream().reduce(Sets.newHashSet(), (list, action) -> {
             list.addAll(action.getUsedSavedSkills());
             return list;
         }, (list1, list2) -> {

@@ -11,6 +11,7 @@ import com.github.jummes.supremeitem.action.source.Source;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.inventory.ItemStack;
@@ -18,6 +19,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -103,7 +105,7 @@ public class SkillAction extends MetaAction {
     }
 
     @Override
-    public List<SavedSkill> getUsedSavedSkills() {
-        return Lists.newArrayList(SupremeItem.getInstance().getSavedSkillManager().getByName(skillName));
+    public Set<SavedSkill> getUsedSavedSkills() {
+        return Sets.newHashSet(SupremeItem.getInstance().getSavedSkillManager().getByName(skillName));
     }
 }

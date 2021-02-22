@@ -15,12 +15,12 @@ import com.github.jummes.supremeitem.action.targeter.EntityTarget;
 import com.github.jummes.supremeitem.action.targeter.Target;
 import com.github.jummes.supremeitem.action.variable.VariableAction;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
-import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Enumerable.Parent(classArray = {EntityAction.class,
         LocationAction.class, MetaAction.class, VariableAction.class, ItemAction.class})
@@ -78,8 +78,8 @@ public abstract class Action implements Model, Cloneable {
     public void changeSkillName(String oldName, String newName) {
     }
 
-    public List<SavedSkill> getUsedSavedSkills() {
-        return Lists.newArrayList();
+    public Set<SavedSkill> getUsedSavedSkills() {
+        return Sets.newHashSet();
     }
 
     @Override

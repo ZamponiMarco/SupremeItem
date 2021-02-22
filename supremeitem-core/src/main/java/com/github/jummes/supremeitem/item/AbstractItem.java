@@ -9,8 +9,8 @@ import com.google.common.collect.Lists;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 public abstract class AbstractItem extends NamedModel {
@@ -31,7 +31,7 @@ public abstract class AbstractItem extends NamedModel {
 
     abstract public void changeSkillName(String oldName, String newName);
 
-    abstract public List<SavedSkill> getUsedSavedSkills();
+    abstract public Set<SavedSkill> getUsedSavedSkills();
 
     abstract public Item getByName(String name);
 

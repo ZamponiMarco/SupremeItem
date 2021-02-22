@@ -7,6 +7,7 @@ import com.github.jummes.supremeitem.entity.NoEntity;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.github.jummes.supremeitem.value.NumericValue;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import org.bukkit.Location;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
@@ -14,6 +15,7 @@ import org.bukkit.util.Vector;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Stream;
 
 public abstract class AbstractProjectileAction extends MetaAction {
@@ -112,9 +114,9 @@ public abstract class AbstractProjectileAction extends MetaAction {
     }
 
     @Override
-    public List<SavedSkill> getUsedSavedSkills() {
+    public Set<SavedSkill> getUsedSavedSkills() {
         return Stream.concat(Stream.concat(onBlockHitActions.stream(), onEntityHitActions.stream()),
-                onProjectileTickActions.stream()).reduce(Lists.newArrayList(), (list, action) -> {
+                onProjectileTickActions.stream()).reduce(Sets.newHashSet(), (list, action) -> {
             list.addAll(action.getUsedSavedSkills());
             return list;
         }, (list1, list2) -> {

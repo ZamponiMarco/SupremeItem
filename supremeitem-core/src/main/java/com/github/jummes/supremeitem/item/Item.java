@@ -9,13 +9,11 @@ import com.github.jummes.supremeitem.SupremeItem;
 import com.github.jummes.supremeitem.savedskill.SavedSkill;
 import com.github.jummes.supremeitem.skill.Skill;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import lombok.Getter;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Getter
 public class Item extends AbstractItem {
@@ -101,8 +99,8 @@ public class Item extends AbstractItem {
         SupremeItem.getInstance().getItemManager().saveModel(this);
     }
 
-    public List<SavedSkill> getUsedSavedSkills() {
-        return skillSet.stream().reduce(Lists.newArrayList(), (list, skill) -> {
+    public Set<SavedSkill> getUsedSavedSkills() {
+        return skillSet.stream().reduce(Sets.newHashSet(), (list, skill) -> {
             list.addAll(skill.getUsedSavedSkills());
             return list;
         }, (list1, list2) -> {
