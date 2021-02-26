@@ -69,9 +69,11 @@ public class PlayerItemListener implements Listener {
         if (e.getEntity() instanceof LivingEntity) {
             LivingEntity damaged = (LivingEntity) e.getEntity();
             LivingEntity damager;
+
             if (e.getDamager() instanceof LivingEntity && e.getEntity() instanceof LivingEntity) {
                 damager = (LivingEntity) e.getDamager();
-            } else if (e.getDamager() instanceof Projectile) {
+            } else if (e.getDamager() instanceof Projectile && ((Projectile) e.getDamager()).getShooter() instanceof
+                    LivingEntity) {
                 Projectile projectile = (Projectile) e.getDamager();
                 damager = (LivingEntity) projectile.getShooter();
             } else {
