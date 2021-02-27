@@ -207,6 +207,7 @@ public class SupremeItem extends JavaPlugin {
         ex.registerCommand("give", ItemGiveCommand.class);
         ex.registerCommand("placeholder", PlaceholderListCommand.class);
         ex.registerCommand("cloud", CloudCommand.class);
+        ex.registerCommand("backup", BackupCommand.class);
         getCommand("si").setExecutor(ex);
     }
 

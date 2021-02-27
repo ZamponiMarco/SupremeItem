@@ -140,7 +140,7 @@ public class CloudCommand extends AbstractCommand {
 
     @Override
     protected Permission getPermission() {
-        return null;
+        return new Permission("supremeitem.admin.cloud");
     }
 
     private void importItem() {

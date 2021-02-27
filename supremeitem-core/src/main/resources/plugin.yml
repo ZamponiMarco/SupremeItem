@@ -14,6 +14,12 @@ permissions:
   supremeitem.admin.help:
     description: Help command permission
     default: op
+  supremeitem.admin.cloud:
+    description: Cloud command permission
+    default: op
+  supremeitem.admin.backup:
+    description: Backup command permission
+    default: op
   supremeitem.item.get:
     description: Item get command permission
     default: op
@@ -28,7 +34,8 @@ permissions:
     default: op
     children:
       supremeitem.admin.help: true
+      supremeitem.admin.cloud: true
+      supremeitem.admin.backup: true
       supremeitem.item.get: true
       supremeitem.item.list: true
       supremeitem.skill.list: true
-  

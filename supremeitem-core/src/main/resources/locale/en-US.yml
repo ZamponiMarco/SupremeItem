@@ -1,10 +1,12 @@
 messages:
   cooldown: "&6&lCooldown: &c$cooldowns"
   command:
-    item-not-found: "&cItem not found"
-    player-not-found: "&cPlayer not found"
-    item-received: "&aYou received the item"
-    player-item-received: "&a$player received the item"
+    item-not-found: "&cItem not found."
+    player-not-found: "&cPlayer not found."
+    item-received: "&aYou received the item."
+    player-item-received: "&a$player received the item."
+    backup-success: "&aThe backup has been created succesfully."
+    backup-failure: "&cAn error occurred during the backup."
 gui:
   name:
     - "&7&oThe name of the model."
