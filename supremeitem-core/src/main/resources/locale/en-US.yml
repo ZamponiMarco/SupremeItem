@@ -206,6 +206,14 @@ gui:
         ticks:
           - "&7&oThe number of ticks which the highlight"
           - "&7&owill last."
+      lightning:
+        description:
+          - "&7&oSet an action that displays a lightning"
+        effect:
+          - "&7&oWhether the lightning should be just visual"
+          - "&7&oor should be real and damage entities."
+        silent:
+          - "&7&oWhether the lightning should be silent."
       particle:
         description:
           - "&7&oSet the particles to show on the target."
